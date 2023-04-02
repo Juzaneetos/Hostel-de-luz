@@ -71,8 +71,6 @@ console.log(customers)
     })
   }
 
-  
-
   return (
     <div className="modal fade" id="edit_modal" tabIndex="-1" role="dialog">
       <div className="modal-dialog" role="document">
@@ -304,7 +302,7 @@ console.log(customers)
                                                       }
                                                       if (item.arrCamas.length === index + 1) {
                                                         return (
-                                                          <div>Disponiveis: {contadordisponivel} </div>
+                                                          <div key={index}>Disponiveis: {contadordisponivel} </div>
                                                         )
                                                       }
                                                     })}
