@@ -10,9 +10,8 @@ import useSwr, { mutate } from "swr";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
-export default function hoteis() {
+export default function Hoteis() {
   const { data: hoteis } = useSwr(`/api/hoteis/getAllHotel`, fetcher);
-  console.log(hoteis)
   var tamanho = hoteis?.length || [];
 
   return (
@@ -74,7 +73,7 @@ export default function hoteis() {
 
                               {hoteis?.map((item, index) => {
                                 return (
-                                  <tr className="align-middle">
+                                  <tr key={index} className="align-middle">
                                     <td>{item.ativado === '1' ? 'Sim' : 'Não'}</td>
                                     <td>{item.titulo.slice(0, 10)}...</td>
                                     <td>{item.subtitulo}</td>

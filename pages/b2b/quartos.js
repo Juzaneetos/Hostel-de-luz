@@ -101,7 +101,7 @@ export default function Quartos() {
 
                               {quartos?.map((item, index) => {
                                 return (
-                                  <tr className="align-middle">
+                                  <tr key={index} className="align-middle">
                                     <td>{item.ativado === '1' ? 'Sim' : 'Não'}</td>
                                     <td>{item.titulo.slice(0, 10)}...</td>
                                     <td>{item.genero}</td>

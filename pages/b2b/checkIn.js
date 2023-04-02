@@ -335,7 +335,7 @@ export default function Checkin() {
                               <div className="col-md-12 d-flex">
                                 {hoteis?.map((item, index) => {
                                   return (
-                                    <div className={`col-md-6`} style={{ position: 'relative', height: '200px', overflow: 'hidden' }}>
+                                    <div key={index} className={`col-md-6`} style={{ position: 'relative', height: '200px', overflow: 'hidden' }}>
                                       <Image width={1000} height={1000} className='pl-3 pr-3' style={{ opacity: '0.5' }} src={item.imagem[0].url} />
                                       <div className={`circulohotel d-flex flex-column ${hotel === item._id ? 'backgroundactive' : ''}`} style={{ position: 'absolute', fontWeight: '700' }} onClick={() => setHotel(item._id)}>
                                         {item.titulo}
@@ -358,7 +358,7 @@ export default function Checkin() {
                                       if (item.hotel === hotel) {
                                         return (
                                           <>
-                                            <div className="col-md-3" style={{ position: 'relative', height: '200px', overflow: 'hidden' }}>
+                                            <div key={index} className="col-md-3" style={{ position: 'relative', height: '200px', overflow: 'hidden' }}>
                                               <Image width={1000} height={1000} className='pl-3 pr-3' style={{ opacity: '0.5' }} src={require('../../assets/img/luxo-classico-moderno-quarto-suite-em-hotel.jpg')} />
                                               <div className={`circuloquarto d-flex flex-column ${idquarto === item._id ? 'backgroundactive' : ''}`} style={{ position: 'absolute', fontWeight: '700' }} onClick={() => { setQuarto(item.arrCamas), setNomeQuarto(item.titulo), setIdquarto(item._id) }}>
                                                 {item.titulo}
