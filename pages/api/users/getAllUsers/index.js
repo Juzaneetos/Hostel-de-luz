@@ -1,6 +1,6 @@
 import clientPromise from "../../../../util/mongo";
 
-export default async (req, res) => {
+const getallusers =  async (req, res) => {
   try {
     const client = await clientPromise;
     const db = client.db("Hosteldeluz");
@@ -16,3 +16,5 @@ export default async (req, res) => {
     console.error(e);
   }
 };
+
+export default getallusers;
