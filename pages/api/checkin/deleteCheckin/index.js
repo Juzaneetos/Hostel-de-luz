@@ -1,7 +1,7 @@
 import clientPromise from "../../../../util/mongo";
 import { ObjectId } from 'mongodb';
 
-export default async (req, res) => {
+const deleteCheckin = async (req, res) => {
   const objectid = new ObjectId(req.query.id);
 
   try {
@@ -17,3 +17,5 @@ export default async (req, res) => {
     console.error(e);
   }
 };
+
+export default deleteCheckin;
