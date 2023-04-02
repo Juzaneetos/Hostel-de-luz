@@ -11,7 +11,7 @@ import { FaEdit, FaCheck, FaTrash } from "react-icons/fa";
 import { useState, useEffect, useRef } from "react";
 
 import { ref, uploadBytesResumable, getDownloadURL, getStorage, deleteObject } from 'firebase/storage';
-import { storage } from '../../firebase';
+import { storage } from '../../firebaseConfig.ts';
 
 import useSwr, { mutate } from "swr";
 const fetcher = (url) => fetch(url).then((res) => res.json());
