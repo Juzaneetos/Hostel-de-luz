@@ -5,6 +5,50 @@ img {
   height: auto;
 }
 
+.calendario-container {
+  max-width: 800px !important; /* Set a maximum width to limit the size of the component */
+  margin: 0 auto; /* Center the component horizontally */
+}
+
+.calendario-dia-hospede{
+  font-size: 10px;
+  padding: 2px;
+}
+
+/* Adjust the width of the Swiper container to fit its content */
+.swiper-container {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+.swiper-slide {
+  flex-shrink: 0;
+}
+
+.calendario {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 10px;
+}
+
+.calendario-dia {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  border: 1px solid black;
+}
+
+.calendario-dia-periodo {
+  background-color: black;
+  color: white;
+  display: flex;
+    flex-direction: column;
+}
+
+
 .electricblaze-yxyKslpMBkjKVPcsWvD4 {
   display: none;
 }

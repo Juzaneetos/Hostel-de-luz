@@ -124,6 +124,16 @@ export default function Menu() {
                   <span className="nav-text">Check-In</span>
                 </Link>
               </li>
+
+              <li>
+                <Link
+                  className="sidenav-item-link"
+                  href="/b2b/checkInprovisorio"
+                >
+                  <FaBookmark size={24} style={{ marginRight: "0.94rem" }} />
+                  <span className="nav-text">Check-In Provisório</span>
+                </Link>
+              </li>
             
 
               <hr/>

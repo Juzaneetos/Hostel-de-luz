@@ -9,9 +9,7 @@ import bg1 from '../../assets/img/quarto-de-luxo-no-hotel.jpg'
 import Image from "next/image";
 import { FaEdit, FaCheck, FaTrash } from "react-icons/fa";
 import { useState, useEffect, useRef } from "react";
-import Calendario from '../../components/b2b_components/Calendario'
-import { ref, uploadBytesResumable, getDownloadURL, getStorage, deleteObject } from 'firebase/storage';
-import { storage } from '../../firebaseConfig.ts';
+
 
 import useSwr, { mutate } from "swr";
 const fetcher = (url) => fetch(url).then((res) => res.json());
@@ -21,7 +19,6 @@ import Menu from "../../components/b2b_components/Menu";
 export default function Checkin() {
   const { data: hoteis } = useSwr(`/api/hoteis/getAllHotel`, fetcher);
   const { data: quartos } = useSwr(`/api/quartos/getAllQuarto`, fetcher);
-  const [arrdatas, setArrdatas] = useState([]);
   const [Name, setName] = useState("");
   const [rg, setRg] = useState("");
   const [cpf, setCpf] = useState("");
@@ -240,15 +237,6 @@ export default function Checkin() {
                                 />
                               </div>
                               <div className="col-md-6">
-                                <label className="form-label">Data de Nascimento</label>
-                                <input
-                                  type="date"
-                                  className="form-control slug-title"
-                                  id="inputEmail4"
-                                  onChange={(e) => setDatanascimento(e.target.value)}
-                                />
-                              </div>
-                              <div className="col-md-6">
                                 <label className="form-label">Genero</label>
                                 <select onChange={(e) => setGenero(e.target.value)}>
                                   <option value={''} selected></option>
@@ -257,39 +245,8 @@ export default function Checkin() {
                                   <option value={'unisex'}>Unisex</option>
                                 </select>
                               </div>
-                              <div className="col-md-6 space-t-15 mt-3">
-                                <label htmlFor="phone-2" className="form-label">
-                                  Ultimo dia de limpeza
-                                </label>
-                                <input
-                                  type="date"
-                                  className="form-control"
-                                  id="phone-2"
-                                  value={entrada}
-                                  disabled
-                                  onChange={(e) => setGenero(e.target.value)}
-                                />
-                              </div>
-                              <div className="col-md-12">
-                                <label className="form-label">Observações</label>
-                                <textarea
-                                  rows={5}
-                                  className="form-control slug-title"
-                                  id="inputEmail4"
-                                  onChange={(e) => setObservações(e.target.value)}
-                                />
-                              </div>
-                              <div className="col-md-6">
-                                <label className="form-label">Valor da Diaria</label>
-                                <input
-                                  type="number"
-                                  className="form-control slug-title"
-                                  id="inputEmail4"
-                                  style={{ height: '40%' }}
-                                  onChange={(e) => setValordiaria(e.target.value)}
-                                />
-                              </div>
-                              <div className="col-md-6 space-t-15 mt-3">
+                              
+                              <div className="col-md-6 space-t-15">
                                 <label htmlFor="phone-2" className="form-label">
                                   Valor Pago
                                 </label>
@@ -300,16 +257,14 @@ export default function Checkin() {
                                   id="phone-2"
                                 />
                               </div>
-                              <div className="col-md-6">
-                                <label className="form-label">Forma de Pagamento</label>
-                                <select onChange={(e) => setFormaPagamento(e.target.value)}>
-                                  <option value={''} selected></option>
-                                  <option value={'dinheiro'} >Dinheiro</option>
-                                  <option value={'pix'} >Pix</option>
-                                  <option value={'debito'}>Débito</option>
-                                  <option value={'credito'}>Crédito</option>
-                                  <option value={'cheque'}>Cheque</option>
-                                </select>
+                              <div className="col-md-12">
+                                <label className="form-label">Observações</label>
+                                <textarea
+                                  rows={5}
+                                  className="form-control slug-title"
+                                  id="inputEmail4"
+                                  onChange={(e) => setObservações(e.target.value)}
+                                />
                               </div>
                               <div className="col-md-6">
                                 <label className="form-label">Entrada</label>
@@ -455,7 +410,7 @@ export default function Checkin() {
                                                             fontWeight: "700",
                                                             background: "rgb(200, 229, 255)",
                                                           }}
-                                                          onClick={() => { registrarQuarto(item3.numeroCama), setNumerocama(item3.numeroCama), alert('registrado'), setArrdatas(item2) }}
+                                                          onClick={() => { registrarQuarto(item3.numeroCama), setNumerocama(item3.numeroCama), alert('registrado') }}
                                                         >
                                                           {item3.numeroCama}
                                                           <p>{item3.vago ? item3.hospede : "Liberado"}</p>
@@ -497,7 +452,7 @@ export default function Checkin() {
                                                         className={`${objreserva.cama === item3.numeroCama ? "bg-black" : ""
                                                           } circulocama d-flex flex-column`}
                                                         style={{ position: "absolute", fontWeight: "700" }}
-                                                        onClick={() => { registrarQuarto(item3.numeroCama), setNumerocama(item3.numeroCama), setArrdatas(item2) }}
+                                                        onClick={() => { registrarQuarto(item3.numeroCama), setNumerocama(item3.numeroCama) }}
                                                       >
                                                         {item3.numeroCama}
                                                         <p>{"Liberado"}</p>
@@ -552,7 +507,7 @@ export default function Checkin() {
                                                         className={`${objreserva.cama === item3.numeroCama ? "bg-black" : ""
                                                           } circulocama d-flex flex-column`}
                                                         style={{ position: "absolute", fontWeight: "700" }}
-                                                        onClick={() => { registrarQuarto(item3.numeroCama), setNumerocama(item3.numeroCama), setArrdatas(item2) }}
+                                                        onClick={() => { registrarQuarto(item3.numeroCama), setNumerocama(item3.numeroCama) }}
                                                       >
                                                         {item3.numeroCama}
                                                         <p>{"Liberado"}</p>
@@ -574,8 +529,6 @@ export default function Checkin() {
                               ) : (
                                 <></>
                               )}
-
-                              <Calendario arrdatas={arrdatas}/>
 
 
                               <div className="d-flex mb-3 col-md-6 justify-content-center mt-4">
