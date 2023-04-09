@@ -216,7 +216,7 @@ export default function Editquarto({ id }) {
                                     item?.map((item3, index2) => {
                                       if (item3.vago === true) { 
                                         return (
-                                          <div style={{ position: 'relative' }}>
+                                          <div key={index} style={{ position: 'relative' }}>
                                             <Image width={70} height={70} className='pl-3 pr-3' style={{ opacity: '0.5' }} src={require('../../assets/img/cama-de-solteiro.png')} />
                                             <div className="circulocama d-flex flex-column" style={{ position: 'absolute', fontWeight: '700' }}>
                                               {item3.numeroCama}
@@ -227,7 +227,7 @@ export default function Editquarto({ id }) {
                                         )
                                       } else if(item.length === 1) {
                                         return (
-                                          <div style={{ position: 'relative' }} onClick={() => removercama(item3.numeroCama)}>
+                                          <div key={index}  style={{ position: 'relative' }} onClick={() => removercama(item3.numeroCama)}>
                                             <Image width={70} height={70} className='pl-3 pr-3' style={{ opacity: '0.5' }} src={require('../../assets/img/cama-de-solteiro.png')} />
                                             <div className="circulocama d-flex flex-column" style={{ position: 'absolute', fontWeight: '700' }}>
                                               {item3.numeroCama}
