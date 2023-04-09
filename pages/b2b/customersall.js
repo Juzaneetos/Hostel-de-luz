@@ -75,7 +75,7 @@ export default function Hospede() {
                                           console.log(item2)
                                           return(
 
-                                            <td>{item2.titulo}</td>
+                                            <td key={index}>{item2.titulo}</td>
                                           )
                                         }
                                       })}

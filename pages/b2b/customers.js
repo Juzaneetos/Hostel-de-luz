@@ -76,7 +76,7 @@ export default function Hospede() {
                                         if(item2._id === item.objreserva.quarto){
                                           console.log(item2)
                                           return(
-                                            <td>{item2.titulo}</td>
+                                            <td key={index}>{item2.titulo}</td>
                                           )
                                         }
                                       })}
