@@ -43,7 +43,7 @@ export default function SignUp({ users }) {
                   className="pl-0 w-100 border-0 justify-content-center text-white"
                   title="Ekka"
                 >
-                  
+                  <Image style={{maxWidth: '200px', padding: '15px'}} width={500} src={require('../../assets/img/hostellogo.png')} />
                 </a>
               </div>
             </div>
@@ -85,7 +85,7 @@ export default function SignUp({ users }) {
           </div>
 
           <p className="text-center pt-5">
-            &copy; 2022 Todos os Direitos Reservados
+            &copy; 2023 Todos os Direitos Reservados
           </p>
         </div>
       </div>
