@@ -3,7 +3,7 @@ import axios from "axios";
 // import "cropperjs/dist/cropper.css";
 
 import { toast } from "react-toastify";
-import router from 'next/router';
+import Router from 'next/router';
 import Link from "next/link";
 import Image from "next/image";
 import { FaEdit, FaCheck, FaTrash } from "react-icons/fa";
@@ -35,6 +35,7 @@ export default function AddProduct() {
 
       if(parseFloat(qtdcamas) === index + 1){
         dispararbanco(arrayquartos)
+        Router.push("/b2b/quartos");
       }
     })}
 
@@ -50,7 +51,7 @@ export default function AddProduct() {
       genero: genero,
       ativado: active,
     });
-    router.push("/b2b/quartos");
+    
   }
 
   return (

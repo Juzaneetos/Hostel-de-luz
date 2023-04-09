@@ -7,7 +7,7 @@ import router from 'next/router';
 import Link from "next/link";
 import bg1 from '../../assets/img/quarto-de-luxo-no-hotel.jpg'
 import Image from "next/image";
-import { FaEdit, FaCheck, FaTrash } from "react-icons/fa";
+import { MdOutlineArrowDropDown } from "react-icons/md";
 import { useState, useEffect, useRef } from "react";
 import Calendario from '../../components/b2b_components/Calendario'
 import { ref, uploadBytesResumable, getDownloadURL, getStorage, deleteObject } from 'firebase/storage';
@@ -108,7 +108,7 @@ export default function Checkin() {
     const quartoSaida = (JSON.stringify(dataEntradaNovaReserva) === JSON.stringify(dataSaidaNovaReserva));
     console.log(quartoSaida)
 
-    if(quartoSaida) return alert('datas não podem ser iguais');
+    if (quartoSaida) return alert('datas não podem ser iguais');
 
     quartos?.map((item, index) => {
       contador++
@@ -150,7 +150,7 @@ export default function Checkin() {
         dispararquarto()
         // Executa a segunda solicitação apenas se a primeira for concluída com sucesso
 
-        router.push("/b2b/quartos");
+        router.push("/b2b/customers");
       } catch (error) {
         console.error(error);
       }
@@ -167,7 +167,7 @@ export default function Checkin() {
             <div className="content">
               <div className="breadcrumb-wrapper d-flex align-items-center justify-content-between">
                 <div>
-                  <h1>Adicionar Quarto</h1>
+                  <h1>Adicionar Check-in</h1>
                   <p className="breadcrumbs">
                     <span>
                       <Link href="/b2b">Dashboard</Link>
@@ -175,7 +175,7 @@ export default function Checkin() {
                     <span>
                       <i className="mdi mdi-chevron-right"></i>
                     </span>
-                    Adicionar Quarto
+                    Adicionar Check-in
                   </p>
                 </div>
               </div>
@@ -250,14 +250,17 @@ export default function Checkin() {
                               </div>
                               <div className="col-md-6">
                                 <label className="form-label">Genero</label>
-                                <select onChange={(e) => setGenero(e.target.value)}>
-                                  <option value={''} selected></option>
-                                  <option value={'masculino'} >Masculino</option>
-                                  <option value={'feminino'}>Feminino</option>
-                                  <option value={'unisex'}>Unisex</option>
-                                </select>
+                                <div className="input-icon-container">
+                                  <select style={{ height: '50px' }} onChange={(e) => setGenero(e.target.value)}>
+                                    <option value={''} selected></option>
+                                    <option value={'masculino'} >Masculino</option>
+                                    <option value={'feminino'}>Feminino</option>
+                                    <option value={'unisex'}>Unisex</option>
+                                  </select>
+                                  <MdOutlineArrowDropDown size={40} className="input-icon" />
+                                </div>
                               </div>
-                              <div className="col-md-6 space-t-15 mt-3">
+                              {/* <div className="col-md-6 space-t-15 mt-3">
                                 <label htmlFor="phone-2" className="form-label">
                                   Ultimo dia de limpeza
                                 </label>
@@ -269,7 +272,7 @@ export default function Checkin() {
                                   disabled
                                   onChange={(e) => setGenero(e.target.value)}
                                 />
-                              </div>
+                              </div> */}
                               <div className="col-md-12">
                                 <label className="form-label">Observações</label>
                                 <textarea
@@ -289,7 +292,7 @@ export default function Checkin() {
                                   onChange={(e) => setValordiaria(e.target.value)}
                                 />
                               </div>
-                              <div className="col-md-6 space-t-15 mt-3">
+                              <div className="col-md-6">
                                 <label htmlFor="phone-2" className="form-label">
                                   Valor Pago
                                 </label>
@@ -300,17 +303,21 @@ export default function Checkin() {
                                   id="phone-2"
                                 />
                               </div>
-                              <div className="col-md-6">
+                              <div className="col-md-12">
                                 <label className="form-label">Forma de Pagamento</label>
-                                <select onChange={(e) => setFormaPagamento(e.target.value)}>
-                                  <option value={''} selected></option>
-                                  <option value={'dinheiro'} >Dinheiro</option>
-                                  <option value={'pix'} >Pix</option>
-                                  <option value={'debito'}>Débito</option>
-                                  <option value={'credito'}>Crédito</option>
-                                  <option value={'cheque'}>Cheque</option>
-                                </select>
+                                <div className="input-icon-container">
+                                  <select onChange={(e) => setFormaPagamento(e.target.value)}>
+                                    <option value={''} selected></option>
+                                    <option value={'dinheiro'}>Dinheiro</option>
+                                    <option value={'pix'}>Pix</option>
+                                    <option value={'debito'}>Débito</option>
+                                    <option value={'credito'}>Crédito</option>
+                                    <option value={'cheque'}>Cheque</option>
+                                  </select>
+                                  <MdOutlineArrowDropDown size={40} className="input-icon" />
+                                </div>
                               </div>
+
                               <div className="col-md-6">
                                 <label className="form-label">Entrada</label>
                                 <input
@@ -357,6 +364,7 @@ export default function Checkin() {
                                       const dataSaidaNovaReserva = new Date(saida);
 
                                       if (item.hotel === hotel) {
+                                        let counting = 0;
                                         return (
                                           <>
                                             <div key={index} className="col-md-3" style={{ position: 'relative', height: '200px', overflow: 'hidden' }}>
@@ -364,7 +372,22 @@ export default function Checkin() {
                                               <div className={`circuloquarto d-flex flex-column ${idquarto === item._id ? 'backgroundactive' : ''}`} style={{ position: 'absolute', fontWeight: '700' }} onClick={() => { setQuarto(item.arrCamas), setNomeQuarto(item.titulo), setIdquarto(item._id) }}>
                                                 {item.titulo}
                                                 <div>{item.genero} </div>
-                                                <div>Disponiveis: {contadordisponivel} </div>
+                                                <div>Total de camas: {item.camas} </div>
+                                                <div>Oculpados: {
+                                                  item.arrCamas?.map((item2, index) => {
+                                                    item2?.map((item5, index) => {
+                                                      console.log(item5)
+                                                      const dataEntradaNovaReserva = new Date(entrada);
+                                                      const dataSaidaNovaReserva = new Date(saida);
+                                                      const dataEntradaReserva = new Date(item5.entrada);
+                                                      const dataSaidaReserva = new Date(item5.saida);
+                                                      const quartoVago = (dataEntradaNovaReserva < dataSaidaReserva && dataSaidaNovaReserva > dataEntradaReserva);
+                                                      if(quartoVago){
+                                                        counting++;
+                                                      }
+                                                    })
+                                                  })
+                                                  } {counting}</div>
                                               </div>
                                             </div>
 
@@ -382,10 +405,10 @@ export default function Checkin() {
                               {quarto.length > 0 ? (
                                 <>
                                   <h3 className="text-center">{nomequarto}</h3>
-                                  <div className="col-12 d-flex justify-content-center mb-3">
+                                  <div className="col-12 d-flex justify-content-center mb-3 flex-wrap">
                                     <div
-                                      className="col-10 d-flex justify-content-center align-items-center"
-                                      style={{ height: "200px", border: "3px solid black" }}
+                                      className="col-12 d-flex justify-content-center align-items-center"
+                                      style={{ padding: "40px", border: "3px solid black", maxWidth: '90%' }}
                                     >
                                       {quarto?.map((item2, index) => (
                                         <>
@@ -400,8 +423,8 @@ export default function Checkin() {
                                             const dataSaidaReserva = new Date(item3.saida);
                                             const quartoVago = (dataEntradaNovaReserva < dataSaidaReserva && dataSaidaNovaReserva > dataEntradaReserva);
 
-                                           
-                                            
+
+
 
 
                                             if (item3.base === false && item3.vago === true) {
@@ -438,6 +461,7 @@ export default function Checkin() {
                                                   {quartoVago ? (
                                                     <div
                                                       style={{ position: "relative" }}
+                                                      className="mb-6"
                                                       key={`quarto-${item3.numeroCama}`}
                                                     >
                                                       <Image
@@ -453,6 +477,8 @@ export default function Checkin() {
                                                           style={{
                                                             position: "absolute",
                                                             fontWeight: "700",
+                                                            width: '80px',
+                                                            height: '75px',
                                                             background: "rgb(200, 229, 255)",
                                                           }}
                                                           onClick={() => { registrarQuarto(item3.numeroCama), setNumerocama(item3.numeroCama), alert('registrado'), setArrdatas(item2) }}
@@ -465,25 +491,28 @@ export default function Checkin() {
                                                         </div>
                                                         :
                                                         <div
-                                                          className="circulocama d-flex flex-column"
+                                                          className="circulocama d-flex flex-column mb-6"
                                                           style={{
                                                             position: "absolute",
                                                             fontWeight: "700",
+                                                            width: '100px',
+                                                            color: 'white',
                                                             background: "rgb(200, 229, 255)",
                                                           }}
                                                           onClick={() => alert("Já reservado")}
                                                         >
                                                           {item3.numeroCama}
-                                                          <p>{item3.vago ? item3.hospede : "Liberado"}</p>
-                                                          <p>{item3.entrada}</p>
-                                                          <p>{item3.saida}</p>
-                                                          <p>{contadorsaida > 0 ? 'Saida as 12Hrs' : ''}</p>
+                                                          <p style={{color: 'white', fontWeight: 'bold'}}>{item3.vago ? `${item3.hospede.slice(0, 10)}...` : "Liberado"}</p>
+                                                          <p style={{color: 'white', fontWeight: 'bold'}}>{item3.entrada}</p>
+                                                          <p style={{color: 'white', fontWeight: 'bold'}}>{item3.saida}</p>
+                                                          <p style={{color: 'white', fontWeight: 'bold'}}>{contadorsaida > 0 ? 'Saida as 12Hrs' : ''}</p>
                                                         </div>}
 
                                                     </div>
                                                   ) : (
                                                     <div
                                                       style={{ position: "relative" }}
+                                                      className="mb-6"
                                                       key={`quarto-${item3.numeroCama}`}
                                                     >
                                                       <Image
@@ -494,9 +523,10 @@ export default function Checkin() {
                                                         src={require("../../assets/img/cama-de-solteiro.png")}
                                                       />
                                                       <div
-                                                        className={`${objreserva.cama === item3.numeroCama ? "bg-black" : ""
+                                                        className={`${objreserva.cama === item3.numeroCama ? "backgroundactive" : ""
                                                           } circulocama d-flex flex-column`}
-                                                        style={{ position: "absolute", fontWeight: "700" }}
+                                                        style={{ position: "absolute", fontWeight: "700",width: '80px',
+                                                        height: '75px', }}
                                                         onClick={() => { registrarQuarto(item3.numeroCama), setNumerocama(item3.numeroCama), setArrdatas(item2) }}
                                                       >
                                                         {item3.numeroCama}
@@ -512,6 +542,7 @@ export default function Checkin() {
                                                   {quartoVago ? (
                                                     <div
                                                       style={{ position: "relative" }}
+                                                      className="mb-6"
                                                       key={`quarto-${item3.numeroCama}`}
                                                     >
                                                       <Image
@@ -526,12 +557,14 @@ export default function Checkin() {
                                                         style={{
                                                           position: "absolute",
                                                           fontWeight: "700",
+                                                          width: '100px',
                                                           background: "rgb(200, 229, 255)",
+                                                          color: 'white'
                                                         }}
                                                         onClick={() => alert("Já reservado")}
                                                       >
                                                         {item3.numeroCama}
-                                                        <p>{item3.vago ? item3.hospede : "Liberado"}</p>
+                                                        <p>{item3.vago ? item3.hospede.slice(0, 10) : "Liberado"}</p>
                                                         <p>{item3.entrada}</p>
                                                         <p>{item3.saida}</p>
                                                       </div>
@@ -539,6 +572,7 @@ export default function Checkin() {
                                                   ) : (
                                                     <div
                                                       style={{ position: "relative" }}
+                                                      className="mb-6"
                                                       key={`quarto-${item3.numeroCama}`}
                                                     >
                                                       <Image
@@ -549,9 +583,11 @@ export default function Checkin() {
                                                         src={require("../../assets/img/cama-de-solteiro.png")}
                                                       />
                                                       <div
-                                                        className={`${objreserva.cama === item3.numeroCama ? "bg-black" : ""
+                                                        className={`${objreserva.cama === item3.numeroCama ? "backgroundactive" : ""
                                                           } circulocama d-flex flex-column`}
-                                                        style={{ position: "absolute", fontWeight: "700" }}
+                                                        style={{ position: "absolute", fontWeight: "700",
+                                                        width: '80px',
+                                                        height: '75px', }}
                                                         onClick={() => { registrarQuarto(item3.numeroCama), setNumerocama(item3.numeroCama), setArrdatas(item2) }}
                                                       >
                                                         {item3.numeroCama}
@@ -575,10 +611,10 @@ export default function Checkin() {
                                 <></>
                               )}
 
-                              <Calendario arrdatas={arrdatas}/>
+                              <Calendario arrdatas={arrdatas} />
 
 
-                              <div className="d-flex mb-3 col-md-6 justify-content-center mt-4">
+                              {/* <div className="d-flex mb-3 col-md-6 justify-content-center mt-4">
                                 <div className="row align-items-center justify-content-center text-center">
                                   <label className="form-label">Ativado</label>
                                   <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>
@@ -602,9 +638,9 @@ export default function Checkin() {
                                     Não
                                   </div>
                                 </div>
-                              </div>
+                              </div> */}
 
-                              <div className="d-flex mb-3 col-md-6 justify-content-center mt-4">
+                              <div className="d-flex mb-3 col-md-12 justify-content-center mt-4">
                                 <div className="row align-items-center justify-content-center text-center">
                                   <label className="form-label">Pagamento Concluído</label>
                                   <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>
@@ -632,7 +668,7 @@ export default function Checkin() {
 
                               <div className="col-md-12">
                                 <div onClick={() => dispararbanco()} className="btn btn-primary">
-                                  Adicionar Produto
+                                  Adicionar Check-in
                                 </div>
                               </div>
                             </form>

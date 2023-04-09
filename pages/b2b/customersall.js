@@ -67,8 +67,6 @@ export default function Hospede() {
 
                             <tbody>
                               {checkin?.map((item, index) => {
-                                console.log(item)
-                                if(item.ativado === '1'){
                                   return (
                                     <tr key={item.id} className="align-middle">
                                       <td>{item.nome}</td>
@@ -76,6 +74,7 @@ export default function Hospede() {
                                         if(item2._id === item.objreserva.quarto){
                                           console.log(item2)
                                           return(
+
                                             <td>{item2.titulo}</td>
                                           )
                                         }
@@ -102,7 +101,6 @@ export default function Hospede() {
                                       </td>
                                     </tr>
                                   );
-                                }
                               })}
                             </tbody>
                           </table>

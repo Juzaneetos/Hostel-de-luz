@@ -98,6 +98,7 @@ export default function AddBanners() {
                 setTimeout(() => {
                   contador = 0;
                   senGalery(imageArr)
+                  router.push("/b2b/hoteis");
                 }, 2000)
               }
             })
@@ -148,7 +149,7 @@ export default function AddBanners() {
             <div className="content">
               <div className="breadcrumb-wrapper d-flex align-items-center justify-content-between">
                 <div>
-                  <h1>Adicionar Banners</h1>
+                  <h1>Adicionar Hostel</h1>
                   <p className="breadcrumbs">
                     <span>
                       <Link href="/b2b">Dashboard</Link>
@@ -156,7 +157,7 @@ export default function AddBanners() {
                     <span>
                       <i className="mdi mdi-chevron-right"></i>
                     </span>
-                    Adicionar Banners
+                    Adicionar Hostel
                   </p>
                 </div>
               </div>
@@ -288,7 +289,7 @@ export default function AddBanners() {
 
                               <div className="col-md-12">
                                 <button name="submit" type="submit" className="btn btn-primary">
-                                  Adicionar Banner
+                                  Adicionar Hostel
                                 </button>
                               </div>
                             </form>

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { FaEdit, FaCheck, FaTrash } from "react-icons/fa";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from 'next/router'
+import Router from 'next/router';
 const fileTypes = ["JPEG", "PNG", "GIF", "JPG"];
 import Menu from "../../components/b2b_components/Menu";
 import Footer from "../../components/b2b_components/Footer";
@@ -12,7 +13,6 @@ import axios from "axios";
 
 import { ref, uploadBytesResumable, getDownloadURL, getStorage, deleteObject } from 'firebase/storage';
 import { storage } from '../../firebaseConfig';
-
 import useSwr, { mutate } from "swr";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 import CrooperJs from '../../components/b2b_components/cropperbanner.js';
@@ -67,7 +67,6 @@ export default function EditProduct() {
     file.forEach(async item => {
       if (item.blobs === true) {
         if (item.image) {
-          console.log('oi')
           const name = item.path;
           const storageRef = ref(storage, `image/${name}`);
           const uploadTask = uploadBytesResumable(storageRef, item.image);
@@ -110,6 +109,7 @@ export default function EditProduct() {
                   setTimeout(() => {
                     contador = 0;
                     senGalery(imageArr)
+                    Router.push("/b2b/hoteis");
                   }, 2000)
                 }
               })
@@ -121,12 +121,11 @@ export default function EditProduct() {
 
         if (contadorToast === 0) {
           contadorToast++
-          toast('Aguarde Banner sendo editado!', {
+          toast('Aguarde Hostel sendo editado!', {
             position: "top-right",
           });
         }
       } else {
-        console.log('oi')
         contador++
         {
           if (contador === file.length) {
@@ -147,7 +146,7 @@ export default function EditProduct() {
               imagem: file,
               ativo: active,
             });
-            router.push("/b2b/hotel");
+            Router.push("/b2b/hoteis");
 
           }
         }
@@ -164,7 +163,7 @@ export default function EditProduct() {
       imagem: filteredArr,
       ativo: active,
     });
-    router.push("/b2b/hotel");
+    Router.push("/b2b/hoteis");
 
   }
 
@@ -213,7 +212,7 @@ export default function EditProduct() {
             <div className="content">
               <div className="breadcrumb-wrapper d-flex align-items-center justify-content-between">
                 <div>
-                  <h1>Editar Banner</h1>
+                  <h1>Editar Hostel</h1>
                   <p className="breadcrumbs">
                     <span>
                       <Link href="/b2b">Dashboard</Link>
@@ -221,7 +220,7 @@ export default function EditProduct() {
                     <span>
                       <i className="mdi mdi-chevron-right"></i>
                     </span>
-                    Editar Banner
+                    Editar Hostel
                   </p>
                 </div>
               </div>
@@ -401,7 +400,7 @@ export default function EditProduct() {
                                   className="btn btn-primary"
                                   name="submit"
                                 >
-                                  Editar Acomodação
+                                  Editar Hostel
                                 </button>
                               </div>
                             </form>

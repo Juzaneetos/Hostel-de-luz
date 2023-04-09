@@ -103,7 +103,7 @@ export default function Quartos() {
                                 return (
                                   <tr key={index} className="align-middle">
                                     <td>{item.ativado === '1' ? 'Sim' : 'Não'}</td>
-                                    <td>{item.titulo.slice(0, 10)}...</td>
+                                    <td>{item.titulo}</td>
                                     <td>{item.genero}</td>
                                     <td>{item.camas}</td>
                                     <td className="text-right">
