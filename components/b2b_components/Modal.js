@@ -38,7 +38,7 @@ export default function Modal({ customers, id_ }) {
   const [camacheckinID, setCamaCheckinID] = useState(0);
   console.log(active, pagamentoconcluido)
   const currentDate = new Date(saida);
-  const previousDate = new Date(currentDate.setDate(currentDate.getDate()));
+  const previousDate = new Date(currentDate.setDate(currentDate.getDate() - 1));
 
   useEffect(() => {
     customers?.map((item, index) => {
