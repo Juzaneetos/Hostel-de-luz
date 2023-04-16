@@ -114,6 +114,7 @@ export default function Trocadecama() {
                   <a
                     className="btn btn-primary"
                     href={estruturaWpp} target='_blank'
+                    rel="noreferrer"
                   >
                     Enviar Mensagem
                   </a>
