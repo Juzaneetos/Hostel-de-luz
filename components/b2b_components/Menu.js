@@ -149,6 +149,37 @@ export default function Menu() {
                   <span className="nav-text">Todos os Hospedes</span>
                 </Link>
               </li>
+              <li>
+                <Link
+                  className="sidenav-item-link"
+                  href="/b2b/Trocadecama"
+                >
+                  <FaUserAlt size={24} style={{ marginRight: "0.94rem" }} />
+                  <span className="nav-text">Troca de Cama</span>
+                </Link>
+              </li>
+
+              <hr/>
+
+              <li>
+                <Link
+                  className="sidenav-item-link"
+                  href="/b2b/financeiro"
+                >
+                  <FaUserAlt size={24} style={{ marginRight: "0.94rem" }} />
+                  <span className="nav-text">Financeiro</span>
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  className="sidenav-item-link"
+                  href="/b2b/despesas"
+                >
+                  <FaUserAlt size={24} style={{ marginRight: "0.94rem" }} />
+                  <span className="nav-text">Despesas</span>
+                </Link>
+              </li>
 
               <hr/>
 

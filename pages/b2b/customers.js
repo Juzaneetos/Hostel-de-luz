@@ -15,7 +15,7 @@ export default function Hospede() {
   const { data: checkin } = useSwr(`/api/checkin/getAllCheckin`, fetcher);
   const { data: quartos } = useSwr(`/api/quartos/getAllQuarto`, fetcher);
   var tamanho = checkin?.length || [];
-
+  console.log(checkin)
   return (
     <div style={{ backgroundColor: '#f3f3f3' }}>
       <div style={{ display: 'flex' }}>

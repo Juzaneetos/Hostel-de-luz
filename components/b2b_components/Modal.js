@@ -15,6 +15,7 @@ export default function Modal({ customers, id_ }) {
   const [passaporte, setPassaporte] = useState("");
   const [entrada, setEntrada] = useState("")
   const [saida, setSaida] = useState("")
+  const [saidafixa, setSaidafixa] = useState("")
   const [saidamanha, setSaidamanha] = useState("")
   const [datanascimento, setDatanascimento] = useState("")
   const [telefone, setTelefone] = useState("")
@@ -38,7 +39,7 @@ export default function Modal({ customers, id_ }) {
   const [camacheckinID, setCamaCheckinID] = useState(0);
   console.log(active, pagamentoconcluido)
   const currentDate = new Date(saida);
-  const previousDate = new Date(currentDate.setDate(currentDate.getDate()));
+  const previousDate = new Date(currentDate.setDate(currentDate.getDate()) - 1);
 
   useEffect(() => {
     customers?.map((item, index) => {
@@ -54,6 +55,7 @@ export default function Modal({ customers, id_ }) {
         setDiaLimpeza(item.diaLimpeza)
         setDatanascimento(item.datanascimento)
         setSaida(item.saida)
+        setSaidafixa(item.saida)
         setEntrada(item.entrada)
         setPassaporte(item.passaporte)
         setCpf(item.cpf)
@@ -113,6 +115,10 @@ export default function Modal({ customers, id_ }) {
 
 
   const dispararcheckin = async () => {
+    let diasaida = '';
+    let diasaidamanha = '';
+    if(saida === saidafixa){diasaida = saidafixa}else{diasaida = previousDate.toISOString().slice(0, 10)}
+    if(saida === saidafixa){diasaidamanha = saidamanha}else{diasaidamanha = saida}
     let data = await axios.put(`/api/checkin/updateCheckin?id=${id_}`, {
       nome: Name,
       rg: rg,
@@ -124,7 +130,7 @@ export default function Modal({ customers, id_ }) {
       entrada: entrada,
       diaLimpeza: entrada,
       saidamanha: saida,
-      saida: previousDate.toISOString().slice(0, 10),
+      saida: diasaida,
       formapagamento: formapagamento,
       valorpago: valorpago,
       valordiaria: valordiaria,
@@ -134,8 +140,13 @@ export default function Modal({ customers, id_ }) {
       pagamentoconcluido: pagamentoconcluido,
       checkinID: checkinID,
     });
+    mutate('/api/hoteis/getAllCustomers')
   }
   const dispararcheckoutaxios = async () => {
+    let diasaida = '';
+    let diasaidamanha = '';
+    if(saida === saidafixa){diasaida = saidafixa}else{diasaida = previousDate.toISOString().slice(0, 10)}
+    if(saida === saidafixa){diasaidamanha = saidamanha}else{diasaidamanha = saida}
     let data = await axios.put(`/api/checkin/updateCheckin?id=${id_}`, {
       nome: Name,
       rg: rg,
@@ -146,8 +157,8 @@ export default function Modal({ customers, id_ }) {
       genero: genero,
       entrada: entrada,
       diaLimpeza: entrada,
-      saidamanha: saida,
-      saida: previousDate.toISOString().slice(0, 10),
+      saidamanha: diasaidamanha,
+      saida: diasaida,
       formapagamento: formapagamento,
       valorpago: valorpago,
       valordiaria: valordiaria,
@@ -157,8 +168,13 @@ export default function Modal({ customers, id_ }) {
       pagamentoconcluido: pagamentoconcluido,
       checkinID: checkinID,
     });
+    mutate('/api/hoteis/getAllCustomers')
   }
   const dispararcheckoutatt = async () => {
+    let diasaida = '';
+    let diasaidamanha = '';
+    if(saida === saidafixa){diasaida = saidafixa}else{diasaida = previousDate.toISOString().slice(0, 10)}
+    if(saida === saidafixa){diasaidamanha = saidamanha}else{diasaidamanha = saida}
     let data = await axios.put(`/api/checkin/updateCheckin?id=${id_}`, {
       nome: Name,
       rg: rg,
@@ -169,8 +185,8 @@ export default function Modal({ customers, id_ }) {
       genero: genero,
       entrada: entrada,
       diaLimpeza: entrada,
-      saidamanha: saida,
-      saida: previousDate.toISOString().slice(0, 10),
+      saidamanha: diasaidamanha,
+      saida: diasaida,
       formapagamento: formapagamento,
       valorpago: valorpago,
       valordiaria: valordiaria,
@@ -180,6 +196,7 @@ export default function Modal({ customers, id_ }) {
       pagamentoconcluido: pagamentoconcluido,
       checkinID: checkinID,
     });
+    mutate('/api/hoteis/getAllCustomers')
   }
   const dispararquarto = async () => {
     const response1 = await axios.put(`/api/quartos/updateQuarto?id=${idquarto}`, {
@@ -208,8 +225,8 @@ export default function Modal({ customers, id_ }) {
     const dataEntradaNovaReserva = new Date(entrada);
     const dataSaidaNovaReserva = new Date(saida);
     const quartoSaida = (JSON.stringify(dataEntradaNovaReserva) === JSON.stringify(dataSaidaNovaReserva));
+    
     if (quartoSaida) return alert('datas não podem ser iguais');
-    if (quartoSaida) return alert('Cama ja reservada por outro hospede!');
 
     quartos?.map((item, index) => {
       contador++

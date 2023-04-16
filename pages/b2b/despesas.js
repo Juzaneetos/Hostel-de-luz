@@ -5,8 +5,8 @@ import { FaTrash } from "react-icons/fa";
 import { toast } from "react-toastify";
 
 import router from 'next/router'
-import AddCategory from "../../components/b2b_components/category/AddCategory";
-import EditCategory from "../../components/b2b_components/category/EditCategory";
+import AddCategory from "../../components/b2b_components/despesas/AddCategory";
+import EditCategory from "../../components/b2b_components/despesas/EditCategory";
 
 import Header from "../../components/b2b_components/Header";
 import Menu from "../../components/b2b_components/Menu";
@@ -14,19 +14,19 @@ import Footer from "../../components/b2b_components/Footer";
 import useSwr, { mutate } from "swr";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
-export default function Category({ }) {
-  const [categoryEditId, setCategoryEditId] = useState("");
-  const [categoryInfo, setCategoryInfo] = useState([]);
+export default function Despesas({ }) {
+  const [despesasEditId, setCategoryEditId] = useState("");
+  const [despesasInfo, setCategoryInfo] = useState([]);
   const [showEditCategoryComponent, setShowEditCategoryComponent] = useState(false);
 
-  const { data: category } = useSwr(`/api/category/getAllCategory`, fetcher);
+  const { data: despesas } = useSwr(`/api/despesas/getAllDespesas`, fetcher);
+  console.log(despesas)
+  var tamanho = despesas?.length || [];
 
-  var tamanho = category?.length || [];
-
-  const deleteCategorie = async (id) => {
-    let data = await axios.delete(`/api/category/deleteCategory?id=${id}`);
-    mutate(`/api/category/getAllCategory`);
-    router.push("/b2b/category");
+  const deleteDespesas = async (id) => {
+    let data = await axios.delete(`/api/despesas/deleteDespesas?id=${id}`);
+    mutate(`/api/despesas/getAllDespesas`);
+    router.push("/b2b/despesas");
   };
 
   return (
@@ -38,7 +38,7 @@ export default function Category({ }) {
             <div className="ec-content-wrapper">
               <div className="content">
                 <div className="breadcrumb-wrapper breadcrumb-wrapper-2 breadcrumb-contacts">
-                  <h1>Categoria</h1>
+                  <h1>Despesas</h1>
                   <p className="breadcrumbs">
                     <span>
                       <a href="#">Dashboard</a>
@@ -46,7 +46,7 @@ export default function Category({ }) {
                     <span>
                       <i className="mdi mdi-chevron-right"></i>
                     </span>
-                    Categoria
+                    Despesas
                   </p>
                 </div>
                 <div className="row">
@@ -57,7 +57,7 @@ export default function Category({ }) {
                         <div className="table-responsive">
                           {tamanho === 0 && (
                             <div className="text-center">
-                              Não possui nenhuma categoria cadastrada
+                              Não possui nenhuma despesa cadastrada
                             </div>
                           )}
 
@@ -65,21 +65,22 @@ export default function Category({ }) {
                             <table id="responsive-data-table" className="table">
                               <thead>
                                 <tr>
-                                  <th>ID</th>
-                                  <th>Nome</th>
-                                  <th>Status</th>
+                                  <th>Titulo</th>
+                                  <th>Descrição</th>
+                                  <th>Valor</th>
                                   <th></th>
                                 </tr>
                               </thead>
 
                               <tbody>
-                                {category?.map((item) => {
+                                {despesas?.map((item) => {
                                   return (
                                     <tr key={item._id} className="align-middle">
-                                      <td>{item.id}</td>
-                                      <td>{item.name}</td>
+                                      <td>{item.titulo}</td>
+                                      <td>{item.descricao.slice(0, 20)}...</td>
+                                      <td>{item.entrada}</td>
                                       <td>
-                                        {item.active === 0 ? "Desativado" : "Ativado"}
+                                        R$ {item.valor}
                                       </td>
                                       <td className="text-right">
                                         <div className="btn-group">
@@ -95,7 +96,7 @@ export default function Category({ }) {
                                           </button>
                                           <button
                                             className="btn btn-outline-primary delete-btn"
-                                            onClick={() => deleteCategorie(item._id)}
+                                            onClick={() => deleteDespesas(item._id)}
                                           >
                                             <FaTrash color="#cc0000" />
                                           </button>
@@ -117,7 +118,7 @@ export default function Category({ }) {
                         {showEditCategoryComponent !== true ? (
                           <AddCategory />
                         ) : (
-                          <EditCategory categoryId={categoryEditId} categories={category} setShowEditCategoryComponent={setShowEditCategoryComponent}/>
+                          <EditCategory despesasId={despesasEditId} despesas={despesas} setShowEditCategoryComponent={setShowEditCategoryComponent}/>
                         )}
                       </div>
                     </div>
