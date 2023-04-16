@@ -287,7 +287,7 @@ export default function Modal({ customers, id_ }) {
                 }
                 if (spliceonce > 0) {
                   contadorcamas++;
-                  // item2.push({
+                  // item2.push({   
                   //   numeroCama: numerocama,
                   //   vago: true,
                   //   hospede: Name,
