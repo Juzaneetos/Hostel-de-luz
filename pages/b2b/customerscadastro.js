@@ -20,24 +20,25 @@ export default function Hospedecadastro() {
   const [observacoes, setObservações] = useState("")
   const [genero, setGenero] = useState("");
 
-  const atthospoede = async (e) => {
-    e.preventDefault();
-    const response1 = await axios.put(`/api/hospedes/insertHospedes`, {
-      nome: Name,
-      rg: rg,
-      cpf: cpf,
-      passaporte: passaporte,
-      datanascimento: datanascimento,
-      telefone: telefone,
-      genero: genero,
-      observacoes: observacoes
-    });
-
-    router.push("/b2b/hospedesall").then(() => console.log('redirecionamento concluído!'));
-
-
+  const atthospoede = async () => {
+    try {
+      console.log('Requisição concluída com sucesso!');
+      router.push("/b2b/hospedesall");
+      await axios.put(`/api/hospedes/insertHospedes`, {
+        nome: Name,
+        rg: rg,
+        cpf: cpf,
+        passaporte: passaporte,
+        datanascimento: datanascimento,
+        telefone: telefone,
+        genero: genero,
+        observacoes: observacoes
+      });
+    } catch (error) {
+      console.error('Ocorreu um erro durante a requisição:', error);
+    }
   }
-
+  
   return (
     <div style={{ backgroundColor: '#f3f3f3' }}>
       <div style={{ display: 'flex' }}>
@@ -136,9 +137,9 @@ export default function Hospedecadastro() {
                           </div>
                           <div className="col-md-12 mt-3">
                             <label className="form-label">Genero</label>
-                            <select className="form-control" value={''} onChange={(e) => setGenero(e.target.value)}>
+                            <select className="form-control" onChange={(e) => setGenero(e.target.value)}>
                               <option value={''} selected></option>
-                              <option value={'masculino'} selected>Masculino</option>
+                              <option value={'masculino'} >Masculino</option>
                               <option value={'feminino'}>Feminino</option>
                               <option value={'unisex'}>Unisex</option>
 

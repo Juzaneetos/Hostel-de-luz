@@ -5,29 +5,33 @@ import { useCookies, expires } from 'react-cookie';
 
 import { useEffect, useState } from "react";
 import {
-  FaImages,
   FaUserAlt,
-  FaUsers,
-  FaUserFriends,
-  FaPaintBrush,
-  FaArrowsAltH,
   FaBookmark,
-  FaShoppingCart,
   FaStarHalfAlt,
-  FaThList,
-  FaTags,
   FaLaptop,
-  FaCaretDown,
   FaKeycdn,
-  FaPlus,
-  FaClipboardList,
   FaRegQuestionCircle,
   FaPowerOff,
+  FaUsers,
+  FaHotel
 } from "react-icons/fa";
 import {
   BsFileLock,
-  BsBookmark
+  BsCalendar2Check,
+  BsFillPersonCheckFill
 } from "react-icons/bs"
+import {
+  BiBed
+} from "react-icons/bi"
+import {
+  GiMoneyStack,
+  GiPayMoney,
+  GiReceiveMoney,
+  GiBroom
+} from "react-icons/gi"
+import {
+  GrMoney
+} from "react-icons/gr"
 
 
 
@@ -103,7 +107,7 @@ export default function Menu() {
                   className="sidenav-item-link"
                   href="/b2b/checkIn"
                 >
-                  <FaBookmark size={24} style={{ marginRight: "0.94rem" }} />
+                  <BsCalendar2Check size={24} style={{ marginRight: "0.94rem" }} />
                   <span className="nav-text">Check-In</span>
                 </Link>
               </li>
@@ -111,12 +115,32 @@ export default function Menu() {
               <li>
                 <Link
                   className="sidenav-item-link"
-                  href="/b2b/customersall"
+                  href="/b2b/hospedesall"
                 >
-                  <FaUserAlt size={24} style={{ marginRight: "0.94rem" }} />
-                  <span className="nav-text">Hóspedes Ativos</span>
+                  <FaUsers size={24} style={{ marginRight: "0.94rem" }} />
+                  <span className="nav-text">Todos os Hóspedes</span>
                 </Link>
               </li>
+
+              <li>
+                <Link
+                  className="sidenav-item-link"
+                  href="/b2b/customerscadastro"
+                >
+                  <BsFillPersonCheckFill size={24} style={{ marginRight: "0.94rem" }} />
+                  <span className="nav-text">Cadastro de Hóspedes</span>
+                </Link>
+              </li>
+
+              {/* <li>
+                <Link
+                  className="sidenav-item-link"
+                  href="/b2b/customersall"
+                >
+                  <BsFillPersonCheckFill size={24} style={{ marginRight: "0.94rem" }} />
+                  <span className="nav-text">Hóspedes Ativos</span>
+                </Link>
+              </li> */}
 
               {/* <li>
                 <Link
@@ -137,39 +161,22 @@ export default function Menu() {
                   className="sidenav-item-link"
                   href="/b2b/Trocadecama"
                 >
-                  <FaUserAlt size={24} style={{ marginRight: "0.94rem" }} />
+                  <GiBroom size={24} style={{ marginRight: "0.94rem" }} />
                   <span className="nav-text">Troca de Cama</span>
                 </Link>
               </li>
 
               <hr/>
 
-              <li>
-                <Link
-                  className="sidenav-item-link"
-                  href="/b2b/customerscadastro"
-                >
-                  <FaUserAlt size={24} style={{ marginRight: "0.94rem" }} />
-                  <span className="nav-text">Cadatro de Hóspedes</span>
-                </Link>
-              </li>
+              
 
-              <li>
-                <Link
-                  className="sidenav-item-link"
-                  href="/b2b/hospedesall"
-                >
-                  <FaUserAlt size={24} style={{ marginRight: "0.94rem" }} />
-                  <span className="nav-text">Todos os Hóspedes</span>
-                </Link>
-              </li>
 
               <li>
                 <Link
                   className="sidenav-item-link"
                   href="/b2b/customersallactive"
                 >
-                  <FaUserAlt size={24} style={{ marginRight: "0.94rem" }} />
+                  <FaUsers size={24} style={{ marginRight: "0.94rem" }} />
                   <span className="nav-text">Todos os Check-ins</span>
                 </Link>
               </li>
@@ -179,7 +186,7 @@ export default function Menu() {
                   className="sidenav-item-link"
                   href="/b2b/financeiro"
                 >
-                  <FaUserAlt size={24} style={{ marginRight: "0.94rem" }} />
+                  <GiMoneyStack size={24} style={{ marginRight: "0.94rem" }} />
                   <span className="nav-text">Financeiro Hóspedes</span>
                 </Link>
               </li>
@@ -193,7 +200,7 @@ export default function Menu() {
                   className="sidenav-item-link"
                   href="/b2b/despesas"
                 >
-                  <FaUserAlt size={24} style={{ marginRight: "0.94rem" }} />
+                  <GiPayMoney size={24} style={{ marginRight: "0.94rem" }} />
                   <span className="nav-text">Despesas</span>
                 </Link>
               </li>
@@ -203,7 +210,7 @@ export default function Menu() {
                   className="sidenav-item-link"
                   href="/b2b/financeirodespesas"
                 >
-                  <FaUserAlt size={24} style={{ marginRight: "0.94rem" }} />
+                  <GiReceiveMoney size={24} style={{ marginRight: "0.94rem" }} />
                   <span className="nav-text">Financeiro Despesas</span>
                 </Link>
               </li>
@@ -215,14 +222,14 @@ export default function Menu() {
                   className="sidenav-item-link"
                   href="/b2b/quartos"
                 >
-                  <FaBookmark size={24} style={{ marginRight: "0.94rem" }} />
+                  <BiBed size={24} style={{ marginRight: "0.94rem" }} />
                   <span className="nav-text">Quartos</span>
                 </Link>
                 <Link
                   className="sidenav-item-link"
                   href="/b2b/hoteis"
                 >
-                  <FaBookmark size={24} style={{ marginRight: "0.94rem" }} />
+                  <FaHotel size={24} style={{ marginRight: "0.94rem" }} />
                   <span className="nav-text">Hostels</span>
                 </Link>
               </li>
