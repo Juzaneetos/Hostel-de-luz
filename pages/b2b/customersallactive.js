@@ -1,8 +1,8 @@
 import axios from "axios";
 import Image from 'next/image';
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import Modal from "../../components/b2b_components/Modalhospede";
+import Modal from "../../components/b2b_components/Modal";
 import Menu from "../../components/b2b_components/Menu";
 import Footer from "../../components/b2b_components/Footer";
 import useSwr, { mutate } from "swr";
@@ -10,45 +10,11 @@ import useSwr, { mutate } from "swr";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
-export default function Hospedeall() {
-  const { data: hospedes } = useSwr(`/api/hospedes/getAllHospedes`, fetcher);
+export default function Hospede() {
   const [id_, setId] = useState(0);
-  const [pesquisa, setPesquisa] = useState('');
-  const [hospedesarr, setHospedesarr] = useState([]);
-  const [newarr, setNewarr] = useState([]);
-  var tamanho = hospedes?.length || [];
-
-  useEffect(() => {
-    setHospedesarr(hospedes);
-  }, [hospedes])
-
-  useEffect(() => {
-    const procurararr = () => {
-      let tempArr = [];
-      if (pesquisa) {
-        const pesquisaMinuscula = pesquisa.toLowerCase();
-        hospedesarr.forEach((item) => {
-          const nomeMinusculo = item.nome.toLowerCase();
-          const cpfMinusculo = item.cpf.toLowerCase();
-          const rgMinusculo = item.rg.toLowerCase();
-          const passaporteMinusculo = item.passaporte.toLowerCase();
-          if (
-            nomeMinusculo.includes(pesquisaMinuscula) ||
-            cpfMinusculo.includes(pesquisaMinuscula) ||
-            rgMinusculo.includes(pesquisaMinuscula) ||
-            passaporteMinusculo.includes(pesquisaMinuscula)
-          ) {
-            tempArr.push(item);
-          }
-        });
-      }
-      setNewarr(tempArr);
-    };
-    procurararr();
-  }, [pesquisa, hospedesarr]);
-
-  console.log(pesquisa);
-  console.log(newarr);
+  const { data: checkin } = useSwr(`/api/checkin/getAllCheckin`, fetcher);
+  const { data: quartos } = useSwr(`/api/quartos/getAllQuarto`, fetcher);
+  var tamanho = checkin?.length || [];
 
   return (
     <div style={{ backgroundColor: '#f3f3f3' }}>
@@ -58,7 +24,7 @@ export default function Hospedeall() {
           <div className="ec-content-wrapper">
             <div className="content">
               <div className="breadcrumb-wrapper d-flex align-items-center justify-content-between">
-                <h1>Todos os Hóspedes</h1>
+                <h1>Hospedes Ativos</h1>
                 <p className="breadcrumbs">
                   <span>
                     <Link href="/b2b">Dashboard</Link>
@@ -72,18 +38,6 @@ export default function Hospedeall() {
                 <div className="col-12">
                   <div className="card card-default">
                     <div className="card-body">
-                      <div className="mb-2">
-                        <label htmlFor="phone-2" className="form-label">
-                          Pesquisar
-                        </label>
-
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="phone-1"
-                          onChange={(e) => setPesquisa(e.target.value)}
-                        />
-                      </div>
                       <div className="table-responsive">
                         {tamanho === 0 && (
                           <div className="text-center">
@@ -100,68 +54,53 @@ export default function Hospedeall() {
                             <thead>
                               <tr>
                                 <th>Nome</th>
+                                <th>Quarto</th>
                                 <th>Telefone</th>
-                                <th>RG</th>
-                                <th>Gênero</th>
+                                <th>Entrada</th>
+                                <th>Sáida</th>
+                                <th>Estado</th>
+                                <th>Pagamento</th>
                                 <th></th>
                               </tr>
                             </thead>
 
                             <tbody>
-                              {newarr.length > 0 ?
-                                newarr?.map((item, index) => {
+                              {checkin?.map((item, index) => {
                                   return (
                                     <tr key={item.id} className="align-middle">
                                       <td>{item.nome}</td>
-                                      <td>{item.telefone}</td>
-                                      <td>{item.rg}</td>
-                                      <td>{item.genero}</td>
-                                      <td className="text-right">
-                                        <div className="btn-group">
-                                          <a
-                                            href="javasript:void(0)"
-                                            data-link-action="editmodal"
-                                            title="Edit Detail"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#edit_modal"
-                                            className="btn btn-primary"
-                                            onClick={() => setId(item._id)}
-                                          >
-                                            Visualizar
-                                          </a>
-                                        </div>
-                                      </td>
-                                    </tr>
-                                  );
-                                })
-                                :
-                                hospedesarr?.map((item, index) => {
-                                  return (
-                                    <tr key={item.id} className="align-middle">
-                                      <td>{item.nome}</td>
-                                      <td>{item.telefone}</td>
-                                      <td>{item.rg}</td>
-                                      <td>{item.genero}</td>
-                                      <td className="text-right">
-                                        <div className="btn-group">
-                                          <a
-                                            href="javasript:void(0)"
-                                            data-link-action="editmodal"
-                                            title="Edit Detail"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#edit_modal"
-                                            className="btn btn-primary"
-                                            onClick={() => setId(item._id)}
-                                          >
-                                            Visualizar
-                                          </a>
-                                        </div>
-                                      </td>
-                                    </tr>
-                                  );
-                                })
-                              }
+                                      {quartos?.map((item2, index) => {
+                                        if(item2._id === item.objreserva.quarto){
+                                          console.log(item2)
+                                          return(
 
+                                            <td key={index}>{item2.titulo}</td>
+                                          )
+                                        }
+                                      })}
+                                      <td>{item.telefone}</td>
+                                      <td>{item.entrada}</td>
+                                      <td>{item.saidamanha}</td>
+                                      <td><div className={`${item.ativado === '1' ? 'styleativo' : 'styleinativo'}`}>{item.ativado === '1' ? 'Ativo' : 'Inativo'}</div></td>
+                                      <td><div className={`${item.pagamentoconcluido === '1' ? 'styleativo' : 'styleinativo'}`}>{item.pagamentoconcluido === '1' ? 'Concluido' : 'Débito'}</div></td>
+                                      <td className="text-right">
+                                        <div className="btn-group">
+                                          <a
+                                            href="javasript:void(0)"
+                                            data-link-action="editmodal"
+                                            title="Edit Detail"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#edit_modal"
+                                            className="btn btn-primary"
+                                            onClick={() => setId(item._id)}
+                                          >
+                                            Visualizar
+                                          </a>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  );
+                              })}
                             </tbody>
                           </table>
                         )}
@@ -175,7 +114,7 @@ export default function Hospedeall() {
         </div>
       </div>
 
-      <Modal customers={hospedes} id_={id_} />
+      <Modal customers={checkin} id_={id_} />
     </div>
   );
 }

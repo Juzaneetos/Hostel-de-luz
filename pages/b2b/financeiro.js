@@ -27,8 +27,7 @@ export default function Financeiro() {
     const { data: checkin } = useSwr(`/api/checkin/getAllCheckin`, fetcher);
     const { data: quartos } = useSwr(`/api/quartos/getAllQuarto`, fetcher);
     var tamanho = checkin?.length || [];
-    console.log(checkin)
-
+    
     useEffect(() => {
         let valortotal = 0;
         let pagototal = 0;
@@ -43,12 +42,12 @@ export default function Financeiro() {
                 const diasDiferenca = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
                 console.log(diasDiferenca)
                 pagototal = pagototal + (diasDiferenca + 1) * parseInt(item.valordiaria)
-                if (checkin.length === index + 1) {
-                    setRendatotal(valortotal)
-                    setPagototal(pagototal)
-                    setHospedes(hospedesinativos)
-                    setCheckinArr(checkin)
-                }
+            }
+            if (checkin.length === index + 1) {
+                setRendatotal(valortotal)
+                setPagototal(pagototal)
+                setHospedes(hospedesinativos)
+                setCheckinArr(checkin)
             }
         })
     }, [checkin])
@@ -80,12 +79,12 @@ export default function Financeiro() {
                         pagototal = pagototal + (diasDiferenca + 1) * parseInt(item.valordiaria)
                     }
                 }
-                if (checkin.length === index + 1) {
-                    setCheckinArr(newarr)
-                    setRendatotal2(valortotal)
-                    setPagototal2(pagototal)
-                    setHospedes2(hospedesinativos)
-                }
+            }
+            if (checkin.length === index + 1) {
+                setCheckinArr(newarr)
+                setRendatotal2(valortotal)
+                setPagototal2(pagototal)
+                setHospedes2(hospedesinativos)
             }
         });
     }
@@ -109,13 +108,13 @@ export default function Financeiro() {
                     }else{
                         pagototal = pagototal + (diasDiferenca + 1) * parseInt(item.valordiaria)
                     }
+                }
                 if (checkin.length === index + 1) {
                     setCheckinArr(newarr)
                     setRendatotal2(valortotal)
                     setPagototal2(pagototal)
                     setHospedes2(hospedesinativos)
                 }
-            }
         });
     }
     const todosarr = () => {
@@ -137,12 +136,12 @@ export default function Financeiro() {
                 }else{
                     pagototal = pagototal + (diasDiferenca + 1) * parseInt(item.valordiaria)
                 }
-                if (checkin.length === index + 1) {
-                    setCheckinArr(newarr)
-                    setRendatotal2(valortotal)
-                    setPagototal2(pagototal)
-                    setHospedes2(hospedesinativos)
-                }
+            }
+            if (checkin.length === index + 1) {
+                setCheckinArr(newarr)
+                setRendatotal2(valortotal)
+                setPagototal2(pagototal)
+                setHospedes2(hospedesinativos)
             }
         });
     }

@@ -147,10 +147,30 @@ export default function Menu() {
               <li>
                 <Link
                   className="sidenav-item-link"
+                  href="/b2b/customerscadastro"
+                >
+                  <FaUserAlt size={24} style={{ marginRight: "0.94rem" }} />
+                  <span className="nav-text">Cadatro de Hóspedes</span>
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  className="sidenav-item-link"
                   href="/b2b/hospedesall"
                 >
                   <FaUserAlt size={24} style={{ marginRight: "0.94rem" }} />
                   <span className="nav-text">Todos os Hóspedes</span>
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  className="sidenav-item-link"
+                  href="/b2b/customersallactive"
+                >
+                  <FaUserAlt size={24} style={{ marginRight: "0.94rem" }} />
+                  <span className="nav-text">Todos os Check-ins</span>
                 </Link>
               </li>
 

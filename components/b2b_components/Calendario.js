@@ -62,7 +62,8 @@ function Calendario({ arrdatas }) {
     11: 'Novembro',
     12: 'Dezembro',
   };
-
+  
+  console.log(arrdatas)
   const getHospedeByDate = (ano, mes, dia) => {
     const diaDate = new Date(ano, mes - 1, dia);
     const reserva = arraydedatas.find(

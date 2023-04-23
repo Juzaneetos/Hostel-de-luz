@@ -40,7 +40,7 @@ export default function Modal({ customers, id_ }) {
   console.log(active, pagamentoconcluido)
   const currentDate = new Date(saida);
   const previousDate = new Date(currentDate.setDate(currentDate.getDate()) - 1);
-
+  console.log(customers)
   useEffect(() => {
     customers?.map((item, index) => {
       if (item._id === id_) {
@@ -129,7 +129,7 @@ export default function Modal({ customers, id_ }) {
       genero: genero,
       entrada: entrada,
       diaLimpeza: entrada,
-      saidamanha: saida,
+      saidamanha: diasaidamanha,
       saida: diasaida,
       formapagamento: formapagamento,
       valorpago: valorpago,

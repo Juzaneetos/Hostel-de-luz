@@ -201,7 +201,6 @@ export default function Checkin() {
                     </span>
                     Adicionar Check-in
                   </p>
-                  <div onClick={dispararCadastro}>aaaaaaaaaaaaaah</div>
                 </div>
               </div>
               <div className="row">
