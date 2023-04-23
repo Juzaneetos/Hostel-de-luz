@@ -10,7 +10,6 @@ import { useState, useEffect, useRef } from "react";
 import Calendario from '../../components/b2b_components/Calendario'
 import { ref, uploadBytesResumable, getDownloadURL, getStorage, deleteObject } from 'firebase/storage';
 import { storage } from '../../firebaseConfig.ts';
-import GlobalStyles from '../../components/b2b_components/global-styles.jsx';
 import useSwr, { mutate } from "swr";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -197,7 +196,6 @@ export default function Checkin() {
     }
   `}</style>
       <div style={{ display: 'flex' }}>
-      <GlobalStyles />
         <Menu />
         <div className="ec-page-wrapper">
           <div className="ec-content-wrapper">
