@@ -305,7 +305,7 @@ export default function AddBanners() {
           </div>
         </div>
       </div>
-      <Footer />
+     
     </div>
   );
 }

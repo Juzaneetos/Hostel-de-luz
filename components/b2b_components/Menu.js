@@ -111,10 +111,80 @@ export default function Menu() {
               <li>
                 <Link
                   className="sidenav-item-link"
+                  href="/b2b/customersall"
+                >
+                  <FaUserAlt size={24} style={{ marginRight: "0.94rem" }} />
+                  <span className="nav-text">Hóspedes Ativos</span>
+                </Link>
+              </li>
+
+              {/* <li>
+                <Link
+                  className="sidenav-item-link"
                   href="/b2b/checkInprovisorio"
                 >
                   <FaBookmark size={24} style={{ marginRight: "0.94rem" }} />
                   <span className="nav-text">Check-In Provisório</span>
+                </Link>
+              </li> */}
+
+
+              <hr/>
+
+             
+              <li>
+                <Link
+                  className="sidenav-item-link"
+                  href="/b2b/Trocadecama"
+                >
+                  <FaUserAlt size={24} style={{ marginRight: "0.94rem" }} />
+                  <span className="nav-text">Troca de Cama</span>
+                </Link>
+              </li>
+
+              <hr/>
+
+              <li>
+                <Link
+                  className="sidenav-item-link"
+                  href="/b2b/hospedesall"
+                >
+                  <FaUserAlt size={24} style={{ marginRight: "0.94rem" }} />
+                  <span className="nav-text">Todos os Hóspedes</span>
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  className="sidenav-item-link"
+                  href="/b2b/financeiro"
+                >
+                  <FaUserAlt size={24} style={{ marginRight: "0.94rem" }} />
+                  <span className="nav-text">Financeiro Hóspedes</span>
+                </Link>
+              </li>
+
+              
+
+              <hr/>
+
+              <li>
+                <Link
+                  className="sidenav-item-link"
+                  href="/b2b/despesas"
+                >
+                  <FaUserAlt size={24} style={{ marginRight: "0.94rem" }} />
+                  <span className="nav-text">Despesas</span>
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  className="sidenav-item-link"
+                  href="/b2b/financeirodespesas"
+                >
+                  <FaUserAlt size={24} style={{ marginRight: "0.94rem" }} />
+                  <span className="nav-text">Financeiro Despesas</span>
                 </Link>
               </li>
 
@@ -134,50 +204,6 @@ export default function Menu() {
                 >
                   <FaBookmark size={24} style={{ marginRight: "0.94rem" }} />
                   <span className="nav-text">Hostels</span>
-                </Link>
-              </li>
-            
-
-              <hr/>
-
-              <li>
-                <Link
-                  className="sidenav-item-link"
-                  href="/b2b/customersall"
-                >
-                  <FaUserAlt size={24} style={{ marginRight: "0.94rem" }} />
-                  <span className="nav-text">Todos os Hospedes</span>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="sidenav-item-link"
-                  href="/b2b/Trocadecama"
-                >
-                  <FaUserAlt size={24} style={{ marginRight: "0.94rem" }} />
-                  <span className="nav-text">Troca de Cama</span>
-                </Link>
-              </li>
-
-              <hr/>
-
-              <li>
-                <Link
-                  className="sidenav-item-link"
-                  href="/b2b/financeiro"
-                >
-                  <FaUserAlt size={24} style={{ marginRight: "0.94rem" }} />
-                  <span className="nav-text">Financeiro</span>
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  className="sidenav-item-link"
-                  href="/b2b/despesas"
-                >
-                  <FaUserAlt size={24} style={{ marginRight: "0.94rem" }} />
-                  <span className="nav-text">Despesas</span>
                 </Link>
               </li>
 

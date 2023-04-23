@@ -5,7 +5,6 @@ import "../styles/globals.css";
 import "../assets/css/plugins/animate.css";
 import "../assets/css/plugins/swiper-bundle.min.css";
 import "../assets/css/plugins/slick.min.css";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import "../assets/css/custom.css";

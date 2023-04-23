@@ -24,7 +24,7 @@ export default function Hospede() {
           <div className="ec-content-wrapper">
             <div className="content">
               <div className="breadcrumb-wrapper d-flex align-items-center justify-content-between">
-                <h1>Hospedes</h1>
+                <h1>Hospedes Ativos</h1>
                 <p className="breadcrumbs">
                   <span>
                     <Link href="/b2b">Dashboard</Link>
@@ -32,7 +32,6 @@ export default function Hospede() {
                   <span>
                     <i className="mdi mdi-chevron-right"></i>
                   </span>
-                  Hospedes
                 </p>
               </div>
               <div className="row">
@@ -67,6 +66,7 @@ export default function Hospede() {
 
                             <tbody>
                               {checkin?.map((item, index) => {
+                                if(item.ativado === '1'){
                                   return (
                                     <tr key={item.id} className="align-middle">
                                       <td>{item.nome}</td>
@@ -101,6 +101,7 @@ export default function Hospede() {
                                       </td>
                                     </tr>
                                   );
+                                }
                               })}
                             </tbody>
                           </table>

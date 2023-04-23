@@ -81,7 +81,6 @@ export default function Financeiro() {
                     }
                 }
                 if (checkin.length === index + 1) {
-                    console.log(newarr.length)
                     setCheckinArr(newarr)
                     setRendatotal2(valortotal)
                     setPagototal2(pagototal)
@@ -93,22 +92,56 @@ export default function Financeiro() {
 
     const debitosativos = () => {
         let newarr = [];
+        let valortotal = 0;
+        let pagototal = 0;
+        let hospedesinativos = 0;
         checkin?.map((item, index) => {
-            if (item.pagamentoconcluido === '0') {
+            if (item.pagamentoconcluido === '0' && item.ativado === '0') {
                     newarr.push(item)
+                    const entrada = new Date(item.entrada);
+                    const saida = new Date(item.saida);
+                    const timeDifference = saida.getTime() - entrada.getTime();
+                    const diasDiferenca = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+                    hospedesinativos = hospedesinativos + 1;
+                    valortotal = valortotal + parseInt(item.valorpago)
+                    if (checkin.length === index + 1 && newarr.length === 1) {
+                        pagototal = pagototal + (diasDiferenca) * parseInt(item.valordiaria)
+                    }else{
+                        pagototal = pagototal + (diasDiferenca + 1) * parseInt(item.valordiaria)
+                    }
                 if (checkin.length === index + 1) {
                     setCheckinArr(newarr)
+                    setRendatotal2(valortotal)
+                    setPagototal2(pagototal)
+                    setHospedes2(hospedesinativos)
                 }
             }
         });
     }
     const todosarr = () => {
         let newarr = [];
+        let valortotal = 0;
+        let pagototal = 0;
+        let hospedesinativos = 0;
         checkin?.map((item, index) => {
             if (item.ativado === '0') {
-                    newarr.push(item)
+                newarr.push(item)
+                const entrada = new Date(item.entrada);
+                const saida = new Date(item.saida);
+                const timeDifference = saida.getTime() - entrada.getTime();
+                const diasDiferenca = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+                hospedesinativos = hospedesinativos + 1;
+                valortotal = valortotal + parseInt(item.valorpago)
+                if (checkin.length === index + 1 && newarr.length === 1) {
+                    pagototal = pagototal + (diasDiferenca) * parseInt(item.valordiaria)
+                }else{
+                    pagototal = pagototal + (diasDiferenca + 1) * parseInt(item.valordiaria)
+                }
                 if (checkin.length === index + 1) {
                     setCheckinArr(newarr)
+                    setRendatotal2(valortotal)
+                    setPagototal2(pagototal)
+                    setHospedes2(hospedesinativos)
                 }
             }
         });
@@ -229,6 +262,7 @@ export default function Financeiro() {
                                                             <tr>
                                                                 <th>Nome</th>
                                                                 <th>Telefone</th>
+                                                                <th>Estadia</th>
                                                                 <th>Total Diária</th>
                                                                 <th>Pago</th>
                                                                 <th>Estado</th>
@@ -245,6 +279,7 @@ export default function Financeiro() {
                                                                         <tr key={item.id} className="align-middle">
                                                                             <td>{item.nome}</td>
                                                                             <td>{item.telefone}</td>
+                                                                            <td>{item.entrada}<br/>{item.saida}</td>
                                                                             <td>{item.valordiaria}</td>
                                                                             <td>{item.valorpago}</td>
                                                                             <td><div className={`${item.ativado === '1' ? 'styleativo' : 'styleinativo'}`}>{item.ativado === '1' ? 'Ativo' : 'Inativo'}</div></td>

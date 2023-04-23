@@ -39,7 +39,7 @@ export default function Trocadecama() {
 
               if (diff >= 3) {
                 console.log(`Já se passaram ${diff} dias desde a limpeza em ${item3.limpeza}.`);
-                var produtosWpp = `${diff}%20dias%20desde%20a%20limpeza%20do%20%0aQuarto:%20${item.titulo}%20%0aCama:%20${item3.numeroCama}%20%0aÚltima%20limpeza%20em%20${item3.limpeza}.%20%20%0a%0a`;
+                var produtosWpp = `${diff}%20dias%20desde%20a%20limpeza%20do%20%0aQuarto:%20${item.titulo}%20%0aCama:%20${item3.numeroCama}%20%0aHóspede:%20${item3.hospede}%20%0aÚltima%20limpeza%20em%20${item3.limpeza}.%20%20%0a%0a`;
                 var soma = wpptext + produtosWpp;
                 wpptext = soma;
                 // Faça o que precisa ser feito caso já se tenham passado três dias

@@ -415,7 +415,7 @@ export default function EditProduct() {
           </div>
         </div>
       </div>
-      <Footer />
+     
     </div>
   );
 }

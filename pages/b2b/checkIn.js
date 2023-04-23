@@ -21,6 +21,7 @@ import Menu from "../../components/b2b_components/Menu";
 export default function Checkin() {
   const { data: hoteis } = useSwr(`/api/hoteis/getAllHotel`, fetcher);
   const { data: quartos } = useSwr(`/api/quartos/getAllQuarto`, fetcher);
+  const { data: hospedes } = useSwr(`/api/hospedes/getAllHospedes`, fetcher);
   const [arrdatas, setArrdatas] = useState([]);
   const [Name, setName] = useState("");
   const [rg, setRg] = useState("");
@@ -55,6 +56,7 @@ export default function Checkin() {
   let hotel_ = '';
   let genero_ = '';
   let ativado = '';
+  let cadastrado = false;
 
   const registrarQuarto = (numerocama) => {
     console.log(previousDate.toISOString().slice(0, 10));
@@ -99,6 +101,18 @@ export default function Checkin() {
       genero: genero_,
       ativado: ativado,
     });
+  }
+  const dispararCadastro = async () => {
+        const response2 = await axios.post(`/api/hospedes/insertHospedes`, {
+          nome: Name,
+          rg: rg,
+          cpf: cpf,
+          passaporte: passaporte,
+          datanascimento: datanascimento,
+          telefone: telefone,
+          genero: genero,
+          observacoes: observacoes
+        });
   }
 
   const dispararbanco = async () => {
@@ -148,6 +162,16 @@ export default function Checkin() {
         dispararcheckin()
 
         dispararquarto()
+
+        hospedes?.map((item, index) => {
+          if(item.rg === rg || item.cpf === cpf || item.telefone === telefone || item.passaporte === passaporte){
+            cadastrado = true;
+            alert('ja cadastrado')
+          }
+          if(hospedes.length === index + 1 && cadastrado === false){
+            dispararCadastro()
+          }
+        })
         // Executa a segunda solicitação apenas se a primeira for concluída com sucesso
 
         router.push("/b2b/customers");
@@ -177,6 +201,7 @@ export default function Checkin() {
                     </span>
                     Adicionar Check-in
                   </p>
+                  <div onClick={dispararCadastro}>aaaaaaaaaaaaaah</div>
                 </div>
               </div>
               <div className="row">

@@ -128,7 +128,7 @@ export default function Despesas({ }) {
             </div>
           </div>
         </div>
-        <Footer />
+       
       </div>
     </>
   );
