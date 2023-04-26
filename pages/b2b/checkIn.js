@@ -182,6 +182,15 @@ export default function Checkin() {
 
   }
 
+  const verificar = (id) => {
+    console.log(entrada, saida)
+    if(entrada === '' && saida === ''){
+      toast.error('Preencha a data de entrada e saída!')
+    } else{
+      setHotel(id)
+    }
+  }
+
   return (
     <div style={{ backgroundColor: '#f3f3f3' }}>
       <div style={{ display: 'flex' }}>
@@ -359,15 +368,16 @@ export default function Checkin() {
 
 
 
-                              <h3 className="text-center"> Escolha o Hotel </h3>
-                              <div className="col-md-12 d-flex">
+                              <h3 className="text-center mb-2"> Escolha o Hotel </h3>
+                              <div className="col-md-12 d-flex flex-wrap">
                                 {hoteis?.map((item, index) => {
                                   return (
-                                    <div key={index} className={`col-md-6`} style={{ position: 'relative', height: '200px', overflow: 'hidden' }}>
-                                      <Image width={1000} height={1000} className='pl-3 pr-3' style={{ opacity: '0.5' }} src={item.imagem[0].url} />
-                                      <div className={`circulohotel d-flex flex-column ${hotel === item._id ? 'backgroundactive' : ''}`} style={{ position: 'absolute', fontWeight: '700' }} onClick={() => setHotel(item._id)}>
+                                    <div key={index} className={`col-md-6`} style={{ position: 'relative', height: '150px', overflow: 'hidden' }}>
+                                      <Image width={1000} height={1000} className='pl-3 pr-3' style={{ opacity: '0.5', objectFit: 'cover' }} src={item.imagem[0].url} />
+                                      <div className={`circulohotel d-flex flex-column ${hotel === item._id ? 'backgroundactive' : ''}`} style={{ position: 'absolute', fontWeight: '700' }} onClick={() => verificar(item._id)}>
+                                      <div className="text-center" style={{background: '#000000a1', padding: '12px', borderRadius: '5px'}}>
                                         {item.titulo}
-
+                                        </div>
                                       </div>
                                     </div>
                                   )
@@ -376,7 +386,7 @@ export default function Checkin() {
 
                               {hotel.length > 0 ?
                                 <>
-                                  <h3 className="text-center"> Escolha o Quarto </h3>
+                                  <h3 className="text-center mt-3"> Escolha o Quarto </h3>
                                   <div className="col-md-12 d-flex justify-content-center">
                                     {quartos?.map((item, index) => {
 
@@ -387,16 +397,15 @@ export default function Checkin() {
                                         let counting = 0;
                                         return (
                                           <>
-                                            <div key={index} className="col-md-3" style={{ position: 'relative', height: '200px', overflow: 'hidden' }}>
-                                              <Image width={1000} height={1000} className='pl-3 pr-3' style={{ opacity: '0.5' }} src={require('../../assets/img/luxo-classico-moderno-quarto-suite-em-hotel.jpg')} />
-                                              <div className={`circuloquarto d-flex flex-column ${idquarto === item._id ? 'backgroundactive' : ''}`} style={{ position: 'absolute', fontWeight: '700' }} onClick={() => { setQuarto(item.arrCamas), setNomeQuarto(item.titulo), setIdquarto(item._id) }}>
+                                            <div key={index} className="col-md-3 m-2" style={{ position: 'relative', height: '150px', overflow: 'hidden' }}>
+                                              <div className={`circuloquarto d-flex flex-column ${idquarto === item._id ? 'backgroundactive2' : ''}`} style={{ position: 'absolute', fontWeight: '700' }} onClick={() => { setQuarto(item.arrCamas), setNomeQuarto(item.titulo), setIdquarto(item._id) }}>
+                                                <div className="text-center" style={{background: '#000000a1', padding: '12px', borderRadius: '5px'}}>
                                                 {item.titulo}
                                                 <div>{item.genero} </div>
                                                 <div>Total de camas: {item.camas} </div>
                                                 <div>Oculpados: {
                                                   item.arrCamas?.map((item2, index) => {
                                                     item2?.map((item5, index) => {
-                                                      console.log(item5)
                                                       const dataEntradaNovaReserva = new Date(entrada);
                                                       const dataSaidaNovaReserva = new Date(saida);
                                                       const dataEntradaReserva = new Date(item5.entrada);
@@ -408,6 +417,7 @@ export default function Checkin() {
                                                     })
                                                   })
                                                   } {counting}</div>
+                                                </div>
                                               </div>
                                             </div>
 
@@ -424,7 +434,7 @@ export default function Checkin() {
 
                               {quarto.length > 0 ? (
                                 <>
-                                  <h3 className="text-center">{nomequarto}</h3>
+                                  <h3 className="text-center mt-3 mb-2">{nomequarto}</h3>
                                   <div className="col-12 d-flex justify-content-center mb-3 flex-wrap">
                                     <div
                                       className="col-12 d-flex justify-content-center align-items-center"
@@ -543,7 +553,7 @@ export default function Checkin() {
                                                         src={require("../../assets/img/cama-de-solteiro.png")}
                                                       />
                                                       <div
-                                                        className={`${objreserva.cama === item3.numeroCama ? "backgroundactive" : ""
+                                                        className={`${objreserva.cama === item3.numeroCama ? "backgroundactive2" : ""
                                                           } circulocama d-flex flex-column`}
                                                         style={{ position: "absolute", fontWeight: "700",width: '80px',
                                                         height: '75px', }}
@@ -603,7 +613,7 @@ export default function Checkin() {
                                                         src={require("../../assets/img/cama-de-solteiro.png")}
                                                       />
                                                       <div
-                                                        className={`${objreserva.cama === item3.numeroCama ? "backgroundactive" : ""
+                                                        className={`${objreserva.cama === item3.numeroCama ? "backgroundactive2" : ""
                                                           } circulocama d-flex flex-column`}
                                                         style={{ position: "absolute", fontWeight: "700",
                                                         width: '80px',

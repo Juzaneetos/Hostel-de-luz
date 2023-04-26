@@ -80,12 +80,13 @@ img {
 
 .circulohotel {
   position: absolute;
-  top: 35%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   border-radius: 10px;
-  left: 38%;
-  width: 150px;
-  height: 60px;
-  background-color: #fff;
+  background-size: cover;
+  color: white;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
@@ -124,11 +125,14 @@ img {
 
 .circuloquarto {
   position: absolute;
-  top: 35%;
-  left: 20%;
-  width: 180px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   border-radius: 10px;
-  background-color: #fff;
+  background-image: url('../img/luxo-classico-moderno-quarto-suite-em-hotel.jpg');
+  background-size: cover;
+  color: white;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
@@ -138,7 +142,12 @@ img {
 }
 
 .backgroundactive {
-  background-color: rgb(200, 229, 255);
+  background-color: rgba(200, 229, 255, 0.596);
+  color: white !important;
+}
+
+.backgroundactive2 {
+  background: rgb(200, 229, 255);
   color: white !important;
 }
 
