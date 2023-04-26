@@ -277,7 +277,7 @@ export default function ModalOrder({ orders, id_ }) {
                             <div className="col-12 mt-3">
                               <table
                                 id="responsive-data-table"
-                                className="table"
+                                className="table table-striped"
                                 style={{ width: "100%" }}
                               >
                                   <thead>

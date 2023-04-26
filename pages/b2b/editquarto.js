@@ -211,7 +211,7 @@ export default function Editquarto({ id }) {
                               </div>
 
                               <div className="col-12 d-flex justify-content-center mb-3">
-                                <div className="col-10 d-flex justify-content-center align-items-center" style={{ height: '200px', border: '3px solid black' }}>
+                                <div className="col-10 d-flex justify-content-center align-items-center" style={{ height: '200px', border: '2px solid #e3e3e3' }}>
                                   {arrqtdcamas?.map((item, index) => (
                                     item?.map((item3, index2) => {
                                       if (item3.vago === true) { 

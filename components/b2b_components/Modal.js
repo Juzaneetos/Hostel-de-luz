@@ -8,7 +8,7 @@ import axios from "axios";
 export default function Modal({ customers, id_ }) {
   const { data: hoteis } = useSwr(`/api/hoteis/getAllHotel`, fetcher);
   const { data: quartos } = useSwr(`/api/quartos/getAllQuarto`, fetcher);
-  const [arrdatas, setArrdatas] = useState([]);
+  const [arrdatas, setArrdatas] = useState();
   const [Name, setName] = useState("");
   const [rg, setRg] = useState("");
   const [cpf, setCpf] = useState("");
@@ -37,10 +37,10 @@ export default function Modal({ customers, id_ }) {
   const [pagamentoconcluido, setPagamentoConcluido] = useState('');
   const [checkinID, setCheckingID] = useState(0);
   const [camacheckinID, setCamaCheckinID] = useState(0);
-  console.log(active, pagamentoconcluido)
   const currentDate = new Date(saida);
   const previousDate = new Date(currentDate.setDate(currentDate.getDate()) - 1);
-  console.log(customers)
+  console.log(customers, id_)
+  let newarr = [];
   useEffect(() => {
     customers?.map((item, index) => {
       if (item._id === id_) {
@@ -74,11 +74,14 @@ export default function Modal({ customers, id_ }) {
             setIdquarto(item2._id)
             setIdquartodef(item2._id)
             item2.arrCamas?.map((item3, index) => {
-              item3?.map((item4, index) => {
+              item3?.map((item4, index5) => {
+               
                 if (item.checkinID === item4.checkinID) {
-                  setArrdatas(...arrdatas, item3)
+                  newarr = [...newarr, item4];
                   setCamaCheckinID(item4.checkinID)
-                  console.log(item4)
+                }
+                if(item3.length === index5 + 1){
+                  setArrdatas(newarr)
                 }
               })
             })
@@ -87,7 +90,8 @@ export default function Modal({ customers, id_ }) {
       }
     })
   }, [id_])
-
+  console.log(newarr)
+  
   let contadordisponivel = 0;
   let contadorrenderizado = 0;
   let titulo_ = '';
@@ -475,7 +479,7 @@ export default function Modal({ customers, id_ }) {
                               <label htmlFor="email" className="form-label">
                                 Telefone
                               </label>
-                              <input type="text" defaultValue={telefone}
+                              <input type="text" value={telefone}
                                 onChange={(e) => setTelefone(e.target.value)}
                                 className="form-control" id="email" />
                             </div>
@@ -558,7 +562,7 @@ export default function Modal({ customers, id_ }) {
                             <label className="form-label">Observações</label>
                             <textarea
                               rows={5}
-                              className="form-control slug-title"
+                              className="slug-title"
                               id="inputEmail4"
                               value={observacoes}
                               onChange={(e) => setObservações(e.target.value)}
@@ -606,7 +610,7 @@ export default function Modal({ customers, id_ }) {
                             <input
                               type="date"
                               className="form-control"
-                              defaultValue={entrada}
+                              value={entrada}
                               id="phone-2"
                               onChange={(e) => setEntrada(e.target.value)}
                             />
@@ -618,7 +622,7 @@ export default function Modal({ customers, id_ }) {
                             <input
                               type="date"
                               className="form-control"
-                              defaultValue={saidamanha}
+                              value={saidamanha}
                               id="phone-2"
                               onChange={(e) => setSaida(e.target.value)}
                             />
@@ -662,7 +666,6 @@ export default function Modal({ customers, id_ }) {
                                             <div>Oculpados: {
                                               item.arrCamas?.map((item2, index) => {
                                                 item2?.map((item5, index) => {
-                                                  console.log(item5)
                                                   const dataEntradaNovaReserva = new Date(entrada);
                                                   const dataSaidaNovaReserva = new Date(saida);
                                                   const dataEntradaReserva = new Date(item5.entrada);

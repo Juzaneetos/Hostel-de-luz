@@ -190,7 +190,6 @@ export default function Checkin() {
           <div className="ec-content-wrapper">
             <div className="content">
               <div className="breadcrumb-wrapper d-flex align-items-center justify-content-between">
-                <div>
                   <h1>Adicionar Check-in</h1>
                   <p className="breadcrumbs">
                     <span>
@@ -201,7 +200,6 @@ export default function Checkin() {
                     </span>
                     Adicionar Check-in
                   </p>
-                </div>
               </div>
               <div className="row">
                 <div className="col-12">
@@ -275,13 +273,12 @@ export default function Checkin() {
                               <div className="col-md-6">
                                 <label className="form-label">Genero</label>
                                 <div className="input-icon-container">
-                                  <select style={{ height: '50px' }} onChange={(e) => setGenero(e.target.value)}>
+                                  <select style={{ height: '46px' }} onChange={(e) => setGenero(e.target.value)}>
                                     <option value={''} selected></option>
                                     <option value={'masculino'} >Masculino</option>
                                     <option value={'feminino'}>Feminino</option>
                                     <option value={'unisex'}>Unisex</option>
                                   </select>
-                                  <MdOutlineArrowDropDown size={40} className="input-icon" />
                                 </div>
                               </div>
                               {/* <div className="col-md-6 space-t-15 mt-3">
@@ -301,7 +298,7 @@ export default function Checkin() {
                                 <label className="form-label">Observações</label>
                                 <textarea
                                   rows={5}
-                                  className="form-control slug-title"
+                                  className="slug-title"
                                   id="inputEmail4"
                                   onChange={(e) => setObservações(e.target.value)}
                                 />
@@ -338,7 +335,6 @@ export default function Checkin() {
                                     <option value={'credito'}>Crédito</option>
                                     <option value={'cheque'}>Cheque</option>
                                   </select>
-                                  <MdOutlineArrowDropDown size={40} className="input-icon" />
                                 </div>
                               </div>
 

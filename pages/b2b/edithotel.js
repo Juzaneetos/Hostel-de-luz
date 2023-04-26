@@ -10,7 +10,7 @@ const fileTypes = ["JPEG", "PNG", "GIF", "JPG"];
 import Menu from "../../components/b2b_components/Menu";
 import Footer from "../../components/b2b_components/Footer";
 import axios from "axios";
-
+import { BsPencilFill } from "react-icons/bs";
 import { ref, uploadBytesResumable, getDownloadURL, getStorage, deleteObject } from 'firebase/storage';
 import { storage } from '../../firebaseConfig';
 import useSwr, { mutate } from "swr";
@@ -212,7 +212,7 @@ export default function EditProduct() {
             <div className="content">
               <div className="breadcrumb-wrapper d-flex align-items-center justify-content-between">
                 <div>
-                  <h1>Editar Hostel</h1>
+                  <h1><BsPencilFill /> Hostel</h1>
                   <p className="breadcrumbs">
                     <span>
                       <Link href="/b2b">Dashboard</Link>
@@ -220,7 +220,7 @@ export default function EditProduct() {
                     <span>
                       <i className="mdi mdi-chevron-right"></i>
                     </span>
-                    Editar Hostel
+                    <BsPencilFill /> Hostel
                   </p>
                 </div>
               </div>
@@ -257,7 +257,6 @@ export default function EditProduct() {
                                       <div className="col-md-12">
                                         <label className="form-label">Descrição Completa</label>
                                         <textarea
-                                          className="form-control"
                                           defaultValue={item.subtitulo}
                                           onChange={(e) => setFullProductDescription(e.target.value)}
                                           rows="4"
@@ -316,7 +315,7 @@ export default function EditProduct() {
                                 }
                               })}
 
-                              <div style={{ width: '100%', height: '100%', border: '5px solid #99999987' }}>
+                              <div style={{ width: '100%', height: '100%', border: '2px solid #e3e3e3' }}>
                                 <CrooperJs fileall={file} setFile={setFile} handleFileChange={handleFileChange} imageSrc={imageSrc} setImageSrc={setImageSrc} />
                               </div>
 
@@ -363,7 +362,7 @@ export default function EditProduct() {
                                                           >
                                                             <FaTrash
                                                               size={20}
-                                                              color={"#CC0000"}
+                                                              color={"#d93b3b"}
                                                               className="ec-image-upload"
                                                             />
                                                           </button>
@@ -400,7 +399,7 @@ export default function EditProduct() {
                                   className="btn btn-primary"
                                   name="submit"
                                 >
-                                  Editar Hostel
+                                  <BsPencilFill /> Hostel
                                 </button>
                               </div>
                             </form>

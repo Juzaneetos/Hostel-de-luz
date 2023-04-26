@@ -335,9 +335,9 @@ export default function Modal({ customers, id_ }) {
     let block = 0;
     const dataEntradaNovaReserva = new Date(entrada);
     const dataSaidaNovaReserva = new Date(saida);
-    const quartoSaida = (JSON.stringify(dataEntradaNovaReserva) === JSON.stringify(dataSaidaNovaReserva));
-    if (quartoSaida) return alert('datas não podem ser iguais');
-    if (quartoSaida) return alert('Cama ja reservada por outro hospede!');
+    // const quartoSaida = (JSON.stringify(dataEntradaNovaReserva) === JSON.stringify(dataSaidaNovaReserva));
+    // if (quartoSaida) return alert('datas não podem ser iguais');
+    // if (quartoSaida) return alert('Cama ja reservada por outro hospede!');
 
     quartos?.map((item, index) => {
       contador++
@@ -558,7 +558,7 @@ export default function Modal({ customers, id_ }) {
                             <label className="form-label">Observações</label>
                             <textarea
                               rows={5}
-                              className="form-control slug-title"
+                              className="slug-title"
                               id="inputEmail4"
                               value={observacoes}
                               onChange={(e) => setObservações(e.target.value)}
@@ -709,12 +709,7 @@ export default function Modal({ customers, id_ }) {
                                           const dataSaidaNovaReserva = new Date(saida);
                                           const dataEntradaReserva = new Date(item3.entrada);
                                           const dataSaidaReserva = new Date(item3.saida);
-                                          const quartoVago = (dataEntradaNovaReserva < dataSaidaReserva && dataSaidaNovaReserva > dataEntradaReserva);
-
-
-
-
-
+                                          const quartoVago = (dataEntradaNovaReserva <= dataSaidaReserva && dataSaidaNovaReserva >= dataEntradaReserva);
                                           if (item3.base === false && item3.vago === true) {
                                             contadordisponivel++;
                                           }
@@ -732,7 +727,7 @@ export default function Modal({ customers, id_ }) {
                                             item2?.map((item5, index) => {
                                               const dataEntradaReservanew = new Date(item5.entrada);
                                               const dataSaidaReservannew = new Date(item5.saida);
-                                              const quartoVagonew = (dataEntradaNovaReserva < dataSaidaReservannew && dataSaidaNovaReserva > dataEntradaReservanew);
+                                              const quartoVagonew = (dataEntradaNovaReserva <= dataSaidaReservannew && dataSaidaNovaReserva >= dataEntradaReservanew);
 
 
                                               if (quartoVagonew) {

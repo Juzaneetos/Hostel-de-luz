@@ -13,7 +13,7 @@ function Calendario({ arrdatas }) {
   const anoAtual = Math.floor(activeSlide / 12);
   const [entradaStr, setEntradaStr] = useState(`${hoje.getFullYear()}-${(mesAtual).toString().padStart(2, '0')}-01`);
   const [saidaStr, setSaidaStr] = useState(`${hoje.getFullYear()}-${(mesAtual).toString().padStart(2, '0')}-${new Date(anoAtual, mesAtual, 0).getDate().toString().padStart(2, '0')}`);
-  let arraydedatas = arrdatas || [];
+  let arraydedatas = Array.isArray(arrdatas) ? arrdatas : [];
   const entrada = new Date(entradaStr);
   const saida = new Date(saidaStr);
   useEffect(() => {
@@ -24,7 +24,7 @@ function Calendario({ arrdatas }) {
     if (saida.getDate() > diasMes) {
       setSaidaStr(`${anoAtual}-${mesAtual.toString().padStart(2, '0')}-${diasMes.toString().padStart(2, '0')}`);
     }
-  }, [activeSlide]);
+  }, [arraydedatas]);
 
   const isDiaPeriodo = (dia, mes, ano) => {
     const diaDate = new Date(ano, mes - 1, dia);
@@ -63,7 +63,6 @@ function Calendario({ arrdatas }) {
     12: 'Dezembro',
   };
   
-  console.log(arrdatas)
   const getHospedeByDate = (ano, mes, dia) => {
     const diaDate = new Date(ano, mes - 1, dia);
     const reserva = arraydedatas.find(

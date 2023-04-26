@@ -6,7 +6,7 @@ import Modal from "../../components/b2b_components/Modal";
 import Menu from "../../components/b2b_components/Menu";
 import Footer from "../../components/b2b_components/Footer";
 import useSwr, { mutate } from "swr";
-
+import { BsPencilFill } from "react-icons/bs"
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -48,7 +48,7 @@ export default function Hospede() {
                         {tamanho !== 0 && (
                           <table
                             id="responsive-data-table"
-                            className="table"
+                            className="table table-striped"
                             style={{ width: "100%" }}
                           >
                             <thead>
@@ -94,7 +94,7 @@ export default function Hospede() {
                                             className="btn btn-primary"
                                             onClick={() => setId(item._id)}
                                           >
-                                            Visualizar
+                                            <BsPencilFill />
                                           </a>
                                         </div>
                                       </td>

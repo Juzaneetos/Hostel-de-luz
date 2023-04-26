@@ -3,7 +3,7 @@ import { Link } from "next/link";
 import { useState, useEffect } from "react";
 import { FaTrash } from "react-icons/fa";
 import { toast } from "react-toastify";
-
+import { BsPencilFill } from "react-icons/bs";
 import router from 'next/router'
 import AddFaq from "../../components/b2b_components/faq/AddFaq";
 import EditFaq from "../../components/b2b_components/faq/EditFaq";
@@ -48,8 +48,18 @@ export default function FAQ() {
                   </p>
                 </div>
                 <div className="row">
-
-                  <div className="col-xl-5 col-lg-12">
+                <div className="col-lg-12">
+                    <div className="ec-cat-list card card-default mb-24px">
+                      <div className="card-body">
+                        {showEditFaqComponent !== true ? (
+                          <AddFaq />
+                        ) : (
+                          <EditFaq faqId={faqEditId} faq={faq} setShowEditFaqComponent={setShowEditFaqComponent}/>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="ol-lg-12">
                     <div className="ec-cat-list card card-default">
                       <div className="card-body">
                         <div className="table-responsive">
@@ -60,7 +70,7 @@ export default function FAQ() {
                           )}
 
                           {tamanho !== 0 && (
-                            <table id="responsive-data-table" className="table">
+                            <table id="responsive-data-table" className="table table-striped">
                               <thead>
                                 <tr>
                                   <th>ID</th>
@@ -85,13 +95,13 @@ export default function FAQ() {
                                               setShowEditFaqComponent(true);
                                             }}
                                           >
-                                            Editar
+                                            <BsPencilFill />
                                           </button>
                                           <button
                                             className="btn btn-outline-primary delete-btn"
                                             onClick={() => deleteFaq(item._id)}
                                           >
-                                            <FaTrash color="#cc0000" />
+                                            <FaTrash color="#d93b3b" />
                                           </button>
                                         </div>
                                       </td>
@@ -106,17 +116,7 @@ export default function FAQ() {
                     </div>
                   </div>
                   
-                  <div className="col-xl-7 col-lg-12">
-                    <div className="ec-cat-list card card-default mb-24px">
-                      <div className="card-body">
-                        {showEditFaqComponent !== true ? (
-                          <AddFaq />
-                        ) : (
-                          <EditFaq faqId={faqEditId} faq={faq} setShowEditFaqComponent={setShowEditFaqComponent}/>
-                        )}
-                      </div>
-                    </div>
-                  </div>
+                 
                 </div>
               </div>
             </div>

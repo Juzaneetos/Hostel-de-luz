@@ -32,8 +32,8 @@ code {
 
 
 .delete-btn:hover {
-  border-color: #cc0000 !important;
-  background-color: #cc0000 !important;
+  border-color: #d93b3b !important;
+  background-color: #d93b3b !important;
 }
 
 .delete-btn:hover svg {

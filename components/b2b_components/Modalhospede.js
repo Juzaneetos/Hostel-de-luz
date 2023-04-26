@@ -147,7 +147,7 @@ export default function Modal({ customers, id_ }) {
                             <label className="form-label">Observações</label>
                             <textarea
                               rows={5}
-                              className="form-control slug-title"
+                              className="slug-title"
                               id="inputEmail4"
                               value={observacoes}
                               onChange={(e) => setObservações(e.target.value)}

@@ -6,7 +6,7 @@ import Modal from "../../components/b2b_components/Modalhospede";
 import Menu from "../../components/b2b_components/Menu";
 import Footer from "../../components/b2b_components/Footer";
 import useSwr, { mutate } from "swr";
-
+import { BsPencilFill } from "react-icons/bs";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -25,27 +25,29 @@ export default function Hospedeall() {
   useEffect(() => {
     const procurararr = () => {
       let tempArr = [];
-      if (pesquisa) {
-        const pesquisaMinuscula = pesquisa.toLowerCase();
-        hospedesarr.forEach((item) => {
-          const nomeMinusculo = item.nome.toLowerCase();
-          const cpfMinusculo = item.cpf.toLowerCase();
-          const rgMinusculo = item.rg.toLowerCase();
-          const passaporteMinusculo = item.passaporte.toLowerCase();
-          if (
-            nomeMinusculo.includes(pesquisaMinuscula) ||
-            cpfMinusculo.includes(pesquisaMinuscula) ||
-            rgMinusculo.includes(pesquisaMinuscula) ||
-            passaporteMinusculo.includes(pesquisaMinuscula)
-          ) {
-            tempArr.push(item);
-          }
-        });
-      }
-      setNewarr(tempArr);
+      const pesquisaMinuscula = pesquisa.toLowerCase();
+      hospedesarr.forEach((item, index) => {
+        const nomeMinusculo = item.nome.toLowerCase();
+        const cpfMinusculo = item.cpf.toLowerCase();
+        const rgMinusculo = item.rg.toLowerCase();
+        const passaporteMinusculo = item.passaporte.toLowerCase();
+        if (
+          nomeMinusculo.includes(pesquisaMinuscula) ||
+          cpfMinusculo.includes(pesquisaMinuscula) ||
+          rgMinusculo.includes(pesquisaMinuscula) ||
+          passaporteMinusculo.includes(pesquisaMinuscula)
+        ) {
+          tempArr.push(item);
+        }
+        if (hospedesarr.length === index + 1) {
+          setNewarr(tempArr);
+        }
+      });
+
+
     };
     procurararr();
-  }, [pesquisa, hospedesarr]);
+  }, [pesquisa]);
 
   console.log(pesquisa);
   console.log(newarr);
@@ -94,7 +96,7 @@ export default function Hospedeall() {
                         {tamanho !== 0 && (
                           <table
                             id="responsive-data-table"
-                            className="table"
+                            className="table table-striped"
                             style={{ width: "100%" }}
                           >
                             <thead>
@@ -127,7 +129,7 @@ export default function Hospedeall() {
                                             className="btn btn-primary"
                                             onClick={() => setId(item._id)}
                                           >
-                                            Visualizar
+                                            <BsPencilFill />
                                           </a>
                                         </div>
                                       </td>
@@ -135,31 +137,38 @@ export default function Hospedeall() {
                                   );
                                 })
                                 :
-                                hospedesarr?.map((item, index) => {
-                                  return (
-                                    <tr key={item.id} className="align-middle">
-                                      <td>{item.nome}</td>
-                                      <td>{item.telefone}</td>
-                                      <td>{item.rg}</td>
-                                      <td>{item.genero}</td>
-                                      <td className="text-right">
-                                        <div className="btn-group">
-                                          <a
-                                            href="javasript:void(0)"
-                                            data-link-action="editmodal"
-                                            title="Edit Detail"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#edit_modal"
-                                            className="btn btn-primary"
-                                            onClick={() => setId(item._id)}
-                                          >
-                                            Visualizar
-                                          </a>
-                                        </div>
-                                      </td>
-                                    </tr>
-                                  );
-                                })
+                                <>
+                                  {pesquisa.length === 0 ?
+                                    hospedesarr?.map((item, index) => {
+                                      return (
+                                        <tr key={item.id} className="align-middle">
+                                          <td>{item.nome}</td>
+                                          <td>{item.telefone}</td>
+                                          <td>{item.rg}</td>
+                                          <td>{item.genero}</td>
+                                          <td className="text-right">
+                                            <div className="btn-group">
+                                              <a
+                                                href="javasript:void(0)"
+                                                data-link-action="editmodal"
+                                                title="Edit Detail"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#edit_modal"
+                                                className="btn btn-primary"
+                                                onClick={() => setId(item._id)}
+                                              >
+                                                Visualizar
+                                              </a>
+                                            </div>
+                                          </td>
+                                        </tr>
+                                      );
+                                    })
+                                    :
+                                    <></>
+                                  }
+                                </>
+
                               }
 
                             </tbody>

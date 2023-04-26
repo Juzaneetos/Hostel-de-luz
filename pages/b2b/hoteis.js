@@ -8,7 +8,7 @@ import Footer from "../../components/b2b_components/Footer";
 import useSwr, { mutate } from "swr";
 import { FaTrash } from "react-icons/fa";
 import router from 'next/router'
-
+import { BsPencilFill } from "react-icons/bs";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -65,7 +65,7 @@ export default function Hoteis() {
                         {tamanho !== 0 && (
                           <table
                             id="responsive-data-table"
-                            className="table"
+                            className="table table-striped"
                             style={{ width: "100%" }}
                           >
                             <thead>
@@ -98,13 +98,13 @@ export default function Hoteis() {
                                           title="Edit Detail"
                                           className="btn btn-primary"
                                         >
-                                          Editar
+                                          <BsPencilFill />
                                         </Link>
                                         <button
                                           className="btn btn-outline-primary delete-btn"
                                           onClick={() => deleteHostel(item._id)}
                                         >
-                                          <FaTrash color="#cc0000" />
+                                          <FaTrash color="#d93b3b" />
                                         </button>
                                       </div>
                                     </td>

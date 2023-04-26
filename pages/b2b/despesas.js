@@ -3,7 +3,7 @@ import { Link } from "next/link";
 import { useState, useEffect } from "react";
 import { FaTrash } from "react-icons/fa";
 import { toast } from "react-toastify";
-
+import { BsPencilFill } from "react-icons/bs";
 import router from 'next/router'
 import AddCategory from "../../components/b2b_components/despesas/AddCategory";
 import EditCategory from "../../components/b2b_components/despesas/EditCategory";
@@ -50,8 +50,18 @@ export default function Despesas({ }) {
                   </p>
                 </div>
                 <div className="row">
-
-                  <div className="col-xl-8 col-lg-12">
+                <div className=" col-lg-12">
+                    <div className="ec-cat-list card card-default mb-24px">
+                      <div className="card-body">
+                        {showEditCategoryComponent !== true ? (
+                          <AddCategory />
+                        ) : (
+                          <EditCategory despesasId={despesasEditId} despesas={despesas} setShowEditCategoryComponent={setShowEditCategoryComponent}/>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <div className=" col-lg-12">
                     <div className="ec-cat-list card card-default">
                       <div className="card-body">
                         <div className="table-responsive">
@@ -62,12 +72,12 @@ export default function Despesas({ }) {
                           )}
 
                           {tamanho !== 0 && (
-                            <table id="responsive-data-table" className="table">
+                            <table id="responsive-data-table" className="table table-striped">
                               <thead>
                                 <tr>
-                                  <th>Titulo</th>
-                                  <th>Descrição</th>
+                                  <th>Nome</th>
                                   <th>Valor</th>
+                                  <th>Descrição</th>
                                   <th></th>
                                 </tr>
                               </thead>
@@ -77,8 +87,8 @@ export default function Despesas({ }) {
                                   return (
                                     <tr key={item._id} className="align-middle">
                                       <td>{item.titulo}</td>
-                                      <td>{item.descricao.slice(0, 20)}...</td>
                                       <td>{item.entrada}</td>
+                                      <td>{item.descricao.slice(0, 20)}...</td>
                                       <td>
                                         R$ {item.valor}
                                       </td>
@@ -92,13 +102,13 @@ export default function Despesas({ }) {
                                               setShowEditCategoryComponent(true);
                                             }}
                                           >
-                                            Editar
+                                            <BsPencilFill />
                                           </button>
                                           <button
                                             className="btn btn-outline-primary delete-btn"
                                             onClick={() => deleteDespesas(item._id)}
                                           >
-                                            <FaTrash color="#cc0000" />
+                                            <FaTrash color="#d93b3b" />
                                           </button>
                                         </div>
                                       </td>
@@ -112,17 +122,7 @@ export default function Despesas({ }) {
                       </div>
                     </div>
                   </div>
-                  <div className="col-xl-4 col-lg-12">
-                    <div className="ec-cat-list card card-default mb-24px">
-                      <div className="card-body">
-                        {showEditCategoryComponent !== true ? (
-                          <AddCategory />
-                        ) : (
-                          <EditCategory despesasId={despesasEditId} despesas={despesas} setShowEditCategoryComponent={setShowEditCategoryComponent}/>
-                        )}
-                      </div>
-                    </div>
-                  </div>
+                  
                 </div>
               </div>
             </div>

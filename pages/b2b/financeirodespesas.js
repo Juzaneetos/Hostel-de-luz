@@ -174,7 +174,7 @@ export default function Financeirodespesas() {
                                                 {tamanho !== 0 && (
                                                     <table
                                                         id="responsive-data-table"
-                                                        className="table"
+                                                        className="table table-striped"
                                                         style={{ width: "100%" }}
                                                     >
                                                         <thead>

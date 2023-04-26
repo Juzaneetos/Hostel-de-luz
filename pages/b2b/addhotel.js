@@ -260,7 +260,7 @@ export default function AddBanners() {
                                                   >
                                                     <FaTrash
                                                       size={20}
-                                                      color={"#CC0000"}
+                                                      color={"#d93b3b"}
                                                       className="ec-image-upload"
                                                     />
                                                   </button>

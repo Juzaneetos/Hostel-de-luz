@@ -18,11 +18,10 @@ function AddDespesas() {
       entrada: dataAtual.toISOString().slice(0, 10),
       valor: valor,
     });
-    toast('Categoria sendo adicionada!', {
+    toast('Despesa sendo adicionada!', {
       position: "top-right",
       });
     mutate(`/api/despesas/getAllDespesas`);
-    router.push("/b2b/category");
   };
 
   
@@ -30,7 +29,7 @@ function AddDespesas() {
   return (
     <div className="card-body">
       <div className="ec-cat-form">
-        <h4>Adicionar Categoria</h4>
+        <h4>Adicionar Despesa</h4>
         <form onSubmit={onSubmit}>
           <div className="form-group row">
             <label htmlFor="text" className="col-12 col-form-label">
@@ -48,21 +47,6 @@ function AddDespesas() {
           </div>
           <div className="form-group row">
             <label htmlFor="text" className="col-12 col-form-label">
-              Descrição
-            </label>
-            <div className="col-12">
-              <textarea
-              rows={6}
-                id="text"
-                name="text"
-                className="form-control here slug-title"
-                type="text"
-                onChange={(e) => setDescricao(e.target.value)}
-              />
-            </div>
-          </div>
-          <div className="form-group row">
-            <label htmlFor="text" className="col-12 col-form-label">
               Valor
             </label>
             <div className="col-12">
@@ -75,12 +59,27 @@ function AddDespesas() {
               />
             </div>
           </div>
+          <div className="form-group row">
+            <label htmlFor="text" className="col-12 col-form-label">
+              Descrição
+            </label>
+            <div className="col-12">
+              <textarea
+              rows={6}
+                id="text"
+                name="text"
+                className=" here slug-title"
+                type="text"
+                onChange={(e) => setDescricao(e.target.value)}
+              />
+            </div>
+          </div>
 
 
           <div className="row">
             <div className="col-12">
             <button name="submit" type="submit" className="btn btn-primary">
-            Adicionar Categoria
+            Adicionar Despesa
             </button>
             </div>
           </div>

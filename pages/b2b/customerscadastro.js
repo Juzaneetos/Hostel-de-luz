@@ -150,7 +150,7 @@ export default function Hospedecadastro() {
                             <label className="form-label">Observações</label>
                             <textarea
                               rows={5}
-                              className="form-control slug-title"
+                              className="slug-title"
                               id="inputEmail4"
                               onChange={(e) => setObservações(e.target.value)}
                             />

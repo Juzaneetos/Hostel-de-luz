@@ -2,7 +2,7 @@ import axios from "axios";
 import router from 'next/router'
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-
+import { BsPencilFill } from "react-icons/bs";
 import useSwr, { mutate } from "swr";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -81,7 +81,7 @@ function EditCategory({ despesasId, despesas, setShowEditCategoryComponent }) {
               rows={6}
                 id="text"
                 name="text"
-                className="form-control here slug-title"
+                className=" here slug-title"
                 type="text"
                 value={descricao}
                 onChange={(e) => setDescricao(e.target.value)}
@@ -107,7 +107,7 @@ function EditCategory({ despesasId, despesas, setShowEditCategoryComponent }) {
           <div className="row">
             <div className="col-12">
               <button name="submit" type="submit" className="btn btn-primary">
-                Editar Despesa
+              Editar Despesa
               </button>
             </div>
           </div>

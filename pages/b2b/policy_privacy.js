@@ -78,7 +78,6 @@ export default function AddProduct() {
                                                                             <label className="form-label">Escreva abaixo</label>
                                                                             <textarea
                                                                                 style={{ whiteSpace: 'pre-wrap', }}
-                                                                                className="form-control"
                                                                                 defaultValue={item.text}
                                                                                 onChange={(e) => setPolicyPrivacity(e.target.value)}
                                                                                 rows="15"

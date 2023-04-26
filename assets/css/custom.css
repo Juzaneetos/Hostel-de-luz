@@ -41,6 +41,7 @@ img {
   align-items: center;
   font-size: 1.2rem;
   border: 1px solid black;
+  border-radius: 3px;
 }
 
 .calendario-dia-periodo {
@@ -58,15 +59,23 @@ img {
 .circulocama {
   position: absolute;
   top: 50%;
+  margin-top: 10px;
+  margin-left: 10px;
   width: 70px;
-  border-radius: 25%;
+  border-radius: 3px;
   background-color: #fff;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  background-color: #f3f3f3;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   transform: translate(-50%, -50%) rotate(calc(var(--angle) * 1deg));
+}
+
+#inputTag{
+  height: 54px;
+  padding: 2px;
 }
 
 .circulohotel {
@@ -88,11 +97,11 @@ img {
 .modalprice{
   display: flex;
     flex-direction: column;
-    height: 100px;
     justify-content: center;
     background: #3DADC5;
-    padding: 15px;
-    border: 1px solid rgba(0, 0, 0, 0.295);
+    padding: 10px 15px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 0px;
 }
 .modalprice2{
   display: flex;
@@ -100,8 +109,8 @@ img {
     height: 60px;
     justify-content: center;
     background: #0D6EFD;
-    padding: 15px;
-    border: 1px solid rgba(0, 0, 0, 0.295);
+    padding: 10px 15px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
     transition: 0.5s all ease;
 }
 .modalprice2:hover{
@@ -109,8 +118,8 @@ img {
     flex-direction: column;
     justify-content: center;
     background: #4a92ff;
-    padding: 15px;
-    border: 1px solid rgba(0, 0, 0, 0.295);
+    padding: 10px 15px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .circuloquarto {
@@ -192,6 +201,10 @@ img {
 .bg-imagem-comentarios {
   background-image: url("../img/banner/banner02.jpg");
 } */
+
+.btn{
+  border-radius: 3px !important;
+}
 
 .custom-img {
   width: 100% !important;
@@ -301,23 +314,23 @@ img {
 }
 
 .styleativo {
-  background: #009b0c;
+  background: #30af3b;
   color: white;
   height: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 15px;
+  border-radius: 3px;
 }
 
 .styleinativo {
-  background: #cd0000;
+  background: #d93b3b;
   color: white;
   height: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 15px;
+  border-radius: 3px;
 }
 
 .input-icon-container {

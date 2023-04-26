@@ -3,7 +3,7 @@ import router from 'next/router'
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import useSwr, { mutate } from "swr";
-
+import { BsPencilFill } from "react-icons/bs";
 export default function EditUsers({ usersEditId, users }) {
   const [id_, setId_] = useState();
   const [usersName, setUserName] = useState("");
@@ -143,7 +143,7 @@ export default function EditUsers({ usersEditId, users }) {
           <div className="row">
             <div className="col-12">
             <button name="submit" type="submit" className="btn btn-primary">
-            Editar Categoria
+            Editar Acesso
             </button>
             </div>
           </div>

@@ -3,7 +3,7 @@ import { Link } from "next/link";
 import { useState, useEffect } from "react";
 import { FaTrash } from "react-icons/fa";
 import { toast } from "react-toastify";
-
+import { BsPencilFill } from "react-icons/bs";
 import router from 'next/router'
 import AddUsers from "../../components/b2b_components/users/AddUsers";
 import EditUsers from "../../components/b2b_components/users/EditUsers";
@@ -52,7 +52,7 @@ export default function Users({ }) {
                   </p>
                 </div>
                 <div className="row">
-                  <div className="col-xl-4 col-lg-12">
+                  <div className="col-lg-12">
                     <div className="ec-cat-list card card-default mb-24px">
                       <div className="card-body">
                         {showEditCategoryComponent !== true ? (
@@ -64,18 +64,18 @@ export default function Users({ }) {
                     </div>
                   </div>
 
-                  <div className="col-xl-8 col-lg-12">
+                  <div className="col-lg-12">
                     <div className="ec-cat-list card card-default">
                       <div className="card-body">
                         <div className="table-responsive">
                           {tamanho === 0 && (
                             <div className="text-center">
-                              Não possui nenhuma categoria cadastrada
+                              Não possui nenhum Acesso cadastrada
                             </div>
                           )}
 
                           {tamanho !== 0 && (
-                            <table id="responsive-data-table" className="table">
+                            <table id="responsive-data-table" className="table table-striped">
                               <thead>
                                 <tr>
                                   <th>ID</th>
@@ -107,13 +107,13 @@ export default function Users({ }) {
                                             setShowEditCategoryComponent(true);
                                             }}
                                           >
-                                            Editar
+                                            <BsPencilFill />
                                           </button>
                                           <button
                                             className="btn btn-outline-primary delete-btn"
                                             onClick={() => deleteUsers(item._id)}
                                           >
-                                            <FaTrash color="#cc0000" />
+                                            <FaTrash color="#d93b3b" />
                                           </button>
                                         </div>
                                       </td>

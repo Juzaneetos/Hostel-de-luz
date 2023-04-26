@@ -2,7 +2,7 @@ import axios from "axios";
 import router from 'next/router'
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-
+import { BsPencilFill } from "react-icons/bs";
 import useSwr, { mutate } from "swr";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -99,7 +99,7 @@ function EditFaq({ faqId, faq, setShowEditFaqComponent }) {
           <div className="row">
             <div className="col-12">
               <button name="submit" type="submit" className="btn btn-primary">
-                Editar Pergunta
+              Editar Pergunta
               </button>
             </div>
           </div>
