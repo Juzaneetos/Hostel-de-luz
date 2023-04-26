@@ -622,7 +622,7 @@ export default function Modal({ customers, id_ }) {
                             <input
                               type="date"
                               className="form-control"
-                              value={saidamanha}
+                              value={saida}
                               id="phone-2"
                               onChange={(e) => setSaida(e.target.value)}
                             />
