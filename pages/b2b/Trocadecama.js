@@ -18,7 +18,7 @@ export default function Trocadecama() {
   var tamanho = quartos?.length || [];
   let quartoarr = quartos || [];
   console.log(quartoarr)
-  var estruturaWpp = `https://api.whatsapp.com/send?phone=5514996528505&text=Olá!%20%20%0a%0a${wpplink}`;
+  var estruturaWpp = `https://api.whatsapp.com/send?phone=5514996528505&text=Guia de serviço gerada pelo painel admnistrativo%20%20%0a%0a${wpplink}`;
   let titulo_ = '';
   let camas = '';
   let arrCamas = [];
@@ -119,12 +119,12 @@ export default function Trocadecama() {
   return (
     <div style={{ backgroundColor: '#f3f3f3' }}>
       <div style={{ display: 'flex' }}>
-        <Menu />
+        <Menu  parametro={'6'}/>
         <div className="ec-page-wrapper">
           <div className="ec-content-wrapper">
             <div className="content">
               <div className="breadcrumb-wrapper d-flex align-items-center justify-content-between">
-                <h1>Hospedes</h1>
+                <h1>Troca de Roupa de Cama</h1>
                 {enviada &&
                 <a
                 className="btn btn-primary"
@@ -161,7 +161,7 @@ export default function Trocadecama() {
                   <span>
                     <i className="mdi mdi-chevron-right"></i>
                   </span>
-                  Hospedes
+                  Troca de Roupa de Cama
                 </p>
               </div>
               <div className="row">

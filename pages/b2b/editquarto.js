@@ -11,7 +11,7 @@ import { useState, useEffect, useRef } from "react";
 
 import { ref, uploadBytesResumable, getDownloadURL, getStorage, deleteObject } from 'firebase/storage';
 import { storage } from '../../firebaseConfig.ts';
-
+import CrooperJs from '../../components/b2b_components/cropperbanner.js';
 import useSwr, { mutate } from "swr";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -20,7 +20,7 @@ import Menu from "../../components/b2b_components/Menu";
 export default function Editquarto({ id }) {
   const { data: quarto } = useSwr(`/api/quartos/getAllQuarto`, fetcher)
   const { data: hoteis } = useSwr(`/api/hoteis/getAllHotel`, fetcher)
-  let idmongo = '0';
+  let idmongo = Router.query.id;
   const [objid, setObjid] = useState("");
   const [productName, setProductName] = useState("");
   const [hotel, setHotel] = useState("");
@@ -28,6 +28,14 @@ export default function Editquarto({ id }) {
   const [qtdcamas, setQtdcamas] = useState(0);
   const [arrqtdcamas, setQtdarrcamas] = useState([]);
   const [active, setActive] = useState(1);
+  const [imageSrc, setImageSrc] = useState(null);
+  const [imagemDelete, setImagemDelete] = useState([]);
+  const [file, setFile] = useState([]);
+  const [imageToUpload, setImageToUpload] = useState([]);
+  const [downloadURL, setDownloadURL] = useState('');
+  const [progressUpload, setProgressUpload] = useState(0);
+  const imageInput = useRef();
+  const miniImagePreview = useRef();
 
   useEffect(() => {
     idmongo = Router.query.id;
@@ -37,6 +45,7 @@ export default function Editquarto({ id }) {
         setProductName(item.titulo)
         setHotel(item.hotel)
         setGenero(item.genero)
+        setFile(item.imagem);
         setQtdcamas(item.camas)
         setQtdarrcamas(item.arrCamas)
         setActive(item.ativado)
@@ -50,7 +59,22 @@ export default function Editquarto({ id }) {
     let arrnovo = arrqtdcamas;
     const date = new Date();
     let contador = 0;
-    if (arrqtdcamas.length < parseFloat(qtdcamas)) {
+    let contadorToast = 0;
+    let imageArr = file;
+
+    if (imagemDelete.length > 0) {
+      imagemDelete.forEach(item => {
+        const desertRef = ref(storage, `image/${item.delete.path}`);
+
+        deleteObject(desertRef).then(() => {
+          // File deleted successfully
+        }).catch((error) => {
+          // Uh-oh, an error occurred!
+        });
+      })
+    }
+
+    if (arrqtdcamas.length <= parseFloat(qtdcamas)) {
       [...Array(parseFloat(qtdcamas))]?.map((item, index) => {
         if (arrqtdcamas.length === 0) {
           arrnovo.push([{ numeroCama: index + 1, entrada: date, vago: false, hospede: '', base: true, checkinID: '', limpeza: '', saida: '' }])
@@ -61,24 +85,114 @@ export default function Editquarto({ id }) {
           } else {
             contador++
           }
-          if (contador + 1 === index + 1) {
-            dispararbanco(arrnovo)
-            Router.push("/b2b/quartos");
+          if (parseFloat(qtdcamas) === index + 1) {
+            file.forEach(async item => {
+              if (item.blobs === true) {
+                if (item.image) {
+                  const name = item.path;
+                  const storageRef = ref(storage, `image/${name}`);
+                  const uploadTask = uploadBytesResumable(storageRef, item.image);
+                  uploadTask.on(
+                    'state_changed',
+                    (snapshot) => {
+                      const progress =
+                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                      setProgressUpload(progress) // to show progress upload
+                      switch (snapshot.state) {
+                        case 'paused':
+                          console.log('Upload is paused')
+                          break
+                        case 'running':
+                          console.log('Upload is running')
+                          break
+                      }
+                    },
+                    (error) => {
+                      alert(error.message)
+                    },
+                    () => {
+                      getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                        //url is download url of file
+                        setDownloadURL((current) => [
+                          ...current,
+                          {
+                            url: url,
+                            path: name,
+                          },
+                        ]);
+        
+                        const obj = [{ url: url, path: name }];
+                        imageArr = [...imageArr, ...obj];
+                        contador++;
+        
+                        console.log(file.length, contador)
+        
+                        if (file.length === contador) {
+                          setTimeout(() => {
+                            contador = 0;
+                            dispararbanco(imageArr, arrnovo)
+                            Router.push("/b2b/hoteis");
+                          }, 2000)
+                        }
+                      })
+                    },
+                  )
+                } else {
+                  alert('File not found')
+                }
+        
+                if (contadorToast === 0) {
+                  contadorToast++
+                  toast('Aguarde Quarto sendo editado!', {
+                    position: "top-right",
+                  });
+                }
+              } else {
+                contador++
+                {
+                  if (contador === file.length) {
+                    contador = 0;
+        
+                    if (contadorToast === 0) {
+                      contadorToast++
+                      toast('Aguarde Banner sendo editado!', {
+                        position: "top-right",
+                      });
+                    }
+        
+        
+                    contador = 0;
+                    let data = await axios.post(`/api/quartos/updateQuarto?id=${objid}`, {
+                      titulo: productName,
+                      camas: qtdcamas,
+                      arrCamas: arrqtdcamas,
+                      imagem: file,
+                      hotel: hotel,
+                      genero: genero,
+                      ativado: active,
+                    });
+                    Router.push("/b2b/quartos");
+        
+                  }
+                }
+              }
+            })
           }
         }
       })
     } else {
-      dispararbanco(arrqtdcamas);
+      dispararbanco(file, arrqtdcamas);
       Router.push("/b2b/quartos");
     }
   }
 
-  const dispararbanco = async (arrayquartos) => {
+  const dispararbanco = async (imarr, arrayquartos) => {
     console.log(qtdcamas)
     let data = await axios.post(`/api/quartos/updateQuarto?id=${objid}`, {
       titulo: productName,
       camas: qtdcamas,
       arrCamas: arrayquartos,
+      imagem: imarr,
       hotel: hotel,
       genero: genero,
       ativado: active,
@@ -86,9 +200,6 @@ export default function Editquarto({ id }) {
    
   }
 
-
-
-  console.log(arrqtdcamas)
   const removercama = (numerocama) => {
     let contador = 0;
     arrqtdcamas?.map((item, index) => {
@@ -114,26 +225,59 @@ export default function Editquarto({ id }) {
     })
   }
 
+  const customImgLoader = ({ src }) => {
+    return `${src}`;
+  };
+
+  const deleteImage = (e, imagem2) => {
+    e.preventDefault();
+
+    file.forEach(async item => {
+      if (item.path === imagem2) {
+        setImagemDelete((current) => [
+          ...current,
+          {
+            delete: item
+          },
+        ]);
+        setFile(
+          file.filter(a =>
+            a.path !== imagem2
+          ));
+      }
+    })
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      setImageSrc(reader.result);
+    };
+
+    reader.readAsDataURL(file);
+  };
 
 
   return (
     <div style={{ backgroundColor: '#f3f3f3' }}>
       <div style={{ display: 'flex' }}>
-        <Menu />
+        <Menu  parametro={'10'}/>
         <div className="ec-page-wrapper">
           <div className="ec-content-wrapper">
             <div className="content">
               <div className="breadcrumb-wrapper d-flex align-items-center justify-content-between">
                 <div>
-                  <h1>Adicionar Quarto</h1>
+                  <h1>Editar Quarto</h1>
                   <p className="breadcrumbs">
                     <span>
-                      <Link href="/b2b">Dashboard</Link>
+                      <Link href="/b2b/quartos">Quartos</Link>
                     </span>
                     <span>
                       <i className="mdi mdi-chevron-right"></i>
                     </span>
-                    Adicionar Quarto
+                    Editar Quarto
                   </p>
                 </div>
               </div>
@@ -208,6 +352,85 @@ export default function Editquarto({ id }) {
                                   <option value={9}>9</option>
                                   <option value={10}>10</option>
                                 </select>
+                              </div>
+
+                              <div style={{ width: '100%', height: '100%', border: '2px solid #e3e3e3' }}>
+                                <CrooperJs fileall={file} setFile={setFile} handleFileChange={handleFileChange} imageSrc={imageSrc} setImageSrc={setImageSrc} />
+                              </div>
+
+
+                              <div className="col-lg-12">
+                                <div className="ec-vendor-img-upload">
+                                  <div className="ec-vendor-main-img">
+                                    <div className="avatar-upload">
+
+                                      {/* <div className="d-flex flex-column align-items-center mb-5">
+                                        <h1>Selecione ou Arraste suas imagens</h1>
+                                        <FileUploader
+                                          multiple={true}
+                                          handleChange={handleChange}
+                                          name="file"
+                                          types={fileTypes}
+                                        />
+                                      </div> */}
+
+                                      <div className="thumb-upload-set colo-md-12">
+                                        {quarto?.map((item, index) => {
+                                          console.log(item._id , idmongo)
+                                          if (item._id === idmongo) {
+                                            return (
+                                              <div key={index}>
+                                                {file?.map((item2, index) => {
+                                                  const blob = new Blob([item2.image], { type: 'image/jpg' })
+                                                  const img = URL.createObjectURL(blob);
+
+                                                  if (item2.image === '') {
+                                                    return;
+                                                  } else {
+
+                                                    return (
+                                                      <div
+                                                        key={index}
+                                                        className="thumb-upload"
+                                                      >
+
+                                                        <div className="thumb-edit">
+                                                          <button
+                                                            type='button'
+                                                            onClick={(e) => deleteImage(e, item2.path)}
+                                                            className="save-image-button btn p-2"
+                                                          >
+                                                            <FaTrash
+                                                              size={20}
+                                                              color={"#d93b3b"}
+                                                              className="ec-image-upload"
+                                                            />
+                                                          </button>
+                                                        </div>
+                                                        <div className="thumb-preview ec-preview">
+                                                          <div className="image-thumb-preview">
+                                                            <Image
+                                                              loader={customImgLoader}
+                                                              className="image-thumb-preview ec-image-preview"
+                                                              src={item2.url || img}
+                                                              alt="Product Image"
+                                                              width={500}
+                                                              height={500}
+                                                            />
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                    )
+                                                  }
+                                                })}
+                                              </div>
+                                            );
+                                          }
+                                        })}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
 
                               <div className="col-12 d-flex justify-content-center mb-3">
@@ -292,7 +515,7 @@ export default function Editquarto({ id }) {
 
                               <div className="col-md-12">
                                 <div onClick={() => onsubmit()} className="btn btn-primary">
-                                  Adicionar Produto
+                                  Editar Quarto
                                 </div>
                               </div>
                             </form>

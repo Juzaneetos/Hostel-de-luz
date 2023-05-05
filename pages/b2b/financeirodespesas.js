@@ -81,12 +81,12 @@ export default function Financeirodespesas() {
     return (
         <div style={{ backgroundColor: '#f3f3f3' }}>
             <div style={{ display: 'flex' }}>
-                <Menu />
+                <Menu  parametro={'9'}/>
                 <div className="ec-page-wrapper">
                     <div className="ec-content-wrapper">
                         <div className="content">
                             <div className="breadcrumb-wrapper d-flex align-items-center justify-content-between">
-                                <h1>Financeiro</h1>
+                                <h1>Financeiro Despesas</h1>
                                 <p className="breadcrumbs">
                                     <span>
                                         <Link href="/b2b">Dashboard</Link>

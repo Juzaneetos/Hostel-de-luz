@@ -12,9 +12,11 @@ import { useState, useEffect, useRef } from "react";
 import Calendario from '../../components/b2b_components/Calendario'
 import { ref, uploadBytesResumable, getDownloadURL, getStorage, deleteObject } from 'firebase/storage';
 import { storage } from '../../firebaseConfig.ts';
-
 import useSwr, { mutate } from "swr";
 const fetcher = (url) => fetch(url).then((res) => res.json());
+
+import CurrencyInput from 'react-currency-input-field'
+import formatCpf from '@brazilian-utils/format-cpf';
 
 import Menu from "../../components/b2b_components/Menu";
 
@@ -26,7 +28,7 @@ export default function Checkin() {
   const [Name, setName] = useState("");
   const [rg, setRg] = useState("");
   const [cpf, setCpf] = useState("");
-  const [passaporte, setPassaporte] = useState("");
+  const [passaporte, setPassaporte] = useState("vazio");
   const [entrada, setEntrada] = useState("")
   const [saida, setSaida] = useState("")
   const [datanascimento, setDatanascimento] = useState("")
@@ -47,7 +49,7 @@ export default function Checkin() {
   const checkinID = Math.floor(Math.random() * 10000000000000000000);
   const currentDate = new Date(saida);
   const previousDate = new Date(currentDate.setDate(currentDate.getDate() - 1));
-
+  console.log(formatCpf(cpf))
   let contadordisponivel = 0;
   let contadorrenderizado = 0;
   let titulo_ = '';
@@ -67,7 +69,36 @@ export default function Checkin() {
     })
   }
 
+  const datamudou = (valor, parametro) => {
+    if (parametro === 'entrada') { console.log(valor, parametro) }
+    if (parametro === 'saida') { console.log(valor, parametro) }
+    if (entrada === '' && parametro === 'entrada') {
+      setEntrada(valor)
+      return
+    }
+    if (entrada !== '' && parametro === 'entrada') {
+      setEntrada(valor)
+      return
+    }
+    if (saida === '' && parametro === 'saida') {
+      setSaida(valor)
+      return
+    }
+    if (entrada >= saida && entrada !== '' && saida !== '') {
+      if (parametro === 'entrada' && entrada >= saida) {
+        setEntrada(valor)
+        return
+      }
+      if (parametro === 'saida' && entrada >= saida) {
+        setSaida(valor)
+        return
+      }
+    } else {
+      alert('Saída maior que entrada')
+    }
 
+  }
+  console.log(entrada < saida)
 
   const dispararcheckin = async () => {
     let data = await axios.post(`/api/checkin/insertCheckin`, {
@@ -103,16 +134,16 @@ export default function Checkin() {
     });
   }
   const dispararCadastro = async () => {
-        const response2 = await axios.post(`/api/hospedes/insertHospedes`, {
-          nome: Name,
-          rg: rg,
-          cpf: cpf,
-          passaporte: passaporte,
-          datanascimento: datanascimento,
-          telefone: telefone,
-          genero: genero,
-          observacoes: observacoes
-        });
+    const response2 = await axios.post(`/api/hospedes/insertHospedes`, {
+      nome: Name,
+      rg: rg,
+      cpf: cpf,
+      passaporte: passaporte,
+      datanascimento: datanascimento,
+      telefone: telefone,
+      genero: genero,
+      observacoes: observacoes
+    });
   }
 
   const dispararbanco = async () => {
@@ -164,11 +195,11 @@ export default function Checkin() {
         dispararquarto()
 
         hospedes?.map((item, index) => {
-          if(item.rg === rg || item.cpf === cpf || item.telefone === telefone || item.passaporte === passaporte){
+          if (item.rg === rg || item.cpf === cpf || item.telefone === telefone || item.passaporte === passaporte) {
             cadastrado = true;
             alert('ja cadastrado')
           }
-          if(hospedes.length === index + 1 && cadastrado === false){
+          if (hospedes.length === index + 1 && cadastrado === false) {
             dispararCadastro()
           }
         })
@@ -184,31 +215,36 @@ export default function Checkin() {
 
   const verificar = (id) => {
     console.log(entrada, saida)
-    if(entrada === '' && saida === ''){
+    if (entrada === '' && saida === '') {
       toast.error('Preencha a data de entrada e saída!')
-    } else{
+    } else {
       setHotel(id)
     }
   }
 
+  const formatter = new Intl.NumberFormat('bt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  });
+
   return (
     <div style={{ backgroundColor: '#f3f3f3' }}>
       <div style={{ display: 'flex' }}>
-        <Menu />
+        <Menu parametro={'1'}/>
         <div className="ec-page-wrapper">
           <div className="ec-content-wrapper">
             <div className="content">
               <div className="breadcrumb-wrapper d-flex align-items-center justify-content-between">
-                  <h1>Adicionar Check-in</h1>
-                  <p className="breadcrumbs">
-                    <span>
-                      <Link href="/b2b">Dashboard</Link>
-                    </span>
-                    <span>
-                      <i className="mdi mdi-chevron-right"></i>
-                    </span>
-                    Adicionar Check-in
-                  </p>
+                <h1>Adicionar Check-in</h1>
+                <p className="breadcrumbs">
+                  <span>
+                    <Link href="/b2b">Dashboard</Link>
+                  </span>
+                  <span>
+                    <i className="mdi mdi-chevron-right"></i>
+                  </span>
+                  Adicionar Check-in
+                </p>
               </div>
               <div className="row">
                 <div className="col-12">
@@ -258,6 +294,7 @@ export default function Checkin() {
                                   type="text"
                                   className="form-control slug-title"
                                   id="inputEmail4"
+                                  value={formatCpf(cpf)}
                                   onChange={(e) => setCpf(e.target.value)}
                                 />
                               </div>
@@ -314,23 +351,29 @@ export default function Checkin() {
                               </div>
                               <div className="col-md-6">
                                 <label className="form-label">Valor da Diaria</label>
-                                <input
-                                  type="number"
+                                <CurrencyInput
+                                  id="input-example"
+                                  name="input-name"
                                   className="form-control slug-title"
-                                  id="inputEmail4"
-                                  style={{ height: '40%' }}
-                                  onChange={(e) => setValordiaria(e.target.value)}
+                                  placeholder="Please enter a number"
+                                  defaultValue={0}
+                                  decimalsLimit={2}
+                                  onValueChange={(value, name) => setValordiaria(value)}
                                 />
                               </div>
+
                               <div className="col-md-6">
                                 <label htmlFor="phone-2" className="form-label">
                                   Valor Pago
                                 </label>
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  onChange={(e) => setValorpago(e.target.value)}
-                                  id="phone-2"
+                                <CurrencyInput
+                                  id="input-example"
+                                  name="input-name"
+                                  className="form-control slug-title"
+                                  placeholder="Please enter a number"
+                                  defaultValue={0}
+                                  decimalsLimit={2}
+                                  onValueChange={(value, name) => setValorpago(value)}
                                 />
                               </div>
                               <div className="col-md-12">
@@ -352,8 +395,8 @@ export default function Checkin() {
                                 <input
                                   type="date"
                                   className="form-control slug-title"
-                                  id="inputEmail4"
-                                  onChange={(e) => setEntrada(e.target.value)}
+                                  value={entrada}
+                                  onChange={(e) => datamudou(e.target.value, 'entrada')}
                                 />
                               </div>
                               <div className="col-md-6">
@@ -361,22 +404,21 @@ export default function Checkin() {
                                 <input
                                   type="date"
                                   className="form-control slug-title"
-                                  id="inputEmail4"
-                                  onChange={(e) => setSaida(e.target.value)}
+                                  value={saida}
+                                  onChange={(e) => datamudou(e.target.value, 'saida')}
                                 />
                               </div>
 
 
 
                               <h3 className="text-center mb-2"> Escolha o Hotel </h3>
-                              <div className="col-md-12 d-flex flex-wrap">
+                              <div className="col-md-12 d-flex flex-wrap justify-content-around">
                                 {hoteis?.map((item, index) => {
                                   return (
-                                    <div key={index} className={`col-md-6`} style={{ position: 'relative', height: '150px', overflow: 'hidden' }}>
-                                      <Image width={1000} height={1000} className='pl-3 pr-3' style={{ opacity: '0.5', objectFit: 'cover' }} src={item.imagem[0].url} />
+                                    <div key={index} className={`col-md-5 mb-3`} style={{ position: 'relative', height: '150px', overflow: 'hidden', background: `url(${item.imagem[0].url})` }}>
                                       <div className={`circulohotel d-flex flex-column ${hotel === item._id ? 'backgroundactive' : ''}`} style={{ position: 'absolute', fontWeight: '700' }} onClick={() => verificar(item._id)}>
-                                      <div className="text-center" style={{background: '#000000a1', padding: '12px', borderRadius: '5px'}}>
-                                        {item.titulo}
+                                        <div className="text-center" style={{ background: '#000000a1', padding: '12px', borderRadius: '5px' }}>
+                                          {item.titulo}
                                         </div>
                                       </div>
                                     </div>
@@ -399,23 +441,23 @@ export default function Checkin() {
                                           <>
                                             <div key={index} className="col-md-3 m-2" style={{ position: 'relative', height: '150px', overflow: 'hidden' }}>
                                               <div className={`circuloquarto d-flex flex-column ${idquarto === item._id ? 'backgroundactive2' : ''}`} style={{ position: 'absolute', fontWeight: '700' }} onClick={() => { setQuarto(item.arrCamas), setNomeQuarto(item.titulo), setIdquarto(item._id) }}>
-                                                <div className="text-center" style={{background: '#000000a1', padding: '12px', borderRadius: '5px'}}>
-                                                {item.titulo}
-                                                <div>{item.genero} </div>
-                                                <div>Total de camas: {item.camas} </div>
-                                                <div>Oculpados: {
-                                                  item.arrCamas?.map((item2, index) => {
-                                                    item2?.map((item5, index) => {
-                                                      const dataEntradaNovaReserva = new Date(entrada);
-                                                      const dataSaidaNovaReserva = new Date(saida);
-                                                      const dataEntradaReserva = new Date(item5.entrada);
-                                                      const dataSaidaReserva = new Date(item5.saida);
-                                                      const quartoVago = (dataEntradaNovaReserva < dataSaidaReserva && dataSaidaNovaReserva > dataEntradaReserva);
-                                                      if(quartoVago){
-                                                        counting++;
-                                                      }
+                                                <div className="text-center" style={{ background: '#000000a1', padding: '12px', borderRadius: '5px' }}>
+                                                  {item.titulo}
+                                                  <div>{item.genero} </div>
+                                                  <div>Total de camas: {item.camas} </div>
+                                                  <div>Oculpados: {
+                                                    item.arrCamas?.map((item2, index) => {
+                                                      item2?.map((item5, index) => {
+                                                        const dataEntradaNovaReserva = new Date(entrada);
+                                                        const dataSaidaNovaReserva = new Date(saida);
+                                                        const dataEntradaReserva = new Date(item5.entrada);
+                                                        const dataSaidaReserva = new Date(item5.saida);
+                                                        const quartoVago = (dataEntradaNovaReserva < dataSaidaReserva && dataSaidaNovaReserva > dataEntradaReserva);
+                                                        if (quartoVago) {
+                                                          counting++;
+                                                        }
+                                                      })
                                                     })
-                                                  })
                                                   } {counting}</div>
                                                 </div>
                                               </div>
@@ -532,10 +574,10 @@ export default function Checkin() {
                                                           onClick={() => alert("Já reservado")}
                                                         >
                                                           {item3.numeroCama}
-                                                          <p style={{color: 'white', fontWeight: 'bold'}}>{item3.vago ? `${item3.hospede.slice(0, 10)}...` : "Liberado"}</p>
-                                                          <p style={{color: 'white', fontWeight: 'bold'}}>{item3.entrada}</p>
-                                                          <p style={{color: 'white', fontWeight: 'bold'}}>{item3.saida}</p>
-                                                          <p style={{color: 'white', fontWeight: 'bold'}}>{contadorsaida > 0 ? 'Saida as 12Hrs' : ''}</p>
+                                                          <p style={{ color: 'white', fontWeight: 'bold' }}>{item3.vago ? `${item3.hospede.slice(0, 10)}...` : "Liberado"}</p>
+                                                          <p style={{ color: 'white', fontWeight: 'bold' }}>{item3.entrada}</p>
+                                                          <p style={{ color: 'white', fontWeight: 'bold' }}>{item3.saida}</p>
+                                                          <p style={{ color: 'white', fontWeight: 'bold' }}>{contadorsaida > 0 ? 'Saida as 12Hrs' : ''}</p>
                                                         </div>}
 
                                                     </div>
@@ -555,8 +597,10 @@ export default function Checkin() {
                                                       <div
                                                         className={`${objreserva.cama === item3.numeroCama ? "backgroundactive2" : ""
                                                           } circulocama d-flex flex-column`}
-                                                        style={{ position: "absolute", fontWeight: "700",width: '80px',
-                                                        height: '75px', }}
+                                                        style={{
+                                                          position: "absolute", fontWeight: "700", width: '80px',
+                                                          height: '75px',
+                                                        }}
                                                         onClick={() => { registrarQuarto(item3.numeroCama), setNumerocama(item3.numeroCama), setArrdatas(item2) }}
                                                       >
                                                         {item3.numeroCama}
@@ -615,9 +659,11 @@ export default function Checkin() {
                                                       <div
                                                         className={`${objreserva.cama === item3.numeroCama ? "backgroundactive2" : ""
                                                           } circulocama d-flex flex-column`}
-                                                        style={{ position: "absolute", fontWeight: "700",
-                                                        width: '80px',
-                                                        height: '75px', }}
+                                                        style={{
+                                                          position: "absolute", fontWeight: "700",
+                                                          width: '80px',
+                                                          height: '75px',
+                                                        }}
                                                         onClick={() => { registrarQuarto(item3.numeroCama), setNumerocama(item3.numeroCama), setArrdatas(item2) }}
                                                       >
                                                         {item3.numeroCama}

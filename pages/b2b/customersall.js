@@ -83,7 +83,7 @@ export default function Hospede() {
                                       <td>{item.entrada}</td>
                                       <td>{item.saidamanha}</td>
                                       <td><div className={`${item.ativado === '1' ? 'styleativo' : 'styleinativo'}`}>{item.ativado === '1' ? 'Ativo' : 'Inativo'}</div></td>
-                                      <td><div className={`${item.pagamentoconcluido === '1' ? 'styleativo' : 'styleinativo'}`}>{item.pagamentoconcluido === '1' ? 'Concluido' : 'Débito'}</div></td>
+                                      <td><div className={`${item.pagamentoconcluido === '1' ? 'styleativo' : 'styleinativo'}`}>{item.pagamentoconcluido === '1' ? 'Pago' : 'Débito'}</div></td>
                                       <td className="text-right">
                                         <div className="btn-group">
                                           <a

@@ -12,6 +12,8 @@ import { MdOutlineArrowDropDown } from "react-icons/md";
 import { useState, useEffect, useRef } from "react";
 import Calendario from '../../components/b2b_components/Calendario'
 
+import CurrencyInput from 'react-currency-input-field'
+import formatCpf from '@brazilian-utils/format-cpf';
 
 import useSwr, { mutate } from "swr";
 const fetcher = (url) => fetch(url).then((res) => res.json());

@@ -7,47 +7,73 @@ import Menu from "../../components/b2b_components/Menu";
 import Footer from "../../components/b2b_components/Footer";
 import useSwr, { mutate } from "swr";
 import router from 'next/router'
-
+import { toast } from "react-toastify";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function Hospedecadastro() {
+  const { data: hospedes } = useSwr(`/api/hospedes/getAllHospedes`, fetcher);
   const [Name, setName] = useState("");
   const [rg, setRg] = useState("");
   const [cpf, setCpf] = useState("");
-  const [passaporte, setPassaporte] = useState("");
+  const [passaporte, setPassaporte] = useState("vazio");
   const [datanascimento, setDatanascimento] = useState("")
   const [telefone, setTelefone] = useState("")
   const [observacoes, setObservações] = useState("")
   const [genero, setGenero] = useState("");
 
-  const atthospoede = async () => {
-    try {
-      console.log('Requisição concluída com sucesso!');
-      router.push("/b2b/hospedesall");
-      await axios.put(`/api/hospedes/insertHospedes`, {
-        nome: Name,
-        rg: rg,
-        cpf: cpf,
-        passaporte: passaporte,
-        datanascimento: datanascimento,
-        telefone: telefone,
-        genero: genero,
-        observacoes: observacoes
-      });
-    } catch (error) {
-      console.error('Ocorreu um erro durante a requisição:', error);
-    }
+  const atthospoede = () => {
+    let contador = 0;
+    let errorOccurred = false;
+    
+    hospedes?.map((item, index) => {
+      if(Name === '' || cpf === '' || telefone === ''){
+        contador = contador + 1
+        if (!errorOccurred) {
+          errorOccurred = true;
+          toast.error('gentileza preencha os campos!')
+        }
+      } else if (item.nome === Name || item.rg === rg || item.cpf === cpf || item.passaporte === passaporte) {
+        contador = contador + 1
+        if (!errorOccurred) {
+          errorOccurred = true;
+          toast.error('Úsuario ja cadastrado')
+        }
+      } else if (contador === 0 && errorOccurred === false) {
+        if (!errorOccurred) {
+          errorOccurred = true;
+          toast.success('Úsuario cadastrado!')
+          dispararbanco()
+        }
+      }
+    })
+  };
+  
+
+  const dispararbanco = async () => {
+    console.log('Requisição concluída com sucesso!');
+    router.push("/b2b/hospedesall");
+    await axios.put(`/api/hospedes/insertHospedes`, {
+      nome: Name,
+      rg: rg,
+      cpf: cpf,
+      passaporte: passaporte,
+      datanascimento: datanascimento,
+      telefone: telefone,
+      genero: genero,
+      observacoes: observacoes
+    });
+  
   }
   
   return (
     <div style={{ backgroundColor: '#f3f3f3' }}>
       <div style={{ display: 'flex' }}>
-        <Menu />
+        <Menu  parametro={'4'}/>
         <div className="ec-page-wrapper">
           <div className="ec-content-wrapper">
             <div className="content">
               <div className="breadcrumb-wrapper d-flex align-items-center justify-content-between">
-                <h1>Hospedes</h1>
+                <h1>Novo Hospedes</h1>
                 <p className="breadcrumbs">
                   <span>
                     <Link href="/b2b">Dashboard</Link>
@@ -63,7 +89,7 @@ export default function Hospedecadastro() {
                   <div className="card card-default">
                     <div className="card-body">
                       <div>
-                          <form className="row">
+                        <form className="row">
                           <div className="col-md-6 mt-3">
                             <label htmlFor="first-name" className="form-label">
                               Nome
@@ -167,7 +193,7 @@ export default function Hospedecadastro() {
                           </div>
 
                         </form>
-                        
+
                       </div>
                     </div>
                   </div>

@@ -21562,7 +21562,7 @@ div.copied {
 .sidebar .sidebar-inner > li.active > a {
   position: relative;
   z-index: 10;
-  color: #ffffff;
+  color: #3675D3;
 }
 .sidebar .sidebar-inner > li.active > a:before {
   opacity: 1;

@@ -18,14 +18,14 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 import CrooperJs from '../../components/b2b_components/cropperbanner.js';
 export default function EditProduct() {
   const { data: hotel } = useSwr(`/api/hoteis/getAllHotel`, fetcher);
-  const [imageSrc, setImageSrc] = useState(null);
-  const [imagemDelete, setImagemDelete] = useState([]);
   const [imageToUpload, setImageToUpload] = useState([]);
   const [downloadURL, setDownloadURL] = useState('');
   const [progressUpload, setProgressUpload] = useState(0);
   const [productName, setProductName] = useState("");
   const [fullProductDescription, setFullProductDescription] = useState("");
   const [active, setActive] = useState("");
+  const [imageSrc, setImageSrc] = useState(null);
+  const [imagemDelete, setImagemDelete] = useState([]);
   const [file, setFile] = useState([]);
   const imageInput = useRef();
   const miniImagePreview = useRef();
@@ -206,21 +206,21 @@ export default function EditProduct() {
   return (
     <div style={{ backgroundColor: '#f3f3f3' }}>
       <div style={{ display: 'flex' }}>
-        <Menu />
+        <Menu  parametro={'11'}/>
         <div className="ec-page-wrapper">
           <div className="ec-content-wrapper">
             <div className="content">
               <div className="breadcrumb-wrapper d-flex align-items-center justify-content-between">
                 <div>
-                  <h1><BsPencilFill /> Hostel</h1>
+                  <h1>Editar Hostel</h1>
                   <p className="breadcrumbs">
                     <span>
-                      <Link href="/b2b">Dashboard</Link>
+                      <Link href="/b2b/hoteis">Hostels</Link>
                     </span>
                     <span>
                       <i className="mdi mdi-chevron-right"></i>
                     </span>
-                    <BsPencilFill /> Hostel
+                    Editar Hostel
                   </p>
                 </div>
               </div>
@@ -399,7 +399,7 @@ export default function EditProduct() {
                                   className="btn btn-primary"
                                   name="submit"
                                 >
-                                  <BsPencilFill /> Hostel
+                                  Editar Hostel
                                 </button>
                               </div>
                             </form>

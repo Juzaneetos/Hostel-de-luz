@@ -26,12 +26,12 @@ export default function Hoteis() {
   return (
     <div style={{ backgroundColor: '#f3f3f3' }}>
       <div style={{ display: 'flex' }}>
-        <Menu />
+        <Menu  parametro={'11'}/>
         <div className="ec-page-wrapper">
           <div className="ec-content-wrapper">
             <div className="content">
               <div className="breadcrumb-wrapper d-flex align-items-center justify-content-between">
-                <h1>hoteis</h1>
+                <h1>Hostels</h1>
                 <p className="breadcrumbs">
                   <div className="btn-group">
                     <Link
@@ -39,7 +39,7 @@ export default function Hoteis() {
                       title="Edit Detail"
                       className="btn btn-primary mr-4"
                     >
-                      Adicionar Quarto
+                      Adicionar Hostel
                     </Link>
                   </div>
                   <span>
@@ -48,7 +48,7 @@ export default function Hoteis() {
                   <span>
                     <i className="mdi mdi-chevron-right"></i>
                   </span>
-                  hoteis
+                  Hostels
                 </p>
               </div>
               <div className="row">

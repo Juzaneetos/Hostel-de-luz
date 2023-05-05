@@ -12,6 +12,7 @@ export default async (req, res) => {
         titulo: req.body.titulo,
         camas: req.body.camas,
         arrCamas: req.body.arrCamas,
+        imagem: req.body.imagem,
         hotel: req.body.hotel,
         genero: req.body.genero,
         ativado: req.body.ativado,

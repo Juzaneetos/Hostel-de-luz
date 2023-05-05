@@ -43,7 +43,7 @@ export default function AddProduct() {
     return (
         <div style={{ backgroundColor: '#f3f3f3' }}>
             <div style={{ display: 'flex' }}>
-                <Menu />
+                <Menu  parametro={'14'}/>
                 <div className="ec-page-wrapper">
                     <div className="ec-content-wrapper">
                         <div className="content">

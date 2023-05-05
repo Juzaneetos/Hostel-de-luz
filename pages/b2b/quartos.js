@@ -45,7 +45,7 @@ export default function Quartos() {
   return (
     <div style={{ backgroundColor: '#f3f3f3' }}>
       <div style={{ display: 'flex' }}>
-        <Menu />
+        <Menu  parametro={'10'}/>
         <div className="ec-page-wrapper">
           <div className="ec-content-wrapper">
             <div className="content">
@@ -93,6 +93,7 @@ export default function Quartos() {
                                 <th>Titulo</th>
                                 <th>Genero</th>
                                 <th>Camas</th>
+                                <th>Imagem</th>
                                 <th></th>
                               </tr>
                             </thead>
@@ -106,6 +107,7 @@ export default function Quartos() {
                                     <td>{item.titulo}</td>
                                     <td>{item.genero}</td>
                                     <td>{item.camas}</td>
+                                    <td  style={{width: '200px', height: '50px'}}><Image width={1000} height={1000} style={{objectFit: 'cover'}} src={item.imagem[0].url}/></td>
                                     <td className="text-right">
                                       <div className="btn-group">
                                         <Link

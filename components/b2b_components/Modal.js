@@ -5,6 +5,8 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 import Image from 'next/image'
 import Calendario from '../../components/b2b_components/Calendario'
 import axios from "axios";
+import CurrencyInput from 'react-currency-input-field'
+import formatCpf from '@brazilian-utils/format-cpf';
 export default function Modal({ customers, id_ }) {
   const { data: hoteis } = useSwr(`/api/hoteis/getAllHotel`, fetcher);
   const { data: quartos } = useSwr(`/api/quartos/getAllQuarto`, fetcher);
@@ -446,7 +448,6 @@ export default function Modal({ customers, id_ }) {
     }
 
   }
-  console.log(quartos)
 
   return (
     <div className="modal fade" id="edit_modal" tabIndex="-1" role="dialog">
@@ -505,7 +506,7 @@ export default function Modal({ customers, id_ }) {
                             <input
                               type="text"
                               className="form-control"
-                              value={cpf}
+                              value={formatCpf(cpf)}
                               id="phone-1"
                               onChange={(e) => setCpf(e.target.value)}
                             />
@@ -572,25 +573,29 @@ export default function Modal({ customers, id_ }) {
                             <label htmlFor="phone-2" className="form-label">
                               Valor da Diaria
                             </label>
-                            <input
-                              type="number"
-                              className="form-control"
-                              value={valordiaria}
-                              id="phone-2"
-                              onChange={(e) => setValordiaria(e.target.value)}
+                            <CurrencyInput
+                              id="input-example"
+                              name="input-name"
+                              className="form-control slug-title"
+                              placeholder="Please enter a number"
+                              value={parseFloat(valordiaria).toLocaleString('pt-br', {minimumFractionDigits: 2})}
+                              decimalsLimit={2}
+                              onValueChange={(value, name) => setValordiaria(value)}
                             />
                           </div>
                           <div className="col-md-6 space-t-15 mt-3">
                             <label htmlFor="phone-2" className="form-label">
                               Valor Pago
                             </label>
-                            <input
-                              type="number"
-                              className="form-control"
-                              value={valorpago}
-                              onChange={(e) => setValorpago(e.target.value)}
-                              id="phone-2"
-                            />
+                            <CurrencyInput
+                              id="input-example"
+                              name="input-name"
+                              className="form-control slug-title"
+                              placeholder="Please enter a number"
+                              value={parseFloat(valorpago).toLocaleString('pt-br', {minimumFractionDigits: 2})}
+                              decimalsLimit={2}
+                              onValueChange={(value, name) => setValorpago(value)}
+                            />;
                           </div>
                           <div className="col-md-12">
                             <label className="form-label">Forma de Pagamento</label>
@@ -622,19 +627,18 @@ export default function Modal({ customers, id_ }) {
                             <input
                               type="date"
                               className="form-control"
-                              value={saida}
+                              value={saidamanha}
                               id="phone-2"
-                              onChange={(e) => setSaida(e.target.value)}
+                              onChange={(e) => (setSaida(e.target.value), setSaidamanha(e.target.value))}
                             />
                           </div>
 
 
                           <h3 className="text-center mb-2 mt-4"> Escolha o Hotel </h3>
-                          <div className="col-md-12 d-flex flex-wrap">
+                          <div className="col-md-12 d-flex flex-wrap justify-content-around">
                             {hoteis?.map((item, index) => {
                               return (
-                                <div key={index} className={`col-md-6`} style={{ position: 'relative', height: '150px', overflow: 'hidden' }}>
-                                  <Image width={1000} height={1000} className='pl-3 pr-3' style={{ opacity: '0.5' }} src={item.imagem[0].url} />
+                                <div key={index} className={`col-md-5 mb-3`} style={{ position: 'relative', height: '150px', overflow: 'hidden', background: `url(${item.imagem[0].url})`}}>
                                   <div className={`circulohotel d-flex flex-column ${hotel === item._id ? 'backgroundactive' : ''}`} style={{ position: 'absolute', fontWeight: '700' }} onClick={() => alert('não é possivel trocar de Hostel!')}>
                                     {item.titulo}
 

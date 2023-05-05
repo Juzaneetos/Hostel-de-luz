@@ -19,12 +19,12 @@ export default function Hospede() {
   return (
     <div style={{ backgroundColor: '#f3f3f3' }}>
       <div style={{ display: 'flex' }}>
-        <Menu />
+        <Menu  parametro={'3'}/>
         <div className="ec-page-wrapper">
           <div className="ec-content-wrapper">
             <div className="content">
               <div className="breadcrumb-wrapper d-flex align-items-center justify-content-between">
-                <h1>Hospedes Ativos</h1>
+                <h1>Hospedes</h1>
                 <p className="breadcrumbs">
                   <span>
                     <Link href="/b2b">Dashboard</Link>
@@ -82,7 +82,7 @@ export default function Hospede() {
                                       <td>{item.entrada}</td>
                                       <td>{item.saidamanha}</td>
                                       <td><div className={`${item.ativado === '1' ? 'styleativo' : 'styleinativo'}`}>{item.ativado === '1' ? 'Ativo' : 'Inativo'}</div></td>
-                                      <td><div className={`${item.pagamentoconcluido === '1' ? 'styleativo' : 'styleinativo'}`}>{item.pagamentoconcluido === '1' ? 'Concluido' : 'Débito'}</div></td>
+                                      <td><div className={`${item.pagamentoconcluido === '1' ? 'styleativo' : 'styleinativo'}`}>{item.pagamentoconcluido === '1' ? 'Pago' : 'Débito'}</div></td>
                                       <td className="text-right">
                                         <div className="btn-group">
                                           <a

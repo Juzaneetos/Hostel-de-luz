@@ -8,10 +8,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { FaEdit, FaCheck, FaTrash } from "react-icons/fa";
 import { useState, useEffect, useRef } from "react";
-
+import CrooperJs from '../../components/b2b_components/cropperbanner.js';
 import { ref, uploadBytesResumable, getDownloadURL, getStorage, deleteObject } from 'firebase/storage';
 import { storage } from '../../firebaseConfig.ts';
-
+import router from 'next/router';
 import useSwr, { mutate } from "swr";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -20,27 +20,11 @@ import Menu from "../../components/b2b_components/Menu";
 export default function AddProduct() {
   const { data: hoteis } = useSwr(`/api/hoteis/getAllHotel`, fetcher);
 
-  const [productName, setProductName] = useState("");
 
   const [hotel, setHotel] = useState("");
   const [genero, setGenero] = useState("");
   const [qtdcamas, setQtdcamas] = useState(0);
   const [arrqtdcamas, setQtdarrcamas] = useState([]);
-  const [active, setActive] = useState(1);
-  const onSubmit = async (e) => {
-    const date = new Date();
-    let arrayquartos = [];
-    {[...Array(parseFloat(qtdcamas))]?.map((item, index) => {
-      arrayquartos.push([{numeroCama: index + 1, limpeza: date, vago: false, hospede: '', entrada: '', saida: '', base: true, checkinID: ''}]);
-
-      if(parseFloat(qtdcamas) === index + 1){
-        dispararbanco(arrayquartos)
-        Router.push("/b2b/quartos");
-      }
-    })}
-
-   
-  };
 
   const dispararbanco = async (arrayquartos) => {
     let data = await axios.post(`/api/quartos/insertQuarto`, {
@@ -54,10 +38,139 @@ export default function AddProduct() {
     
   }
 
+  const [imageSrc, setImageSrc] = useState(null);
+  const [downloadURL, setDownloadURL] = useState('');
+  const [progressUpload, setProgressUpload] = useState(0);
+  const [productName, setProductName] = useState("");
+  const [fullProductDescription, setDescription] = useState("");
+  const [active, setActive] = useState(1);
+  const [file, setFile] = useState([]);
+  const imageInput = useRef();
+  const miniImagePreview = useRef();
+
+
+  const deleteImage = (e, imagem) => {
+    e.preventDefault();
+
+    file.forEach(async item => {
+      if (item.image === imagem) {
+        setFile(
+          file.filter(a =>
+            a.image !== imagem
+          ));
+
+      }
+    })
+  };
+
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    let contador = 0;
+    let imageArr = [];
+    let contadorToast = 0;
+
+    const date = new Date();
+    let arrayquartos = [];
+    {[...Array(parseFloat(qtdcamas))]?.map((item, index) => {
+      arrayquartos.push([{numeroCama: index + 1, limpeza: date, vago: false, hospede: '', entrada: '', saida: '', base: true, checkinID: ''}]);
+    })}
+
+    file.forEach(async item => {
+      if (item.image) {
+        const name = item.path
+        const storageRef = ref(storage, `image/${name}`)
+        const uploadTask = uploadBytesResumable(storageRef, item.image)
+
+        uploadTask.on(
+          'state_changed',
+          (snapshot) => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+
+            setProgressUpload(progress) // to show progress upload
+
+            switch (snapshot.state) {
+              case 'paused':
+                console.log('Upload is paused')
+                break
+              case 'running':
+                console.log('Upload is running')
+                break
+            }
+          },
+          (error) => {
+            alert(error.message)
+          },
+
+          async () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+              //url is download url of file
+              setDownloadURL((current) => [
+                ...current,
+                {
+                  url: url,
+                  path: name,
+                },
+              ]);
+              const obj = [{ url: url, path: name }];
+              imageArr = [...imageArr, ...obj];
+              contador++;
+              console.log(file.length, contador)
+
+              if (file.length === contador) {
+                setTimeout(() => {
+                  contador = 0;
+                  senGalery(imageArr, arrayquartos)
+                  router.push("/b2b/quartos");
+                }, 2000)
+              }
+            })
+          },
+        )
+      } else {
+        alert('File not found')
+      }
+
+      if (contadorToast === 0) {
+        contadorToast++
+        toast('Aguarde banner sendo adicionada!', {
+          position: "top-right",
+        });
+      }
+    })
+  };
+
+  const senGalery = async (Arr, arrayquartos) => {
+
+    let data = await axios.post(`/api/quartos/insertQuarto`, {
+      titulo: productName,
+      camas: qtdcamas,
+      arrCamas: arrayquartos,
+      imagem: Arr,
+      hotel: hotel,
+      genero: genero,
+      ativado: active,
+    });
+    router.push("/b2b/quartos");
+
+  }
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = () => {
+        setImageSrc(reader.result);
+    };
+
+    reader.readAsDataURL(file);
+};
+
   return (
     <div style={{ backgroundColor: '#f3f3f3' }}>
       <div style={{ display: 'flex' }}>
-        <Menu />
+        <Menu  parametro={'10'}/>
         <div className="ec-page-wrapper">
           <div className="ec-content-wrapper">
             <div className="content">
@@ -66,7 +179,7 @@ export default function AddProduct() {
                   <h1>Adicionar Quarto</h1>
                   <p className="breadcrumbs">
                     <span>
-                      <Link href="/b2b">Dashboard</Link>
+                      <Link href="/b2b/quartos">Quartos</Link>
                     </span>
                     <span>
                       <i className="mdi mdi-chevron-right"></i>
@@ -139,6 +252,70 @@ export default function AddProduct() {
                                 </select>
                               </div>
 
+                              <div style={{width: '100%', height: '100%', border: '5px solid #99999987'}}>
+                              <CrooperJs fileall={file} setFile={setFile} handleFileChange={handleFileChange} imageSrc={imageSrc} setImageSrc={setImageSrc}/>
+                              </div>
+
+                              <div className="col-lg-12">
+                                <div className="ec-vendor-img-upload">
+                                  <div className="ec-vendor-main-img">
+                                    <div className="avatar-upload">
+
+                                      {/* <div className="d-flex flex-column align-items-center mb-5">
+                                        <h1>Selecione ou Arraste suas imagens</h1>
+                                        <FileUploader
+                                          multiple={true}
+                                          handleChange={handleChange}
+                                          name="file"
+                                          types={fileTypes}
+                                        />
+                                      </div> */}
+
+                                      <div className="thumb-upload-set colo-md-12 mb-5">
+                                        {file !== 0 &&
+                                          file?.map((item, index) => {
+                                            const blob = new Blob([item.image], { type: 'image/png' })
+                                            const img = URL.createObjectURL(blob);
+
+                                            return (
+                                              <div
+                                                key={index}
+                                                className="thumb-upload"
+                                              >
+                                                <div className="thumb-edit">
+                                                  <button
+                                                   type='button'
+                                                    onClick={(e) => deleteImage(e, item.image)}
+                                                    className="save-image-button btn p-2"
+                                                  >
+                                                    <FaTrash
+                                                      size={20}
+                                                      color={"#d93b3b"}
+                                                      className="ec-image-upload"
+                                                    />
+                                                  </button>
+                                                </div>
+                                                <div className="thumb-preview ec-preview">
+                                                  <div className="image-thumb-preview">
+                                                    <Image
+                                                      className="image-thumb-preview ec-image-preview"
+                                                      src={img}
+                                                      alt="edit"
+                                                      width={150}
+                                                      height={150}
+                                                      ref={miniImagePreview}
+                                                    />
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            );
+                                          })}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
                               <div className="d-flex mb-3">
                                 <div className="row align-items-center">
                                   <label className="form-label">Ativado</label>
@@ -166,8 +343,8 @@ export default function AddProduct() {
                               </div>
 
                               <div className="col-md-12">
-                                <div onClick={() => onSubmit()} className="btn btn-primary">
-                                  Adicionar Produto
+                                <div onClick={(e) => onSubmit(e)} className="btn btn-primary">
+                                  Adicionar Quarto
                                 </div>
                               </div>
                             </form>

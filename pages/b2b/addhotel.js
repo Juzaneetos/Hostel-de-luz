@@ -143,7 +143,7 @@ export default function AddBanners() {
   return (
     <div style={{ backgroundColor: '#f3f3f3' }}>
       <div style={{ display: 'flex' }}>
-        <Menu />
+        <Menu  parametro={'11'}/>
         <div className="ec-page-wrapper">
           <div className="ec-content-wrapper">
             <div className="content">
@@ -152,7 +152,7 @@ export default function AddBanners() {
                   <h1>Adicionar Hostel</h1>
                   <p className="breadcrumbs">
                     <span>
-                      <Link href="/b2b">Dashboard</Link>
+                      <Link href="/b2b/hoteis">Hostels</Link>
                     </span>
                     <span>
                       <i className="mdi mdi-chevron-right"></i>

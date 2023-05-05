@@ -38,13 +38,13 @@ import {
 // import '../assets/js/custom'
 // import '../../assets/images';
 
-export default function Menu() {
+export default function Menu({parametro}) {
   const [isMenuLinkActived, setIsMenuLinkActived] = useState("active");
   const [ordersMenu, setOrdersMenu] = useState(false);
   const [productsMenu, setProductsMenu] = useState(false);
   const [categoryMenu, setCategoryMenu] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
-
+  console.log(parametro)
   let level = cookies.user_level;
 
   function expandOrdersMenu() {
@@ -85,7 +85,7 @@ export default function Menu() {
         <div id="sidebar" className="sidebar ec-sidebar-footer p-0">
 
           <div className="ec-brand">
-            <Link href="/b2b/checkIn" style={{ margin: '0 auto' }}>
+            <Link href="/b2b/" style={{ margin: '0 auto' }}>
               <Image style={{ maxWidth: '200px', padding: '15px' }} width={500} src={require('../../assets/img/hostellogo.png')} alt="Logo Hotel de Luz" />
             </Link>
           </div>
@@ -94,7 +94,7 @@ export default function Menu() {
 
             <ul className="nav sidebar-inner" id="sidebar-menu">
 
-              <li>
+              <li className={parametro === '1' ? `active`: ``}>
                 <Link
                   className="sidenav-item-link"
                   href="/b2b/checkIn"
@@ -104,7 +104,7 @@ export default function Menu() {
                 </Link>
               </li>
 
-              <li>
+              <li className={parametro === '2' ? `active`: ``}>
                 <Link
                   className="sidenav-item-link"
                   href="/b2b/customers"
@@ -115,7 +115,7 @@ export default function Menu() {
               </li>
 
 
-              <li>
+              <li className={parametro === '3' ? `active`: ``}>
                 <Link
                   className="sidenav-item-link"
                   href="/b2b/customersallactive"
@@ -127,7 +127,7 @@ export default function Menu() {
 
               <hr />
 
-              <li>
+              <li className={parametro === '4' ? `active`: ``}>
                 <Link
                   className="sidenav-item-link"
                   href="/b2b/customerscadastro"
@@ -137,7 +137,7 @@ export default function Menu() {
                 </Link>
               </li>
 
-              <li>
+              <li className={parametro === '5' ? `active`: ``}>
                 <Link
                   className="sidenav-item-link"
                   href="/b2b/hospedesall"
@@ -149,19 +149,19 @@ export default function Menu() {
 
               <hr />
 
-              <li>
+              <li className={parametro === '6' ? `active`: ``}>
                 <Link
                   className="sidenav-item-link"
                   href="/b2b/Trocadecama"
                 >
                   <GiBroom size={24} />
-                  <span className="nav-text">Troca de Cama</span>
+                  <span className="nav-text">Troca de Roupa Cama</span>
                 </Link>
               </li>
 
               <hr />
 
-              <li>
+              <li className={parametro === '7' ? `active`: ``}>
                 <Link
                   className="sidenav-item-link"
                   href="/b2b/financeiro"
@@ -173,7 +173,7 @@ export default function Menu() {
 
               <hr />
 
-              <li>
+              <li className={parametro === '8' ? `active`: ``}>
                 <Link
                   className="sidenav-item-link"
                   href="/b2b/despesas"
@@ -183,7 +183,7 @@ export default function Menu() {
                 </Link>
               </li>
 
-              <li>
+              <li className={parametro === '9' ? `active`: ``}>
                 <Link
                   className="sidenav-item-link"
                   href="/b2b/financeirodespesas"
@@ -195,7 +195,7 @@ export default function Menu() {
 
               <hr />
 
-              <li>
+              <li className={parametro === '10' ? `active`: ``}>
                 <Link
                   className="sidenav-item-link"
                   href="/b2b/quartos"
@@ -205,7 +205,7 @@ export default function Menu() {
                 </Link>
               </li>
 
-              <li>
+              <li className={parametro === '11' ? `active`: ``}>
                 <Link
                   className="sidenav-item-link"
                   href="/b2b/hoteis"
@@ -217,7 +217,7 @@ export default function Menu() {
 
               <hr />
 
-              <li>
+              <li className={parametro === '12' ? `active`: ``}>
                 <Link
                   className="sidenav-item-link"
                   href="/b2b/faq"
@@ -227,7 +227,7 @@ export default function Menu() {
                 </Link>
               </li>
 
-              <li>
+              <li className={parametro === '13' ? `active`: ``}>
                 <Link
                   className="sidenav-item-link"
                   href="/b2b/policy_privacy"
@@ -237,7 +237,7 @@ export default function Menu() {
                 </Link>
               </li>
 
-              <li>
+              <li className={parametro === '14' ? `active`: ``}>
                 <Link
                   className="sidenav-item-link"
                   href="/b2b/terms_responsibility"
@@ -252,7 +252,7 @@ export default function Menu() {
               {level < 30 ?
                 <></>
                 :
-                <li>
+                <li className={parametro === '15' ? `active`: ``}>
                   <Link
                     className="sidenav-item-link"
                     href="/b2b/access"
