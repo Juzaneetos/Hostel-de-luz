@@ -41,6 +41,7 @@ export default function Editquarto({ id }) {
     idmongo = Router.query.id;
     quarto?.map((item, index) => {
       if (item._id === idmongo) {
+        console.log(item)
         setObjid(item._id)
         setProductName(item.titulo)
         setHotel(item.hotel)
@@ -74,116 +75,111 @@ export default function Editquarto({ id }) {
       })
     }
 
-    if (arrqtdcamas.length <= parseFloat(qtdcamas)) {
-      [...Array(parseFloat(qtdcamas))]?.map((item, index) => {
-        if (arrqtdcamas.length === 0) {
+    [...Array(parseFloat(qtdcamas))]?.map((item, index) => {
+      if (arrqtdcamas.length === 0) {
+        arrnovo.push([{ numeroCama: index + 1, entrada: date, vago: false, hospede: '', base: true, checkinID: '', limpeza: '', saida: '' }])
+      } else {
+        if (arrqtdcamas.length < index + 1) {
+          contador++
           arrnovo.push([{ numeroCama: index + 1, entrada: date, vago: false, hospede: '', base: true, checkinID: '', limpeza: '', saida: '' }])
         } else {
-          if (arrqtdcamas.length < index + 1) {
-            contador++
-            arrnovo.push([{ numeroCama: index + 1, entrada: date, vago: false, hospede: '', base: true, checkinID: '', limpeza: '', saida: '' }])
-          } else {
-            contador++
-          }
-          if (parseFloat(qtdcamas) === index + 1) {
-            file.forEach(async item => {
-              if (item.blobs === true) {
-                if (item.image) {
-                  const name = item.path;
-                  const storageRef = ref(storage, `image/${name}`);
-                  const uploadTask = uploadBytesResumable(storageRef, item.image);
-                  uploadTask.on(
-                    'state_changed',
-                    (snapshot) => {
-                      const progress =
-                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                      setProgressUpload(progress) // to show progress upload
-                      switch (snapshot.state) {
-                        case 'paused':
-                          console.log('Upload is paused')
-                          break
-                        case 'running':
-                          console.log('Upload is running')
-                          break
-                      }
-                    },
-                    (error) => {
-                      alert(error.message)
-                    },
-                    () => {
-                      getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-                        //url is download url of file
-                        setDownloadURL((current) => [
-                          ...current,
-                          {
-                            url: url,
-                            path: name,
-                          },
-                        ]);
-        
-                        const obj = [{ url: url, path: name }];
-                        imageArr = [...imageArr, ...obj];
-                        contador++;
-        
-                        console.log(file.length, contador)
-        
-                        if (file.length === contador) {
-                          setTimeout(() => {
-                            contador = 0;
-                            dispararbanco(imageArr, arrnovo)
-                            Router.push("/b2b/hoteis");
-                          }, 2000)
-                        }
-                      })
-                    },
-                  )
-                } else {
-                  alert('File not found')
-                }
-        
-                if (contadorToast === 0) {
-                  contadorToast++
-                  toast('Aguarde Quarto sendo editado!', {
-                    position: "top-right",
-                  });
-                }
-              } else {
-                contador++
-                {
-                  if (contador === file.length) {
-                    contador = 0;
-        
-                    if (contadorToast === 0) {
-                      contadorToast++
-                      toast('Aguarde Banner sendo editado!', {
-                        position: "top-right",
-                      });
+          contador++
+        }
+        if (parseFloat(qtdcamas) === index + 1) {
+          file.forEach(async item => {
+            if (item.blobs === true) {
+              if (item.image) {
+                const name = item.path;
+                const storageRef = ref(storage, `image/${name}`);
+                const uploadTask = uploadBytesResumable(storageRef, item.image);
+                uploadTask.on(
+                  'state_changed',
+                  (snapshot) => {
+                    const progress =
+                      (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                    setProgressUpload(progress) // to show progress upload
+                    switch (snapshot.state) {
+                      case 'paused':
+                        console.log('Upload is paused')
+                        break
+                      case 'running':
+                        console.log('Upload is running')
+                        break
                     }
-        
-        
-                    contador = 0;
-                    let data = await axios.post(`/api/quartos/updateQuarto?id=${objid}`, {
-                      titulo: productName,
-                      camas: qtdcamas,
-                      arrCamas: arrqtdcamas,
-                      imagem: file,
-                      hotel: hotel,
-                      genero: genero,
-                      ativado: active,
+                  },
+                  (error) => {
+                    alert(error.message)
+                  },
+                  () => {
+                    getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                      //url is download url of file
+                      setDownloadURL((current) => [
+                        ...current,
+                        {
+                          url: url,
+                          path: name,
+                        },
+                      ]);
+
+                      const obj = [{ url: url, path: name }];
+                      imageArr = [...imageArr, ...obj];
+                      contador++;
+
+                      if (file.length > 0) {
+                        setTimeout(() => {
+                          contador = 0;
+                          dispararbanco(obj, arrnovo)
+                          Router.push("/b2b/quartos");
+                        }, 2000)
+                      }
+                    })
+                  },
+                )
+              } else {
+                alert('File not found')
+              }
+
+              if (contadorToast === 0) {
+                contadorToast++
+                toast('Aguarde Quarto sendo editado!', {
+                  position: "top-right",
+                });
+              }
+            } else {
+              contador++
+              {
+                if (contador === file.length) {
+                  contador = 0;
+
+                  if (contadorToast === 0) {
+                    contadorToast++
+                    toast('Aguarde Quarto sendo editado!', {
+                      position: "top-right",
                     });
-                    Router.push("/b2b/quartos");
-        
                   }
+
+
+                  contador = 0;
+                  let data = await axios.post(`/api/quartos/updateQuarto?id=${objid}`, {
+                    titulo: productName,
+                    camas: qtdcamas,
+                    arrCamas: arrqtdcamas,
+                    imagem: file,
+                    hotel: hotel,
+                    genero: genero,
+                    ativado: active,
+                  });
+                  mutate('/api/quartos/getAllQuarto');
+                  Router.push("/b2b/quartos");
+
                 }
               }
-            })
-          }
+            }
+          })
         }
-      })
-    } else {
-      dispararbanco(file, arrqtdcamas);
-      Router.push("/b2b/quartos");
-    }
+      }
+    })
+
   }
 
   const dispararbanco = async (imarr, arrayquartos) => {
@@ -197,7 +193,7 @@ export default function Editquarto({ id }) {
       genero: genero,
       ativado: active,
     });
-   
+    mutate('/api/quartos/getAllQuarto');
   }
 
   const removercama = (numerocama) => {
@@ -209,10 +205,10 @@ export default function Editquarto({ id }) {
           setQtdarrcamas(
             arrqtdcamas?.filter(a =>
               a[0].numeroCama !== numerocama
-              ));
-              console.log(arrqtdcamas.filter(a =>
-                a[0].numeroCama !== numerocama
-                ))
+            ));
+          console.log(arrqtdcamas.filter(a =>
+            a[0].numeroCama !== numerocama
+          ))
         } else {
           contador++
         }
@@ -263,7 +259,7 @@ export default function Editquarto({ id }) {
   return (
     <div style={{ backgroundColor: '#f3f3f3' }}>
       <div style={{ display: 'flex' }}>
-        <Menu  parametro={'10'}/>
+        <Menu parametro={'10'} />
         <div className="ec-page-wrapper">
           <div className="ec-content-wrapper">
             <div className="content">
@@ -376,7 +372,7 @@ export default function Editquarto({ id }) {
 
                                       <div className="thumb-upload-set colo-md-12">
                                         {quarto?.map((item, index) => {
-                                          console.log(item._id , idmongo)
+                                          console.log(item._id, idmongo)
                                           if (item._id === idmongo) {
                                             return (
                                               <div key={index}>
@@ -437,7 +433,7 @@ export default function Editquarto({ id }) {
                                 <div className="col-10 d-flex justify-content-center align-items-center" style={{ height: '200px', border: '2px solid #e3e3e3' }}>
                                   {arrqtdcamas?.map((item, index) => (
                                     item?.map((item3, index2) => {
-                                      if (item3.vago === true) { 
+                                      if (item3.vago === true) {
                                         return (
                                           <div key={index} style={{ position: 'relative' }}>
                                             <Image width={70} height={70} className='pl-3 pr-3' style={{ opacity: '0.5' }} src={require('../../assets/img/cama-de-solteiro.png')} />
@@ -448,9 +444,9 @@ export default function Editquarto({ id }) {
                                             </div>
                                           </div>
                                         )
-                                      } else if(item.length === 1) {
+                                      } else if (item.length === 1) {
                                         return (
-                                          <div key={index}  style={{ position: 'relative' }} onClick={() => removercama(item3.numeroCama)}>
+                                          <div key={index} style={{ position: 'relative' }} onClick={() => removercama(item3.numeroCama)}>
                                             <Image width={70} height={70} className='pl-3 pr-3' style={{ opacity: '0.5' }} src={require('../../assets/img/cama-de-solteiro.png')} />
                                             <div className="circulocama d-flex flex-column" style={{ position: 'absolute', fontWeight: '700' }}>
                                               {item3.numeroCama}

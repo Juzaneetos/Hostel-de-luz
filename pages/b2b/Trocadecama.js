@@ -2,6 +2,7 @@ import axios from "axios";
 import Image from 'next/image';
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { toast } from "react-toastify";
 import Modal from "../../components/b2b_components/Modal";
 import Menu from "../../components/b2b_components/Menu";
 import Footer from "../../components/b2b_components/Footer";
@@ -22,6 +23,7 @@ export default function Trocadecama() {
   let titulo_ = '';
   let camas = '';
   let arrCamas = [];
+  let imagem = [];
   let hotel_ = '';
   let genero_ = '';
   let ativado = '';
@@ -39,14 +41,10 @@ export default function Trocadecama() {
               const diff = Math.floor((dataAtual - dataLimpeza) / (1000 * 60 * 60 * 24)); // Calcula a diferença em dias
 
               if (diff >= 3) {
-                console.log(`Já se passaram ${diff} dias desde a limpeza em ${item3.limpeza}.`);
                 var produtosWpp = `${diff}%20dias%20desde%20a%20limpeza%20do%20%0aQuarto:%20${item.titulo}%20%0aCama:%20${item3.numeroCama}%20%0aHóspede:%20${item3.hospede}%20%0aÚltima%20limpeza%20em%20${item3.limpeza}.%20%20%0a%0a`;
                 var soma = wpptext + produtosWpp;
                 wpptext = soma;
                 // Faça o que precisa ser feito caso já se tenham passado três dias
-              } else {
-                console.log(`Faltam ${3 - diff} dias para se passarem três dias desde a limpeza em ${item3.limpeza}.`);
-                // Faça o que precisa ser feito caso ainda não se tenham passado três dias
               }
             }
           })
@@ -69,20 +67,17 @@ export default function Trocadecama() {
               const diff = Math.floor((dataAtual - dataLimpeza) / (1000 * 60 * 60 * 24)); // Calcula a diferença em dias
 
               if (diff >= 3) {
-                console.log(`Já se passaram ${diff} dias desde a limpeza em ${item3.limpeza}.`);
                 item3.limpeza = dataAtual.toISOString().slice(0, 10);
 
                 titulo_ = item.titulo;
                 camas = item.camas;
                 arrCamas = item.arrCamas;
+                imagem = item.imagem;
                 hotel_ = item.hotel;
                 genero_ = item.genero;
                 ativado = item.ativado;
                 disparaquartos(item._id)
                 // Faça o que precisa ser feito caso já se tenham passado três dias
-              } else {
-                console.log(`Faltam ${3 - diff} dias para se passarem três dias desde a limpeza em ${item3.limpeza}.`);
-                // Faça o que precisa ser feito caso ainda não se tenham passado três dias
               }
             }
           })
@@ -92,10 +87,12 @@ export default function Trocadecama() {
   }
 
   const disparaquartos = async (idquarto) => {
+    toast.success("Quartos atualizados para hoje!")
     const response1 = await axios.put(`/api/quartos/updateQuarto?id=${idquarto}`, {
       titulo: titulo_,
       camas: camas,
       arrCamas: arrCamas,
+      imagem: imagem,
       hotel: hotel_,
       genero: genero_,
       ativado: ativado,

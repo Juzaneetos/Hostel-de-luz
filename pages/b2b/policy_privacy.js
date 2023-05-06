@@ -35,7 +35,8 @@ export default function AddProduct() {
             active: active,
 
         });
-
+        toast.success('Política editada com sucesso!')
+        mutate('/api/policy/getAllPolicy');
         router.push("/b2b/policy_privacy");
 
     };

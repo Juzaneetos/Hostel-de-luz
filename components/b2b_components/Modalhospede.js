@@ -32,7 +32,8 @@ export default function Modal({ customers, id_ }) {
   }, [id_])
 
   const atthospoede = async () => {
-    const response1 = await axios.put(`/api/hospedes/updateHospedes?id=${id_}`, {
+    router.reload();
+   await axios.put(`/api/hospedes/updateHospedes?id=${id_}`, {
       nome: Name,
       rg: rg,
       cpf: cpf,
@@ -42,7 +43,7 @@ export default function Modal({ customers, id_ }) {
       genero: genero,
       observacoes: observacoes
     });
-    router.reload()
+    mutate(`/api/hospedes/getAllHospedes`);
   }
   return (
     <div className="modal fade" id="edit_modal" tabIndex="-1" role="dialog">
@@ -51,6 +52,21 @@ export default function Modal({ customers, id_ }) {
           <div className="modal-body">
             <div className="row">
               <div className="ec-vendor-block-img space-bottom-30">
+              <div className="d-flex justify-content-between">
+                  <div>
+                    <h5>Iniciar Check-in</h5>
+                  </div>
+                  <div>
+                      <div
+                        className="btn btn-sm btn-primary qty_close"
+                        style={{ width: '80px', background: 'red' }}
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      >
+                        Fechar
+                      </div>
+                  </div>
+                </div>
                 <div className="ec-vendor-upload-detail">
                   {customers?.map((item, index) => {
                     if (item._id === id_) {
@@ -138,7 +154,7 @@ export default function Modal({ customers, id_ }) {
                               <option value={''} selected></option>
                               <option value={'masculino'} selected>Masculino</option>
                               <option value={'feminino'}>Feminino</option>
-                              <option value={'unisex'}>Unisex</option>
+                              <option value={'outros'}>Outros</option>
 
                             </select>
                           </div>
@@ -157,7 +173,7 @@ export default function Modal({ customers, id_ }) {
                           <div className="col-md-6 space-t-15 mt-4 d-flex justify-content-center text-center">
                             <div
                               onClick={(e) => atthospoede()}
-                              className="btn btn-sm btn-primary qty_close"
+                              className="btn btn-sm btn-primary"
                               style={{ width: '250px' }}
                               data-bs-dismiss="modal"
                               aria-label="Close"
@@ -167,7 +183,7 @@ export default function Modal({ customers, id_ }) {
                           </div>
                           <div className="col-md-6 space-t-15 mt-4 d-flex justify-content-center text-center">
                             <div
-                              className="btn btn-sm btn-primary qty_close"
+                              className="btn btn-sm btn-primary"
                               style={{ width: '250px' }}
 
                             >
@@ -175,8 +191,8 @@ export default function Modal({ customers, id_ }) {
                                 aria-label="Close">
                               <Link
                                 href={`/b2b/checkInhospede?id=${id_}`}
-                                style={{ width: '250px' }}
-                                className="btn btn-sm btn-primary qty_close"
+                                style={{ width: '250px', background: 'limegreen' }}
+                                className="btn btn-sm btn-primary"
                               > Iniciar Check-in</Link>
                               </div>
 

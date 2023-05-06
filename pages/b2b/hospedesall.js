@@ -18,6 +18,7 @@ export default function Hospedeall() {
   const [newarr, setNewarr] = useState([]);
   var tamanho = hospedes?.length || [];
 
+
   useEffect(() => {
     setHospedesarr(hospedes);
   }, [hospedes])
@@ -49,8 +50,6 @@ export default function Hospedeall() {
     procurararr();
   }, [pesquisa]);
 
-  console.log(pesquisa);
-  console.log(newarr);
 
   return (
     <div style={{ backgroundColor: '#f3f3f3' }}>

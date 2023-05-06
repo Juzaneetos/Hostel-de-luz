@@ -35,7 +35,7 @@ export default function AddProduct() {
             active: active,
 
         });
-
+        toast.success("Termos editados com sucesso!")
         router.push("/b2b/terms_responsibility");
 
     };

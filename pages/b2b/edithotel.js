@@ -146,6 +146,7 @@ export default function EditProduct() {
               imagem: file,
               ativo: active,
             });
+            mutate('/api/hoteis/getAllHotel');
             Router.push("/b2b/hoteis");
 
           }
@@ -163,6 +164,7 @@ export default function EditProduct() {
       imagem: filteredArr,
       ativo: active,
     });
+    mutate('/api/hoteis/getAllHotel');
     Router.push("/b2b/hoteis");
 
   }

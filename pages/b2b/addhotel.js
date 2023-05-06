@@ -17,7 +17,7 @@ import CrooperJs from '../../components/b2b_components/cropperbanner.js';
 
 import Menu from "../../components/b2b_components/Menu";
 import Footer from "../../components/b2b_components/Footer";
-
+import useSwr, { mutate } from "swr";
 import Cropper from 'cropperjs';
 export default function AddBanners() {
   const [imageSrc, setImageSrc] = useState(null);
@@ -76,7 +76,7 @@ export default function AddBanners() {
             }
           },
           (error) => {
-            alert(error.message)
+            toast.error(error.message)
           },
 
           async () => {
@@ -105,12 +105,12 @@ export default function AddBanners() {
           },
         )
       } else {
-        alert('File not found')
+        toast.error('File not found')
       }
 
       if (contadorToast === 0) {
         contadorToast++
-        toast('Aguarde banner sendo adicionada!', {
+        toast('Aguarde hotel sendo adicionada!', {
           position: "top-right",
         });
       }
@@ -126,7 +126,7 @@ export default function AddBanners() {
       ativo: active,
     });
     router.push("/b2b/hoteis");
-
+    mutate('/api/hoteis/getAllHotel');
   }
 
   const handleFileChange = (event) => {

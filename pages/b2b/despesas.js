@@ -25,6 +25,7 @@ export default function Despesas({ }) {
 
   const deleteDespesas = async (id) => {
     let data = await axios.delete(`/api/despesas/deleteDespesas?id=${id}`);
+    toast.success("Despesa deletada com sucesso!")
     mutate(`/api/despesas/getAllDespesas`);
     router.push("/b2b/despesas");
   };

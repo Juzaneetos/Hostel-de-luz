@@ -35,7 +35,7 @@ export default function AddProduct() {
       genero: genero,
       ativado: active,
     });
-    
+    mutate('/api/quartos/getAllQuarto');
   }
 
   const [imageSrc, setImageSrc] = useState(null);
@@ -100,7 +100,7 @@ export default function AddProduct() {
             }
           },
           (error) => {
-            alert(error.message)
+            toast.error(error.message)
           },
 
           async () => {
@@ -129,12 +129,12 @@ export default function AddProduct() {
           },
         )
       } else {
-        alert('File not found')
+        toast.error('File not found')
       }
 
       if (contadorToast === 0) {
         contadorToast++
-        toast('Aguarde banner sendo adicionada!', {
+        toast('Aguarde quarto sendo adicionada!', {
           position: "top-right",
         });
       }
@@ -153,7 +153,7 @@ export default function AddProduct() {
       ativado: active,
     });
     router.push("/b2b/quartos");
-
+    mutate('/api/quartos/getAllQuarto');
   }
 
   const handleFileChange = (event) => {

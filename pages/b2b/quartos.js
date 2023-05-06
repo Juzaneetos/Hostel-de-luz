@@ -7,6 +7,7 @@ import Menu from "../../components/b2b_components/Menu";
 import Footer from "../../components/b2b_components/Footer";
 import useSwr, { mutate } from "swr";
 import { FaTrash } from "react-icons/fa";
+import { toast } from "react-toastify";
 import router from 'next/router'
 import { BsPencilFill } from "react-icons/bs";
 
@@ -31,7 +32,7 @@ export default function Quartos() {
           if (quartos.length === index + 1 && contador === 0) {
             deletecall(id)
           }else if ( contador > 0) {
-            alert('Pessoas aqui')
+            toast.error('A pessoas com reserva nesse quarto!')
           }
         }
       })
@@ -39,6 +40,7 @@ export default function Quartos() {
 
   const deletecall = async (id) => {
     let data = await axios.delete(`/api/quartos/deleteQuarto?id=${id}`);
+    toast.success('Quarto deletado!')
     mutate(`/api/quartos/getAllQuarto`);
     router.push("/b2b/quartos");
   }

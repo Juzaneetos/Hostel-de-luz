@@ -53,6 +53,7 @@ export default function Checkin() {
   let titulo_ = '';
   let camas = '';
   let arrCamas = [];
+  let imagem = [];
   let hotel_ = '';
   let genero_ = '';
   let ativado = '';
@@ -107,16 +108,19 @@ export default function Checkin() {
       pagamentoconcluido: pagamentoconcluido,
       checkinID: checkinID,
     });
+    mutate('/api/checkin/getAllCheckin');
   }
   const dispararquarto = async () => {
     const response1 = await axios.post(`/api/quartos/updateQuarto?id=${objreserva.quarto}`, {
       titulo: titulo_,
       camas: camas,
       arrCamas: arrCamas,
+      imagem: imagem,
       hotel: hotel_,
       genero: genero_,
       ativado: ativado,
     });
+    mutate('/api/quartos/getAllQuarto');
   }
   const dispararCadastro = async () => {
     const response2 = await axios.post(`/api/hospedes/insertHospedes`, {
@@ -129,6 +133,7 @@ export default function Checkin() {
       genero: genero,
       observacoes: observacoes
     });
+    mutate('/api/hospedes/getAllHospedes');
   }
 
   const dispararbanco = async () => {
@@ -138,7 +143,7 @@ export default function Checkin() {
     const quartoSaida = (JSON.stringify(dataEntradaNovaReserva) === JSON.stringify(dataSaidaNovaReserva));
     console.log(quartoSaida)
 
-    if (quartoSaida) return alert('datas não podem ser iguais');
+    if (quartoSaida) return toast.error('datas não podem ser iguais');
 
     quartos?.map((item, index) => {
       contador++
@@ -163,6 +168,7 @@ export default function Checkin() {
               titulo_ = item.titulo;
               camas = item.camas;
               arrCamas = item.arrCamas;
+              imagem = item.imagem;
               hotel_ = item.hotel;
               genero_ = item.genero;
               ativado = item.ativado;
@@ -174,6 +180,7 @@ export default function Checkin() {
 
     if (quartos.length === contador) {
       try {
+        toast.success('Check-in sendo realizado!')
 
         dispararcheckin()
 
@@ -307,7 +314,7 @@ export default function Checkin() {
                                     <option value={''} selected></option>
                                     <option value={'masculino'} >Masculino</option>
                                     <option value={'feminino'}>Feminino</option>
-                                    <option value={'unisex'}>Unisex</option>
+                                    <option value={'outros'}>Outros</option>
                                   </select>
                                   <MdOutlineArrowDropDown size={40} className="input-icon" />
                                 </div>
@@ -426,7 +433,7 @@ export default function Checkin() {
                                         return (
                                           <>
                                             <div key={index} className="col-md-3 m-2" style={{ position: 'relative', height: '150px', overflow: 'hidden' }}>
-                                              <div className={`circuloquarto d-flex flex-column ${idquarto === item._id ? 'backgroundactive2' : ''}`} style={{ position: 'absolute', fontWeight: '700' }} onClick={() => { setQuarto(item.arrCamas), setNomeQuarto(item.titulo), setIdquarto(item._id) }}>
+                                              <div className={`circuloquarto d-flex flex-column ${idquarto === item._id ? 'backgroundactive2' : ''}`} style={{ position: 'absolute', fontWeight: '700', backgroundImage: `url(${item.imagem[0].url})` }} onClick={() => { setQuarto(item.arrCamas), setNomeQuarto(item.titulo), setIdquarto(item._id) }}>
                                                 <div className="text-center" style={{ background: '#000000a1', padding: '12px', borderRadius: '5px' }}>
                                                   {item.titulo}
                                                   <div>{item.genero} </div>
@@ -539,7 +546,7 @@ export default function Checkin() {
                                                             height: '75px',
                                                             background: "rgb(200, 229, 255)",
                                                           }}
-                                                          onClick={() => { registrarQuarto(item3.numeroCama), setNumerocama(item3.numeroCama), alert('registrado'), setArrdatas(item2) }}
+                                                          onClick={() => { registrarQuarto(item3.numeroCama), setNumerocama(item3.numeroCama), toast.error('registrado'), setArrdatas(item2) }}
                                                         >
                                                           {item3.numeroCama}
                                                           <p>{item3.vago ? item3.hospede : "Liberado"}</p>
@@ -557,7 +564,7 @@ export default function Checkin() {
                                                             color: 'white',
                                                             background: "rgb(200, 229, 255)",
                                                           }}
-                                                          onClick={() => alert("Já reservado")}
+                                                          onClick={() => toast.error("Já reservado")}
                                                         >
                                                           {item3.numeroCama}
                                                           <p style={{ color: 'white', fontWeight: 'bold' }}>{item3.vago ? `${item3.hospede.slice(0, 10)}...` : "Liberado"}</p>
@@ -621,7 +628,7 @@ export default function Checkin() {
                                                           background: "rgb(200, 229, 255)",
                                                           color: 'white'
                                                         }}
-                                                        onClick={() => alert("Já reservado")}
+                                                        onClick={() => toast.error("Já reservado")}
                                                       >
                                                         {item3.numeroCama}
                                                         <p>{item3.vago ? item3.hospede.slice(0, 10) : "Liberado"}</p>

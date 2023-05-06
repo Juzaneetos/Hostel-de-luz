@@ -29,6 +29,7 @@ export default function Users({ }) {
       mutate(`/api/users/getAllUsers`);
     })
     .catch((err) => console.log(err));
+    mutate('/api/users/getAllUsers');
   };
 
   return (

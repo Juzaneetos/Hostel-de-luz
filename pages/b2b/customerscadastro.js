@@ -24,34 +24,42 @@ export default function Hospedecadastro() {
   const atthospoede = () => {
     let contador = 0;
     let errorOccurred = false;
-    
-    hospedes?.map((item, index) => {
-      if(Name === '' || cpf === '' || telefone === ''){
-        contador = contador + 1
-        if (!errorOccurred) {
-          errorOccurred = true;
-          toast.error('gentileza preencha os campos!')
-        }
-      } else if (item.nome === Name || item.rg === rg || item.cpf === cpf || item.passaporte === passaporte) {
-        contador = contador + 1
-        if (!errorOccurred) {
-          errorOccurred = true;
-          toast.error('Úsuario ja cadastrado')
-        }
-      } else if (contador === 0 && errorOccurred === false) {
-        if (!errorOccurred) {
-          errorOccurred = true;
-          toast.success('Úsuario cadastrado!')
-          dispararbanco()
-        }
+    console.log(hospedes.length)
+    if(hospedes.length === 0){
+      if (!errorOccurred) {
+        errorOccurred = true;
+        toast.success('Úsuario cadastrado!')
+        router.push("/b2b/hospedesall");
+        dispararbanco()
       }
-    })
+    }else{
+      hospedes?.map((item, index) => {
+        if(Name === '' || cpf === '' || telefone === ''){
+          contador = contador + 1
+          if (!errorOccurred) {
+            errorOccurred = true;
+            toast.error('gentileza preencha os campos!')
+          }
+        } else if (item.nome === Name || item.rg === rg || item.cpf === cpf || item.passaporte === passaporte) {
+          contador = contador + 1
+          if (!errorOccurred) {
+            errorOccurred = true;
+            toast.error('Úsuario ja cadastrado')
+          }
+        } else if (contador === 0 && errorOccurred === false) {
+          if (!errorOccurred) {
+            errorOccurred = true;
+            toast.success('Úsuario cadastrado!')
+            dispararbanco()
+          }
+        }
+      })
+    }
   };
   
 
   const dispararbanco = async () => {
     console.log('Requisição concluída com sucesso!');
-    router.push("/b2b/hospedesall");
     await axios.put(`/api/hospedes/insertHospedes`, {
       nome: Name,
       rg: rg,
@@ -62,7 +70,8 @@ export default function Hospedecadastro() {
       genero: genero,
       observacoes: observacoes
     });
-  
+    router.push("/b2b/hospedesall");
+    mutate('/api/hospedes/getAllHospedes');
   }
   
   return (
@@ -167,7 +176,7 @@ export default function Hospedecadastro() {
                               <option value={''} selected></option>
                               <option value={'masculino'} >Masculino</option>
                               <option value={'feminino'}>Feminino</option>
-                              <option value={'unisex'}>Unisex</option>
+                              <option value={'outros'}>Outros</option>
 
                             </select>
                           </div>

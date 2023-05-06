@@ -78,6 +78,11 @@ export default function Financeirodespesas() {
         });
     }
 
+    const formatter = new Intl.NumberFormat('bt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+    });
+
     return (
         <div style={{ backgroundColor: '#f3f3f3' }}>
             <div style={{ display: 'flex' }}>
@@ -151,7 +156,7 @@ export default function Financeirodespesas() {
                                 
                                 <div className="col-lg-6 modalprice">
                                     <h5 className="text-white">Total</h5>
-                                    <div className="text-white">R$ {rendatotal2},00</div>
+                                    <div className="text-white">{formatter.format(rendatotal2)}</div>
                                 </div>
                                 <div className="col-lg-6 modalprice">
                                     <h5 className="text-white">Total cadastrado</h5>

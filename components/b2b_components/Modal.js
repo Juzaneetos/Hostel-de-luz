@@ -5,6 +5,7 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 import Image from 'next/image'
 import Calendario from '../../components/b2b_components/Calendario'
 import axios from "axios";
+import { toast } from "react-toastify";
 import CurrencyInput from 'react-currency-input-field'
 import formatCpf from '@brazilian-utils/format-cpf';
 export default function Modal({ customers, id_ }) {
@@ -99,12 +100,14 @@ export default function Modal({ customers, id_ }) {
   let titulo_ = '';
   let camas = '';
   let arrCamas = [];
+  let imagem = [];
   let hotel_ = '';
   let genero_ = '';
   let ativado = '';
   let titulo_2 = '';
   let camas2 = '';
   let arrCamas2 = [];
+  let imagem2 = [];
   let hotel_2 = '';
   let genero_2 = '';
   let ativado2 = '';
@@ -202,27 +205,31 @@ export default function Modal({ customers, id_ }) {
       pagamentoconcluido: pagamentoconcluido,
       checkinID: checkinID,
     });
-    mutate('/api/hoteis/getAllCustomers')
+    mutate('/api/checkin/getAllCheckin')
   }
   const dispararquarto = async () => {
     const response1 = await axios.put(`/api/quartos/updateQuarto?id=${idquarto}`, {
       titulo: titulo_,
       camas: camas,
       arrCamas: arrCamas,
+      imagem: imagem,
       hotel: hotel_,
       genero: genero_,
       ativado: ativado,
     });
+    mutate('/api/quartos/getAllQuarto')
   }
   const dispararquartoanterior = async () => {
     const response1 = await axios.put(`/api/quartos/updateQuarto?id=${idquartodef}`, {
       titulo: titulo_2,
       camas: camas2,
       arrCamas: arrCamas2,
+      imagem: imagem2,
       hotel: hotel_2,
       genero: genero_2,
       ativado: ativado2,
     });
+    mutate('/api/quartos/getAllQuarto')
   }
 
   const dispararcheckout = async () => {
@@ -232,7 +239,7 @@ export default function Modal({ customers, id_ }) {
     const dataSaidaNovaReserva = new Date(saida);
     const quartoSaida = (JSON.stringify(dataEntradaNovaReserva) === JSON.stringify(dataSaidaNovaReserva));
 
-    if (quartoSaida) return alert('datas não podem ser iguais');
+    if (quartoSaida) return toast.error('datas não podem ser iguais');
 
     quartos?.map((item, index) => {
       contador++
@@ -255,7 +262,7 @@ export default function Modal({ customers, id_ }) {
                   const dataSaidaReserva = new Date(item3.saida);
                   const indexblock = item2.findIndex(item3 => dataEntradaNovaReserva < dataSaidaReserva && dataSaidaNovaReserva > dataEntradaReserva);
                   if (indexblock !== -1) {
-                    alert('ja reservado')
+                    toast.error('ja reservado')
                     block++;
                   }
                 }
@@ -275,10 +282,10 @@ export default function Modal({ customers, id_ }) {
                               item8.splice(indexsplice, 1);
                             }
                             if (hotel === item7.hotel) {
-                              alert('oi')
                               titulo_2 = item7.titulo;
                               camas2 = item7.camas;
                               arrCamas2 = item7.arrCamas;
+                              imagem2 = item7.imagem;
                               hotel_2 = item7.hotel;
                               genero_2 = item7.genero;
                               ativado2 = item7.ativado;
@@ -306,6 +313,7 @@ export default function Modal({ customers, id_ }) {
                   titulo_ = item.titulo;
                   camas = item.camas;
                   arrCamas = item.arrCamas;
+                  imagem = item.imagem;
                   hotel_ = item.hotel;
                   genero_ = item.genero;
                   ativado = item.ativado;
@@ -329,7 +337,7 @@ export default function Modal({ customers, id_ }) {
 
         // Executa a segunda solicitação apenas se a primeira for concluída com sucesso
 
-        // router.push("/b2b/quartos");
+        router.reload();
       } catch (error) {
         console.error(error);
       }
@@ -342,8 +350,8 @@ export default function Modal({ customers, id_ }) {
     const dataEntradaNovaReserva = new Date(entrada);
     const dataSaidaNovaReserva = new Date(saida);
     const quartoSaida = (JSON.stringify(dataEntradaNovaReserva) === JSON.stringify(dataSaidaNovaReserva));
-    if (quartoSaida) return alert('datas não podem ser iguais');
-    if (quartoSaida) return alert('Cama ja reservada por outro hospede!');
+    if (quartoSaida) return toast.error('datas não podem ser iguais');
+    if (quartoSaida) return toast.error('Cama ja reservada por outro hospede!');
 
     quartos?.map((item, index) => {
       contador++
@@ -366,7 +374,7 @@ export default function Modal({ customers, id_ }) {
                   const dataSaidaReserva = new Date(item3.saida);
                   const indexblock = item2.findIndex(item3 => dataEntradaNovaReserva < dataSaidaReserva && dataSaidaNovaReserva > dataEntradaReserva);
                   if (indexblock !== -1) {
-                    alert('ja reservado')
+                    toast.error('ja reservado!')
                     block++;
                   }
                 }
@@ -386,10 +394,10 @@ export default function Modal({ customers, id_ }) {
                               item8.splice(indexsplice, 1);
                             }
                             if (hotel === item7.hotel) {
-                              alert('oi')
                               titulo_2 = item7.titulo;
                               camas2 = item7.camas;
                               arrCamas2 = item7.arrCamas;
+                              imagem2 = item7.imagem;
                               hotel_2 = item7.hotel;
                               genero_2 = item7.genero;
                               ativado2 = item7.ativado;
@@ -417,6 +425,7 @@ export default function Modal({ customers, id_ }) {
                   titulo_ = item.titulo;
                   camas = item.camas;
                   arrCamas = item.arrCamas;
+                  imagem = item.imagem;
                   hotel_ = item.hotel;
                   genero_ = item.genero;
                   ativado = item.ativado;
@@ -441,7 +450,7 @@ export default function Modal({ customers, id_ }) {
 
         // Executa a segunda solicitação apenas se a primeira for concluída com sucesso
 
-        // router.push("/b2b/quartos");
+        router.reload();
       } catch (error) {
         console.error(error);
       }
@@ -456,6 +465,21 @@ export default function Modal({ customers, id_ }) {
           <div className="modal-body">
             <div className="row">
               <div className="ec-vendor-block-img space-bottom-30">
+                <div className="d-flex justify-content-between">
+                  <div>
+                    <h5>Check-in</h5>
+                  </div>
+                  <div>
+                      <div
+                        className="btn btn-sm btn-primary qty_close"
+                        style={{ width: '80px', background: 'red' }}
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      >
+                        Fechar
+                      </div>
+                  </div>
+                </div>
                 <div className="ec-vendor-upload-detail">
                   {customers?.map((item, index) => {
                     if (item._id === id_) {
@@ -543,7 +567,7 @@ export default function Modal({ customers, id_ }) {
                               <option value={''} selected></option>
                               <option value={'masculino'} selected>Masculino</option>
                               <option value={'feminino'}>Feminino</option>
-                              <option value={'unisex'}>Unisex</option>
+                              <option value={'outros'}>Outros</option>
 
                             </select>
                           </div>
@@ -578,7 +602,7 @@ export default function Modal({ customers, id_ }) {
                               name="input-name"
                               className="form-control slug-title"
                               placeholder="Please enter a number"
-                              value={parseFloat(valordiaria).toLocaleString('pt-br', {minimumFractionDigits: 2})}
+                              value={parseFloat(valordiaria).toLocaleString('pt-br', { minimumFractionDigits: 2 })}
                               decimalsLimit={2}
                               onValueChange={(value, name) => setValordiaria(value)}
                             />
@@ -592,7 +616,7 @@ export default function Modal({ customers, id_ }) {
                               name="input-name"
                               className="form-control slug-title"
                               placeholder="Please enter a number"
-                              value={parseFloat(valorpago).toLocaleString('pt-br', {minimumFractionDigits: 2})}
+                              value={parseFloat(valorpago).toLocaleString('pt-br', { minimumFractionDigits: 2 })}
                               decimalsLimit={2}
                               onValueChange={(value, name) => setValorpago(value)}
                             />;
@@ -638,8 +662,8 @@ export default function Modal({ customers, id_ }) {
                           <div className="col-md-12 d-flex flex-wrap justify-content-around">
                             {hoteis?.map((item, index) => {
                               return (
-                                <div key={index} className={`col-md-5 mb-3`} style={{ position: 'relative', height: '150px', overflow: 'hidden', background: `url(${item.imagem[0].url})`}}>
-                                  <div className={`circulohotel d-flex flex-column ${hotel === item._id ? 'backgroundactive' : ''}`} style={{ position: 'absolute', fontWeight: '700' }} onClick={() => alert('não é possivel trocar de Hostel!')}>
+                                <div key={index} className={`col-md-5 mb-3`} style={{ position: 'relative', height: '150px', overflow: 'hidden', background: `url(${item.imagem[0].url})` }}>
+                                  <div className={`circulohotel d-flex flex-column ${hotel === item._id ? 'backgroundactive' : ''}`} style={{ position: 'absolute', fontWeight: '700' }} onClick={() => toast.error('não é possivel trocar de Hostel!')}>
                                     {item.titulo}
 
                                   </div>
@@ -662,7 +686,7 @@ export default function Modal({ customers, id_ }) {
                                     return (
                                       <>
                                         <div key={index} className="col-md-3 m-2" style={{ position: 'relative', height: '200px', overflow: 'hidden' }}>
-                                          <div className={`circuloquarto d-flex flex-column ${idquarto === item._id ? 'backgroundactive2' : ''}`} style={{ position: 'absolute', fontWeight: '700' }} onClick={() => { setQuarto(item.arrCamas), setNomeQuarto(item.titulo), setIdquarto(item._id) }}>
+                                          <div className={`circuloquarto d-flex flex-column ${idquarto === item._id ? 'backgroundactive2' : ''}`} style={{ position: 'absolute', fontWeight: '700', backgroundImage: `url(${item.imagem[0].url})` }} onClick={() => { setQuarto(item.arrCamas), setNomeQuarto(item.titulo), setIdquarto(item._id) }}>
                                             <div className="text-center" style={{ background: '#000000a1', padding: '12px', borderRadius: '5px' }}>
                                               {item.titulo}
                                               <div>{item.genero} </div>
@@ -778,7 +802,7 @@ export default function Modal({ customers, id_ }) {
                                                           height: '75px',
                                                           background: "rgb(200, 229, 255)",
                                                         }}
-                                                        onClick={() => { registrarQuarto(item3.numeroCama), setNumerocama(item3.numeroCama), alert('registrado'), setArrdatas(item2) }}
+                                                        onClick={() => { registrarQuarto(item3.numeroCama), setNumerocama(item3.numeroCama), toast.error('registrado'), setArrdatas(item2) }}
                                                       >
                                                         {item3.numeroCama}
                                                         <p>{item3.vago ? item3.hospede : "Liberado"}</p>
@@ -796,7 +820,7 @@ export default function Modal({ customers, id_ }) {
                                                           color: 'white',
                                                           background: "rgb(200, 229, 255)",
                                                         }}
-                                                        onClick={() => alert("Já reservado")}
+                                                        onClick={() => toast.error("Já reservado")}
                                                       >
                                                         {item3.numeroCama}
                                                         <p style={{ color: 'white', fontWeight: 'bold' }}>{item3.vago ? `${item3.hospede.slice(0, 10)}...` : "Liberado"}</p>
@@ -860,7 +884,7 @@ export default function Modal({ customers, id_ }) {
                                                         background: "rgb(200, 229, 255)",
                                                         color: 'white'
                                                       }}
-                                                      onClick={() => alert("Já reservado")}
+                                                      onClick={() => toast.error("Já reservado")}
                                                     >
                                                       {item3.numeroCama}
                                                       <p>{item3.vago ? item3.hospede.slice(0, 10) : "Liberado"}</p>
@@ -1047,7 +1071,7 @@ export default function Modal({ customers, id_ }) {
                                 <div
                                   onClick={(e) => dispararcheckout()}
                                   className="btn btn-sm btn-primary qty_close"
-                                  style={{ width: '250px' }}
+                                  style={{ width: '250px', background: 'red' }}
                                   data-bs-dismiss="modal"
                                   aria-label="Close"
                                 >
@@ -1061,7 +1085,7 @@ export default function Modal({ customers, id_ }) {
                                 <div
                                   onClick={(e) => dispararcheckoutatt()}
                                   className="btn btn-sm btn-primary qty_close"
-                                  style={{ width: '250px' }}
+                                  style={{ width: '250px', background: 'red' }}
                                   data-bs-dismiss="modal"
                                   aria-label="Close"
                                 >

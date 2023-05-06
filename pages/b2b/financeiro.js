@@ -27,7 +27,7 @@ export default function Financeiro() {
     const { data: checkin } = useSwr(`/api/checkin/getAllCheckin`, fetcher);
     const { data: quartos } = useSwr(`/api/quartos/getAllQuarto`, fetcher);
     var tamanho = checkin?.length || [];
-    
+
     useEffect(() => {
         let valortotal = 0;
         let pagototal = 0;
@@ -75,7 +75,7 @@ export default function Financeiro() {
                     valortotal = valortotal + parseInt(item.valorpago)
                     if (checkin.length === index + 1 && newarr.length === 1) {
                         pagototal = pagototal + (diasDiferenca) * parseInt(item.valordiaria)
-                    }else{
+                    } else {
                         pagototal = pagototal + (diasDiferenca + 1) * parseInt(item.valordiaria)
                     }
                 }
@@ -96,25 +96,25 @@ export default function Financeiro() {
         let hospedesinativos = 0;
         checkin?.map((item, index) => {
             if (item.pagamentoconcluido === '0' && item.ativado === '0') {
-                    newarr.push(item)
-                    const entrada = new Date(item.entrada);
-                    const saida = new Date(item.saida);
-                    const timeDifference = saida.getTime() - entrada.getTime();
-                    const diasDiferenca = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-                    hospedesinativos = hospedesinativos + 1;
-                    valortotal = valortotal + parseInt(item.valorpago)
-                    if (checkin.length === index + 1 && newarr.length === 1) {
-                        pagototal = pagototal + (diasDiferenca) * parseInt(item.valordiaria)
-                    }else{
-                        pagototal = pagototal + (diasDiferenca + 1) * parseInt(item.valordiaria)
-                    }
+                newarr.push(item)
+                const entrada = new Date(item.entrada);
+                const saida = new Date(item.saida);
+                const timeDifference = saida.getTime() - entrada.getTime();
+                const diasDiferenca = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+                hospedesinativos = hospedesinativos + 1;
+                valortotal = valortotal + parseInt(item.valorpago)
+                if (checkin.length === index + 1 && newarr.length === 1) {
+                    pagototal = pagototal + (diasDiferenca) * parseInt(item.valordiaria)
+                } else {
+                    pagototal = pagototal + (diasDiferenca + 1) * parseInt(item.valordiaria)
                 }
-                if (checkin.length === index + 1) {
-                    setCheckinArr(newarr)
-                    setRendatotal2(valortotal)
-                    setPagototal2(pagototal)
-                    setHospedes2(hospedesinativos)
-                }
+            }
+            if (checkin.length === index + 1) {
+                setCheckinArr(newarr)
+                setRendatotal2(valortotal)
+                setPagototal2(pagototal)
+                setHospedes2(hospedesinativos)
+            }
         });
     }
     const todosarr = () => {
@@ -133,7 +133,7 @@ export default function Financeiro() {
                 valortotal = valortotal + parseInt(item.valorpago)
                 if (checkin.length === index + 1 && newarr.length === 1) {
                     pagototal = pagototal + (diasDiferenca) * parseInt(item.valordiaria)
-                }else{
+                } else {
                     pagototal = pagototal + (diasDiferenca + 1) * parseInt(item.valordiaria)
                 }
             }
@@ -146,10 +146,16 @@ export default function Financeiro() {
         });
     }
 
+
+    const formatter = new Intl.NumberFormat('bt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+    });
+
     return (
         <div style={{ backgroundColor: '#f3f3f3' }}>
             <div style={{ display: 'flex' }}>
-                <Menu  parametro={'7'}/>
+                <Menu parametro={'7'} />
                 <div className="ec-page-wrapper">
                     <div className="ec-content-wrapper">
                         <div className="content">
@@ -169,15 +175,15 @@ export default function Financeiro() {
                             <div className="d-flex">
                                 <div className="col-lg-3 modalprice">
                                     <h5 className="text-white">Renda Total</h5>
-                                    <div className="text-white">R$ {rendatotal},00</div>
+                                    <div className="text-white">{formatter.format(rendatotal)}</div>
                                 </div>
                                 <div className="col-lg-3 modalprice">
                                     <h5 className="text-white">Estimado</h5>
-                                    <div className="text-white">R$ {pagototal},00</div>
+                                    <div className="text-white">{formatter.format(pagototal)}</div>
                                 </div>
                                 <div className="col-lg-3 modalprice">
                                     <h5 className="text-white">Débitos</h5>
-                                    <div className="text-white">R$ {rendatotal - pagototal},00</div>
+                                    <div className="text-white">{formatter.format(rendatotal - pagototal)}</div>
                                 </div>
                                 <div className="col-lg-3 modalprice">
                                     <h5 className="text-white">Hóspedes</h5>
@@ -220,24 +226,24 @@ export default function Financeiro() {
                                 <div style={{ cursor: 'pointer' }} className="col-lg-4 modalprice2" onClick={filtrar}>
                                     <h5 className="text-white">Filtrar</h5>
                                 </div>
-                                
+
                                 <div className="col-lg-3 modalprice">
                                     <h5 className="text-white">Renda Total</h5>
-                                    <div className="text-white">R$ {rendatotal2},00</div>
+                                    <div className="text-white">{formatter.format(rendatotal2)}</div>
                                 </div>
                                 <div className="col-lg-3 modalprice">
                                     <h5 className="text-white">Pago Total</h5>
-                                    <div className="text-white">R$ {pagototal2},00</div>
+                                    <div className="text-white">{formatter.format(pagototal2)}</div>
                                 </div>
                                 <div className="col-lg-3 modalprice">
                                     <h5 className="text-white">Débitos</h5>
-                                    <div className="text-white">R$ {rendatotal2 - pagototal2},00</div>
+                                    <div className="text-white">{formatter.format(rendatotal2 - pagototal2)}</div>
                                 </div>
                                 <div className="col-lg-3 modalprice">
                                     <h5 className="text-white">Hóspedes</h5>
                                     <div className="text-white">{hospedes2}</div>
                                 </div>
-                                
+
                             </div>
 
                             <div className="row">
@@ -278,7 +284,7 @@ export default function Financeiro() {
                                                                         <tr key={item.id} className="align-middle">
                                                                             <td>{item.nome}</td>
                                                                             <td>{item.telefone}</td>
-                                                                            <td>{item.entrada}<br/>{item.saida}</td>
+                                                                            <td>{item.entrada}<br />{item.saida}</td>
                                                                             <td>{item.valordiaria}</td>
                                                                             <td>{item.valorpago}</td>
                                                                             <td><div className={`${item.ativado === '1' ? 'styleativo' : 'styleinativo'}`}>{item.ativado === '1' ? 'Ativo' : 'Inativo'}</div></td>
