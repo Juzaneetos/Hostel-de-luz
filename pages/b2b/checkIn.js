@@ -55,7 +55,7 @@ export default function Checkin() {
   let titulo_ = '';
   let camas = '';
   let arrCamas = [];
-  let imagem =[];
+  let imagem = [];
   let hotel_ = '';
   let genero_ = '';
   let ativado = '';
@@ -71,8 +71,8 @@ export default function Checkin() {
   }
 
   const datamudou = (valor, parametro) => {
-    if (parametro === 'entrada') { console.log(valor, parametro) }
-    if (parametro === 'saida') { console.log(valor, parametro) }
+    if (parametro === 'entrada') { console.log(valor, saida, parametro) }
+    if (parametro === 'saida') { console.log(valor, entrada, parametro) }
     if (entrada === '' && parametro === 'entrada') {
       setEntrada(valor)
       return
@@ -81,25 +81,22 @@ export default function Checkin() {
       setEntrada(valor)
       return
     }
-    if (saida === '' && parametro === 'saida') {
+    if (saida === '' && parametro === 'saida' && entrada <= valor) {
       setSaida(valor)
       return
-    }
-    if (entrada >= saida && entrada !== '' && saida !== '') {
-      if (parametro === 'entrada' && entrada >= saida) {
+    } else if (valor <= saida || entrada <= valor && entrada !== '' && saida !== '') {
+      if (parametro === 'entrada' && valor < saida) {
         setEntrada(valor)
         return
-      }
-      if (parametro === 'saida' && entrada >= saida) {
+      } else if (parametro === 'saida' && entrada < valor) {
         setSaida(valor)
         return
-      }
+      } else { toast.error('Saída maior que entrada') }
     } else {
       toast.error('Saída maior que entrada')
     }
 
   }
-  console.log(entrada < saida)
 
   const dispararcheckin = async () => {
     let data = await axios.post(`/api/checkin/insertCheckin`, {
@@ -142,10 +139,7 @@ export default function Checkin() {
     let contador = 0;
     const dataEntradaNovaReserva = new Date(entrada);
     const dataSaidaNovaReserva = new Date(saida);
-    const quartoSaida = (JSON.stringify(dataEntradaNovaReserva) === JSON.stringify(dataSaidaNovaReserva));
-    console.log(quartoSaida)
 
-    if (quartoSaida) return toast.error('datas não podem ser iguais');
 
     quartos?.map((item, index) => {
       contador++
@@ -184,9 +178,9 @@ export default function Checkin() {
       try {
         toast.success('Check-in sendo realizado!')
 
-        dispararcheckin()
-
         dispararquarto()
+
+        dispararcheckin()
 
         // Executa a segunda solicitação apenas se a primeira for concluída com sucesso
 
@@ -211,7 +205,7 @@ export default function Checkin() {
   return (
     <div style={{ backgroundColor: '#f3f3f3' }}>
       <div style={{ display: 'flex' }}>
-        <Menu parametro={'1'}/>
+        <Menu parametro={'1'} />
         <div className="ec-page-wrapper">
           <div className="ec-content-wrapper">
             <div className="content">
@@ -382,12 +376,22 @@ export default function Checkin() {
                               </div>
                               <div className="col-md-6">
                                 <label className="form-label">Saida</label>
-                                <input
-                                  type="date"
-                                  className="form-control slug-title"
-                                  value={saida}
-                                  onChange={(e) => datamudou(e.target.value, 'saida')}
-                                />
+                                {entrada === '' ?
+                                  <input
+                                    type="date"
+                                    className="form-control slug-title"
+                                    disabled
+                                    value={saida}
+                                    onChange={(e) => datamudou(e.target.value, 'saida')}
+                                  />
+                                  :
+                                  <input
+                                    type="date"
+                                    className="form-control slug-title"
+                                    value={saida}
+                                    onChange={(e) => datamudou(e.target.value, 'saida')}
+                                  />}
+
                               </div>
 
 
@@ -434,7 +438,7 @@ export default function Checkin() {
                                                         const dataSaidaNovaReserva = new Date(saida);
                                                         const dataEntradaReserva = new Date(item5.entrada);
                                                         const dataSaidaReserva = new Date(item5.saida);
-                                                        const quartoVago = (dataEntradaNovaReserva < dataSaidaReserva && dataSaidaNovaReserva > dataEntradaReserva);
+                                                        const quartoVago = (dataEntradaNovaReserva <= dataSaidaReserva && dataSaidaNovaReserva >= dataEntradaReserva);
                                                         if (quartoVago) {
                                                           counting++;
                                                         }
@@ -475,7 +479,7 @@ export default function Checkin() {
                                             const dataSaidaNovaReserva = new Date(saida);
                                             const dataEntradaReserva = new Date(item3.entrada);
                                             const dataSaidaReserva = new Date(item3.saida);
-                                            const quartoVago = (dataEntradaNovaReserva < dataSaidaReserva && dataSaidaNovaReserva > dataEntradaReserva);
+                                            const quartoVago = (dataEntradaNovaReserva <= dataSaidaReserva && dataSaidaNovaReserva >= dataEntradaReserva);
 
 
 

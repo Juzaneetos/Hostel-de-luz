@@ -11,6 +11,7 @@ import { BsPencilFill } from "react-icons/bs";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function Financeiro() {
+    const { data: hoteis } = useSwr(`/api/hoteis/getAllHotel`, fetcher);
     const [id_, setId] = useState(0);
     const [rendatotal, setRendatotal] = useState(0);
     const [pagototal, setPagototal] = useState(0);
@@ -18,6 +19,7 @@ export default function Financeiro() {
     const [pagototal2, setPagototal2] = useState(0);
     const [rensamensal, setRendamensal] = useState(0);
     const [debitos, setDebitos] = useState(0);
+    const [hostel, setHostel] = useState('todos');
     const [hospedes, setHospedes] = useState(0);
     const [hospedes2, setHospedes2] = useState(0);
     const [entrada, setEntrada] = useState('');
@@ -27,7 +29,7 @@ export default function Financeiro() {
     const { data: checkin } = useSwr(`/api/checkin/getAllCheckin`, fetcher);
     const { data: quartos } = useSwr(`/api/quartos/getAllQuarto`, fetcher);
     var tamanho = checkin?.length || [];
-
+    console.log(hostel)
     useEffect(() => {
         let valortotal = 0;
         let pagototal = 0;
@@ -57,20 +59,169 @@ export default function Financeiro() {
         let valortotal = 0;
         let pagototal = 0;
         let hospedesinativos = 0;
-        checkin?.map((item, index) => {
-            if (item.ativado === '0') {
-                const dataEntradaNovaReserva = new Date(entrada);
-                const dataSaidaNovaReserva = new Date(saida);
-                const dataEntradaReserva = new Date(item.entrada);
-                const dataSaidaReserva = new Date(item.saida);
-                const quartoVago = (dataEntradaNovaReserva < dataSaidaReserva && dataSaidaNovaReserva > dataEntradaReserva);
-                if (quartoVago) {
+        if (hostel === 'todos') {
+            checkin?.map((item, index) => {
+                if (item.ativado === '0') {
+                    const dataEntradaNovaReserva = new Date(entrada);
+                    const dataSaidaNovaReserva = new Date(saida);
+                    const dataEntradaReserva = new Date(item.entrada);
+                    const dataSaidaReserva = new Date(item.saida);
+                    const quartoVago = (dataEntradaNovaReserva < dataSaidaReserva && dataSaidaNovaReserva > dataEntradaReserva);
+                    if (quartoVago) {
+                        const entrada = new Date(item.entrada);
+                        const saida = new Date(item.saida);
+                        const timeDifference = saida.getTime() - entrada.getTime();
+                        const diasDiferenca = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+                        console.log(diasDiferenca)
+                        newarr.push(item)
+                        hospedesinativos = hospedesinativos + 1;
+                        valortotal = valortotal + parseInt(item.valorpago)
+                        if (checkin.length === index + 1 && newarr.length === 1) {
+                            pagototal = pagototal + (diasDiferenca) * parseInt(item.valordiaria)
+                        } else {
+                            pagototal = pagototal + (diasDiferenca + 1) * parseInt(item.valordiaria)
+                        }
+                    }
+                }
+                if (checkin.length === index + 1) {
+                    setCheckinArr(newarr)
+                    setRendatotal2(valortotal)
+                    setPagototal2(pagototal)
+                    setHospedes2(hospedesinativos)
+                }
+            });
+        }else{
+            checkin?.map((item, index) => {
+                if (hostel === item.objreserva.hotel) {
+                if (item.ativado === '0') {
+                    const dataEntradaNovaReserva = new Date(entrada);
+                    const dataSaidaNovaReserva = new Date(saida);
+                    const dataEntradaReserva = new Date(item.entrada);
+                    const dataSaidaReserva = new Date(item.saida);
+                    const quartoVago = (dataEntradaNovaReserva < dataSaidaReserva && dataSaidaNovaReserva > dataEntradaReserva);
+                    if (quartoVago) {
+                        const entrada = new Date(item.entrada);
+                        const saida = new Date(item.saida);
+                        const timeDifference = saida.getTime() - entrada.getTime();
+                        const diasDiferenca = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+                        console.log(diasDiferenca)
+                        newarr.push(item)
+                        hospedesinativos = hospedesinativos + 1;
+                        valortotal = valortotal + parseInt(item.valorpago)
+                        if (checkin.length === index + 1 && newarr.length === 1) {
+                            pagototal = pagototal + (diasDiferenca) * parseInt(item.valordiaria)
+                        } else {
+                            pagototal = pagototal + (diasDiferenca + 1) * parseInt(item.valordiaria)
+                        }
+                    }
+                }}
+                
+                if (checkin.length === index + 1) {
+                    setCheckinArr(newarr)
+                    setRendatotal2(valortotal)
+                    setPagototal2(pagototal)
+                    setHospedes2(hospedesinativos)
+                }
+            });
+        }
+
+    }
+
+    const debitosativos = () => {
+        let newarr = [];
+        let valortotal = 0;
+        let pagototal = 0;
+        let hospedesinativos = 0;
+        if (hostel === 'todos') {
+            checkin?.map((item, index) => {
+                if (item.pagamentoconcluido === '0' && item.ativado === '0') {
+                    newarr.push(item)
                     const entrada = new Date(item.entrada);
                     const saida = new Date(item.saida);
                     const timeDifference = saida.getTime() - entrada.getTime();
                     const diasDiferenca = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-                    console.log(diasDiferenca)
+                    hospedesinativos = hospedesinativos + 1;
+                    valortotal = valortotal + parseInt(item.valorpago)
+                    if (checkin.length === index + 1 && newarr.length === 1) {
+                        pagototal = pagototal + (diasDiferenca) * parseInt(item.valordiaria)
+                    } else {
+                        pagototal = pagototal + (diasDiferenca + 1) * parseInt(item.valordiaria)
+                    }
+                }
+                if (checkin.length === index + 1) {
+                    setCheckinArr(newarr)
+                    setRendatotal2(valortotal)
+                    setPagototal2(pagototal)
+                    setHospedes2(hospedesinativos)
+                }
+            });
+        } else {
+            checkin?.map((item, index) => {
+                if (hostel === item.objreserva.hotel) {
+                    if (item.pagamentoconcluido === '0' && item.ativado === '0') {
+                        newarr.push(item)
+                        const entrada = new Date(item.entrada);
+                        const saida = new Date(item.saida);
+                        const timeDifference = saida.getTime() - entrada.getTime();
+                        const diasDiferenca = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+                        hospedesinativos = hospedesinativos + 1;
+                        valortotal = valortotal + parseInt(item.valorpago)
+                        if (checkin.length === index + 1 && newarr.length === 1) {
+                            pagototal = pagototal + (diasDiferenca) * parseInt(item.valordiaria)
+                        } else {
+                            pagototal = pagototal + (diasDiferenca + 1) * parseInt(item.valordiaria)
+                        }
+                    }
+                }
+                if (checkin.length === index + 1) {
+                    console.log(newarr)
+                    setCheckinArr(newarr)
+                    setRendatotal2(valortotal)
+                    setPagototal2(pagototal)
+                    setHospedes2(hospedesinativos)
+                }
+
+            });
+        }
+
+    }
+    const todosarr = () => {
+        let newarr = [];
+        let valortotal = 0;
+        let pagototal = 0;
+        let hospedesinativos = 0;
+        if (hostel === 'todos') {
+            checkin?.map((item, index) => {
+                if (item.ativado === '0') {
                     newarr.push(item)
+                    const entrada = new Date(item.entrada);
+                    const saida = new Date(item.saida);
+                    const timeDifference = saida.getTime() - entrada.getTime();
+                    const diasDiferenca = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+                    hospedesinativos = hospedesinativos + 1;
+                    valortotal = valortotal + parseInt(item.valorpago)
+                    if (checkin.length === index + 1 && newarr.length === 1) {
+                        pagototal = pagototal + (diasDiferenca) * parseInt(item.valordiaria)
+                    } else {
+                        pagototal = pagototal + (diasDiferenca + 1) * parseInt(item.valordiaria)
+                    }
+                }
+                if (checkin.length === index + 1) {
+                    setCheckinArr(newarr)
+                    setRendatotal2(valortotal)
+                    setPagototal2(pagototal)
+                    setHospedes2(hospedesinativos)
+                }
+            });
+        }else{
+            checkin?.map((item, index) => {
+                if (hostel === item.objreserva.hotel) {
+                if (item.ativado === '0') {
+                    newarr.push(item)
+                    const entrada = new Date(item.entrada);
+                    const saida = new Date(item.saida);
+                    const timeDifference = saida.getTime() - entrada.getTime();
+                    const diasDiferenca = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
                     hospedesinativos = hospedesinativos + 1;
                     valortotal = valortotal + parseInt(item.valorpago)
                     if (checkin.length === index + 1 && newarr.length === 1) {
@@ -86,64 +237,9 @@ export default function Financeiro() {
                 setPagototal2(pagototal)
                 setHospedes2(hospedesinativos)
             }
-        });
-    }
+            });
+        }
 
-    const debitosativos = () => {
-        let newarr = [];
-        let valortotal = 0;
-        let pagototal = 0;
-        let hospedesinativos = 0;
-        checkin?.map((item, index) => {
-            if (item.pagamentoconcluido === '0' && item.ativado === '0') {
-                newarr.push(item)
-                const entrada = new Date(item.entrada);
-                const saida = new Date(item.saida);
-                const timeDifference = saida.getTime() - entrada.getTime();
-                const diasDiferenca = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-                hospedesinativos = hospedesinativos + 1;
-                valortotal = valortotal + parseInt(item.valorpago)
-                if (checkin.length === index + 1 && newarr.length === 1) {
-                    pagototal = pagototal + (diasDiferenca) * parseInt(item.valordiaria)
-                } else {
-                    pagototal = pagototal + (diasDiferenca + 1) * parseInt(item.valordiaria)
-                }
-            }
-            if (checkin.length === index + 1) {
-                setCheckinArr(newarr)
-                setRendatotal2(valortotal)
-                setPagototal2(pagototal)
-                setHospedes2(hospedesinativos)
-            }
-        });
-    }
-    const todosarr = () => {
-        let newarr = [];
-        let valortotal = 0;
-        let pagototal = 0;
-        let hospedesinativos = 0;
-        checkin?.map((item, index) => {
-            if (item.ativado === '0') {
-                newarr.push(item)
-                const entrada = new Date(item.entrada);
-                const saida = new Date(item.saida);
-                const timeDifference = saida.getTime() - entrada.getTime();
-                const diasDiferenca = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-                hospedesinativos = hospedesinativos + 1;
-                valortotal = valortotal + parseInt(item.valorpago)
-                if (checkin.length === index + 1 && newarr.length === 1) {
-                    pagototal = pagototal + (diasDiferenca) * parseInt(item.valordiaria)
-                } else {
-                    pagototal = pagototal + (diasDiferenca + 1) * parseInt(item.valordiaria)
-                }
-            }
-            if (checkin.length === index + 1) {
-                setCheckinArr(newarr)
-                setRendatotal2(valortotal)
-                setPagototal2(pagototal)
-                setHospedes2(hospedesinativos)
-            }
-        });
     }
 
 
@@ -194,7 +290,7 @@ export default function Financeiro() {
 
                             <h2 className="pl-3 mt-3 pt-3">Mensal</h2>
                             <div className="d-flex flex-wrap align-items-end">
-                                <div className="col-md-6 space-t-15 mt-3 p-1">
+                                <div className="col-md-4 space-t-15 mt-3 p-1">
                                     <label htmlFor="phone-2" className="form-label">
                                         Entrada
                                     </label>
@@ -205,7 +301,7 @@ export default function Financeiro() {
                                         onChange={(e) => setEntrada(e.target.value)}
                                     />
                                 </div>
-                                <div className="col-md-6 space-t-15 mt-3 p-1">
+                                <div className="col-md-4 space-t-15 mt-3 p-1">
                                     <label htmlFor="phone-2" className="form-label">
                                         Saída
                                     </label>
@@ -215,6 +311,18 @@ export default function Financeiro() {
                                         id="phone-2"
                                         onChange={(e) => setSaida(e.target.value)}
                                     />
+                                </div>
+                                <div className="col-md-4 space-t-15 mt-3 p-1">
+                                    <label htmlFor="phone-2" className="form-label">
+                                        Hostel
+                                    </label>
+                                    <select className="form-control" id="cars" onChange={(e) => setHostel(e.target.value)}>
+                                        <option value='todos'>Todos os Hostels</option>
+                                        {hoteis?.map((item, index) => {
+                                            console.log(item)
+                                            return (<option value={item._id}>{item.titulo}</option>)
+                                        })}
+                                    </select>
                                 </div>
 
                                 <div style={{ cursor: 'pointer' }} className="col-lg-4 modalprice2" onClick={todosarr}>

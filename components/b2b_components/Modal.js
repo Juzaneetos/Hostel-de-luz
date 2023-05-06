@@ -3,6 +3,7 @@ import useSwr, { mutate } from "swr";
 import router from 'next/router';
 const fetcher = (url) => fetch(url).then((res) => res.json());
 import Image from 'next/image'
+import Swal from 'sweetalert2'
 import Calendario from '../../components/b2b_components/Calendario'
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -349,9 +350,7 @@ export default function Modal({ customers, id_ }) {
     let block = 0;
     const dataEntradaNovaReserva = new Date(entrada);
     const dataSaidaNovaReserva = new Date(saida);
-    const quartoSaida = (JSON.stringify(dataEntradaNovaReserva) === JSON.stringify(dataSaidaNovaReserva));
-    if (quartoSaida) return toast.error('datas não podem ser iguais');
-    if (quartoSaida) return toast.error('Cama ja reservada por outro hospede!');
+
 
     quartos?.map((item, index) => {
       contador++
@@ -372,7 +371,7 @@ export default function Modal({ customers, id_ }) {
                   const dataSaidaNovaReserva = new Date(saida);
                   const dataEntradaReserva = new Date(item3.entrada);
                   const dataSaidaReserva = new Date(item3.saida);
-                  const indexblock = item2.findIndex(item3 => dataEntradaNovaReserva < dataSaidaReserva && dataSaidaNovaReserva > dataEntradaReserva);
+                  const indexblock = item2.findIndex(item3 => dataEntradaNovaReserva <= dataSaidaReserva && dataSaidaNovaReserva >= dataEntradaReserva);
                   if (indexblock !== -1) {
                     toast.error('ja reservado!')
                     block++;
@@ -418,7 +417,7 @@ export default function Modal({ customers, id_ }) {
                     hospede: Name,
                     limpeza: entrada,
                     entrada: entrada,
-                    saida: saida,
+                    saida: saidamanha,
                     base: false,
                     checkinID: checkinID,
                   })
@@ -442,9 +441,9 @@ export default function Modal({ customers, id_ }) {
 
       try {
 
-        dispararcheckin()
-
         dispararquarto()
+
+        dispararcheckin()
 
         dispararquartoanterior()
 
@@ -456,6 +455,53 @@ export default function Modal({ customers, id_ }) {
       }
     }
 
+  }
+
+  const datamudou = (valor, parametro) => {
+    if (parametro === 'entrada') { console.log(valor, saida, parametro) }
+    if (parametro === 'saida') { console.log(valor, entrada, parametro) }
+    if (entrada === '' && parametro === 'entrada') {
+      setEntrada(valor)
+      return
+    }
+    if (entrada !== '' && parametro === 'entrada') {
+      setEntrada(valor)
+      return
+    }
+    if (saida === '' && parametro === 'saida') {
+      setSaida(valor)
+      setSaidamanha(valor)
+      return
+    }
+    if (valor <= saida || entrada <= valor && entrada !== '' && saida !== '') {
+      if (parametro === 'entrada' && valor < saida) {
+        setEntrada(valor)
+        return
+      } else if (parametro === 'saida' && entrada < valor) {
+        setSaida(valor)
+        setSaidamanha(valor)
+        return
+      } else { toast.error('Saída maior que entrada') }
+    } else {
+      toast.error('Saída maior que entrada')
+    }
+
+  }
+
+  const temcerteza = () => {
+    Swal.fire({
+      title: 'Tem certeza?',
+      text: "Ao confirmar o check-out sera realizado!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sim, Realiza Check-out!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispararcheckout();
+      }
+    })
   }
 
   return (
@@ -470,14 +516,14 @@ export default function Modal({ customers, id_ }) {
                     <h5>Check-in</h5>
                   </div>
                   <div>
-                      <div
-                        className="btn btn-sm btn-primary qty_close"
-                        style={{ width: '80px', background: 'red' }}
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                      >
-                        Fechar
-                      </div>
+                    <div
+                      className="btn btn-sm btn-primary qty_close"
+                      style={{ width: '80px', background: 'red' }}
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      Fechar
+                    </div>
                   </div>
                 </div>
                 <div className="ec-vendor-upload-detail">
@@ -641,7 +687,7 @@ export default function Modal({ customers, id_ }) {
                               className="form-control"
                               value={entrada}
                               id="phone-2"
-                              onChange={(e) => setEntrada(e.target.value)}
+                              onChange={(e) => datamudou(e.target.value, 'entrada')}
                             />
                           </div>
                           <div className="col-md-6 space-t-15 mt-3">
@@ -651,9 +697,9 @@ export default function Modal({ customers, id_ }) {
                             <input
                               type="date"
                               className="form-control"
-                              value={saidamanha}
+                              value={saida}
                               id="phone-2"
-                              onChange={(e) => (setSaida(e.target.value), setSaidamanha(e.target.value))}
+                              onChange={(e) => datamudou(e.target.value, 'saida')}
                             />
                           </div>
 
@@ -742,7 +788,7 @@ export default function Modal({ customers, id_ }) {
                                           const dataSaidaNovaReserva = new Date(saida);
                                           const dataEntradaReserva = new Date(item3.entrada);
                                           const dataSaidaReserva = new Date(item3.saida);
-                                          const quartoVago = (dataEntradaNovaReserva < dataSaidaReserva && dataSaidaNovaReserva > dataEntradaReserva);
+                                          const quartoVago = (dataEntradaNovaReserva <= dataSaidaReserva && dataSaidaNovaReserva >= dataEntradaReserva);
 
 
 
@@ -765,8 +811,8 @@ export default function Modal({ customers, id_ }) {
                                             item2?.map((item5, index) => {
                                               const dataEntradaReservanew = new Date(item5.entrada);
                                               const dataSaidaReservannew = new Date(item5.saida);
-                                              const quartoVagonew = (dataEntradaNovaReserva < dataSaidaReservannew && dataSaidaNovaReserva > dataEntradaReservanew);
-
+                                              const quartoVagonew = (dataEntradaNovaReserva <= dataSaidaReservannew && dataSaidaNovaReserva >= dataEntradaReservanew);
+                                              console.log(dataSaidaNovaReserva, dataEntradaReservanew)
 
                                               if (quartoVagonew) {
                                                 verdadeiro = true;
@@ -1069,7 +1115,7 @@ export default function Modal({ customers, id_ }) {
                               </div>
                               <div className="col-md-6 space-t-15 mt-4 d-flex justify-content-center text-center">
                                 <div
-                                  onClick={(e) => dispararcheckout()}
+                                  onClick={(e) => temcerteza()}
                                   className="btn btn-sm btn-primary qty_close"
                                   style={{ width: '250px', background: 'red' }}
                                   data-bs-dismiss="modal"
