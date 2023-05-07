@@ -5,14 +5,8 @@ export default async (req, res) => {
     const client = await clientPromise;
     const db = client.db("Hosteldeluz");
 
-    db.collection("despesas").insertOne({
-      titulo: req.body.titulo,
-      descricao: req.body.descricao,
-      categoria: req.body.categoria,
-      quantidade: req.body.quantidade,
-      hostel: req.body.hostel,
-      entrada: req.body.entrada,
-      valor: req.body.valor,
+    db.collection("categoriadespesas").insertOne({
+      titulo: req.body.titulo
     }).then((data) => {
       console.log(data)
     }).catch((err) => console.log(err));

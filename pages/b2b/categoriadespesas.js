@@ -5,8 +5,8 @@ import { FaTrash } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { BsPencilFill } from "react-icons/bs";
 import router from 'next/router'
-import AddUsers from "../../components/b2b_components/users/AddUsers";
-import EditUsers from "../../components/b2b_components/users/EditUsers";
+import AddCategory from "../../components/b2b_components/categoriadespesas/AddCategory";
+import EditCategory from "../../components/b2b_components/categoriadespesas/EditCategory";
 
 import Header from "../../components/b2b_components/Header";
 import Menu from "../../components/b2b_components/Menu";
@@ -14,34 +14,32 @@ import Footer from "../../components/b2b_components/Footer";
 import useSwr, { mutate } from "swr";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
-export default function Users({ }) {
-  const [usersEditId, setUsersEditId] = useState("");
+export default function CategoriaDespesas({ }) {
+  const [despesasEditId, setCategoryEditId] = useState("");
+  const [despesasInfo, setCategoryInfo] = useState([]);
   const [showEditCategoryComponent, setShowEditCategoryComponent] = useState(false);
 
-  const { data: users } = useSwr(`/api/users/getAllUsers`, fetcher);
+  const { data: categoriadespesas } = useSwr(`/api/categoriadespesas/getAllCategoria`, fetcher);
+  console.log(categoriadespesas)
+  var tamanho = categoriadespesas?.length || [];
 
-  var tamanho = users?.length || [];
-
-  const deleteUsers = async (id) => {
-    await axios.delete(`/api/users/deleteUsers?id=${id}`)
-    .then(() => {
-      toast.success("Cliente deletado com sucesso!");
-      mutate(`/api/users/getAllUsers`);
-    })
-    .catch((err) => console.log(err));
-    mutate('/api/users/getAllUsers');
+  const deleteDespesas = async (id) => {
+    let data = await axios.delete(`/api/categoriadespesas/deleteCategoria?id=${id}`);
+    toast.success("Despesa deletada com sucesso!")
+    mutate(`/api/categoriadespesas/getAllCategoria`);
+    router.push("/b2b/categoriadespesas");
   };
 
   return (
     <>
       <div style={{ backgroundColor: '#f3f3f3' }}>
         <div style={{ display: 'flex' }}>
-          <Menu  parametro={'16'}/>
+          <Menu  parametro={'9'}/>
           <div className="ec-page-wrapper">
             <div className="ec-content-wrapper">
               <div className="content">
                 <div className="breadcrumb-wrapper breadcrumb-wrapper-2 breadcrumb-contacts">
-                  <h1>Acessos</h1>
+                  <h1>Categoria Despesas</h1>
                   <p className="breadcrumbs">
                     <span>
                       <a href="#">Dashboard</a>
@@ -49,29 +47,28 @@ export default function Users({ }) {
                     <span>
                       <i className="mdi mdi-chevron-right"></i>
                     </span>
-                    Usuários
+                    Categoria Despesas
                   </p>
                 </div>
                 <div className="row">
-                  <div className="col-lg-12">
+                <div className=" col-lg-12">
                     <div className="ec-cat-list card card-default mb-24px">
                       <div className="card-body">
                         {showEditCategoryComponent !== true ? (
-                          <AddUsers />
+                          <AddCategory />
                         ) : (
-                          <EditUsers usersEditId={usersEditId} users={users} />
+                          <EditCategory despesasId={despesasEditId} categoriadespesas={categoriadespesas} setShowEditCategoryComponent={setShowEditCategoryComponent}/>
                         )}
                       </div>
                     </div>
                   </div>
-
-                  <div className="col-lg-12">
+                  <div className=" col-lg-12">
                     <div className="ec-cat-list card card-default">
                       <div className="card-body">
                         <div className="table-responsive">
                           {tamanho === 0 && (
                             <div className="text-center">
-                              Não possui nenhum Acesso cadastrada
+                              Não possui nenhuma despesa cadastrada
                             </div>
                           )}
 
@@ -79,47 +76,39 @@ export default function Users({ }) {
                             <table id="responsive-data-table" className="table table-striped">
                               <thead>
                                 <tr>
-                                  <th>ID</th>
                                   <th>Nome</th>
-                                  <th>E-mail</th>
                                   <th></th>
                                 </tr>
                               </thead>
 
                               <tbody>
-                                {users?.map((item) => {
-                                  if(item.level === 50) {
-                                    return(<></>)
-                                  }else{
-                                  return(
-                                  <tr key={item.id} className="align-middle">
-                                      <td>{item.id}</td>
-                                      <td>{item.name}</td>
-                                      <td>
-                                        <div>{item.email}</div>
-                                      </td>
+                                {categoriadespesas?.map((item) => {
+                                  return (
+                                    <tr key={item._id} className="align-middle">
+                                      <td>{item.titulo}</td>
                                       <td className="text-right">
                                         <div className="btn-group">
                                           <button
                                             type="value"
                                             className="btn btn-primary"
                                             onClick={(e) => {
-                                            setUsersEditId(item.id);
-                                            setShowEditCategoryComponent(true);
+                                              setCategoryEditId(item._id);
+                                              setShowEditCategoryComponent(true);
                                             }}
                                           >
                                             <BsPencilFill />
                                           </button>
                                           <button
                                             className="btn btn-outline-primary delete-btn"
-                                            onClick={() => deleteUsers(item._id)}
+                                            onClick={() => deleteDespesas(item._id)}
                                           >
                                             <FaTrash color="#d93b3b" />
                                           </button>
                                         </div>
                                       </td>
-                                    </tr>)
-                                }})}
+                                    </tr>
+                                  );
+                                })}
                               </tbody>
                             </table>
                           )}
@@ -127,6 +116,7 @@ export default function Users({ }) {
                       </div>
                     </div>
                   </div>
+                  
                 </div>
               </div>
             </div>

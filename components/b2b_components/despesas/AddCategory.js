@@ -1,30 +1,38 @@
 import { useState } from "react";
 import axios from "axios";
-import useSwr, { mutate } from "swr";
 import router from 'next/router'
 import { toast } from "react-toastify";
-
+import useSwr, { mutate } from "swr";
+const fetcher = (url) => fetch(url).then((res) => res.json());
 function AddDespesas() {
+  const { data: allcategorias } = useSwr(`/api/categoriadespesas/getAllCategoria`, fetcher);
+  const { data: allhostels } = useSwr(`/api/hoteis/getAllHotel`, fetcher);
   const [titulo, setDespesasName] = useState("");
   const [descricao, setDescricao] = useState("");
   const [valor, setValor] = useState("");
-
+  const [categoria, setCategoria] = useState("");
+  const [quantidade, setQuantidade] = useState("");
+  const [hostel, sethostel] = useState("");
   const onSubmit = async (e) => {
     const dataAtual = new Date(); // Obtém a data atual
     e.preventDefault();
+    router.reload();
     let data = await axios.post(`/api/despesas/insertDespesas`, {
       titulo: titulo,
       descricao: descricao,
+      categoria: categoria,
+      quantidade: quantidade,
+      hostel: hostel,
       entrada: dataAtual.toISOString().slice(0, 10),
       valor: valor,
     });
     toast('Despesa sendo adicionada!', {
       position: "top-right",
-      });
+    });
     mutate(`/api/despesas/getAllDespesas`);
   };
 
-  
+
 
   return (
     <div className="card-body">
@@ -61,11 +69,55 @@ function AddDespesas() {
           </div>
           <div className="form-group row">
             <label htmlFor="text" className="col-12 col-form-label">
+              Categoria
+            </label>
+            <div className="col-12">
+              <select onChange={(e) => setCategoria(e.target.value)} className="form-control here slug-title" name="select">
+                <option value="geral">geral</option>
+                {allcategorias?.map((item, index) => {
+                  return(
+                    <option value={item._id}>{item.titulo}</option>
+                  )
+                })}
+              </select>
+            </div>
+          </div>
+          <div className="form-group row">
+            <label htmlFor="text" className="col-12 col-form-label">
+              Hostel
+            </label>
+            <div className="col-12">
+              <select onChange={(e) => sethostel(e.target.value)} className="form-control here slug-title" name="select">
+                <option value="geral">geral</option>
+                {allhostels?.map((item, index) => {
+                  return(
+                    <option value={item._id}>{item.titulo}</option>
+                  )
+                })}
+              </select>
+            </div>
+          </div>
+          <div className="form-group row">
+            <label htmlFor="text" className="col-12 col-form-label">
+              Quantidade
+            </label>
+            <div className="col-12">
+              <input
+                id="text"
+                name="text"
+                className="form-control here slug-title"
+                type="number"
+                onChange={(e) => setQuantidade(e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="form-group row">
+            <label htmlFor="text" className="col-12 col-form-label">
               Descrição
             </label>
             <div className="col-12">
               <textarea
-              rows={6}
+                rows={6}
                 id="text"
                 name="text"
                 className=" here slug-title"
@@ -78,9 +130,9 @@ function AddDespesas() {
 
           <div className="row">
             <div className="col-12">
-            <button name="submit" type="submit" className="btn btn-primary">
-            Adicionar Despesa
-            </button>
+              <button name="submit" type="submit" className="btn btn-primary">
+                Adicionar Despesa
+              </button>
             </div>
           </div>
         </form>

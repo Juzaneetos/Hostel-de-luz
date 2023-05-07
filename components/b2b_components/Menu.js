@@ -186,6 +186,16 @@ export default function Menu({parametro}) {
               <li className={parametro === '9' ? `active`: ``}>
                 <Link
                   className="sidenav-item-link"
+                  href="/b2b/categoriadespesas"
+                >
+                  <GiPayMoney size={24} />
+                  <span className="nav-text">Categoria Despesas</span>
+                </Link>
+              </li>
+
+              <li className={parametro === '10' ? `active`: ``}>
+                <Link
+                  className="sidenav-item-link"
                   href="/b2b/financeirodespesas"
                 >
                   <GiReceiveMoney size={24} />
@@ -195,7 +205,7 @@ export default function Menu({parametro}) {
 
               <hr />
 
-              <li className={parametro === '10' ? `active`: ``}>
+              <li className={parametro === '11' ? `active`: ``}>
                 <Link
                   className="sidenav-item-link"
                   href="/b2b/quartos"
@@ -205,7 +215,7 @@ export default function Menu({parametro}) {
                 </Link>
               </li>
 
-              <li className={parametro === '11' ? `active`: ``}>
+              <li className={parametro === '12' ? `active`: ``}>
                 <Link
                   className="sidenav-item-link"
                   href="/b2b/hoteis"
@@ -217,7 +227,7 @@ export default function Menu({parametro}) {
 
               <hr />
 
-              <li className={parametro === '12' ? `active`: ``}>
+              <li className={parametro === '13' ? `active`: ``}>
                 <Link
                   className="sidenav-item-link"
                   href="/b2b/faq"
@@ -227,7 +237,7 @@ export default function Menu({parametro}) {
                 </Link>
               </li>
 
-              <li className={parametro === '13' ? `active`: ``}>
+              <li className={parametro === '14' ? `active`: ``}>
                 <Link
                   className="sidenav-item-link"
                   href="/b2b/policy_privacy"
@@ -237,7 +247,7 @@ export default function Menu({parametro}) {
                 </Link>
               </li>
 
-              <li className={parametro === '14' ? `active`: ``}>
+              <li className={parametro === '15' ? `active`: ``}>
                 <Link
                   className="sidenav-item-link"
                   href="/b2b/terms_responsibility"
@@ -252,7 +262,7 @@ export default function Menu({parametro}) {
               {level < 30 ?
                 <></>
                 :
-                <li className={parametro === '15' ? `active`: ``}>
+                <li className={parametro === '16' ? `active`: ``}>
                   <Link
                     className="sidenav-item-link"
                     href="/b2b/access"

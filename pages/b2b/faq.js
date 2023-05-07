@@ -31,7 +31,7 @@ export default function FAQ() {
     <>
       <div style={{ backgroundColor: '#f3f3f3' }}>
         <div style={{ display: 'flex' }}>
-          <Menu  parametro={'12'}/>
+          <Menu  parametro={'13'}/>
           <div className="ec-page-wrapper">
             <div className="ec-content-wrapper">
               <div className="content">

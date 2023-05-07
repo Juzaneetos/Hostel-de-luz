@@ -11,6 +11,8 @@ import useSwr, { mutate } from "swr";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function Financeirodespesas() {
+    const { data: allcategorias } = useSwr(`/api/categoriadespesas/getAllCategoria`, fetcher);
+    const { data: hoteis } = useSwr(`/api/hoteis/getAllHotel`, fetcher);
     const [id_, setId] = useState(0);
     const [rendatotal, setRendatotal] = useState(0);
     const [pagototal, setPagototal] = useState(0);
@@ -19,6 +21,8 @@ export default function Financeirodespesas() {
     const [entrada, setEntrada] = useState('');
     const [saida, setSaida] = useState('');
     const [despesasArr, setCheckinArr] = useState([]);
+    const [categoria, setCategoria] = useState("todos");
+    const [hostel, setHostel] = useState("todos");
 
     const { data: despesas } = useSwr(`/api/despesas/getAllDespesas`, fetcher);
     const { data: quartos } = useSwr(`/api/quartos/getAllQuarto`, fetcher);
@@ -29,13 +33,13 @@ export default function Financeirodespesas() {
         let valortotal = 0;
         let itensativos = 0;
         despesas?.map((item, index) => {
-                itensativos = itensativos + 1;
-                valortotal = valortotal + parseFloat(item.valor)
-                if (despesas.length === index + 1) {
-                    setRendatotal2(valortotal)
-                    setCheckinArr(despesas)
-                    setHospedes2(itensativos)
-                }
+            itensativos = itensativos + 1;
+            valortotal = valortotal + parseFloat(item.valor)
+            if (despesas.length === index + 1) {
+                setRendatotal2(valortotal);
+                setCheckinArr(despesas);
+                setHospedes2(itensativos);
+            }
         })
     }, [despesas])
 
@@ -43,38 +47,98 @@ export default function Financeirodespesas() {
         let newarr = [];
         let valortotal = 0;
         let itensativos = 0;
-        despesas?.map((item, index) => {
-          const dataEntradaNovaReserva = new Date(entrada);
-          const dataSaidaNovaReserva = new Date(saida);
-          const dataEntradaReserva = new Date(item.entrada);
-          const quartoVago = (dataSaidaNovaReserva >= dataEntradaReserva) && (dataEntradaNovaReserva <= dataEntradaReserva);
-          if (quartoVago) {
-            itensativos = itensativos + 1;
-            valortotal = valortotal + parseFloat(item.valor);
-            newarr.push(item);
-          }
-          if (despesas.length === index + 1) {
-            setCheckinArr(newarr);
-            setRendatotal2(valortotal);
-            setHospedes2(itensativos);
-          }
-        });
-      };
-      
+        console.log(categoria, hostel)
+        if(categoria === 'todos' && hostel === 'todos'){
+            despesas?.map((item, index) => {
+                const dataEntradaNovaReserva = new Date(entrada);
+                const dataSaidaNovaReserva = new Date(saida);
+                const dataEntradaReserva = new Date(item.entrada);
+                const quartoVago = (dataSaidaNovaReserva >= dataEntradaReserva) && (dataEntradaNovaReserva <= dataEntradaReserva);
+                if (quartoVago) {
+                    itensativos = itensativos + 1;
+                    valortotal = valortotal + parseFloat(item.valor);
+                    newarr.push(item);
+                }
+                if (despesas.length === index + 1) {
+                    setCheckinArr(newarr);
+                    setRendatotal2(valortotal);
+                    setHospedes2(itensativos);
+                }
+            });
+        }else if(categoria !== 'todos' && hostel === 'todos'){
+            despesas?.map((item, index) => {
+                if(item.categoria === categoria){
+                    const dataEntradaNovaReserva = new Date(entrada);
+                    const dataSaidaNovaReserva = new Date(saida);
+                    const dataEntradaReserva = new Date(item.entrada);
+                    const quartoVago = (dataSaidaNovaReserva >= dataEntradaReserva) && (dataEntradaNovaReserva <= dataEntradaReserva);
+                    if (quartoVago) {
+                        itensativos = itensativos + 1;
+                        valortotal = valortotal + parseFloat(item.valor);
+                        newarr.push(item);
+                    }
+                }
+                if (despesas.length === index + 1) {
+                    setCheckinArr(newarr);
+                    setRendatotal2(valortotal);
+                    setHospedes2(itensativos);
+                }
+            });
+        }else if(categoria === 'todos' && hostel !== 'todos'){
+            despesas?.map((item, index) => {
+                if(item.hostel === hostel){
+                    const dataEntradaNovaReserva = new Date(entrada);
+                    const dataSaidaNovaReserva = new Date(saida);
+                    const dataEntradaReserva = new Date(item.entrada);
+                    const quartoVago = (dataSaidaNovaReserva >= dataEntradaReserva) && (dataEntradaNovaReserva <= dataEntradaReserva);
+                    if (quartoVago) {
+                        itensativos = itensativos + 1;
+                        valortotal = valortotal + parseFloat(item.valor);
+                        newarr.push(item);
+                    }
+                }
+                if (despesas.length === index + 1) {
+                    setCheckinArr(newarr);
+                    setRendatotal2(valortotal);
+                    setHospedes2(itensativos);
+                }
+            });
+        }else if(categoria !== 'todos' && hostel !== 'todos'){
+            despesas?.map((item, index) => {
+                if(item.hostel === hostel && item.categoria === categoria){
+                    const dataEntradaNovaReserva = new Date(entrada);
+                    const dataSaidaNovaReserva = new Date(saida);
+                    const dataEntradaReserva = new Date(item.entrada);
+                    const quartoVago = (dataSaidaNovaReserva >= dataEntradaReserva) && (dataEntradaNovaReserva <= dataEntradaReserva);
+                    if (quartoVago) {
+                        itensativos = itensativos + 1;
+                        valortotal = valortotal + parseFloat(item.valor);
+                        newarr.push(item);
+                    }
+                }
+                if (despesas.length === index + 1) {
+                    setCheckinArr(newarr);
+                    setRendatotal2(valortotal);
+                    setHospedes2(itensativos);
+                }
+            });
+        }
+    };
+
 
     const todosarr = () => {
         let newarr = [];
         let valortotal = 0;
         let itensativos = 0;
         despesas?.map((item, index) => {
-                    newarr.push(item)
-                    itensativos = itensativos + 1;
-                    valortotal = valortotal + parseFloat(item.valor)
-                if (despesas.length === index + 1) {
-                    setRendatotal2(valortotal);
-                    setCheckinArr(newarr)
-                    setHospedes2(itensativos);
-                }
+            newarr.push(item)
+            itensativos = itensativos + 1;
+            valortotal = valortotal + parseFloat(item.valor)
+            if (despesas.length === index + 1) {
+                setRendatotal2(valortotal);
+                setCheckinArr(newarr)
+                setHospedes2(itensativos);
+            }
         });
     }
 
@@ -86,7 +150,7 @@ export default function Financeirodespesas() {
     return (
         <div style={{ backgroundColor: '#f3f3f3' }}>
             <div style={{ display: 'flex' }}>
-                <Menu  parametro={'9'}/>
+                <Menu parametro={'10'} />
                 <div className="ec-page-wrapper">
                     <div className="ec-content-wrapper">
                         <div className="content">
@@ -124,9 +188,9 @@ export default function Financeirodespesas() {
                             </div> */}
 
                             <div className="d-flex flex-wrap align-items-end">
-                                <div className="col-md-6 space-t-15 mt-3 p-1">
+                                <div className="col-md-3 space-t-15 mt-3 p-1">
                                     <label htmlFor="phone-2" className="form-label">
-                                        Entrada
+                                        Inicio
                                     </label>
                                     <input
                                         type="date"
@@ -135,9 +199,9 @@ export default function Financeirodespesas() {
                                         onChange={(e) => setEntrada(e.target.value)}
                                     />
                                 </div>
-                                <div className="col-md-6 space-t-15 mt-3 p-1">
+                                <div className="col-md-3 space-t-15 mt-3 p-1">
                                     <label htmlFor="phone-2" className="form-label">
-                                        Saída
+                                        Fim
                                     </label>
                                     <input
                                         type="date"
@@ -146,14 +210,37 @@ export default function Financeirodespesas() {
                                         onChange={(e) => setSaida(e.target.value)}
                                     />
                                 </div>
-
+                                <div className="col-md-3 space-t-15 mt-3 p-1">
+                                    <label htmlFor="phone-2" className="form-label">
+                                        Categoria
+                                    </label>
+                                    <select className="form-control" id="cars" onChange={(e) => setCategoria(e.target.value)}>
+                                        <option value='todos'>Todas</option>
+                                        {allcategorias?.map((item, index) => {
+                                            console.log(item)
+                                            return (<option value={item._id}>{item.titulo}</option>)
+                                        })}
+                                    </select>
+                                </div>
+                                <div className="col-md-3 space-t-15 mt-3 p-1">
+                                    <label htmlFor="phone-2" className="form-label">
+                                        Hostel
+                                    </label>
+                                    <select className="form-control" id="cars" onChange={(e) => setHostel(e.target.value)}>
+                                        <option value='todos'>Todos os Hostels</option>
+                                        {hoteis?.map((item, index) => {
+                                            console.log(item)
+                                            return (<option value={item._id}>{item.titulo}</option>)
+                                        })}
+                                    </select>
+                                </div>
                                 <div style={{ cursor: 'pointer' }} className="col-lg-6 modalprice2" onClick={todosarr}>
                                     <h5 className="text-white">Todos</h5>
                                 </div>
                                 <div style={{ cursor: 'pointer' }} className="col-lg-6 modalprice2" onClick={filtrar}>
                                     <h5 className="text-white">Filtrar</h5>
                                 </div>
-                                
+
                                 <div className="col-lg-6 modalprice">
                                     <h5 className="text-white">Total</h5>
                                     <div className="text-white">{formatter.format(rendatotal2)}</div>
@@ -162,7 +249,7 @@ export default function Financeirodespesas() {
                                     <h5 className="text-white">Total cadastrado</h5>
                                     <div className="text-white">{hospedes2}</div>
                                 </div>
-                                
+
                             </div>
 
                             <div className="row">
@@ -187,22 +274,33 @@ export default function Financeirodespesas() {
                                                                 <th>Titulo</th>
                                                                 <th>Entrada</th>
                                                                 <th>Valor</th>
+                                                                <th>quantidade</th>
+                                                                <th>categoria</th>
                                                                 <th>Descrição</th>
                                                             </tr>
                                                         </thead>
 
                                                         <tbody>
                                                             {despesasArr?.map((item, index) => {
-                                                                    return (
-                                                                        <tr key={item.id} className="align-middle">
-                                                                            <td>{item.titulo}</td>
-                                                                            <td>{item.entrada}</td>
-                                                                            <td>{item.valor}</td>
-                                                                            <td style={{borderLeft: '1px solid black', maxWidth: '160px', minWidth: '160px'}} className="text-left">
+                                                                return (
+                                                                    <tr key={item.id} className="align-middle">
+                                                                        <td>{item.titulo}</td>
+                                                                        <td>{item.entrada}</td>
+                                                                        <td>{item.valor}</td>
+                                                                        <td>{item.quantidade}</td>
+                                                                        <td>{allcategorias?.map((item2, index2) => {
+                                                                            if (item.categoria === item2._id) {
+                                                                                return (
+                                                                                    item2.titulo
+                                                                                )
+                                                                            }
+                                                                        })
+                                                                        }</td>
+                                                                        <td style={{ borderLeft: '1px solid black', maxWidth: '160px', minWidth: '160px' }} className="text-left">
                                                                             {item.descricao}
-                                                                            </td>
-                                                                        </tr>
-                                                                    );
+                                                                        </td>
+                                                                    </tr>
+                                                                );
                                                             })}
                                                         </tbody>
                                                     </table>

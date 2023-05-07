@@ -7,21 +7,27 @@ import useSwr, { mutate } from "swr";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 function EditCategory({ despesasId, despesas, setShowEditCategoryComponent }) {
- 
+  const { data: allcategorias } = useSwr(`/api/categoriadespesas/getAllCategoria`, fetcher);
+  const { data: allhostels } = useSwr(`/api/hoteis/getAllHotel`, fetcher);
   const [id_, setId_] = useState(0);
   const [titulo, setDespesasName] = useState("");
   const [descricao, setDescricao] = useState("");
   const [entrada, setEntrada] = useState("");
   const [valor, setValor] = useState("");
+  const [categoria, setCategoria] = useState("");
+  const [quantidade, setQuantidade] = useState("");
+  const [hostel, sethostel] = useState("");
   useEffect(() => {
     despesas?.map(item => {
       if (item._id === despesasId) {
         setDespesasName(item.titulo);
         setDescricao(item.descricao);
-        setEntrada(item.entrada)
-        setId_(item._id)
-        setValor(item.valor)
-
+        setEntrada(item.entrada);
+        setId_(item._id);
+        setValor(item.valor);
+        setCategoria(item.categoria);
+        setQuantidade(item.quantidade);
+        sethostel(item.hostel);
       }
     })
   }, [despesasId]);
@@ -29,17 +35,20 @@ function EditCategory({ despesasId, despesas, setShowEditCategoryComponent }) {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    mutate(`/api/despesas/getAllDespesas`);
+    router.reload();
     let data = await axios.put(`/api/despesas/updateDespesas?id=${id_}`, {
       titulo: titulo,
       descricao: descricao,
+      categoria: categoria,
+      quantidade: quantidade,
+      hostel: hostel,
       entrada: entrada,
       valor: valor,
     });
     toast('Despesa sendo editada!', {
       position: "top-right",
       });
-    mutate(`/api/despesas/getAllDespesas`);
-    router.push("/b2b/despesas");
   };
 
   return (
@@ -71,7 +80,51 @@ function EditCategory({ despesasId, despesas, setShowEditCategoryComponent }) {
               />
             </div>
           </div>
-
+          <div className="form-group row">
+            <label htmlFor="text" className="col-12 col-form-label">
+              Categoria
+            </label>
+            <div className="col-12">
+              <select value={categoria} onChange={(e) => setCategoria(e.target.value)} className="form-control here slug-title" name="select">
+                <option value="geral">geral</option>
+                {allcategorias?.map((item, index) => {
+                  return(
+                    <option value={item._id}>{item.titulo}</option>
+                  )
+                })}
+              </select>
+            </div>
+          </div>
+          <div className="form-group row">
+            <label htmlFor="text" className="col-12 col-form-label">
+              Hostel
+            </label>
+            <div className="col-12">
+              <select value={hostel} onChange={(e) => sethostel(e.target.value)} className="form-control here slug-title" name="select">
+                <option value="geral">geral</option>
+                {allhostels?.map((item, index) => {
+                  return(
+                    <option value={item._id}>{item.titulo}</option>
+                  )
+                })}
+              </select>
+            </div>
+          </div>
+          <div className="form-group row">
+            <label htmlFor="text" className="col-12 col-form-label">
+              Quantidade
+            </label>
+            <div className="col-12">
+              <input
+                id="text"
+                name="text"
+                className="form-control here slug-title"
+                type="number"
+                value={quantidade}
+                onChange={(e) => setQuantidade(e.target.value)}
+              />
+            </div>
+          </div>
           <div className="form-group row">
             <label htmlFor="text" className="col-12 col-form-label">
               Descrição
