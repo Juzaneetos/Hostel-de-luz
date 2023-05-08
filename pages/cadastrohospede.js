@@ -194,7 +194,7 @@ export default function Home() {
                             </select>
                           </div>
 
-                          <div className="col-md-12">
+                          <div className="col-md-12 mt-3">
                             <label className="form-label">Observações</label>
                             <textarea
                               rows={5}
