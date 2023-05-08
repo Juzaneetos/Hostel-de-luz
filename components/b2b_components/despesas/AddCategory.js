@@ -76,7 +76,7 @@ function AddDespesas() {
                 <option value="geral">geral</option>
                 {allcategorias?.map((item, index) => {
                   return(
-                    <option value={item._id}>{item.titulo}</option>
+                    <option key={item._id} value={item._id}>{item.titulo}</option>
                   )
                 })}
               </select>
@@ -91,7 +91,7 @@ function AddDespesas() {
                 <option value="geral">geral</option>
                 {allhostels?.map((item, index) => {
                   return(
-                    <option value={item._id}>{item.titulo}</option>
+                    <option key={item._id} value={item._id}>{item.titulo}</option>
                   )
                 })}
               </select>
