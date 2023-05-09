@@ -15,7 +15,7 @@ export default function EditUsers({ usersEditId, users }) {
 
   useEffect(() => {
     users?.map(item => {
-      if(item.id === usersEditId ) {
+      if(item._id === usersEditId ) {
         setUserName(item.name);
         setUserEmail(item.email);
         setUserLogin(item.login);

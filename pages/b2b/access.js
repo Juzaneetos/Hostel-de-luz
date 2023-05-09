@@ -104,7 +104,7 @@ export default function Users({ }) {
                                             type="value"
                                             className="btn btn-primary"
                                             onClick={(e) => {
-                                            setUsersEditId(item.id);
+                                            setUsersEditId(item._id);
                                             setShowEditCategoryComponent(true);
                                             }}
                                           >
