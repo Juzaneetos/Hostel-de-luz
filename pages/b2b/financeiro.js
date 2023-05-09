@@ -320,7 +320,7 @@ export default function Financeiro() {
                                         <option value='todos'>Todos os Hostels</option>
                                         {hoteis?.map((item, index) => {
                                             console.log(item)
-                                            return (<option value={item._id}>{item.titulo}</option>)
+                                            return (<option key={item._id} value={item._id}>{item.titulo}</option>)
                                         })}
                                     </select>
                                 </div>
