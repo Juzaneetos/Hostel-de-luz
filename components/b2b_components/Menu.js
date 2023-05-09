@@ -18,7 +18,10 @@ import {
 import {
   BsFileLock,
   BsCalendar2Check,
-  BsFillPersonCheckFill
+  BsFillPersonCheckFill,
+  BsBookmarkX,
+  BsBookmarkPlus,
+  BsBookmarkDash
 } from "react-icons/bs"
 import {
   BiBed
@@ -30,15 +33,19 @@ import {
   GiBroom
 } from "react-icons/gi"
 import {
-  GrMoney
-} from "react-icons/gr"
+  MdCategory
+} from "react-icons/md"
+import {
+  MdProductionQuantityLimits,
+  BiBookAdd
+} from "react-icons/md"
 
 
 
 // import '../assets/js/custom'
 // import '../../assets/images';
 
-export default function Menu({parametro}) {
+export default function Menu({ parametro }) {
   const [isMenuLinkActived, setIsMenuLinkActived] = useState("active");
   const [ordersMenu, setOrdersMenu] = useState(false);
   const [productsMenu, setProductsMenu] = useState(false);
@@ -75,6 +82,8 @@ export default function Menu({parametro}) {
     return router.push("/b2b/login");
   }
 
+  console.log(level)
+
   return (
     <>
       <div style={{ width: '400px' }}></div>
@@ -93,185 +102,267 @@ export default function Menu({parametro}) {
           <div className="ec-navigation overflow-auto" data-simplebar>
 
             <ul className="nav sidebar-inner" id="sidebar-menu">
+              {level === '20' || level === '50' || level === '40' ?
+                <>
+                  <li className={parametro === '1' ? `active` : ``}>
+                    <Link
+                      className="sidenav-item-link"
+                      href="/b2b/checkIn"
+                    >
+                      <BsCalendar2Check size={24} />
+                      <span className="nav-text">Novo Check-In</span>
+                    </Link>
+                  </li>
 
-              <li className={parametro === '1' ? `active`: ``}>
-                <Link
-                  className="sidenav-item-link"
-                  href="/b2b/checkIn"
-                >
-                  <BsCalendar2Check size={24} />
-                  <span className="nav-text">Novo Check-In</span>
-                </Link>
-              </li>
-
-              <li className={parametro === '2' ? `active`: ``}>
-                <Link
-                  className="sidenav-item-link"
-                  href="/b2b/customers"
-                >
-                  <FaLaptop size={24} />
-                  <span className="nav-text" >Check-in Ativos</span>
-                </Link>
-              </li>
+                  <li className={parametro === '2' ? `active` : ``}>
+                    <Link
+                      className="sidenav-item-link"
+                      href="/b2b/customers"
+                    >
+                      <FaLaptop size={24} />
+                      <span className="nav-text" >Check-in Ativos</span>
+                    </Link>
+                  </li>
 
 
-              <li className={parametro === '3' ? `active`: ``}>
-                <Link
-                  className="sidenav-item-link"
-                  href="/b2b/customersallactive"
-                >
-                  <FaUsers size={24} />
-                  <span className="nav-text">Todos os Check-ins</span>
-                </Link>
-              </li>
+                  <li className={parametro === '3' ? `active` : ``}>
+                    <Link
+                      className="sidenav-item-link"
+                      href="/b2b/customersallactive"
+                    >
+                      <FaUsers size={24} />
+                      <span className="nav-text">Todos os Check-ins</span>
+                    </Link>
+                  </li>
 
-              <hr />
+                  <hr />
 
-              <li className={parametro === '4' ? `active`: ``}>
-                <Link
-                  className="sidenav-item-link"
-                  href="/b2b/customerscadastro"
-                >
-                  <BsFillPersonCheckFill size={24} />
-                  <span className="nav-text">Novo Hóspede</span>
-                </Link>
-              </li>
+                  <li className={parametro === '4' ? `active` : ``}>
+                    <Link
+                      className="sidenav-item-link"
+                      href="/b2b/customerscadastro"
+                    >
+                      <BsFillPersonCheckFill size={24} />
+                      <span className="nav-text">Novo Hóspede</span>
+                    </Link>
+                  </li>
 
-              <li className={parametro === '5' ? `active`: ``}>
-                <Link
-                  className="sidenav-item-link"
-                  href="/b2b/hospedesall"
-                >
-                  <FaUsers size={24} />
-                  <span className="nav-text">Todos os Hóspedes</span>
-                </Link>
-              </li>
-
-              <hr />
-
-              <li className={parametro === '6' ? `active`: ``}>
-                <Link
-                  className="sidenav-item-link"
-                  href="/b2b/Trocadecama"
-                >
-                  <GiBroom size={24} />
-                  <span className="nav-text">Troca de Roupa Cama</span>
-                </Link>
-              </li>
-
-              <hr />
-
-              <li className={parametro === '7' ? `active`: ``}>
-                <Link
-                  className="sidenav-item-link"
-                  href="/b2b/financeiro"
-                >
-                  <GiMoneyStack size={24} />
-                  <span className="nav-text">Financeiro Hóspedes</span>
-                </Link>
-              </li>
-
-              <hr />
-
-              <li className={parametro === '8' ? `active`: ``}>
-                <Link
-                  className="sidenav-item-link"
-                  href="/b2b/despesas"
-                >
-                  <GiPayMoney size={24} />
-                  <span className="nav-text">Despesas</span>
-                </Link>
-              </li>
-
-              <li className={parametro === '9' ? `active`: ``}>
-                <Link
-                  className="sidenav-item-link"
-                  href="/b2b/categoriadespesas"
-                >
-                  <GiPayMoney size={24} />
-                  <span className="nav-text">Categoria Despesas</span>
-                </Link>
-              </li>
-
-              <li className={parametro === '10' ? `active`: ``}>
-                <Link
-                  className="sidenav-item-link"
-                  href="/b2b/financeirodespesas"
-                >
-                  <GiReceiveMoney size={24} />
-                  <span className="nav-text">Financeiro Despesas</span>
-                </Link>
-              </li>
-
-              <hr />
-
-              <li className={parametro === '11' ? `active`: ``}>
-                <Link
-                  className="sidenav-item-link"
-                  href="/b2b/quartos"
-                >
-                  <BiBed size={24} />
-                  <span className="nav-text">Quartos</span>
-                </Link>
-              </li>
-
-              <li className={parametro === '12' ? `active`: ``}>
-                <Link
-                  className="sidenav-item-link"
-                  href="/b2b/hoteis"
-                >
-                  <FaHotel size={24} />
-                  <span className="nav-text">Hostels</span>
-                </Link>
-              </li>
-
-              <hr />
-
-              <li className={parametro === '13' ? `active`: ``}>
-                <Link
-                  className="sidenav-item-link"
-                  href="/b2b/faq"
-                >
-                  <FaRegQuestionCircle size={24} />
-                  <span className="nav-text">Perguntas FAQ</span>
-                </Link>
-              </li>
-
-              <li className={parametro === '14' ? `active`: ``}>
-                <Link
-                  className="sidenav-item-link"
-                  href="/b2b/policy_privacy"
-                >
-                  <BsFileLock size={24} />
-                  <span className="nav-text">Política de Privacidade</span>
-                </Link>
-              </li>
-
-              <li className={parametro === '15' ? `active`: ``}>
-                <Link
-                  className="sidenav-item-link"
-                  href="/b2b/terms_responsibility"
-                >
-                  <FaKeycdn size={24} />
-                  <span className="nav-text">Termos e Responsabilidade</span>
-                </Link>
-              </li>
-
-              <hr />
-
-              {level < 30 ?
-                <></>
+                  <li className={parametro === '5' ? `active` : ``}>
+                    <Link
+                      className="sidenav-item-link"
+                      href="/b2b/hospedesall"
+                    >
+                      <FaUsers size={24} />
+                      <span className="nav-text">Todos os Hóspedes</span>
+                    </Link>
+                  </li>
+                </>
                 :
-                <li className={parametro === '16' ? `active`: ``}>
+                <></>
+              }
+
+              {level === '30' || level === '50' || level === '40' ?
+                <>
+
+                  <li className={parametro === '17' ? `active` : ``}>
+                    <Link
+                      className="sidenav-item-link"
+                      href="/b2b/produtos"
+                    >
+                      <MdProductionQuantityLimits size={24} />
+                      <span className="nav-text">Produtos</span>
+                    </Link>
+                  </li>
+
+                  <li className={parametro === '18' ? `active` : ``}>
+                    <Link
+                      className="sidenav-item-link"
+                      href="/b2b/pedido-novo"
+                    >
+                      <BsBookmarkPlus size={24} />
+                      <span className="nav-text">Nova Comanda</span>
+                    </Link>
+                  </li>
+
+                  <li className={parametro === '19' ? `active` : ``}>
+                    <Link
+                      className="sidenav-item-link"
+                      href="/b2b/pedidos-abertos"
+                    >
+                      <BsBookmarkDash size={24} />
+                      <span className="nav-text">Comandas Abertas</span>
+                    </Link>
+                  </li>
+
+                  <li className={parametro === '20' ? `active` : ``}>
+                    <Link
+                      className="sidenav-item-link"
+                      href="/b2b/pedidos-fechados"
+                    >
+                      <BsBookmarkX size={24} />
+                      <span className="nav-text">Comandas Finalizadas</span>
+                    </Link>
+                  </li>
+
+                  <li className={parametro === '10' ? `active` : ``}>
+                    <Link
+                      className="sidenav-item-link"
+                      href="/b2b/financeiroloja"
+                    >
+                      <GiReceiveMoney size={24} />
+                      <span className="nav-text">Financeiro Loja</span>
+                    </Link>
+                  </li>
+                  <hr />
+                </>
+                :
+                <></>
+              }
+
+
+              {level === '20' || level === '50' || level === '40' ?
+                <li className={parametro === '6' ? `active` : ``}>
                   <Link
                     className="sidenav-item-link"
-                    href="/b2b/access"
+                    href="/b2b/Trocadecama"
                   >
-                    <FaStarHalfAlt size={24} />
-                    <span className="nav-text">Acessos</span>
+                    <GiBroom size={24} />
+                    <span className="nav-text">Troca de Roupa Cama</span>
                   </Link>
                 </li>
+                :
+                <></>
               }
+
+
+              {level === '40' || level === '50' ?
+                <>
+
+                  <hr />
+                  <li className={parametro === '7' ? `active` : ``}>
+                    <Link
+                      className="sidenav-item-link"
+                      href="/b2b/financeiro"
+                    >
+                      <GiMoneyStack size={24} />
+                      <span className="nav-text">Financeiro Hóspedes</span>
+                    </Link>
+                  </li>
+                </>
+                :
+                <></>
+              }
+
+              {level === '20' || level === '50' || level === '40' ?
+                <li className={parametro === '8' ? `active` : ``}>
+                  <Link
+                    className="sidenav-item-link"
+                    href="/b2b/despesas"
+                  >
+                    <GiPayMoney size={24} />
+                    <span className="nav-text">Despesas</span>
+                  </Link>
+                </li>
+                :
+                <></>
+              }
+
+
+
+              {level === '40' || level === '50' ?
+                <>
+                  <li className={parametro === '9' ? `active` : ``}>
+                    <Link
+                      className="sidenav-item-link"
+                      href="/b2b/categoriadespesas"
+                    >
+                      <MdCategory size={24} />
+                      <span className="nav-text">Categoria Despesas</span>
+                    </Link>
+                  </li>
+
+                  <li className={parametro === '10' ? `active` : ``}>
+                    <Link
+                      className="sidenav-item-link"
+                      href="/b2b/financeirodespesas"
+                    >
+                      <GiReceiveMoney size={24} />
+                      <span className="nav-text">Financeiro Despesas</span>
+                    </Link>
+                  </li>
+                  <hr />
+
+                  <li className={parametro === '11' ? `active` : ``}>
+                    <Link
+                      className="sidenav-item-link"
+                      href="/b2b/quartos"
+                    >
+                      <BiBed size={24} />
+                      <span className="nav-text">Quartos</span>
+                    </Link>
+                  </li>
+
+                  <li className={parametro === '12' ? `active` : ``}>
+                    <Link
+                      className="sidenav-item-link"
+                      href="/b2b/hoteis"
+                    >
+                      <FaHotel size={24} />
+                      <span className="nav-text">Hostels</span>
+                    </Link>
+                  </li>
+                  <hr />
+                  <li className={parametro === '16' ? `active` : ``}>
+                    <Link
+                      className="sidenav-item-link"
+                      href="/b2b/access"
+                    >
+                      <FaStarHalfAlt size={24} />
+                      <span className="nav-text">Acessos</span>
+                    </Link>
+                  </li>
+                  <hr />
+                </>
+                :
+                <></>
+              }
+
+
+              {level === '10' || level === '40' || level === '50' ?
+                <>
+                  <li className={parametro === '13' ? `active` : ``}>
+                    <Link
+                      className="sidenav-item-link"
+                      href="/b2b/faq"
+                    >
+                      <FaRegQuestionCircle size={24} />
+                      <span className="nav-text">Perguntas FAQ</span>
+                    </Link>
+                  </li>
+
+                  <li className={parametro === '14' ? `active` : ``}>
+                    <Link
+                      className="sidenav-item-link"
+                      href="/b2b/policy_privacy"
+                    >
+                      <BsFileLock size={24} />
+                      <span className="nav-text">Política de Privacidade</span>
+                    </Link>
+                  </li>
+
+                  <li className={parametro === '15' ? `active` : ``}>
+                    <Link
+                      className="sidenav-item-link"
+                      href="/b2b/terms_responsibility"
+                    >
+                      <FaKeycdn size={24} />
+                      <span className="nav-text">Termos e Responsabilidade</span>
+                    </Link>
+                  </li>
+                </>
+                :
+                <></>}
+
 
             </ul>
           </div>

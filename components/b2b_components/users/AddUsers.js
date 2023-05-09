@@ -15,10 +15,13 @@ export default function AddUsers() {
     e.preventDefault();
    var lvlAccess = 0;
 
-    if (usersLevel === 'funcionario') { lvlAccess = 10 }
-    if (usersLevel === 'gerente') { lvlAccess = 30 }
+    if (usersLevel === 'funcionarioSite') { lvlAccess = '10' }
+    if (usersLevel === 'funcionarioHostel') { lvlAccess = '20' }
+    if (usersLevel === 'funcionarioLoja') { lvlAccess = '30' }
+    if (usersLevel === 'gerente') { lvlAccess = '40' }
     
-    let data = await axios.post(`/api/users/insertUsers`, {
+    router.reload();
+    await axios.post(`/api/users/insertUsers`, {
       name: usersName,
       email: usersEmail,
       user: usersLogin,
@@ -31,7 +34,6 @@ export default function AddUsers() {
       position: "top-right",
       });
     mutate(`/api/users`);
-    router.push("/b2b/access");
   };
 
   return (
@@ -111,7 +113,9 @@ export default function AddUsers() {
               >
               
               <option value="">Escolha o acesso</option>
-              <option value="funcionario">Funcionario</option>
+              <option value="funcionarioSite">Funcionario Site</option>
+              <option value="funcionarioHostel">Funcionario Hostel</option>
+              <option value="funcionarioLoja">Funcionario Loja</option>
               <option value="gerente">Gerente</option>
               </select>
             </div>

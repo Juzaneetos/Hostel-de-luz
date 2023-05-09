@@ -35,8 +35,8 @@ export default function EditUsers({ usersEditId, users }) {
     var lvlAccess = 0;
     if (usersLevel === 'funcionario') { lvlAccess = 10 }
     if (usersLevel === 'gerente') { lvlAccess = 30 }
-
-    let data = await axios.put(`/api/users/updateUsers?id=${id_}`, {
+    router.reload();
+   await axios.put(`/api/users/updateUsers?id=${id_}`, {
       name: usersName,
       email: usersEmail,
       user: usersLogin,
@@ -48,7 +48,6 @@ export default function EditUsers({ usersEditId, users }) {
       position: "top-right",
       });
     mutate(`/api/users`);
-    router.push("/b2b/access");
   };
 
 

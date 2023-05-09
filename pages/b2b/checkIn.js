@@ -136,6 +136,7 @@ export default function Checkin() {
   }
 
   const dispararbanco = async () => {
+    if(Name === '' || datanascimento === '' || entrada === '' || saida === '' || objreserva === [] || telefone === ''){return toast.error('Preencha os campos corretamente!')}
     let contador = 0;
     const dataEntradaNovaReserva = new Date(entrada);
     const dataSaidaNovaReserva = new Date(saida);
@@ -282,14 +283,14 @@ export default function Checkin() {
                                   onChange={(e) => setPassaporte(e.target.value)}
                                 />
                               </div>
-                              <div className="col-md-6">
+                              <div className="col-md-6 date-input">
                                 <label className="form-label">Data de Nascimento</label>
                                 <input
                                   type="date"
                                   className="form-control slug-title"
-                                  id="inputEmail4"
                                   onChange={(e) => setDatanascimento(e.target.value)}
                                 />
+                                <span class="calendar-icon"></span>
                               </div>
                               <div className="col-md-6">
                                 <label className="form-label">Genero</label>
@@ -365,7 +366,7 @@ export default function Checkin() {
                                 </div>
                               </div>
 
-                              <div className="col-md-6">
+                              <div className="col-md-6 date-input">
                                 <label className="form-label">Entrada</label>
                                 <input
                                   type="date"
@@ -373,8 +374,9 @@ export default function Checkin() {
                                   value={entrada}
                                   onChange={(e) => datamudou(e.target.value, 'entrada')}
                                 />
+                                <span class="calendar-icon"></span>
                               </div>
-                              <div className="col-md-6">
+                              <div className="col-md-6 date-input">
                                 <label className="form-label">Saida</label>
                                 {entrada === '' ?
                                   <input
@@ -391,6 +393,7 @@ export default function Checkin() {
                                     value={saida}
                                     onChange={(e) => datamudou(e.target.value, 'saida')}
                                   />}
+                                  <span class="calendar-icon"></span>
 
                               </div>
 

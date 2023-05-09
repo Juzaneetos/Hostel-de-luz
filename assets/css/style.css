@@ -491,9 +491,9 @@ select:disabled {
   opacity: 1;
 }
 
-[list]::-webkit-calendar-picker-indicator {
+/* [list]::-webkit-calendar-picker-indicator {
   display: none;
-}
+} */
 
 button,
 [type=button],
@@ -1216,9 +1216,9 @@ textarea {
   cursor: pointer;
 }
 
-[list]::-webkit-calendar-picker-indicator {
+/* [list]::-webkit-calendar-picker-indicator {
   display: none;
-}
+} */
 
 [type=button] {
   -webkit-appearance: button;

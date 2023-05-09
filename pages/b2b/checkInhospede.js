@@ -3,13 +3,10 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import router from 'next/router';
 import Link from "next/link";
-import bg1 from '../../assets/img/quarto-de-luxo-no-hotel.jpg'
 import Image from "next/image";
 import { MdOutlineArrowDropDown } from "react-icons/md";
 import { useState, useEffect, useRef } from "react";
 import Calendario from '../../components/b2b_components/Calendario'
-import { ref, uploadBytesResumable, getDownloadURL, getStorage, deleteObject } from 'firebase/storage';
-import { storage } from '../../firebaseConfig.ts';
 import useSwr, { mutate } from "swr";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -123,6 +120,7 @@ export default function Checkin() {
 
 
   const dispararbanco = async () => {
+    if(Name === '' || datanascimento === '' || entrada === '' || saida === '' || objreserva === [] || telefone === ''){return toast.error('Preencha os campos corretamente!')}
     let contador = 0;
     const dataEntradaNovaReserva = new Date(entrada);
     const dataSaidaNovaReserva = new Date(saida);
@@ -307,7 +305,7 @@ dispararcheckin()
                                   onChange={(e) => setPassaporte(e.target.value)}
                                 />
                               </div>
-                              <div className="col-md-6">
+                              <div className="col-md-6 date-input">
                                 <label className="form-label">Data de Nascimento</label>
                                 <input
                                   type="date"
@@ -316,11 +314,12 @@ dispararcheckin()
                                   value={datanascimento}
                                   onChange={(e) => setDatanascimento(e.target.value)}
                                 />
+                                <span className="calendar-icon"></span>
                               </div>
                               <div className="col-md-6">
                                 <label className="form-label">Genero</label>
-                                <div className="input-icon-container">
-                                  <select style={{ height: '50px' }} value={genero} onChange={(e) => setGenero(e.target.value)}>
+                                <div className="input-icon-container ">
+                                  <select style={{ height: '45px' }} value={genero} onChange={(e) => setGenero(e.target.value)}>
                                     <option value={''} selected></option>
                                     <option value={'masculino'} >Masculino</option>
                                     <option value={'feminino'}>Feminino</option>
@@ -393,7 +392,7 @@ dispararcheckin()
                                 </div>
                               </div>
 
-                              <div className="col-md-6">
+                              <div className="col-md-6 date-input">
                                 <label className="form-label">Entrada</label>
                                 <input
                                   type="date"
@@ -401,8 +400,9 @@ dispararcheckin()
                                   id="inputEmail4"
                                   onChange={(e) => datamudou(e.target.value, 'entrada')}
                                 />
+                                <span className="calendar-icon"></span>
                               </div>
-                              <div className="col-md-6">
+                              <div className="col-md-6 date-input">
                                 <label className="form-label">Saida</label>
                                 {entrada === '' ? 
                                 <input
@@ -419,6 +419,7 @@ dispararcheckin()
                                   value={saida}
                                   onChange={(e) => datamudou(e.target.value, 'saida')}
                                 />}
+                                <span className="calendar-icon"></span>
                               </div>
 
 

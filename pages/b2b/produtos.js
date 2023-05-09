@@ -1,45 +1,44 @@
 import axios from "axios";
-import { Link } from "next/link";
 import { useState, useEffect } from "react";
-import { FaTrash } from "react-icons/fa";
-import { toast } from "react-toastify";
-import { BsPencilFill } from "react-icons/bs";
-import router from 'next/router'
-import AddCategory from "../../components/b2b_components/despesas/AddCategory";
-import EditCategory from "../../components/b2b_components/despesas/EditCategory";
+import { FaTrashAlt, FaPencilAlt } from "react-icons/fa";
 
-import Header from "../../components/b2b_components/Header";
+import router from 'next/router'
+import AddProdutos from "../../components/b2b_components/produtos/Add";
+import EditProdutos from "../../components/b2b_components/produtos/Edit";
+
 import Menu from "../../components/b2b_components/Menu";
-import Footer from "../../components/b2b_components/Footer";
 import useSwr, { mutate } from "swr";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
-export default function Despesas({ }) {
-  const [despesasEditId, setCategoryEditId] = useState("");
-  const [despesasInfo, setCategoryInfo] = useState([]);
-  const [showEditCategoryComponent, setShowEditCategoryComponent] = useState(false);
+export default function Produtos() {
+  const [produtosEditId, setProdutosEditId] = useState("");
+  const [showEditProdutosComponent, setShowEditProdutosComponent] = useState(false);
 
-  const { data: despesas } = useSwr(`/api/despesas/getAllDespesas`, fetcher);
-  console.log(despesas)
-  var tamanho = despesas?.length || [];
+  const { data: produtos } = useSwr(`/api/produtos/getAllProdutos`, fetcher);
 
-  const deleteDespesas = async (id) => {
-    let data = await axios.delete(`/api/despesas/deleteDespesas?id=${id}`);
-    toast.success("Despesa deletada com sucesso!")
-    mutate(`/api/despesas/getAllDespesas`);
-    router.push("/b2b/despesas");
+  var tamanho = produtos?.length || [];
+
+  const formatter = new Intl.NumberFormat('bt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  });
+
+  const deleteProdutos = async (id) => {
+    await axios.delete(`/api/produtos/deleteProdutos?id=${id}`);
+    mutate(`/api/produtos/getAllProdutos`);
+    router.push("/b2b/produtos");
   };
 
   return (
     <>
       <div style={{ backgroundColor: '#f3f3f3' }}>
         <div style={{ display: 'flex' }}>
-          <Menu  parametro={'8'}/>
+          <Menu parametro={'17'}/>
           <div className="ec-page-wrapper">
             <div className="ec-content-wrapper">
               <div className="content">
                 <div className="breadcrumb-wrapper breadcrumb-wrapper-2 breadcrumb-contacts">
-                  <h1>Despesas</h1>
+                  <h1>Produtos</h1>
                   <p className="breadcrumbs">
                     <span>
                       <a href="#">Dashboard</a>
@@ -47,66 +46,66 @@ export default function Despesas({ }) {
                     <span>
                       <i className="mdi mdi-chevron-right"></i>
                     </span>
-                    Despesas
+                    Produtos
                   </p>
                 </div>
                 <div className="row">
-                <div className=" col-lg-12">
+
+                  <div className="col-12">
                     <div className="ec-cat-list card card-default mb-24px">
-                      <div className="card-body">
-                        {showEditCategoryComponent !== true ? (
-                          <AddCategory />
-                        ) : (
-                          <EditCategory despesasId={despesasEditId} despesas={despesas} setShowEditCategoryComponent={setShowEditCategoryComponent}/>
-                        )}
-                      </div>
+                      {showEditProdutosComponent !== true ? (
+                        <AddProdutos />
+                      ) : (
+                        <EditProdutos produtosId={produtosEditId} produtos={produtos} setShowEditProdutosComponent={setShowEditProdutosComponent} />
+                      )}
                     </div>
                   </div>
-                  <div className=" col-lg-12">
+
+                  <div className="col-12">
                     <div className="ec-cat-list card card-default">
                       <div className="card-body">
                         <div className="table-responsive">
                           {tamanho === 0 && (
                             <div className="text-center">
-                              Não possui nenhuma despesa cadastrada
+                              Não possui nenhum produto cadastrado
                             </div>
                           )}
 
                           {tamanho !== 0 && (
-                            <table id="responsive-data-table" className="table table-striped">
+                            <table id="responsive-data-table" className="table">
                               <thead>
                                 <tr>
                                   <th>Nome</th>
-                                  <th>Valor</th>
-                                  <th>Descrição</th>
+                                  <th>Compra</th>
+                                  <th>Venda</th>
                                   <th></th>
                                 </tr>
                               </thead>
 
                               <tbody>
-                                {despesas?.map((item) => {
+                                {produtos?.map((item, index) => {
                                   return (
-                                    <tr key={item._id} className="align-middle">
-                                      <td>{item.titulo}</td>
-                                      <td>{item.entrada}</td>
-                                      <td>{item.descricao.slice(0, 20)}...</td>
+                                    <tr key={index} className="align-middle">
+                                      <td>{item.nome}</td>
+                                      <td>{formatter.format(parseFloat(item.valorCompra))}</td>
+                                      <td>{formatter.format(parseFloat(item.valorVenda))}</td>
                                       <td className="text-right">
                                         <div className="btn-group">
                                           <button
                                             type="value"
                                             className="btn btn-primary"
                                             onClick={(e) => {
-                                              setCategoryEditId(item._id);
-                                              setShowEditCategoryComponent(true);
+                                              setProdutosEditId(item._id);
+                                              setShowEditProdutosComponent(true);
                                             }}
                                           >
-                                            <BsPencilFill />
+                                            <FaPencilAlt />
                                           </button>
                                           <button
                                             className="btn btn-outline-primary delete-btn"
-                                            onClick={() => deleteDespesas(item._id)}
+                                            onClick={() => deleteProdutos(item._id)}
                                           >
-                                            <FaTrash color="#d93b3b" />
+                                            <FaTrashAlt color="#cc0000" />
                                           </button>
                                         </div>
                                       </td>
@@ -120,13 +119,12 @@ export default function Despesas({ }) {
                       </div>
                     </div>
                   </div>
-                  
+
                 </div>
               </div>
             </div>
           </div>
         </div>
-       
       </div>
     </>
   );

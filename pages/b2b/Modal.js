@@ -3,16 +3,12 @@ import useSwr, { mutate } from "swr";
 import router from 'next/router';
 const fetcher = (url) => fetch(url).then((res) => res.json());
 import Image from 'next/image'
-import Swal from 'sweetalert2'
 import Calendario from '../../components/b2b_components/Calendario'
 import axios from "axios";
-import { toast } from "react-toastify";
-import CurrencyInput from 'react-currency-input-field'
-import formatCpf from '@brazilian-utils/format-cpf';
 export default function Modal({ customers, id_ }) {
   const { data: hoteis } = useSwr(`/api/hoteis/getAllHotel`, fetcher);
   const { data: quartos } = useSwr(`/api/quartos/getAllQuarto`, fetcher);
-  const [arrdatas, setArrdatas] = useState();
+  const [arrdatas, setArrdatas] = useState([]);
   const [Name, setName] = useState("");
   const [rg, setRg] = useState("");
   const [cpf, setCpf] = useState("");
@@ -41,10 +37,10 @@ export default function Modal({ customers, id_ }) {
   const [pagamentoconcluido, setPagamentoConcluido] = useState('');
   const [checkinID, setCheckingID] = useState(0);
   const [camacheckinID, setCamaCheckinID] = useState(0);
+  console.log(active, pagamentoconcluido)
   const currentDate = new Date(saida);
   const previousDate = new Date(currentDate.setDate(currentDate.getDate()) - 1);
-  console.log(customers, id_)
-  let newarr = [];
+
   useEffect(() => {
     customers?.map((item, index) => {
       if (item._id === id_) {
@@ -78,14 +74,11 @@ export default function Modal({ customers, id_ }) {
             setIdquarto(item2._id)
             setIdquartodef(item2._id)
             item2.arrCamas?.map((item3, index) => {
-              item3?.map((item4, index5) => {
-
+              item3?.map((item4, index) => {
                 if (item.checkinID === item4.checkinID) {
-                  newarr = [...newarr, item4];
+                  setArrdatas(...arrdatas, item3)
                   setCamaCheckinID(item4.checkinID)
-                }
-                if (item3.length === index5 + 1) {
-                  setArrdatas(newarr)
+                  console.log(item4)
                 }
               })
             })
@@ -94,21 +87,18 @@ export default function Modal({ customers, id_ }) {
       }
     })
   }, [id_])
-  console.log(newarr)
 
   let contadordisponivel = 0;
   let contadorrenderizado = 0;
   let titulo_ = '';
   let camas = '';
   let arrCamas = [];
-  let imagem = [];
   let hotel_ = '';
   let genero_ = '';
   let ativado = '';
   let titulo_2 = '';
   let camas2 = '';
   let arrCamas2 = [];
-  let imagem2 = [];
   let hotel_2 = '';
   let genero_2 = '';
   let ativado2 = '';
@@ -127,8 +117,8 @@ export default function Modal({ customers, id_ }) {
   const dispararcheckin = async () => {
     let diasaida = '';
     let diasaidamanha = '';
-    if (saida === saidafixa) { diasaida = saidafixa } else { diasaida = previousDate.toISOString().slice(0, 10) }
-    if (saida === saidafixa) { diasaidamanha = saidamanha } else { diasaidamanha = saida }
+    if(saida === saidafixa){diasaida = saidafixa}else{diasaida = previousDate.toISOString().slice(0, 10)}
+    if(saida === saidafixa){diasaidamanha = saidamanha}else{diasaidamanha = saida}
     let data = await axios.put(`/api/checkin/updateCheckin?id=${id_}`, {
       nome: Name,
       rg: rg,
@@ -139,7 +129,7 @@ export default function Modal({ customers, id_ }) {
       genero: genero,
       entrada: entrada,
       diaLimpeza: entrada,
-      saidamanha: diasaidamanha,
+      saidamanha: saida,
       saida: diasaida,
       formapagamento: formapagamento,
       valorpago: valorpago,
@@ -155,8 +145,8 @@ export default function Modal({ customers, id_ }) {
   const dispararcheckoutaxios = async () => {
     let diasaida = '';
     let diasaidamanha = '';
-    if (saida === saidafixa) { diasaida = saidafixa } else { diasaida = previousDate.toISOString().slice(0, 10) }
-    if (saida === saidafixa) { diasaidamanha = saidamanha } else { diasaidamanha = saida }
+    if(saida === saidafixa){diasaida = saidafixa}else{diasaida = previousDate.toISOString().slice(0, 10)}
+    if(saida === saidafixa){diasaidamanha = saidamanha}else{diasaidamanha = saida}
     let data = await axios.put(`/api/checkin/updateCheckin?id=${id_}`, {
       nome: Name,
       rg: rg,
@@ -183,8 +173,8 @@ export default function Modal({ customers, id_ }) {
   const dispararcheckoutatt = async () => {
     let diasaida = '';
     let diasaidamanha = '';
-    if (saida === saidafixa) { diasaida = saidafixa } else { diasaida = previousDate.toISOString().slice(0, 10) }
-    if (saida === saidafixa) { diasaidamanha = saidamanha } else { diasaidamanha = saida }
+    if(saida === saidafixa){diasaida = saidafixa}else{diasaida = previousDate.toISOString().slice(0, 10)}
+    if(saida === saidafixa){diasaidamanha = saidamanha}else{diasaidamanha = saida}
     let data = await axios.put(`/api/checkin/updateCheckin?id=${id_}`, {
       nome: Name,
       rg: rg,
@@ -206,31 +196,27 @@ export default function Modal({ customers, id_ }) {
       pagamentoconcluido: pagamentoconcluido,
       checkinID: checkinID,
     });
-    mutate('/api/checkin/getAllCheckin')
+    mutate('/api/hoteis/getAllCustomers')
   }
   const dispararquarto = async () => {
     const response1 = await axios.put(`/api/quartos/updateQuarto?id=${idquarto}`, {
       titulo: titulo_,
       camas: camas,
       arrCamas: arrCamas,
-      imagem: imagem,
       hotel: hotel_,
       genero: genero_,
       ativado: ativado,
     });
-    mutate('/api/quartos/getAllQuarto')
   }
   const dispararquartoanterior = async () => {
     const response1 = await axios.put(`/api/quartos/updateQuarto?id=${idquartodef}`, {
       titulo: titulo_2,
       camas: camas2,
       arrCamas: arrCamas2,
-      imagem: imagem2,
       hotel: hotel_2,
       genero: genero_2,
       ativado: ativado2,
     });
-    mutate('/api/quartos/getAllQuarto')
   }
 
   const dispararcheckout = async () => {
@@ -239,8 +225,8 @@ export default function Modal({ customers, id_ }) {
     const dataEntradaNovaReserva = new Date(entrada);
     const dataSaidaNovaReserva = new Date(saida);
     const quartoSaida = (JSON.stringify(dataEntradaNovaReserva) === JSON.stringify(dataSaidaNovaReserva));
-
-    if (quartoSaida) return toast.error('datas não podem ser iguais');
+    
+    if (quartoSaida) return alert('datas não podem ser iguais');
 
     quartos?.map((item, index) => {
       contador++
@@ -263,7 +249,7 @@ export default function Modal({ customers, id_ }) {
                   const dataSaidaReserva = new Date(item3.saida);
                   const indexblock = item2.findIndex(item3 => dataEntradaNovaReserva < dataSaidaReserva && dataSaidaNovaReserva > dataEntradaReserva);
                   if (indexblock !== -1) {
-                    toast.error('ja reservado')
+                    alert('ja reservado')
                     block++;
                   }
                 }
@@ -283,10 +269,10 @@ export default function Modal({ customers, id_ }) {
                               item8.splice(indexsplice, 1);
                             }
                             if (hotel === item7.hotel) {
+                              alert('oi')
                               titulo_2 = item7.titulo;
                               camas2 = item7.camas;
                               arrCamas2 = item7.arrCamas;
-                              imagem2 = item7.imagem;
                               hotel_2 = item7.hotel;
                               genero_2 = item7.genero;
                               ativado2 = item7.ativado;
@@ -314,7 +300,6 @@ export default function Modal({ customers, id_ }) {
                   titulo_ = item.titulo;
                   camas = item.camas;
                   arrCamas = item.arrCamas;
-                  imagem = item.imagem;
                   hotel_ = item.hotel;
                   genero_ = item.genero;
                   ativado = item.ativado;
@@ -338,7 +323,7 @@ export default function Modal({ customers, id_ }) {
 
         // Executa a segunda solicitação apenas se a primeira for concluída com sucesso
 
-        router.reload();
+        // router.push("/b2b/quartos");
       } catch (error) {
         console.error(error);
       }
@@ -350,7 +335,9 @@ export default function Modal({ customers, id_ }) {
     let block = 0;
     const dataEntradaNovaReserva = new Date(entrada);
     const dataSaidaNovaReserva = new Date(saida);
-
+    // const quartoSaida = (JSON.stringify(dataEntradaNovaReserva) === JSON.stringify(dataSaidaNovaReserva));
+    // if (quartoSaida) return alert('datas não podem ser iguais');
+    // if (quartoSaida) return alert('Cama ja reservada por outro hospede!');
 
     quartos?.map((item, index) => {
       contador++
@@ -371,9 +358,9 @@ export default function Modal({ customers, id_ }) {
                   const dataSaidaNovaReserva = new Date(saida);
                   const dataEntradaReserva = new Date(item3.entrada);
                   const dataSaidaReserva = new Date(item3.saida);
-                  const indexblock = item2.findIndex(item3 => dataEntradaNovaReserva <= dataSaidaReserva && dataSaidaNovaReserva >= dataEntradaReserva);
+                  const indexblock = item2.findIndex(item3 => dataEntradaNovaReserva < dataSaidaReserva && dataSaidaNovaReserva > dataEntradaReserva);
                   if (indexblock !== -1) {
-                    toast.error('ja reservado!')
+                    alert('ja reservado')
                     block++;
                   }
                 }
@@ -393,10 +380,10 @@ export default function Modal({ customers, id_ }) {
                               item8.splice(indexsplice, 1);
                             }
                             if (hotel === item7.hotel) {
+                              alert('oi')
                               titulo_2 = item7.titulo;
                               camas2 = item7.camas;
                               arrCamas2 = item7.arrCamas;
-                              imagem2 = item7.imagem;
                               hotel_2 = item7.hotel;
                               genero_2 = item7.genero;
                               ativado2 = item7.ativado;
@@ -417,14 +404,13 @@ export default function Modal({ customers, id_ }) {
                     hospede: Name,
                     limpeza: entrada,
                     entrada: entrada,
-                    saida: saidamanha,
+                    saida: saida,
                     base: false,
                     checkinID: checkinID,
                   })
                   titulo_ = item.titulo;
                   camas = item.camas;
                   arrCamas = item.arrCamas;
-                  imagem = item.imagem;
                   hotel_ = item.hotel;
                   genero_ = item.genero;
                   ativado = item.ativado;
@@ -441,68 +427,22 @@ export default function Modal({ customers, id_ }) {
 
       try {
 
-        dispararquarto()
-
         dispararcheckin()
+
+        dispararquarto()
 
         dispararquartoanterior()
 
         // Executa a segunda solicitação apenas se a primeira for concluída com sucesso
 
-        router.reload();
+        // router.push("/b2b/quartos");
       } catch (error) {
         console.error(error);
       }
     }
 
   }
-
-  const datamudou = (valor, parametro) => {
-    if (parametro === 'entrada') { console.log(valor, saida, parametro) }
-    if (parametro === 'saida') { console.log(valor, entrada, parametro) }
-    if (entrada === '' && parametro === 'entrada') {
-      setEntrada(valor)
-      return
-    }
-    if (entrada !== '' && parametro === 'entrada') {
-      setEntrada(valor)
-      return
-    }
-    if (saida === '' && parametro === 'saida') {
-      setSaida(valor)
-      setSaidamanha(valor)
-      return
-    }
-    if (valor <= saida || entrada <= valor && entrada !== '' && saida !== '') {
-      if (parametro === 'entrada' && valor < saida) {
-        setEntrada(valor)
-        return
-      } else if (parametro === 'saida' && entrada < valor) {
-        setSaida(valor)
-        setSaidamanha(valor)
-        return
-      } else { toast.error('Saída maior que entrada') }
-    } else {
-      toast.error('Saída maior que entrada')
-    }
-
-  }
-
-  const temcerteza = () => {
-    Swal.fire({
-      title: 'Tem certeza?',
-      text: "Ao confirmar o check-out sera realizado!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sim, Realiza Check-out!'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        dispararcheckout();
-      }
-    })
-  }
+  console.log(quartos)
 
   return (
     <div className="modal fade" id="edit_modal" tabIndex="-1" role="dialog">
@@ -511,21 +451,6 @@ export default function Modal({ customers, id_ }) {
           <div className="modal-body">
             <div className="row">
               <div className="ec-vendor-block-img space-bottom-30">
-                <div className="d-flex justify-content-between">
-                  <div>
-                    <h5>Check-in</h5>
-                  </div>
-                  <div>
-                    <div
-                      className="btn btn-sm btn-primary qty_close"
-                      style={{ width: '80px', background: 'red' }}
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    >
-                      Fechar
-                    </div>
-                  </div>
-                </div>
                 <div className="ec-vendor-upload-detail">
                   {customers?.map((item, index) => {
                     if (item._id === id_) {
@@ -550,7 +475,7 @@ export default function Modal({ customers, id_ }) {
                               <label htmlFor="email" className="form-label">
                                 Telefone
                               </label>
-                              <input type="text" value={telefone}
+                              <input type="text" defaultValue={telefone}
                                 onChange={(e) => setTelefone(e.target.value)}
                                 className="form-control" id="email" />
                             </div>
@@ -576,7 +501,7 @@ export default function Modal({ customers, id_ }) {
                             <input
                               type="text"
                               className="form-control"
-                              value={formatCpf(cpf)}
+                              value={cpf}
                               id="phone-1"
                               onChange={(e) => setCpf(e.target.value)}
                             />
@@ -595,7 +520,7 @@ export default function Modal({ customers, id_ }) {
                             />
                           </div>
 
-                          <div className="col-md-6 space-t-15 mt-3 date-input">
+                          <div className="col-md-6 space-t-15 mt-3">
                             <label htmlFor="phone-2" className="form-label">
                               Nascimento
                             </label>
@@ -606,7 +531,6 @@ export default function Modal({ customers, id_ }) {
                               id="phone-2"
                               onChange={(e) => setDatanascimento(e.target.value)}
                             />
-                            <span className="calendar-icon"></span>
                           </div>
                           <div className="col-md-6 space-t-15 mt-3">
                             <label className="form-label">Genero</label>
@@ -614,7 +538,7 @@ export default function Modal({ customers, id_ }) {
                               <option value={''} selected></option>
                               <option value={'masculino'} selected>Masculino</option>
                               <option value={'feminino'}>Feminino</option>
-                              <option value={'outros'}>Outros</option>
+                              <option value={'unisex'}>Unisex</option>
 
                             </select>
                           </div>
@@ -644,29 +568,25 @@ export default function Modal({ customers, id_ }) {
                             <label htmlFor="phone-2" className="form-label">
                               Valor da Diaria
                             </label>
-                            <CurrencyInput
-                              id="input-example"
-                              name="input-name"
-                              className="form-control slug-title"
-                              placeholder="Please enter a number"
-                              value={parseFloat(valordiaria).toLocaleString('pt-br', { minimumFractionDigits: 2 })}
-                              decimalsLimit={2}
-                              onValueChange={(value, name) => setValordiaria(value)}
+                            <input
+                              type="number"
+                              className="form-control"
+                              value={valordiaria}
+                              id="phone-2"
+                              onChange={(e) => setValordiaria(e.target.value)}
                             />
                           </div>
                           <div className="col-md-6 space-t-15 mt-3">
                             <label htmlFor="phone-2" className="form-label">
                               Valor Pago
                             </label>
-                            <CurrencyInput
-                              id="input-example"
-                              name="input-name"
-                              className="form-control slug-title"
-                              placeholder="Please enter a number"
-                              value={parseFloat(valorpago).toLocaleString('pt-br', { minimumFractionDigits: 2 })}
-                              decimalsLimit={2}
-                              onValueChange={(value, name) => setValorpago(value)}
-                            />;
+                            <input
+                              type="number"
+                              className="form-control"
+                              value={valorpago}
+                              onChange={(e) => setValorpago(e.target.value)}
+                              id="phone-2"
+                            />
                           </div>
                           <div className="col-md-12">
                             <label className="form-label">Forma de Pagamento</label>
@@ -679,40 +599,39 @@ export default function Modal({ customers, id_ }) {
                               <option value={'cheque'}>Cheque</option>
                             </select>
                           </div>
-                          <div className="col-md-6 space-t-15 mt-3 date-input">
+                          <div className="col-md-6 space-t-15 mt-3">
                             <label htmlFor="phone-2" className="form-label">
                               Entrada
                             </label>
                             <input
                               type="date"
                               className="form-control"
-                              value={entrada}
+                              defaultValue={entrada}
                               id="phone-2"
-                              onChange={(e) => datamudou(e.target.value, 'entrada')}
+                              onChange={(e) => setEntrada(e.target.value)}
                             />
-                            <span className="calendar-icon"></span>
                           </div>
-                          <div className="col-md-6 space-t-15 mt-3 date-input">
+                          <div className="col-md-6 space-t-15 mt-3">
                             <label htmlFor="phone-2" className="form-label">
                               Saída
                             </label>
                             <input
                               type="date"
                               className="form-control"
-                              value={saida}
+                              defaultValue={saidamanha}
                               id="phone-2"
-                              onChange={(e) => datamudou(e.target.value, 'saida')}
+                              onChange={(e) => setSaida(e.target.value)}
                             />
-                            <span className="calendar-icon"></span>
                           </div>
 
 
-                          <h3 className="text-center mb-2 mt-4"> Escolha o Hotel </h3>
-                          <div className="col-md-12 d-flex flex-wrap justify-content-around">
+                          <h3 className="text-center"> Escolha o Hotel </h3>
+                          <div className="col-md-12 d-flex">
                             {hoteis?.map((item, index) => {
                               return (
-                                <div key={index} className={`col-md-5 mb-3`} style={{ position: 'relative', height: '150px', overflow: 'hidden', background: `url(${item.imagem[0].url})` }}>
-                                  <div className={`circulohotel d-flex flex-column ${hotel === item._id ? 'backgroundactive' : ''}`} style={{ position: 'absolute', fontWeight: '700' }} onClick={() => toast.error('não é possivel trocar de Hostel!')}>
+                                <div key={index} className={`col-md-6`} style={{ position: 'relative', height: '200px', overflow: 'hidden' }}>
+                                  <Image width={1000} height={1000} className='pl-3 pr-3' style={{ opacity: '0.5' }} src={item.imagem[0].url} />
+                                  <div className={`circulohotel d-flex flex-column ${hotel === item._id ? 'backgroundactive' : ''}`} style={{ position: 'absolute', fontWeight: '700' }} onClick={() => alert('não é possivel trocar de Hostel!')}>
                                     {item.titulo}
 
                                   </div>
@@ -723,7 +642,7 @@ export default function Modal({ customers, id_ }) {
 
                           {hotel.length > 0 ?
                             <>
-                              <h3 className="text-center mt-3"> Escolha o Quarto </h3>
+                              <h3 className="text-center"> Escolha o Quarto </h3>
                               <div className="col-md-12 d-flex justify-content-center">
                                 {quartos?.map((item, index) => {
 
@@ -734,28 +653,27 @@ export default function Modal({ customers, id_ }) {
                                     let counting = 0;
                                     return (
                                       <>
-                                        <div key={index} className="col-md-3 m-2" style={{ position: 'relative', height: '200px', overflow: 'hidden' }}>
-                                          <div className={`circuloquarto d-flex flex-column ${idquarto === item._id ? 'backgroundactive2' : ''}`} style={{ position: 'absolute', fontWeight: '700', backgroundImage: `url(${item.imagem[0].url})` }} onClick={() => { setQuarto(item.arrCamas), setNomeQuarto(item.titulo), setIdquarto(item._id) }}>
-                                            <div className="text-center" style={{ background: '#000000a1', padding: '12px', borderRadius: '5px' }}>
-                                              {item.titulo}
-                                              <div>{item.genero} </div>
-                                              <div>Total de camas: {item.camas} </div>
-                                              <div>Oculpados: {
-                                                item.arrCamas?.map((item2, index) => {
-                                                  item2?.map((item5, index) => {
-                                                    const dataEntradaNovaReserva = new Date(entrada);
-                                                    const dataSaidaNovaReserva = new Date(saida);
-                                                    const dataEntradaReserva = new Date(item5.entrada);
-                                                    const dataSaidaReserva = new Date(item5.saida);
-                                                    const quartoVago = (dataEntradaNovaReserva < dataSaidaReserva && dataSaidaNovaReserva > dataEntradaReserva);
-                                                    if (quartoVago) {
-                                                      counting++;
-                                                    }
-                                                  })
+                                        <div key={index} className="col-md-3" style={{ position: 'relative', height: '200px', overflow: 'hidden' }}>
+                                          <Image width={1000} height={1000} className='pl-3 pr-3' style={{ opacity: '0.5' }} src={require('../../assets/img/luxo-classico-moderno-quarto-suite-em-hotel.jpg')} />
+                                          <div className={`circuloquarto d-flex flex-column ${idquarto === item._id ? 'backgroundactive' : ''}`} style={{ position: 'absolute', fontWeight: '700' }} onClick={() => { setQuarto(item.arrCamas), setNomeQuarto(item.titulo), setIdquarto(item._id) }}>
+                                            {item.titulo}
+                                            <div>{item.genero} </div>
+                                            <div>Total de camas: {item.camas} </div>
+                                            <div>Oculpados: {
+                                              item.arrCamas?.map((item2, index) => {
+                                                item2?.map((item5, index) => {
+                                                  console.log(item5)
+                                                  const dataEntradaNovaReserva = new Date(entrada);
+                                                  const dataSaidaNovaReserva = new Date(saida);
+                                                  const dataEntradaReserva = new Date(item5.entrada);
+                                                  const dataSaidaReserva = new Date(item5.saida);
+                                                  const quartoVago = (dataEntradaNovaReserva < dataSaidaReserva && dataSaidaNovaReserva > dataEntradaReserva);
+                                                  if (quartoVago) {
+                                                    counting++;
+                                                  }
                                                 })
-                                              } {counting}</div>
-                                            </div>
-
+                                              })
+                                            } {counting}</div>
                                           </div>
                                         </div>
 
@@ -772,7 +690,7 @@ export default function Modal({ customers, id_ }) {
 
                           {quarto.length > 0 ? (
                             <>
-                              <h3 className="text-center mt-3 mb-2">{nomequarto}</h3>
+                              <h3 className="text-center">{nomequarto}</h3>
                               <div className="col-12 d-flex justify-content-center mb-3">
                                 <div
                                   className="col-12 d-flex justify-content-center align-items-center"
@@ -792,11 +710,6 @@ export default function Modal({ customers, id_ }) {
                                           const dataEntradaReserva = new Date(item3.entrada);
                                           const dataSaidaReserva = new Date(item3.saida);
                                           const quartoVago = (dataEntradaNovaReserva <= dataSaidaReserva && dataSaidaNovaReserva >= dataEntradaReserva);
-
-
-
-
-
                                           if (item3.base === false && item3.vago === true) {
                                             contadordisponivel++;
                                           }
@@ -815,7 +728,7 @@ export default function Modal({ customers, id_ }) {
                                               const dataEntradaReservanew = new Date(item5.entrada);
                                               const dataSaidaReservannew = new Date(item5.saida);
                                               const quartoVagonew = (dataEntradaNovaReserva <= dataSaidaReservannew && dataSaidaNovaReserva >= dataEntradaReservanew);
-                                              console.log(dataSaidaNovaReserva, dataEntradaReservanew)
+
 
                                               if (quartoVagonew) {
                                                 verdadeiro = true;
@@ -851,7 +764,7 @@ export default function Modal({ customers, id_ }) {
                                                           height: '75px',
                                                           background: "rgb(200, 229, 255)",
                                                         }}
-                                                        onClick={() => { registrarQuarto(item3.numeroCama), setNumerocama(item3.numeroCama), toast.error('registrado'), setArrdatas(item2) }}
+                                                        onClick={() => { registrarQuarto(item3.numeroCama), setNumerocama(item3.numeroCama), alert('registrado'), setArrdatas(item2) }}
                                                       >
                                                         {item3.numeroCama}
                                                         <p>{item3.vago ? item3.hospede : "Liberado"}</p>
@@ -869,7 +782,7 @@ export default function Modal({ customers, id_ }) {
                                                           color: 'white',
                                                           background: "rgb(200, 229, 255)",
                                                         }}
-                                                        onClick={() => toast.error("Já reservado")}
+                                                        onClick={() => alert("Já reservado")}
                                                       >
                                                         {item3.numeroCama}
                                                         <p style={{ color: 'white', fontWeight: 'bold' }}>{item3.vago ? `${item3.hospede.slice(0, 10)}...` : "Liberado"}</p>
@@ -893,7 +806,7 @@ export default function Modal({ customers, id_ }) {
                                                       src={require("../../assets/img/cama-de-solteiro.png")}
                                                     />
                                                     <div
-                                                      className={`${objreserva.cama === item3.numeroCama ? "backgroundactive2" : ""
+                                                      className={`${objreserva.cama === item3.numeroCama ? "backgroundactive" : ""
                                                         } circulocama d-flex flex-column mb-6`}
                                                       style={{
                                                         position: "absolute", fontWeight: "700", width: '80px',
@@ -933,7 +846,7 @@ export default function Modal({ customers, id_ }) {
                                                         background: "rgb(200, 229, 255)",
                                                         color: 'white'
                                                       }}
-                                                      onClick={() => toast.error("Já reservado")}
+                                                      onClick={() => alert("Já reservado")}
                                                     >
                                                       {item3.numeroCama}
                                                       <p>{item3.vago ? item3.hospede.slice(0, 10) : "Liberado"}</p>
@@ -955,7 +868,7 @@ export default function Modal({ customers, id_ }) {
                                                       src={require("../../assets/img/cama-de-solteiro.png")}
                                                     />
                                                     <div
-                                                      className={`${objreserva.cama === item3.numeroCama ? "backgroundactive2" : ""
+                                                      className={`${objreserva.cama === item3.numeroCama ? "backgroundactive" : ""
                                                         } circulocama d-flex flex-column mb-6`}
                                                       style={{
                                                         position: "absolute", fontWeight: "700",
@@ -1103,47 +1016,47 @@ export default function Modal({ customers, id_ }) {
 
 
 
-                          {active === '1' ?
-                            <>
-                              <div className="col-md-6 space-t-15 mt-4 d-flex justify-content-center text-center">
-                                <div
-                                  onClick={(e) => dispararbanco()}
-                                  className="btn btn-sm btn-primary qty_close"
-                                  style={{ width: '250px' }}
-                                  data-bs-dismiss="modal"
-                                  aria-label="Close"
-                                >
-                                  Atualizar Estadia
-                                </div>
-                              </div>
-                              <div className="col-md-6 space-t-15 mt-4 d-flex justify-content-center text-center">
-                                <div
-                                  onClick={(e) => temcerteza()}
-                                  className="btn btn-sm btn-primary qty_close"
-                                  style={{ width: '250px', background: 'red' }}
-                                  data-bs-dismiss="modal"
-                                  aria-label="Close"
-                                >
-                                  Check-out
-                                </div>
-                              </div>
-                            </>
-                            :
-                            <>
-                              <div className="col-md-12 space-t-15 mt-4 d-flex justify-content-center text-center">
-                                <div
-                                  onClick={(e) => dispararcheckoutatt()}
-                                  className="btn btn-sm btn-primary qty_close"
-                                  style={{ width: '250px', background: 'red' }}
-                                  data-bs-dismiss="modal"
-                                  aria-label="Close"
-                                >
-                                  Atualizar Check-out
-                                </div>
-                              </div>
-                            </>
-                          }
-
+                          {active === '1' ? 
+                          <>
+                          <div className="col-md-6 space-t-15 mt-4 d-flex justify-content-center text-center">
+                            <div
+                              onClick={(e) => dispararbanco()}
+                              className="btn btn-sm btn-primary qty_close"
+                              style={{ width: '250px' }}
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            >
+                              Atualizar Estadia
+                            </div>
+                          </div>
+                          <div className="col-md-6 space-t-15 mt-4 d-flex justify-content-center text-center">
+                            <div
+                              onClick={(e) => dispararcheckout()}
+                              className="btn btn-sm btn-primary qty_close"
+                              style={{ width: '250px' }}
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            >
+                              Check-out
+                            </div>
+                          </div>
+                          </>
+                        :
+                        <>
+                        <div className="col-md-12 space-t-15 mt-4 d-flex justify-content-center text-center">
+                            <div
+                              onClick={(e) => dispararcheckoutatt()}
+                              className="btn btn-sm btn-primary qty_close"
+                              style={{ width: '250px' }}
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            >
+                             Atualizar Check-out
+                            </div>
+                          </div>
+                        </>
+                        }
+                          
                         </form>
                       )
                     }

@@ -72,9 +72,11 @@ export default function AddProduct() {
 
     const date = new Date();
     let arrayquartos = [];
-    {[...Array(parseFloat(qtdcamas))]?.map((item, index) => {
-      arrayquartos.push([{numeroCama: index + 1, limpeza: date, vago: false, hospede: '', entrada: '', saida: '', base: true, checkinID: ''}]);
-    })}
+    {
+      [...Array(parseFloat(qtdcamas))]?.map((item, index) => {
+        arrayquartos.push([{ numeroCama: index + 1, limpeza: date, vago: false, hospede: '', entrada: '', saida: '', base: true, checkinID: '' }]);
+      })
+    }
 
     file.forEach(async item => {
       if (item.image) {
@@ -161,16 +163,16 @@ export default function AddProduct() {
     const reader = new FileReader();
 
     reader.onload = () => {
-        setImageSrc(reader.result);
+      setImageSrc(reader.result);
     };
 
     reader.readAsDataURL(file);
-};
+  };
 
   return (
     <div style={{ backgroundColor: '#f3f3f3' }}>
       <div style={{ display: 'flex' }}>
-        <Menu  parametro={'10'}/>
+        <Menu parametro={'10'} />
         <div className="ec-page-wrapper">
           <div className="ec-content-wrapper">
             <div className="content">
@@ -215,7 +217,7 @@ export default function AddProduct() {
 
                               <div className="col-md-4">
                                 <label className="form-label">Hotel</label>
-                                <select  onChange={(e) => setHotel(e.target.value)}>
+                                <select onChange={(e) => setHotel(e.target.value)}>
                                   <option value={''} selected></option>
                                   {hoteis?.map((item, index) => {
                                     console.log(item)
@@ -229,7 +231,7 @@ export default function AddProduct() {
                               </div>
                               <div className="col-md-4">
                                 <label className="form-label">Genero</label>
-                                <select  onChange={(e) => setGenero(e.target.value)}>
+                                <select onChange={(e) => setGenero(e.target.value)}>
                                   <option value={''} selected></option>
                                   <option value={'masculino'} >Masculino</option>
                                   <option value={'feminino'}>Feminino</option>
@@ -238,7 +240,7 @@ export default function AddProduct() {
                               </div>
                               <div className="col-md-4">
                                 <label className="form-label">Quantidade de Camas</label>
-                                <select  onChange={(e) => setQtdcamas(e.target.value)}>
+                                <select onChange={(e) => setQtdcamas(e.target.value)}>
                                   <option value={1} selected>1</option>
                                   <option value={2} >2</option>
                                   <option value={3}>3</option>
@@ -252,8 +254,8 @@ export default function AddProduct() {
                                 </select>
                               </div>
 
-                              <div style={{width: '100%', height: '100%', border: '5px solid #99999987'}}>
-                              <CrooperJs fileall={file} setFile={setFile} handleFileChange={handleFileChange} imageSrc={imageSrc} setImageSrc={setImageSrc}/>
+                              <div style={{ width: '100%', height: '100%', border: '5px solid #99999987' }}>
+                                <CrooperJs fileall={file} setFile={setFile} handleFileChange={handleFileChange} imageSrc={imageSrc} setImageSrc={setImageSrc} />
                               </div>
 
                               <div className="col-lg-12">
@@ -284,7 +286,7 @@ export default function AddProduct() {
                                               >
                                                 <div className="thumb-edit">
                                                   <button
-                                                   type='button'
+                                                    type='button'
                                                     onClick={(e) => deleteImage(e, item.image)}
                                                     className="save-image-button btn p-2"
                                                   >
@@ -320,23 +322,23 @@ export default function AddProduct() {
                                 <div className="row align-items-center">
                                   <label className="form-label">Ativado</label>
                                   <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>
-                                      <input
-                                        type="radio"
-                                        name="active"
-                                        value={1}
-                                        style={{ width: '20px', margin: '0 15px 0 0' }}
-                                        onChange={(e) => setActive(e.target.value)}
-                                      />
+                                    <input
+                                      type="radio"
+                                      name="active"
+                                      value={1}
+                                      style={{ width: '20px', margin: '0 15px 0 0' }}
+                                      onChange={(e) => setActive(e.target.value)}
+                                    />
                                     Sim
                                   </div>
                                   <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>
-                                      <input
-                                        type="radio"
-                                        name="active"
-                                        value={0}
-                                        style={{ width: '20px', margin: '0 15px 0 0' }}
-                                        onChange={(e) => setActive(e.target.value)}
-                                      />
+                                    <input
+                                      type="radio"
+                                      name="active"
+                                      value={0}
+                                      style={{ width: '20px', margin: '0 15px 0 0' }}
+                                      onChange={(e) => setActive(e.target.value)}
+                                    />
                                     Não
                                   </div>
                                 </div>
