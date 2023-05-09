@@ -163,7 +163,7 @@ export default function Menu({ parametro }) {
 
               {level === '30' || level === '50' || level === '40' ?
                 <>
-
+                  {level === '50' || level === '40' ? <hr /> : <></>}
                   <li className={parametro === '17' ? `active` : ``}>
                     <Link
                       className="sidenav-item-link"
@@ -248,12 +248,14 @@ export default function Menu({ parametro }) {
                       <span className="nav-text">Financeiro Hóspedes</span>
                     </Link>
                   </li>
+                  <hr />
                 </>
                 :
                 <></>
               }
 
               {level === '20' || level === '50' || level === '40' ?
+              <>
                 <li className={parametro === '8' ? `active` : ``}>
                   <Link
                     className="sidenav-item-link"
@@ -263,6 +265,7 @@ export default function Menu({ parametro }) {
                     <span className="nav-text">Despesas</span>
                   </Link>
                 </li>
+              </>
                 :
                 <></>
               }
