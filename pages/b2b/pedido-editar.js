@@ -56,7 +56,7 @@ export default function NovoPedido({ }) {
     currency: 'BRL',
   });
 
-  
+
   useEffect(() => {
     setIditem(router.query.id)
     setDataPedido(dataDia)
@@ -65,18 +65,20 @@ export default function NovoPedido({ }) {
 
   useEffect(() => {
     pedidos?.map((item, index) => {
-      setDataPedido(item.data_pedido)
-      setComandasPedido(item.comandas)
-      setHostel(item.hostel)
-      setCpf(item.cpf)
-      setProdutosPedido(item.produtos)
-      setDescontoPedido(item.desconto)
-      setValorTotalPedido(item.valor_total)
-      setMetodoPedido(item.metodo_pagamento)
-      setActive(item.ativo)
+      if (item._id === router.query.id) {
+        setDataPedido(item.data_pedido)
+        setComandasPedido(item.comandas)
+        setHostel(item.hostel)
+        setCpf(item.cpf)
+        setProdutosPedido(item.produtos)
+        setDescontoPedido(item.desconto)
+        setValorTotalPedido(item.valor_total)
+        setMetodoPedido(item.metodo_pagamento)
+        setActive(item.ativo)
+      }
     })
   }, [iditem])
-  
+
   console.log(produtosPedido)
 
   useEffect(() => {
@@ -89,6 +91,10 @@ export default function NovoPedido({ }) {
   const onSubmit = async (e) => {
     e.preventDefault();
     router.push("/b2b/pedidos-abertos");
+    toast('Pedido editado com sucesso!', {
+      position: "top-right",
+    });
+
     produtos?.map((item, index) => {
       produtosPedido?.map((item2, index2) => {
         if (item._id === item2._id) {
@@ -117,13 +123,9 @@ export default function NovoPedido({ }) {
       item.quantidade = 0;
     })
 
-      toast('Pedido adiconado com sucesso!', {
-        position: "top-right",
-      });
-     
+
 
   };
-console.log(produtosPedido)
   const addItem = async (produto) => {
     let contador = 0;
     if (produtosPedido.length === 0) {
@@ -270,7 +272,7 @@ console.log(produtosPedido)
                                 </div>
 
                                 <label htmlFor="text" className="col-12 col-form-label">
-                                  Comandas
+                                  Comprador
                                 </label>
                                 <div className="col-12">
                                   <input
@@ -414,27 +416,27 @@ console.log(produtosPedido)
                               </div>
 
                               <div className="space-t-15 mt-3 mb-3">
-                                    <label htmlFor="phone-2" className="form-label">
-                                        Hostel
-                                    </label>
-                                    <select value={hostel} className="form-control here slug-title" id="cars" onChange={(e) => setHostel(e.target.value)}>
-                                        <option value='todos'>Todos os Hostels</option>
-                                        {hoteis?.map((item, index) => {
-                                            console.log(item)
-                                            return (<option key={index} value={item._id}>{item.titulo}</option>)
-                                        })}
-                                    </select>
-                                </div>
+                                <label htmlFor="phone-2" className="form-label">
+                                  Hostel
+                                </label>
+                                <select value={hostel} className="form-control here slug-title" id="cars" onChange={(e) => setHostel(e.target.value)}>
+                                  <option value='todos'>Todos os Hostels</option>
+                                  {hoteis?.map((item, index) => {
+                                    console.log(item)
+                                    return (<option key={index} value={item._id}>{item.titulo}</option>)
+                                  })}
+                                </select>
+                              </div>
 
                               <div className="d-flex mb-3">
                                 <div className="row align-items-center">
-                                  <label className="form-label">Ativado</label>
+                                  <label className="form-label">Fechar Comanda?</label>
                                   <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>
-                                    {active === '1' ?
+                                    {active === '0' ?
                                       <input
                                         type="radio"
                                         name="active"
-                                        value={1}
+                                        value={'0'}
                                         defaultChecked
                                         style={{ width: '20px', margin: '0 15px 0 0' }}
                                         onChange={(e) => setActive(e.target.value)}
@@ -443,7 +445,7 @@ console.log(produtosPedido)
                                       <input
                                         type="radio"
                                         name="active"
-                                        value={1}
+                                        value={'0'}
                                         style={{ width: '20px', margin: '0 15px 0 0' }}
                                         onChange={(e) => setActive(e.target.value)}
                                       />
@@ -451,11 +453,11 @@ console.log(produtosPedido)
                                     Sim
                                   </div>
                                   <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>
-                                    {active === '0' ?
+                                    {active === '1' ?
                                       <input
                                         type="radio"
                                         name="active"
-                                        value={0}
+                                        value={'1'}
                                         defaultChecked
                                         style={{ width: '20px', margin: '0 15px 0 0' }}
                                         onChange={(e) => setActive(e.target.value)}
@@ -464,7 +466,7 @@ console.log(produtosPedido)
                                       <input
                                         type="radio"
                                         name="active"
-                                        value={0}
+                                        value={'1'}
                                         style={{ width: '20px', margin: '0 15px 0 0' }}
                                         onChange={(e) => setActive(e.target.value)}
                                       />
@@ -524,7 +526,7 @@ console.log(produtosPedido)
                                             addItem(item);
                                           }}
                                         >
-                                          <AiOutlinePlus size={20} color={"#ffffff"}/>
+                                          <AiOutlinePlus size={20} color={"#ffffff"} />
                                         </button>
                                       </div>
                                     </td>

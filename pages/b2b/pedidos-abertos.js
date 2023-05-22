@@ -38,7 +38,7 @@ export default function PedidosFechados({ }) {
     let valorTotalFinal = 0;
 
     filter?.map((item, index) => {
-      if(item.ativo === '1'){
+      if (item.ativo === '1') {
         values.push({
           id: item._id,
           valorTotal: parseFloat(item.valor_total)
@@ -90,7 +90,7 @@ export default function PedidosFechados({ }) {
     <>
       <div className="bg-geral">
         <div style={{ display: 'flex' }}>
-          <Menu  parametro={'19'}/>
+          <Menu parametro={'19'} />
           <div className="ec-page-wrapper">
             <div className="ec-content-wrapper">
               <div className="content">
@@ -115,25 +115,30 @@ export default function PedidosFechados({ }) {
                             <div className="col-12 col-md-6 pr-1">
                               <input
                                 type="searchComanda"
-                                placeholder="Digite sua busca por comanda"
+                                placeholder="Digite sua busca por Comprador"
                                 className="form-control here slug-title"
                                 onChange={(e) => { setSearchItemComanda(e.target.value.toLowerCase()) }}
                               />
                             </div>
-                            <div className="col-12 col-md-6">
+                            <div className="col-12 col-md-6 date-input">
                               <input
-                                type="searchData"
+                                type="date"
                                 placeholder="Digite sua busca por data"
                                 className="form-control here slug-title"
-                                onChange={(e) => { setSearchItemData(e.target.value.toLowerCase()) }}
+                                onChange={(e) => {
+                                  const selectedDate = new Date(e.target.value);
+                                  const formattedDate = selectedDate.toLocaleDateString("pt-BR");
+                                  setSearchItemData(formattedDate);
+                                }}
                               />
+                              <span class="calendar-icon" style={{ top: '12px', right: '25px' }}></span>
                             </div>
                           </div>
                           <table id="responsive-data-table" className="table">
                             <thead>
                               <tr>
                                 <th>Data</th>
-                                <th>Comandas</th>
+                                <th>Comprador</th>
                                 <th>Valor Final</th>
                                 <th></th>
                               </tr>
@@ -141,31 +146,35 @@ export default function PedidosFechados({ }) {
 
                             <tbody>
                               {filter?.map((item, index) => {
-                                if(item.ativo === '1'){
-                                  let dataPedido = new Date(item.data_pedido).toLocaleDateString('pt-BR');
+                                if (item.ativo === '1') {
+                                  const dataPedido = new Date(item.data_pedido.split('T')[0]);
+                                  const dia = String(dataPedido.getUTCDate()).padStart(2, '0');
+                                  const mes = String(dataPedido.getUTCMonth() + 1).padStart(2, '0');
+                                  const ano = dataPedido.getUTCFullYear();
+                                  const dataFormatada = `${dia}/${mes}/${ano}`;
                                   return (
                                     <tr key={index} className="align-middle">
-                                      <td>{dataPedido}</td>
+                                      <td>{dataFormatada}</td>
                                       <td>{item.comandas}</td>
                                       <td>{formatter.format(item.valor_total)}</td>
                                       <td className="text-right">
                                         <div className="btn-group">
-                                        <Link
-                                          href={{
-                                            pathname: '/b2b/pedido-editar',
-                                            query: { id: `${item?._id}` }
-                                          }}
-                                          title="Edit Detail"
-                                          className="btn btn-primary"
-                                        >
-                                          <BsPencilFill />
-                                        </Link>
-                                            <button
-                                              className="btn btn-outline-info delete-btn"
-                                              onClick={() => deletePedido(item._id)}
-                                            >
-                                              <FaTrash color="#DC3545" />
-                                            </button>
+                                          <Link
+                                            href={{
+                                              pathname: '/b2b/pedido-editar',
+                                              query: { id: `${item?._id}` }
+                                            }}
+                                            title="Edit Detail"
+                                            className="btn btn-primary"
+                                          >
+                                            <BsPencilFill />
+                                          </Link>
+                                          <button
+                                            className="btn btn-outline-info delete-btn"
+                                            onClick={() => deletePedido(item._id)}
+                                          >
+                                            <FaTrash color="#DC3545" />
+                                          </button>
                                         </div>
                                       </td>
                                     </tr>)

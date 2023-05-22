@@ -140,6 +140,7 @@ export default function Financeirodespesas() {
                 setHospedes2(itensativos);
             }
         });
+        
     }
 
     const formatter = new Intl.NumberFormat('bt-BR', {
@@ -188,27 +189,29 @@ export default function Financeirodespesas() {
                             </div> */}
 
                             <div className="d-flex flex-wrap align-items-end">
-                                <div className="col-md-3 space-t-15 mt-3 p-1">
+                                <div className="col-md-3 space-t-15 mt-3 p-1 date-input">
                                     <label htmlFor="phone-2" className="form-label">
                                         Inicio
                                     </label>
                                     <input
                                         type="date"
-                                        className="form-control"
+                                        className="form-control slug-title"
                                         id="phone-2"
                                         onChange={(e) => setEntrada(e.target.value)}
                                     />
+                                    <span class="calendar-icon" style={{top : '47px', right: '25px'}}></span>
                                 </div>
-                                <div className="col-md-3 space-t-15 mt-3 p-1">
+                                <div className="col-md-3 space-t-15 mt-3 p-1 date-input">
                                     <label htmlFor="phone-2" className="form-label">
                                         Fim
                                     </label>
                                     <input
                                         type="date"
-                                        className="form-control"
+                                        className="form-control slug-title"
                                         id="phone-2"
                                         onChange={(e) => setSaida(e.target.value)}
                                     />
+                                    <span class="calendar-icon" style={{top : '47px', right: '25px'}}></span>
                                 </div>
                                 <div className="col-md-3 space-t-15 mt-3 p-1">
                                     <label htmlFor="phone-2" className="form-label">
@@ -286,7 +289,7 @@ export default function Financeirodespesas() {
                                                                     <tr key={item.id} className="align-middle">
                                                                         <td>{item.titulo}</td>
                                                                         <td>{item.entrada}</td>
-                                                                        <td>{item.valor}</td>
+                                                                        <td>{formatter.format(item.valor)}</td>
                                                                         <td>{item.quantidade}</td>
                                                                         <td>{allcategorias?.map((item2, index2) => {
                                                                             if (item.categoria === item2._id) {

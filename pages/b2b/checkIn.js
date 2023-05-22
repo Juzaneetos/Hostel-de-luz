@@ -14,7 +14,7 @@ import { ref, uploadBytesResumable, getDownloadURL, getStorage, deleteObject } f
 import { storage } from '../../firebaseConfig.ts';
 import useSwr, { mutate } from "swr";
 const fetcher = (url) => fetch(url).then((res) => res.json());
-
+import { useCookies, expires } from 'react-cookie';
 import CurrencyInput from 'react-currency-input-field'
 import formatCpf from '@brazilian-utils/format-cpf';
 
@@ -49,7 +49,8 @@ export default function Checkin() {
   const checkinID = Math.floor(Math.random() * 10000000000000000000);
   const currentDate = new Date(saida);
   const previousDate = new Date(currentDate.setDate(currentDate.getDate() - 1));
-  console.log(formatCpf(cpf))
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
+  let userID = cookies.user_id;
   let contadordisponivel = 0;
   let contadorrenderizado = 0;
   let titulo_ = '';
@@ -119,6 +120,7 @@ export default function Checkin() {
       ativado: active,
       pagamentoconcluido: pagamentoconcluido,
       checkinID: checkinID,
+      usuario: userID,
     });
     mutate('/api/checkin/getAllCheckin');
   }

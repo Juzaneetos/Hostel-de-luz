@@ -28,6 +28,7 @@ export default async (req, res) => {
         ativado: req.body.ativado,
         pagamentoconcluido: req.body.pagamentoconcluido,
         checkinID: req.body.checkinID,
+        usuario: req.body.usuario,
       }
     });
 

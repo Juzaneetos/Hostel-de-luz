@@ -45,7 +45,7 @@ export default function NovoPedido({ }) {
   let ano = hoje.getFullYear()
   let mes = hoje.getMonth() + 1
   let dia = hoje.getDate()
-
+  
   let dataDia = `${ano}-${mes < 10 ? '0' + mes : mes}-${dia < 10 ? '0' + dia : dia}`;
 
   const formatter = new Intl.NumberFormat('bt-BR', {
@@ -251,7 +251,7 @@ console.log(produtosPedido)
                                 </div>
 
                                 <label htmlFor="text" className="col-12 col-form-label">
-                                  Comandas
+                                  Comprador
                                 </label>
                                 <div className="col-12">
                                   <input
@@ -409,12 +409,12 @@ console.log(produtosPedido)
 
                               <div className="d-flex mb-3 space-t-15">
                                 <div className="row align-items-center">
-                                  <label className="form-label">Ativado</label>
+                                  <label className="form-label">Fechar Comanda?</label>
                                   <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>
                                       <input
                                         type="radio"
                                         name="active"
-                                        value={'1'}
+                                        value={'0'}
                                         style={{ width: '20px', margin: '0 15px 0 0' }}
                                         onChange={(e) => setActive(e.target.value)}
                                       />
@@ -424,7 +424,7 @@ console.log(produtosPedido)
                                       <input
                                         type="radio"
                                         name="active"
-                                        value={'0'}
+                                        value={'1'}
                                         style={{ width: '20px', margin: '0 15px 0 0' }}
                                         onChange={(e) => setActive(e.target.value)}
                                       />

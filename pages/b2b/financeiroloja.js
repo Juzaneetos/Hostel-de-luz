@@ -199,7 +199,7 @@ export default function Financeirodespesas() {
                             </div> */}
 
                             <div className="d-flex flex-wrap align-items-end">
-                                <div className="col-md-4 space-t-15 mt-3 p-1">
+                                <div className="col-md-4 space-t-15 mt-3 p-1 date-input">
                                     <label htmlFor="phone-2" className="form-label">
                                         Inicio
                                     </label>
@@ -209,8 +209,9 @@ export default function Financeirodespesas() {
                                         id="phone-2"
                                         onChange={(e) => setEntrada(e.target.value)}
                                     />
+                                    <span class="calendar-icon" style={{ top: '47px', right: '25px' }}></span>
                                 </div>
-                                <div className="col-md-4 space-t-15 mt-3 p-1">
+                                <div className="col-md-4 space-t-15 mt-3 p-1 date-input">
                                     <label htmlFor="phone-2" className="form-label">
                                         Fim
                                     </label>
@@ -220,6 +221,7 @@ export default function Financeirodespesas() {
                                         id="phone-2"
                                         onChange={(e) => setSaida(e.target.value)}
                                     />
+                                    <span class="calendar-icon" style={{ top: '47px', right: '25px' }}></span>
                                 </div>
                                 <div className="col-md-4 space-t-15 mt-3 p-1">
                                     <label htmlFor="phone-2" className="form-label">
@@ -270,7 +272,7 @@ export default function Financeirodespesas() {
                                                     >
                                                         <thead>
                                                             <tr>
-                                                                <th>Titulo</th>
+                                                                <th>Comprador</th>
                                                                 <th>Data</th>
                                                                 <th>Desconto</th>
                                                                 <th>Valor Total</th>

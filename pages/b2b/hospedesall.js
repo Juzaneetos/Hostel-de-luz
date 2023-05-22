@@ -6,7 +6,7 @@ import Modal from "../../components/b2b_components/Modalhospede";
 import Menu from "../../components/b2b_components/Menu";
 import Footer from "../../components/b2b_components/Footer";
 import useSwr, { mutate } from "swr";
-import { BsPencilFill } from "react-icons/bs";
+import { BsPencilFill, BsWhatsapp } from "react-icons/bs";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -54,7 +54,7 @@ export default function Hospedeall() {
   return (
     <div style={{ backgroundColor: '#f3f3f3' }}>
       <div style={{ display: 'flex' }}>
-        <Menu  parametro={'5'}/>
+        <Menu parametro={'5'} />
         <div className="ec-page-wrapper">
           <div className="ec-content-wrapper">
             <div className="content">
@@ -120,6 +120,14 @@ export default function Hospedeall() {
                                       <td className="text-right">
                                         <div className="btn-group">
                                           <a
+                                            target="_blank" rel="noreferrer" href={`https://api.whatsapp.com/send?phone=55${item.telefone}&text=Olá, me chamo...`}
+                                            title="Whatsapp"
+                                            style={{marginRight: '10px', background: '#25D366'}}
+                                            className="btn btn-primary"
+                                          >
+                                            <BsWhatsapp />
+                                          </a>
+                                          <a
                                             href="javasript:void(0)"
                                             data-link-action="editmodal"
                                             title="Edit Detail"
@@ -148,6 +156,13 @@ export default function Hospedeall() {
                                           <td className="text-right">
                                             <div className="btn-group">
                                               <a
+                                                target="_blank" rel="noreferrer" href={`https://api.whatsapp.com/send?phone=55${item.telefone}&text=Olá, me chamo...`}
+                                                title="Whatsapp"
+                                                className="btn btn-primary"
+                                              >
+                                                <BsWhatsapp />
+                                              </a>
+                                              <a
                                                 href="javasript:void(0)"
                                                 data-link-action="editmodal"
                                                 title="Edit Detail"
@@ -156,7 +171,7 @@ export default function Hospedeall() {
                                                 className="btn btn-primary"
                                                 onClick={() => setId(item._id)}
                                               >
-                                                Visualizar
+                                                <BsPencilFill />
                                               </a>
                                             </div>
                                           </td>

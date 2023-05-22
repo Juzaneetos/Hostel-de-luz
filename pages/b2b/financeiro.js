@@ -6,7 +6,7 @@ import Modal from "../../components/b2b_components/Modal";
 import Menu from "../../components/b2b_components/Menu";
 import Footer from "../../components/b2b_components/Footer";
 import useSwr, { mutate } from "swr";
-import { BsPencilFill } from "react-icons/bs";
+import { BsPencilFill, BsWhatsapp } from "react-icons/bs";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -90,32 +90,33 @@ export default function Financeiro() {
                     setHospedes2(hospedesinativos)
                 }
             });
-        }else{
+        } else {
             checkin?.map((item, index) => {
                 if (hostel === item.objreserva.hotel) {
-                if (item.ativado === '0') {
-                    const dataEntradaNovaReserva = new Date(entrada);
-                    const dataSaidaNovaReserva = new Date(saida);
-                    const dataEntradaReserva = new Date(item.entrada);
-                    const dataSaidaReserva = new Date(item.saida);
-                    const quartoVago = (dataEntradaNovaReserva < dataSaidaReserva && dataSaidaNovaReserva > dataEntradaReserva);
-                    if (quartoVago) {
-                        const entrada = new Date(item.entrada);
-                        const saida = new Date(item.saida);
-                        const timeDifference = saida.getTime() - entrada.getTime();
-                        const diasDiferenca = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-                        console.log(diasDiferenca)
-                        newarr.push(item)
-                        hospedesinativos = hospedesinativos + 1;
-                        valortotal = valortotal + parseInt(item.valorpago)
-                        if (checkin.length === index + 1 && newarr.length === 1) {
-                            pagototal = pagototal + (diasDiferenca) * parseInt(item.valordiaria)
-                        } else {
-                            pagototal = pagototal + (diasDiferenca + 1) * parseInt(item.valordiaria)
+                    if (item.ativado === '0') {
+                        const dataEntradaNovaReserva = new Date(entrada);
+                        const dataSaidaNovaReserva = new Date(saida);
+                        const dataEntradaReserva = new Date(item.entrada);
+                        const dataSaidaReserva = new Date(item.saida);
+                        const quartoVago = (dataEntradaNovaReserva < dataSaidaReserva && dataSaidaNovaReserva > dataEntradaReserva);
+                        if (quartoVago) {
+                            const entrada = new Date(item.entrada);
+                            const saida = new Date(item.saida);
+                            const timeDifference = saida.getTime() - entrada.getTime();
+                            const diasDiferenca = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+                            console.log(diasDiferenca)
+                            newarr.push(item)
+                            hospedesinativos = hospedesinativos + 1;
+                            valortotal = valortotal + parseInt(item.valorpago)
+                            if (checkin.length === index + 1 && newarr.length === 1) {
+                                pagototal = pagototal + (diasDiferenca) * parseInt(item.valordiaria)
+                            } else {
+                                pagototal = pagototal + (diasDiferenca + 1) * parseInt(item.valordiaria)
+                            }
                         }
                     }
-                }}
-                
+                }
+
                 if (checkin.length === index + 1) {
                     setCheckinArr(newarr)
                     setRendatotal2(valortotal)
@@ -213,30 +214,30 @@ export default function Financeiro() {
                     setHospedes2(hospedesinativos)
                 }
             });
-        }else{
+        } else {
             checkin?.map((item, index) => {
                 if (hostel === item.objreserva.hotel) {
-                if (item.ativado === '0') {
-                    newarr.push(item)
-                    const entrada = new Date(item.entrada);
-                    const saida = new Date(item.saida);
-                    const timeDifference = saida.getTime() - entrada.getTime();
-                    const diasDiferenca = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-                    hospedesinativos = hospedesinativos + 1;
-                    valortotal = valortotal + parseInt(item.valorpago)
-                    if (checkin.length === index + 1 && newarr.length === 1) {
-                        pagototal = pagototal + (diasDiferenca) * parseInt(item.valordiaria)
-                    } else {
-                        pagototal = pagototal + (diasDiferenca + 1) * parseInt(item.valordiaria)
+                    if (item.ativado === '0') {
+                        newarr.push(item)
+                        const entrada = new Date(item.entrada);
+                        const saida = new Date(item.saida);
+                        const timeDifference = saida.getTime() - entrada.getTime();
+                        const diasDiferenca = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+                        hospedesinativos = hospedesinativos + 1;
+                        valortotal = valortotal + parseInt(item.valorpago)
+                        if (checkin.length === index + 1 && newarr.length === 1) {
+                            pagototal = pagototal + (diasDiferenca) * parseInt(item.valordiaria)
+                        } else {
+                            pagototal = pagototal + (diasDiferenca + 1) * parseInt(item.valordiaria)
+                        }
                     }
                 }
-            }
-            if (checkin.length === index + 1) {
-                setCheckinArr(newarr)
-                setRendatotal2(valortotal)
-                setPagototal2(pagototal)
-                setHospedes2(hospedesinativos)
-            }
+                if (checkin.length === index + 1) {
+                    setCheckinArr(newarr)
+                    setRendatotal2(valortotal)
+                    setPagototal2(pagototal)
+                    setHospedes2(hospedesinativos)
+                }
             });
         }
 
@@ -399,6 +400,14 @@ export default function Financeiro() {
                                                                             <td><div className={`${item.pagamentoconcluido === '1' ? 'styleativo' : 'styleinativo'}`}>{item.pagamentoconcluido === '1' ? 'Pago' : 'Débito'}</div></td>
                                                                             <td className="text-right">
                                                                                 <div className="btn-group">
+                                                                                    <a
+                                                                                        target="_blank" rel="noreferrer" href={`https://api.whatsapp.com/send?phone=55${item.telefone}&text=Olá, me chamo...`}
+                                                                                        title="Whatsapp"
+                                                                                        style={{ marginRight: '10px', background: '#25D366' }}
+                                                                                        className="btn btn-primary"
+                                                                                    >
+                                                                                        <BsWhatsapp />
+                                                                                    </a>
                                                                                     <a
                                                                                         href="javasript:void(0)"
                                                                                         data-link-action="editmodal"

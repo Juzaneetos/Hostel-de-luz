@@ -51,7 +51,6 @@ export default function Menu({ parametro }) {
   const [productsMenu, setProductsMenu] = useState(false);
   const [categoryMenu, setCategoryMenu] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
-  console.log(parametro)
   let level = cookies.user_level;
 
   function expandOrdersMenu() {
@@ -204,7 +203,7 @@ export default function Menu({ parametro }) {
                     </Link>
                   </li>
 
-                  <li className={parametro === '10' ? `active` : ``}>
+                  <li className={parametro === '21' ? `active` : ``}>
                     <Link
                       className="sidenav-item-link"
                       href="/b2b/financeiroloja"

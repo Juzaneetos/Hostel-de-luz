@@ -20,7 +20,7 @@ export default function SignUp({ users }) {
     users.forEach(item => {
       if (item.login === userLogin && item.password === userPassword) {
         setCookie("access_token", "3erdy34kirud34otud345yc43857cp29458f", { path: '/' });
-        setCookie("user_id", `${item.id}`, { path: '/' });
+        setCookie("user_id", `${item._id}`, { path: '/' });
         setCookie("user_login", `${item.login}`, { path: '/' });
         setCookie("user_level", `${item.level}`, { path: '/' });
 

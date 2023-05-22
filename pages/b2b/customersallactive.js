@@ -6,7 +6,7 @@ import Modal from "../../components/b2b_components/Modal";
 import Menu from "../../components/b2b_components/Menu";
 import Footer from "../../components/b2b_components/Footer";
 import useSwr, { mutate } from "swr";
-import { BsPencilFill } from "react-icons/bs"
+import { BsPencilFill, BsWhatsapp } from "react-icons/bs"
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -19,7 +19,7 @@ export default function Hospede() {
   return (
     <div style={{ backgroundColor: '#f3f3f3' }}>
       <div style={{ display: 'flex' }}>
-        <Menu  parametro={'3'}/>
+        <Menu parametro={'3'} />
         <div className="ec-page-wrapper">
           <div className="ec-content-wrapper">
             <div className="content">
@@ -66,40 +66,48 @@ export default function Hospede() {
 
                             <tbody>
                               {checkin?.map((item, index) => {
-                                  return (
-                                    <tr key={item.id} className="align-middle">
-                                      <td>{item.nome}</td>
-                                      {quartos?.map((item2, index) => {
-                                        if(item2._id === item.objreserva.quarto){
-                                          console.log(item2)
-                                          return(
+                                return (
+                                  <tr key={item.id} className="align-middle">
+                                    <td>{item.nome}</td>
+                                    {quartos?.map((item2, index) => {
+                                      if (item2._id === item.objreserva.quarto) {
+                                        console.log(item2)
+                                        return (
 
-                                            <td key={index}>{item2.titulo}</td>
-                                          )
-                                        }
-                                      })}
-                                      <td>{item.telefone}</td>
-                                      <td>{item.entrada}</td>
-                                      <td>{item.saidamanha}</td>
-                                      <td><div className={`${item.ativado === '1' ? 'styleativo' : 'styleinativo'}`}>{item.ativado === '1' ? 'Ativo' : 'Inativo'}</div></td>
-                                      <td><div className={`${item.pagamentoconcluido === '1' ? 'styleativo' : 'styleinativo'}`}>{item.pagamentoconcluido === '1' ? 'Pago' : 'Débito'}</div></td>
-                                      <td className="text-right">
-                                        <div className="btn-group">
-                                          <a
-                                            href="javasript:void(0)"
-                                            data-link-action="editmodal"
-                                            title="Edit Detail"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#edit_modal"
-                                            className="btn btn-primary"
-                                            onClick={() => setId(item._id)}
-                                          >
-                                            <BsPencilFill />
-                                          </a>
-                                        </div>
-                                      </td>
-                                    </tr>
-                                  );
+                                          <td key={index}>{item2.titulo}</td>
+                                        )
+                                      }
+                                    })}
+                                    <td>{item.telefone}</td>
+                                    <td>{item.entrada}</td>
+                                    <td>{item.saidamanha}</td>
+                                    <td><div className={`${item.ativado === '1' ? 'styleativo' : 'styleinativo'}`}>{item.ativado === '1' ? 'Ativo' : 'Inativo'}</div></td>
+                                    <td><div className={`${item.pagamentoconcluido === '1' ? 'styleativo' : 'styleinativo'}`}>{item.pagamentoconcluido === '1' ? 'Pago' : 'Débito'}</div></td>
+                                    <td className="text-right">
+                                      <div className="btn-group">
+                                        <a
+                                          target="_blank" rel="noreferrer" href={`https://api.whatsapp.com/send?phone=55${item.telefone}&text=Olá, me chamo...`}
+                                          title="Whatsapp"
+                                          style={{ marginRight: '10px', background: '#25D366' }}
+                                          className="btn btn-primary"
+                                        >
+                                          <BsWhatsapp />
+                                        </a>
+                                        <a
+                                          href="javasript:void(0)"
+                                          data-link-action="editmodal"
+                                          title="Edit Detail"
+                                          data-bs-toggle="modal"
+                                          data-bs-target="#edit_modal"
+                                          className="btn btn-primary"
+                                          onClick={() => setId(item._id)}
+                                        >
+                                          <BsPencilFill />
+                                        </a>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                );
                               })}
                             </tbody>
                           </table>

@@ -34,7 +34,7 @@ export default function Despesas({ }) {
     <>
       <div style={{ backgroundColor: '#f3f3f3' }}>
         <div style={{ display: 'flex' }}>
-          <Menu  parametro={'8'}/>
+          <Menu parametro={'8'} />
           <div className="ec-page-wrapper">
             <div className="ec-content-wrapper">
               <div className="content">
@@ -51,13 +51,13 @@ export default function Despesas({ }) {
                   </p>
                 </div>
                 <div className="row">
-                <div className=" col-lg-12">
+                  <div className=" col-lg-12">
                     <div className="ec-cat-list card card-default mb-24px">
                       <div className="card-body">
                         {showEditCategoryComponent !== true ? (
                           <AddCategory />
                         ) : (
-                          <EditCategory despesasId={despesasEditId} despesas={despesas} setShowEditCategoryComponent={setShowEditCategoryComponent}/>
+                          <EditCategory despesasId={despesasEditId} despesas={despesas} setShowEditCategoryComponent={setShowEditCategoryComponent} />
                         )}
                       </div>
                     </div>
@@ -78,6 +78,7 @@ export default function Despesas({ }) {
                                 <tr>
                                   <th>Nome</th>
                                   <th>Valor</th>
+                                  <th>Quantidade</th>
                                   <th>Descrição</th>
                                   <th></th>
                                 </tr>
@@ -89,7 +90,8 @@ export default function Despesas({ }) {
                                     <tr key={item._id} className="align-middle">
                                       <td>{item.titulo}</td>
                                       <td>{item.entrada}</td>
-                                      <td>{item.descricao.slice(0, 20)}...</td>
+                                      <td>{item.quantidade}</td>
+                                      <td>{item.descricao.length >= 20 ? `${item.descricao.slice(0, 20)}...` : `${item.descricao}`}</td>
                                       <td className="text-right">
                                         <div className="btn-group">
                                           <button
@@ -120,13 +122,13 @@ export default function Despesas({ }) {
                       </div>
                     </div>
                   </div>
-                  
+
                 </div>
               </div>
             </div>
           </div>
         </div>
-       
+
       </div>
     </>
   );

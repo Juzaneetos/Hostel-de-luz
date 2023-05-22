@@ -7,6 +7,7 @@ import Modal from "../../components/b2b_components/Modal";
 import Menu from "../../components/b2b_components/Menu";
 import Footer from "../../components/b2b_components/Footer";
 import useSwr, { mutate } from "swr";
+import Router from 'next/router'
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function Trocadecama() {
@@ -88,7 +89,8 @@ export default function Trocadecama() {
 
   const disparaquartos = async (idquarto) => {
     toast.success("Quartos atualizados para hoje!")
-    const response1 = await axios.put(`/api/quartos/updateQuarto?id=${idquarto}`, {
+    Router.reload()
+    await axios.put(`/api/quartos/updateQuarto?id=${idquarto}`, {
       titulo: titulo_,
       camas: camas,
       arrCamas: arrCamas,
@@ -98,6 +100,7 @@ export default function Trocadecama() {
       ativado: ativado,
     });
     mutate('/api/quartos/getAllQuarto')
+    
   }
 
   function compareLimpeza(a, b) {

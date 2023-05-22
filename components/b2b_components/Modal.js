@@ -41,9 +41,9 @@ export default function Modal({ customers, id_ }) {
   const [pagamentoconcluido, setPagamentoConcluido] = useState('');
   const [checkinID, setCheckingID] = useState(0);
   const [camacheckinID, setCamaCheckinID] = useState(0);
+  const [usuario, setUsuario] = useState('');
   const currentDate = new Date(saida);
   const previousDate = new Date(currentDate.setDate(currentDate.getDate()) - 1);
-  console.log(customers, id_)
   let newarr = [];
   useEffect(() => {
     customers?.map((item, index) => {
@@ -72,6 +72,7 @@ export default function Modal({ customers, id_ }) {
         setNumerocama(item.objreserva.cama)
         setCama(item.objreserva.cama)
         setCheckingID(item.checkinID)
+        setUsuario(item.usuario)
         quartos?.map((item2, index) => {
           if (item.objreserva.quarto === item2._id) {
             setQuarto(item2.arrCamas)
@@ -94,7 +95,6 @@ export default function Modal({ customers, id_ }) {
       }
     })
   }, [id_])
-  console.log(newarr)
 
   let contadordisponivel = 0;
   let contadorrenderizado = 0;
@@ -149,6 +149,7 @@ export default function Modal({ customers, id_ }) {
       ativado: active,
       pagamentoconcluido: pagamentoconcluido,
       checkinID: checkinID,
+      usuario: usuario,
     });
     mutate('/api/hoteis/getAllCustomers')
   }
@@ -177,6 +178,7 @@ export default function Modal({ customers, id_ }) {
       ativado: '0',
       pagamentoconcluido: pagamentoconcluido,
       checkinID: checkinID,
+      usuario: usuario,
     });
     mutate('/api/hoteis/getAllCustomers')
   }
@@ -185,6 +187,7 @@ export default function Modal({ customers, id_ }) {
     let diasaidamanha = '';
     if (saida === saidafixa) { diasaida = saidafixa } else { diasaida = previousDate.toISOString().slice(0, 10) }
     if (saida === saidafixa) { diasaidamanha = saidamanha } else { diasaidamanha = saida }
+    router.reload()
     let data = await axios.put(`/api/checkin/updateCheckin?id=${id_}`, {
       nome: Name,
       rg: rg,
@@ -205,6 +208,8 @@ export default function Modal({ customers, id_ }) {
       ativado: '0',
       pagamentoconcluido: pagamentoconcluido,
       checkinID: checkinID,
+      usuario: usuario,
+      
     });
     mutate('/api/checkin/getAllCheckin')
   }

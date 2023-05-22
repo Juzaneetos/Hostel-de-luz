@@ -6,7 +6,7 @@ import Modal from "../../components/b2b_components/Modal";
 import Menu from "../../components/b2b_components/Menu";
 import Footer from "../../components/b2b_components/Footer";
 import useSwr, { mutate } from "swr";
-import { BsPencilFill } from "react-icons/bs"
+import { BsPencilFill, BsWhatsapp } from "react-icons/bs"
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -86,6 +86,14 @@ export default function Hospede() {
                                       <td><div className={`${item.pagamentoconcluido === '1' ? 'styleativo' : 'styleinativo'}`}>{item.pagamentoconcluido === '1' ? 'Pago' : 'Débito'}</div></td>
                                       <td className="text-right">
                                         <div className="btn-group">
+                                        <a
+                                            target="_blank" rel="noreferrer" href={`https://api.whatsapp.com/send?phone=55${item.telefone}&text=Olá, me chamo...`}
+                                            title="Whatsapp"
+                                            style={{marginRight: '10px', background: '#25D366'}}
+                                            className="btn btn-primary"
+                                          >
+                                            <BsWhatsapp />
+                                          </a>
                                           <a
                                             href="javasript:void(0)"
                                             data-link-action="editmodal"
