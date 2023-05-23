@@ -38,6 +38,9 @@ export default function NovoPedido({ }) {
   const [searchItem, setSearchItem] = useState("");
   const [hostel, setHostel] = useState('');
   const [cpf, setCpf] = useState('');
+  const [entrada, setEntrada] = useState("");
+  const [fechamento, setFechamento] = useState("");
+  const [abertpor, setAbertopor] = useState("");
   const [filter, setFilter] = useState([]);
   const [active, setActive] = useState('');
   const [iditem, setIditem] = useState('');
@@ -70,11 +73,14 @@ export default function NovoPedido({ }) {
         setComandasPedido(item.comandas)
         setHostel(item.hostel)
         setCpf(item.cpf)
+        setEntrada(item.dataentrada)
+        setFechamento(item.datafechamento)
         setProdutosPedido(item.produtos)
         setDescontoPedido(item.desconto)
         setValorTotalPedido(item.valor_total)
         setMetodoPedido(item.metodo_pagamento)
         setActive(item.ativo)
+        setAbertopor(item.acesso_comanda)
       }
     })
   }, [iditem])
@@ -104,17 +110,21 @@ export default function NovoPedido({ }) {
         }
       })
     })
-
+    let datadefechamento = ''
+    if(active === '0'){datadefechamento = new Date()}
     let data = await axios.put(`/api/pedidos/updatePedido?id=${iditem}`, {
       data_pedido: dataPedido,
       comandas: comandasPedido,
       cpf: cpf,
       hostel: hostel,
+      dataentrada: entrada,
+      datafechamento: datadefechamento,
       ativo: active,
       produtos: produtosPedido,
       desconto: descontoPedido,
       valor_total: valorTotalPedido,
-      metodo_pagamento: metodoPedido
+      metodo_pagamento: metodoPedido,
+      acesso_comanda: abertpor,
     });
 
     mutate(`/api/pedidos`);

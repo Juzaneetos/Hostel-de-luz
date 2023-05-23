@@ -7,7 +7,8 @@ import Menu from "../../components/b2b_components/Menu";
 import Link from "next/link"
 import router from "next/router";
 import { BsPencilFill } from "react-icons/bs";
-
+import { format } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function PedidosFechados({ }) {
@@ -140,12 +141,22 @@ export default function PedidosFechados({ }) {
                                 <th>Data</th>
                                 <th>Comprador</th>
                                 <th>Valor Final</th>
+                                <th>Abertura</th>
+                                <th>Fechamento</th>
+                                <th>Aberto Por</th>
                                 <th></th>
                               </tr>
                             </thead>
 
                             <tbody>
                               {filter?.map((item, index) => {
+                                const originalDate = item.dataentrada;
+                                const fechamentoDate = item.datafechamento;
+                                let fechamentoDateformat = ''
+                                  if(fechamentoDate !== ''){
+                                     fechamentoDateformat = format(new Date(fechamentoDate), 'dd/MM/yyyy', { locale: ptBR });
+                                  }
+                                  const formattedDate = format(new Date(originalDate), 'dd/MM/yyyy', { locale: ptBR });
                                 if (item.ativo === '1') {
                                   const dataPedido = new Date(item.data_pedido.split('T')[0]);
                                   const dia = String(dataPedido.getUTCDate()).padStart(2, '0');
@@ -157,6 +168,9 @@ export default function PedidosFechados({ }) {
                                       <td>{dataFormatada}</td>
                                       <td>{item.comandas}</td>
                                       <td>{formatter.format(item.valor_total)}</td>
+                                      <td>{formattedDate}</td>
+                                      <td>{fechamentoDateformat}</td>
+                                      <td>{item.acesso_comanda}</td>
                                       <td className="text-right">
                                         <div className="btn-group">
                                           <Link

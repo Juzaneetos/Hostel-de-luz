@@ -122,7 +122,7 @@ export default function Hospedeall() {
                                           <a
                                             target="_blank" rel="noreferrer" href={`https://api.whatsapp.com/send?phone=55${item.telefone}&text=Olá, me chamo...`}
                                             title="Whatsapp"
-                                            style={{marginRight: '10px', background: '#25D366'}}
+                                            style={{ marginRight: '10px', background: '#25D366' }}
                                             className="btn btn-primary"
                                           >
                                             <BsWhatsapp />
@@ -158,6 +158,7 @@ export default function Hospedeall() {
                                               <a
                                                 target="_blank" rel="noreferrer" href={`https://api.whatsapp.com/send?phone=55${item.telefone}&text=Olá, me chamo...`}
                                                 title="Whatsapp"
+                                                style={{ marginRight: '10px', background: '#25D366' }}
                                                 className="btn btn-primary"
                                               >
                                                 <BsWhatsapp />

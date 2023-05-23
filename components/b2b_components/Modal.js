@@ -9,6 +9,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import CurrencyInput from 'react-currency-input-field'
 import formatCpf from '@brazilian-utils/format-cpf';
+import { useCookies, expires } from 'react-cookie';
 export default function Modal({ customers, id_ }) {
   const { data: hoteis } = useSwr(`/api/hoteis/getAllHotel`, fetcher);
   const { data: quartos } = useSwr(`/api/quartos/getAllQuarto`, fetcher);
@@ -42,6 +43,7 @@ export default function Modal({ customers, id_ }) {
   const [checkinID, setCheckingID] = useState(0);
   const [camacheckinID, setCamaCheckinID] = useState(0);
   const [usuario, setUsuario] = useState('');
+  const [abertpor, setAbertopor] = useState("");
   const currentDate = new Date(saida);
   const previousDate = new Date(currentDate.setDate(currentDate.getDate()) - 1);
   let newarr = [];
@@ -73,6 +75,7 @@ export default function Modal({ customers, id_ }) {
         setCama(item.objreserva.cama)
         setCheckingID(item.checkinID)
         setUsuario(item.usuario)
+        setAbertopor(item.acesso_comanda)
         quartos?.map((item2, index) => {
           if (item.objreserva.quarto === item2._id) {
             setQuarto(item2.arrCamas)
@@ -150,6 +153,7 @@ export default function Modal({ customers, id_ }) {
       pagamentoconcluido: pagamentoconcluido,
       checkinID: checkinID,
       usuario: usuario,
+      acesso_comanda: abertpor,
     });
     mutate('/api/hoteis/getAllCustomers')
   }
@@ -179,6 +183,7 @@ export default function Modal({ customers, id_ }) {
       pagamentoconcluido: pagamentoconcluido,
       checkinID: checkinID,
       usuario: usuario,
+      acesso_comanda: abertpor,
     });
     mutate('/api/hoteis/getAllCustomers')
   }
@@ -209,6 +214,7 @@ export default function Modal({ customers, id_ }) {
       pagamentoconcluido: pagamentoconcluido,
       checkinID: checkinID,
       usuario: usuario,
+      acesso_comanda: abertpor,
       
     });
     mutate('/api/checkin/getAllCheckin')
@@ -1049,9 +1055,11 @@ export default function Modal({ customers, id_ }) {
                               </div>
                             </div>
                           } */}
-
+                            <div className="d-flex mb-3 col-md-6 justify-content-center align-items-center mt-4">
+                              Aberto por: {abertpor}
+                            </div>
                           {pagamentoconcluido === '1' ?
-                            <div className="d-flex mb-3 col-md-12 justify-content-center mt-4">
+                            <div className="d-flex mb-3 col-md-6 justify-content-center mt-4">
                               <div className="row align-items-center justify-content-center text-center">
                                 <label className="form-label">Pagamento Concluído</label>
                                 <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>

@@ -104,6 +104,7 @@ export default function Checkin() {
       pagamentoconcluido: pagamentoconcluido,
       checkinID: checkinID,
       usuario: userID,
+      acesso_comanda: cookies.user_login,
     });
     mutate('/api/checkin/getAllCheckin');
   }

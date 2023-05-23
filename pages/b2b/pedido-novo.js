@@ -7,7 +7,7 @@ import { AiOutlinePlus } from "react-icons/ai"
 
 import router from 'next/router'
 import Menu from "../../components/b2b_components/Menu";
-
+import { useCookies, expires } from 'react-cookie';
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 //ADD NO CSS
@@ -38,7 +38,7 @@ export default function NovoPedido({ }) {
   const [hostel, setHostel] = useState('');
   const [cpf, setCpf] = useState('');
   const [active, setActive] = useState('1');
-
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
   const { data: produtos } = useSwr(`/api/produtos/getAllProdutos`, fetcher);
 
   let hoje = new Date()
@@ -79,17 +79,21 @@ export default function NovoPedido({ }) {
         }
       })
     })
-
+    let datadefechamento = ''
+    if(active === '0'){datadefechamento = new Date()}
     let data = await axios.post(`/api/pedidos/insertPedido`, {
       data_pedido: dataPedido,
       comandas: comandasPedido,
       cpf: cpf,
       hostel: hostel,
+      dataentrada: new Date(),
+      datafechamento: datadefechamento,
       ativo: active,
       produtos: produtosPedido,
       desconto: descontoPedido,
       valor_total: valorTotalPedido,
-      metodo_pagamento: metodoPedido
+      metodo_pagamento: metodoPedido,
+      acesso_comanda: cookies.user_login,
     });
 
     mutate(`/api/pedidos`);

@@ -4,7 +4,8 @@ import Menu from "../../components/b2b_components/Menu";
 import { useRouter } from "next/router";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
-
+import { format } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
 export default function PedidosVisualizar({ }) {
   const router = useRouter();
   const data = router.query;
@@ -18,18 +19,24 @@ export default function PedidosVisualizar({ }) {
   const [valorTotalPedido, setValorTotalPedido] = useState(0);
   const [descontoPedido, setDescontoPedido] = useState(0);
   const [metodoPedido, setMetodoPedido] = useState("");
+  const [entrada, setEntrada] = useState("");
+  const [fechamento, setFechamento] = useState("");
+  const [abertpor, setAbertopor] = useState("");
   const [valorTotalPedidoSemDesconto, setValorTotalPedidoSemDesconto] = useState(0);
-  let valorTotalSemDesconto = 0;
 
+  let valorTotalSemDesconto = 0;
   useEffect(() => {
     pedido?.forEach((item) => {
       setIdPedido(item._id);
       setDataPedido(item.data_pedido.split("T")[0]);
       setComandasPedido(item.comandas)
+      setEntrada(format(new Date(item.dataentrada), 'dd/MM/yyyy', { locale: ptBR }))
+      setFechamento(format(new Date(item.datafechamento), 'dd/MM/yyyy', { locale: ptBR }))
       setProdutosPedido(item.produtos)
       setDescontoPedido(item.desconto)
       setValorTotalPedido(item.valor_total)
       setMetodoPedido(item.metodo_pagamento)
+      setAbertopor(item.acesso_comanda)
     })
   }, [pedido])
 
@@ -37,6 +44,11 @@ export default function PedidosVisualizar({ }) {
     style: 'currency',
     currency: 'BRL',
   });
+
+  
+  
+ 
+ 
 
   return (
     <>
@@ -175,6 +187,42 @@ export default function PedidosVisualizar({ }) {
                                   type="text"
                                   disabled
                                   value={metodoPedido}
+                                />
+                              </div>
+                              <label htmlFor="text" className="col-12 col-form-label">
+                                Aberto Por
+                              </label>
+                              <div className="col-12">
+                                <input
+                                  id="estoque"
+                                  name="estoque"
+                                  className="form-control here slug-title"
+                                  type="text"
+                                  disabled
+                                  value={abertpor}
+                                />
+                              </div>
+                              <label htmlFor="text" className="col-12 col-form-label">
+                                Entrada e Fechamento
+                              </label>
+                              <div className="col-6">
+                                <input
+                                  id="estoque"
+                                  name="estoque"
+                                  className="form-control here slug-title"
+                                  type="text"
+                                  disabled
+                                  value={entrada}
+                                />
+                              </div>
+                              <div className="col-6">
+                                <input
+                                  id="estoque"
+                                  name="estoque"
+                                  className="form-control here slug-title"
+                                  type="text"
+                                  disabled
+                                  value={fechamento}
                                 />
                               </div>
                             </div>

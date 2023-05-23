@@ -10,11 +10,14 @@ export default async (req, res) => {
       comandas: req.body.comandas,
       cpf: req.body.cpf,
       hostel: req.body.hostel,
+      dataentrada: req.body.dataentrada,
+      datafechamento: req.body.datafechamento,
       ativo: req.body.ativo,
       produtos: req.body.produtos,
       desconto: req.body.desconto,
       valor_total: req.body.valor_total,
-      metodo_pagamento: req.body.metodo_pagamento
+      metodo_pagamento: req.body.metodo_pagamento,
+      acesso_comanda: req.body.acesso_comanda
     }).then((data) => {
       console.log(data)
     }).catch((err) => console.log(err));

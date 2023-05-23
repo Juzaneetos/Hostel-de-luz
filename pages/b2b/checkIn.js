@@ -17,7 +17,6 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 import { useCookies, expires } from 'react-cookie';
 import CurrencyInput from 'react-currency-input-field'
 import formatCpf from '@brazilian-utils/format-cpf';
-
 import Menu from "../../components/b2b_components/Menu";
 
 export default function Checkin() {
@@ -121,6 +120,7 @@ export default function Checkin() {
       pagamentoconcluido: pagamentoconcluido,
       checkinID: checkinID,
       usuario: userID,
+      acesso_comanda: cookies.user_login,
     });
     mutate('/api/checkin/getAllCheckin');
   }
