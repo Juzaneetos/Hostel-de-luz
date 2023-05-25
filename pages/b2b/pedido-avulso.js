@@ -36,6 +36,10 @@ export default function NovoPedido({ }) {
   const [searchItem, setSearchItem] = useState("");
   const [filter, setFilter] = useState([]);
   const [hostel, setHostel] = useState('');
+  const [nomeprod, setNomeprod] = useState('');
+  const [valorprod, setValorprod] = useState('');
+  const [valorvenda, setValorvenda] = useState('');
+  const [quantidadevenda, setQuantidadevenda] = useState('');
   const [cpf, setCpf] = useState('');
   const [active, setActive] = useState('1');
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
@@ -45,7 +49,7 @@ export default function NovoPedido({ }) {
   let ano = hoje.getFullYear()
   let mes = hoje.getMonth() + 1
   let dia = hoje.getDate()
-  
+
   let dataDia = `${ano}-${mes < 10 ? '0' + mes : mes}-${dia < 10 ? '0' + dia : dia}`;
 
   const formatter = new Intl.NumberFormat('bt-BR', {
@@ -80,7 +84,7 @@ export default function NovoPedido({ }) {
       })
     })
     let datadefechamento = ''
-    if(active === '0'){datadefechamento = new Date()}
+    if (active === '0') { datadefechamento = new Date() }
     let data = await axios.post(`/api/pedidos/insertPedido`, {
       data_pedido: dataPedido,
       comandas: comandasPedido,
@@ -89,9 +93,18 @@ export default function NovoPedido({ }) {
       dataentrada: new Date(),
       datafechamento: datadefechamento,
       ativo: active,
-      produtos: produtosPedido,
-      desconto: parseFloat(descontoPedido),
-      valor_total: valorTotalPedido,
+      produtos: [
+        {
+          estoque: 0,
+          nome: nomeprod,
+          valorCompra: parseFloat(valorprod),
+          valorVenda: parseFloat(valorvenda),
+          quantidade: quantidadevenda,
+          _id: new Date
+        }
+      ],
+      desconto: descontoPedido,
+      valor_total: parseFloat(valorvenda),
       metodo_pagamento: metodoPedido,
       acesso_comanda: cookies.user_login,
     });
@@ -102,13 +115,13 @@ export default function NovoPedido({ }) {
       item.quantidade = 0;
     })
 
-      toast('Pedido adiconado com sucesso!', {
-        position: "top-right",
-      });
-     
+    toast('Pedido adiconado com sucesso!', {
+      position: "top-right",
+    });
+
 
   };
-console.log(produtosPedido)
+  console.log(produtosPedido)
   const addItem = async (produto) => {
     let contador = 0;
     if (produtosPedido.length === 0) {
@@ -193,7 +206,7 @@ console.log(produtosPedido)
 
   const attTroco = async (e, valorPago) => {
     e.preventDefault();
-    let troco = parseFloat(pagamentoPedido) - parseFloat(valorTotalPedido);
+    let troco = parseFloat(valorPago) - parseFloat(valorTotalPedido);
     retiraDotComma(troco)
     setTrocoPedido(troco)
   }
@@ -211,6 +224,10 @@ console.log(produtosPedido)
     return parseFloat(value)
   }
 
+  String.prototype.reverse = function() {
+    return this.split('').reverse().join('');
+  };
+  
   function mascaraMoeda(event) {
     const campo = event.target;
     const tecla = event.which || window.event.keyCode;
@@ -233,16 +250,18 @@ console.log(produtosPedido)
   }
   
 
+  
+
   return (
     <>
       <div className="bg-geral">
         <div style={{ display: 'flex' }}>
-          <Menu  parametro={'18'}/>
+          <Menu parametro={'22'} />
           <div className="ec-page-wrapper">
             <div className="ec-content-wrapper">
               <div className="content">
                 <div className="breadcrumb-wrapper breadcrumb-wrapper-2 breadcrumb-contacts">
-                  <h1>Novo Pedido</h1>
+                  <h1>Venda Avulsa</h1>
                   <p className="breadcrumbs">
                     <span>
                       <a href="#">Dashboard</a>
@@ -250,11 +269,11 @@ console.log(produtosPedido)
                     <span>
                       <i className="mdi mdi-chevron-right"></i>
                     </span>
-                    Novo Pedido
+                    Venda Avulsa
                   </p>
                 </div>
                 <div className="row">
-                  <div className="col-lg-6">
+                  <div className="col-lg-12">
                     <div className="ec-cat-list card card-default mb-24px">
                       <div className="card-body">
 
@@ -262,6 +281,74 @@ console.log(produtosPedido)
                           <div className="ec-cat-form">
                             <form onSubmit={onSubmit}>
                               <div className="form-group row">
+
+                                <div className="d-flex">
+                                  <div className="col-lg-3 p-1">
+                                    <label htmlFor="text" className="col-12 col-form-label">
+                                      Nome
+                                    </label>
+                                    <div className="col-12">
+                                      <input
+                                        id="text"
+                                        name="nome"
+                                        className="form-control here slug-title"
+                                        type="text"
+                                        required
+                                        value={nomeprod}
+                                        onChange={(e) => setNomeprod(e.target.value)}
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-lg-3 p-1">
+                                    <label htmlFor="text" className="col-12 col-form-label">
+                                      Valor da Compra
+                                    </label>
+                                    <div className="col-12">
+                                      <input
+                                        id="text"
+                                        name="nome"
+                                        className="form-control here slug-title"
+                                        type="text"
+                                        required
+                                        value={`R$ ${valorprod}`}
+                                        onChange={(e) => {mascaraMoeda(e); setValorprod(e.target.value);}}
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-lg-3 p-1">
+                                    <label htmlFor="text" className="col-12 col-form-label">
+                                      Valor da venda
+                                    </label>
+                                    <div className="col-12">
+                                      <input
+                                        id="text"
+                                        name="nome"
+                                        className="form-control here slug-title"
+                                        type="text"
+                                        required
+                                        value={`R$ ${valorvenda}`}
+                                        onChange={(e) => {mascaraMoeda(e); setValorvenda(e.target.value)}}
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-lg-3 p-1">
+                                    <label htmlFor="text" className="col-12 col-form-label">
+                                      Quantidade
+                                    </label>
+                                    <div className="col-12">
+                                      <input
+                                        id="text"
+                                        name="nome"
+                                        className="form-control here slug-title"
+                                        type="number"
+                                        required
+                                        value={quantidadevenda}
+                                        onChange={(e) => setQuantidadevenda(e.target.value)}
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+
                                 <label htmlFor="text" className="col-12 col-form-label">
                                   Data
                                 </label>
@@ -306,65 +393,6 @@ console.log(produtosPedido)
                                   />
                                 </div>
 
-                                <label htmlFor="produtos" className="col-12 col-form-label">
-                                  Produtos
-                                </label>
-                                <div className="col-12">
-                                  <ul>
-                                    {produtosPedido?.map((item, index) => {
-                                      return (
-                                        <li key={index} style={{ display: "flex", alignItems: "center", marginBottom: "5px" }}>
-                                          <button
-                                            onClick={(e) => deleteItem(e, item._id, (parseFloat(item.valorVenda) * parseFloat(item.quantidade)))}>
-                                            <FaTrash style={{ color: '#DC3545' }} />
-                                          </button>
-                                          <input
-                                            type="number"
-                                            name="campoQtd"
-                                            className="campoQtd mx-1"
-                                            defaultValue={item.quantidade}
-                                            onChange={(e) => attPedido(e.target.value, item._id)}
-                                          />
-                                          <div className="d-flex justify-content-between w-100">
-                                            <p>{item.nome}</p>
-                                            <p>{formatter.format(parseFloat(item.valorVenda))}</p>
-                                          </div>
-                                        </li>
-                                      )
-                                    })}
-                                  </ul>
-                                </div>
-
-                                <label htmlFor="text" className="col-12 col-form-label">
-                                  Desconto em Reais
-                                </label>
-                                <div className="col-12 d-flex align-items-center">
-                                  <input
-                                    id="text"
-                                    name="valor"
-                                    className="form-control here slug-title"
-                                    type="text"
-                                    value={`R$ ${descontoPedido}`}
-                                    onChange={(e) => {mascaraMoeda(e), setDescontoPedido(e.target.value) }}
-                                  />
-                                  <button className="btn btn-info ml-1" type="attValorTotal" onClick={(e) => { attValorTotal(e, parseFloat(descontoPedido)) }}>Aplicar</button>
-                                </div>
-
-                                <label htmlFor="estoque" className="col-12 col-form-label">
-                                  Valor Total
-                                </label>
-                                <div className="col-12">
-                                  <input
-                                    id="estoque"
-                                    name="estoque"
-                                    className="form-control here slug-title"
-                                    type="text"
-                                    disabled
-                                    value={formatter.format(parseFloat(valorTotalPedido))}
-                                    onChange={(e) => setValorTotalPedido(e.target.value)}
-                                  />
-                                </div>
-
                                 <label htmlFor="text" className="col-12 col-form-label">
                                   Método de Pagamento
                                 </label>
@@ -385,75 +413,44 @@ console.log(produtosPedido)
                                     <option value="Outro">Outro</option>
                                   </select>
                                 </div>
-                                {(metodoPedido === "Dinheiro") ?
-                                  <>
-                                    <label htmlFor="text" className="col-12 col-form-label">
-                                      Valor Pago
-                                    </label>
-                                    <div className="col-12 d-flex align-items-center">
-                                      <input
-                                        id="text"
-                                        name="valorPago"
-                                        className="form-control here slug-title"
-                                        type="text"
-                                        value={`R$ ${pagamentoPedido}`}
-                                        onChange={(e) => {mascaraMoeda(e), setPagamentoPedido(e.target.value) }}
-                                      />
-                                      <button className="btn btn-info ml-1" type="attTroco" onClick={(e) => { attTroco(e, parseFloat(pagamentoPedido)) }}>Aplicar</button>
-                                    </div>
 
-                                    <label htmlFor="text" className="col-12 col-form-label">
-                                      Troco
-                                    </label>
-                                    <div className="col-12">
-                                      <input
-                                        id="text"
-                                        name="valor"
-                                        className="form-control here slug-title"
-                                        type="text"
-                                        disabled
-                                        value={formatter.format(parseFloat(trocoPedido))}
-                                      />
-                                    </div>
-                                  </> : <></>
-                                }
 
                               </div>
 
                               <div className="space-t-15 mt-3 mb-3">
-                                    <label htmlFor="phone-2" className="form-label">
-                                        Hostel
-                                    </label>
-                                    <select className="form-control here slug-title" id="cars" onChange={(e) => setHostel(e.target.value)}>
-                                        <option value='todos'>Todos os Hostels</option>
-                                        {hoteis?.map((item, index) => {
-                                            console.log(item)
-                                            return (<option key={index} value={item._id}>{item.titulo}</option>)
-                                        })}
-                                    </select>
-                                </div>
+                                <label htmlFor="phone-2" className="form-label">
+                                  Hostel
+                                </label>
+                                <select className="form-control here slug-title" id="cars" onChange={(e) => setHostel(e.target.value)}>
+                                  <option value='todos'>Todos os Hostels</option>
+                                  {hoteis?.map((item, index) => {
+                                    console.log(item)
+                                    return (<option key={index} value={item._id}>{item.titulo}</option>)
+                                  })}
+                                </select>
+                              </div>
 
                               <div className="d-flex mb-3 space-t-15">
                                 <div className="row align-items-center">
                                   <label className="form-label">Fechar Comanda?</label>
                                   <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>
-                                      <input
-                                        type="radio"
-                                        name="active"
-                                        value={'0'}
-                                        style={{ width: '20px', margin: '0 15px 0 0' }}
-                                        onChange={(e) => setActive(e.target.value)}
-                                      />
+                                    <input
+                                      type="radio"
+                                      name="active"
+                                      value={'0'}
+                                      style={{ width: '20px', margin: '0 15px 0 0' }}
+                                      onChange={(e) => setActive(e.target.value)}
+                                    />
                                     Sim
                                   </div>
                                   <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>
-                                      <input
-                                        type="radio"
-                                        name="active"
-                                        value={'1'}
-                                        style={{ width: '20px', margin: '0 15px 0 0' }}
-                                        onChange={(e) => setActive(e.target.value)}
-                                      />
+                                    <input
+                                      type="radio"
+                                      name="active"
+                                      value={'1'}
+                                      style={{ width: '20px', margin: '0 15px 0 0' }}
+                                      onChange={(e) => setActive(e.target.value)}
+                                    />
                                     Não
                                   </div>
                                 </div>
@@ -473,55 +470,6 @@ console.log(produtosPedido)
                     </div>
                   </div>
 
-                  <div className="col-xl-6 col-lg-12">
-                    <div className="ec-cat-list card card-default">
-                      <div className="card-body">
-                        <div className="table-responsive">
-                          <input
-                            type="search"
-                            placeholder="Digite sua busca"
-                            className="form-control here slug-title"
-                            onChange={(e) => { setSearchItem(e.target.value.toLowerCase()) }}
-                          />
-                          <table id="responsive-data-table" className="table table-striped">
-                            <thead>
-                              <tr>
-                                <th>Qtd.</th>
-                                <th>Nome</th>
-                                <th>Valor</th>
-                                <th></th>
-                              </tr>
-                            </thead>
-
-                            <tbody>
-                              {filter?.map((item, index) => {
-                                console.log(filter)
-                                return (
-                                  <tr key={index} className="align-middle">
-                                    <td><input type="number" className="campoQtd text-black" name="campoQtd" defaultValue={item.quantidade} onChange={(e) => item.quantidade = parseInt(e.target.value)} /></td>
-                                    <td>{item.nome}</td>
-                                    <td>{formatter.format(item.valorVenda)}</td>
-                                    <td className="text-right">
-                                      <div className="btn-group">
-                                        <button
-                                          type="value"
-                                          className="btn btn-success"
-                                          onClick={(e) => {
-                                            addItem(item);
-                                          }}
-                                        >
-                                          <AiOutlinePlus size={20} color={"#ffffff"}/>
-                                        </button>
-                                      </div>
-                                    </td>
-                                  </tr>)
-                              })}
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>

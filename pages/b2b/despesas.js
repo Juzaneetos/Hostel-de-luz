@@ -29,6 +29,11 @@ export default function Despesas({ }) {
     mutate(`/api/despesas/getAllDespesas`);
     router.push("/b2b/despesas");
   };
+  
+  const formatter = new Intl.NumberFormat('bt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  });
 
   return (
     <>
@@ -79,6 +84,7 @@ export default function Despesas({ }) {
                                   <th>Nome</th>
                                   <th>Valor</th>
                                   <th>Quantidade</th>
+                                  <th>Valor</th>
                                   <th>Descrição</th>
                                   <th></th>
                                 </tr>
@@ -91,6 +97,7 @@ export default function Despesas({ }) {
                                       <td>{item.titulo}</td>
                                       <td>{item.entrada}</td>
                                       <td>{item.quantidade}</td>
+                                      <td>{formatter.format(parseFloat(item.valor))}</td>
                                       <td>{item.descricao.length >= 20 ? `${item.descricao.slice(0, 20)}...` : `${item.descricao}`}</td>
                                       <td className="text-right">
                                         <div className="btn-group">

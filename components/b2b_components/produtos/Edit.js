@@ -7,9 +7,9 @@ import { mutate } from "swr";
 
 function EditProdutos({ produtosId, produtos, setShowEditProdutosComponent }) {
   const [produtosNome, setProdutosNome] = useState("");
-  const [produtosValorCompra, setProdutosValorCompra] = useState(null);
-  const [produtosValorVenda, setProdutosValorVenda] = useState(null);
-  const [produtosEstoque, setProdutosEstoque] = useState(null);
+  const [produtosValorCompra, setProdutosValorCompra] = useState('');
+  const [produtosValorVenda, setProdutosValorVenda] = useState('');
+  const [produtosEstoque, setProdutosEstoque] = useState(0);
   const [id_, setId_] = useState();
 
   const [addProdutos, setProdutos] = useState({
@@ -45,8 +45,8 @@ function EditProdutos({ produtosId, produtos, setShowEditProdutosComponent }) {
     e.preventDefault();
     let data = await axios.put(`/api/produtos/updateProdutos?id=${id_}`, {
       nome: produtosNome,
-      valorCompra: produtosValorCompra,
-      valorVenda: produtosValorVenda,
+      valorCompra: parseFloat(produtosValorCompra),
+      valorVenda: parseFloat(produtosValorVenda),
       estoque: produtosEstoque,
     });
     toast('Produto sendo editado!', {
@@ -62,6 +62,27 @@ function EditProdutos({ produtosId, produtos, setShowEditProdutosComponent }) {
       id: "",
     });
   };
+
+  function mascaraMoeda(event) {
+    const campo = event.target;
+    const tecla = event.which || window.event.keyCode;
+    const valor = campo.value.replace(/[^\d]+/gi, '').split('').reverse();
+    let resultado = '';
+    const mascara = '########.##'.split('').reverse();
+
+    for (let x = 0, y = 0; x < mascara.length && y < valor.length;) {
+      if (mascara[x] !== '#') {
+        resultado += mascara[x];
+        x++;
+      } else {
+        resultado += valor[y];
+        y++;
+        x++;
+      }
+    }
+
+    campo.value = resultado.split('').reverse().join('');
+  }
 
   return (
     <div className="card-body">
@@ -116,8 +137,8 @@ function EditProdutos({ produtosId, produtos, setShowEditProdutosComponent }) {
                 name="valorCompra"
                 className="form-control here slug-title"
                 type="text"
-                defaultValue={produtosValorCompra}
-                onChange={(e) => setProdutosValorCompra(e.target.value)}
+                value={`R$ ${produtosValorCompra}`}
+                onChange={(e) => { mascaraMoeda(e), setProdutosValorCompra(e.target.value) }}
               />
             </div>
           </div>
@@ -131,8 +152,8 @@ function EditProdutos({ produtosId, produtos, setShowEditProdutosComponent }) {
                 name="valorVenda"
                 className="form-control here slug-title"
                 type="text"
-                defaultValue={produtosValorVenda}
-                onChange={(e) => setProdutosValorVenda(e.target.value)}
+                value={`R$ ${produtosValorVenda}`}
+                onChange={(e) => { mascaraMoeda(e), setProdutosValorVenda(e.target.value) }}
               />
             </div>
           </div>

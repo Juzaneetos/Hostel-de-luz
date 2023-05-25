@@ -37,7 +37,8 @@ import {
 } from "react-icons/md"
 import {
   MdProductionQuantityLimits,
-  BiBookAdd
+  BiBookAdd,
+  MdSell
 } from "react-icons/md"
 
 
@@ -200,6 +201,16 @@ export default function Menu({ parametro }) {
                     >
                       <BsBookmarkX size={24} />
                       <span className="nav-text">Comandas Finalizadas</span>
+                    </Link>
+                  </li>
+
+                  <li className={parametro === '22' ? `active` : ``}>
+                    <Link
+                      className="sidenav-item-link"
+                      href="/b2b/pedido-avulso"
+                    >
+                      <MdSell size={24} />
+                      <span className="nav-text">Venda Por Fora</span>
                     </Link>
                   </li>
 

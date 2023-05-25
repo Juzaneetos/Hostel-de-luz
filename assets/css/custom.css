@@ -86,9 +86,8 @@ input[type="date"]::-webkit-calendar-picker-icon {
 
 .circulocama {
   position: absolute;
-  top: 50%;
-  margin-top: 10px;
-  margin-left: 10px;
+  top: 45px;
+  left: 15px;
   width: 70px;
   border-radius: 3px;
   background-color: #fff;

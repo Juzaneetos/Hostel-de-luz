@@ -6,35 +6,60 @@ import { toast } from "react-toastify";
 
 function AddProdutos() {
   const [produtosNome, setProdutosNome] = useState("");
-  const [produtosValorCompra, setProdutosValorCompra] = useState(null);
-  const [produtosValorVenda, setProdutosValorVenda] = useState(null);
-  const [produtosEstoque, setProdutosEstoque] = useState(null);
+  const [produtosValorCompra, setProdutosValorCompra] = useState('');
+  const [produtosValorVenda, setProdutosValorVenda] = useState('');
+  const [produtosEstoque, setProdutosEstoque] = useState(0);
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    
-    router.reload();
-    await axios.post(`/api/produtos/insertProdutos/`, {
-      nome: produtosNome,
-      valorCompra: produtosValorCompra,
-      valorVenda: produtosValorVenda,
-      estoque: produtosEstoque,
-    });
-    
     toast('Produto sendo adicionado!', {
       position: "top-right",
     });
+    setTimeout(() => {
+      router.reload()
+    }, 3000)
+    await axios.post(`/api/produtos/insertProdutos/`, {
+      nome: produtosNome,
+      valorCompra: parseFloat(produtosValorCompra),
+      valorVenda: parseFloat(produtosValorVenda),
+      estoque: produtosEstoque,
+    });
+    
+      mutate(`/api/produtos/getAllProdutos`);
+
+
     
     clearInputs();
-    mutate(`/api/produtos/getAllProdutos`);
   };
 
   const clearInputs = async (e) => {
     setProdutosNome("")
-    setProdutosValorCompra(null);
-    setProdutosValorVenda(null);
-    setProdutosEstoque(null);
+    setProdutosValorCompra('');
+    setProdutosValorVenda('');
+    setProdutosEstoque(0);
   };
+
+  function mascaraMoeda(event) {
+    const campo = event.target;
+    const tecla = event.which || window.event.keyCode;
+    const valor = campo.value.replace(/[^\d]+/gi, '').split('').reverse();
+    let resultado = '';
+    const mascara = '########.##'.split('').reverse();
+
+    for (let x = 0, y = 0; x < mascara.length && y < valor.length;) {
+      if (mascara[x] !== '#') {
+        resultado += mascara[x];
+        x++;
+      } else {
+        resultado += valor[y];
+        y++;
+        x++;
+      }
+    }
+
+    campo.value = resultado.split('').reverse().join('');
+  }
+
 
   return (
     <div className="card-body">
@@ -79,7 +104,8 @@ function AddProdutos() {
                 name="valorCompra"
                 className="form-control here slug-title"
                 type="text"
-                onChange={(e) => setProdutosValorCompra(e.target.value)}
+                value={`R$ ${produtosValorCompra}`}
+                onChange={(e) => { mascaraMoeda(e), setProdutosValorCompra(e.target.value) }}
               />
             </div>
           </div>
@@ -93,7 +119,8 @@ function AddProdutos() {
                 name="valorVenda"
                 className="form-control here slug-title"
                 type="text"
-                onChange={(e) => setProdutosValorVenda(e.target.value)}
+                value={`R$ ${produtosValorVenda}`}
+                onChange={(e) => { mascaraMoeda(e), setProdutosValorVenda(e.target.value) }}
               />
             </div>
           </div>

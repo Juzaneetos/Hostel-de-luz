@@ -174,7 +174,7 @@ export default function PedidosFechados({ }) {
                                     <tr key={index} className="align-middle">
                                       <td>{dataFormatada}</td>
                                       <td>{item.comandas}</td>
-                                      <td>{formatter.format(item.valor_total)}</td>
+                                      <td>{item.valor_total}</td>
                                       <td>{formattedDate}</td>
                                       <td>{fechamentoDateformat}</td>
                                       <td>{item.acesso_comanda}</td>

@@ -121,8 +121,8 @@ export default function NovoPedido({ }) {
       datafechamento: datadefechamento,
       ativo: active,
       produtos: produtosPedido,
-      desconto: descontoPedido,
-      valor_total: valorTotalPedido,
+      desconto: parseFloat(descontoPedido),
+      valor_total: parseFloat(valorTotalPedido),
       metodo_pagamento: metodoPedido,
       acesso_comanda: abertpor,
     });
@@ -238,6 +238,28 @@ export default function NovoPedido({ }) {
     return parseFloat(value)
   }
 
+  function mascaraMoeda(event) {
+    const campo = event.target;
+    const tecla = event.which || window.event.keyCode;
+    const valor = campo.value.replace(/[^\d]+/gi, '').split('').reverse();
+    let resultado = '';
+    const mascara = '########.##'.split('').reverse();
+  
+    for (let x = 0, y = 0; x < mascara.length && y < valor.length;) {
+      if (mascara[x] !== '#') {
+        resultado += mascara[x];
+        x++;
+      } else {
+        resultado += valor[y];
+        y++;
+        x++;
+      }
+    }
+  
+    campo.value = resultado.split('').reverse().join('');
+  }
+  
+
   return (
     <>
       <div className="bg-geral">
@@ -348,9 +370,9 @@ export default function NovoPedido({ }) {
                                     id="text"
                                     name="valor"
                                     className="form-control here slug-title"
-                                    type="number"
-                                    defaultValue={descontoPedido}
-                                    onChange={(e) => { setDescontoPedido(e.target.value) }}
+                                    type="text"
+                                    value={`R$ ${descontoPedido}`}
+                                    onChange={(e) => {mascaraMoeda(e), setDescontoPedido(e.target.value) }}
                                   />
                                   <button className="btn btn-info ml-1" type="attValorTotal" onClick={(e) => { attValorTotal(e, descontoPedido) }}>Aplicar</button>
                                 </div>
@@ -401,10 +423,10 @@ export default function NovoPedido({ }) {
                                         name="valorPago"
                                         className="form-control here slug-title"
                                         type="text"
-                                        value={pagamentoPedido}
-                                        onChange={(e) => { setPagamentoPedido(e.target.value) }}
+                                        value={`R$ ${pagamentoPedido}`}
+                                        onChange={(e) => {mascaraMoeda(e), setPagamentoPedido(e.target.value) }}
                                       />
-                                      <button className="btn btn-info ml-1" type="attTroco" onClick={(e) => { attTroco(e, pagamentoPedido) }}>Aplicar</button>
+                                      <button className="btn btn-info ml-1" type="attTroco" onClick={(e) => { attTroco(e, parseFloat(pagamentoPedido)) }}>Aplicar</button>
                                     </div>
 
                                     <label htmlFor="text" className="col-12 col-form-label">

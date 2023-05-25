@@ -44,12 +44,34 @@ function EditCategory({ despesasId, despesas, setShowEditCategoryComponent }) {
       quantidade: quantidade,
       hostel: hostel,
       entrada: entrada,
-      valor: valor,
+      valor: parseFloat(valor),
     });
     toast('Despesa sendo editada!', {
       position: "top-right",
       });
   };
+
+  function mascaraMoeda(event) {
+    const campo = event.target;
+    const tecla = event.which || window.event.keyCode;
+    const valor = campo.value.replace(/[^\d]+/gi, '').split('').reverse();
+    let resultado = '';
+    const mascara = '########.##'.split('').reverse();
+  
+    for (let x = 0, y = 0; x < mascara.length && y < valor.length;) {
+      if (mascara[x] !== '#') {
+        resultado += mascara[x];
+        x++;
+      } else {
+        resultado += valor[y];
+        y++;
+        x++;
+      }
+    }
+  
+    campo.value = resultado.split('').reverse().join('');
+  }
+  
 
   return (
     <div className="card-body">
@@ -151,8 +173,8 @@ function EditCategory({ despesasId, despesas, setShowEditCategoryComponent }) {
                 name="text"
                 className="form-control here slug-title"
                 type="text"
-                value={valor}
-                onChange={(e) => setValor(e.target.value)}
+                value={`R$ ${valor}`}
+                onChange={(e) => {mascaraMoeda(e), setValor(e.target.value) }}
               />
             </div>
           </div>

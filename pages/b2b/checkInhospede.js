@@ -30,8 +30,8 @@ export default function Checkin() {
   const [telefone, setTelefone] = useState("")
   const [formapagamento, setFormaPagamento] = useState("")
   const [observacoes, setObservações] = useState("")
-  const [valorpago, setValorpago] = useState(0)
-  const [valordiaria, setValordiaria] = useState(0)
+  const [valorpago, setValorpago] = useState('')
+  const [valordiaria, setValordiaria] = useState('')
   const [hotel, setHotel] = useState("");
   const [quarto, setQuarto] = useState([]);
   const [nomequarto, setNomeQuarto] = useState('');
@@ -96,8 +96,8 @@ export default function Checkin() {
       saidamanha: saida,
       saida: previousDate.toISOString().slice(0, 10),
       formapagamento: formapagamento,
-      valorpago: valorpago,
-      valordiaria: valordiaria,
+      valorpago: parseFloat(valorpago),
+      valordiaria: parseFloat(valordiaria),
       observacoes: observacoes,
       objreserva: objreserva,
       ativado: active,
@@ -216,6 +216,28 @@ dispararcheckin()
     }
 
   }
+
+  function mascaraMoeda(event) {
+    const campo = event.target;
+    const tecla = event.which || window.event.keyCode;
+    const valor = campo.value.replace(/[^\d]+/gi, '').split('').reverse();
+    let resultado = '';
+    const mascara = '########.##'.split('').reverse();
+  
+    for (let x = 0, y = 0; x < mascara.length && y < valor.length;) {
+      if (mascara[x] !== '#') {
+        resultado += mascara[x];
+        x++;
+      } else {
+        resultado += valor[y];
+        y++;
+        x++;
+      }
+    }
+  
+    campo.value = resultado.split('').reverse().join('');
+  }
+  
 
   return (
     <div style={{ backgroundColor: '#f3f3f3' }}>
@@ -356,29 +378,27 @@ dispararcheckin()
                               </div>
                               <div className="col-md-6">
                                 <label className="form-label">Valor da Diaria</label>
-                                <CurrencyInput
-                                  id="input-example"
-                                  name="input-name"
-                                  className="form-control slug-title"
-                                  placeholder="Please enter a number"
-                                  defaultValue={parseFloat(valordiaria).toLocaleString('pt-br', { minimumFractionDigits: 2 })}
-                                  decimalsLimit={2}
-                                  onValueChange={(value, name) => setValordiaria(value)}
-                                />
+                                <input
+                                    id="text"
+                                    name="valor"
+                                    className="form-control here slug-title"
+                                    type="text"
+                                    value={`R$ ${valordiaria}`}
+                                    onChange={(e) => {mascaraMoeda(e), setValordiaria(e.target.value) }}
+                                  />
                               </div>
                               <div className="col-md-6">
                                 <label htmlFor="phone-2" className="form-label">
                                   Valor Pago
                                 </label>
-                                <CurrencyInput
-                                  id="input-example"
-                                  name="input-name"
-                                  className="form-control slug-title"
-                                  placeholder="Please enter a number"
-                                  defaultValue={parseFloat(valorpago).toLocaleString('pt-br', { minimumFractionDigits: 2 })}
-                                  decimalsLimit={2}
-                                  onValueChange={(value, name) => setValorpago(value)}
-                                />
+                                <input
+                                    id="text"
+                                    name="valor"
+                                    className="form-control here slug-title"
+                                    type="text"
+                                    value={`R$ ${valorpago}`}
+                                    onChange={(e) => {mascaraMoeda(e), setValorpago(e.target.value) }}
+                                  />
                               </div>
                               <div className="col-md-12">
                                 <label className="form-label">Forma de Pagamento</label>

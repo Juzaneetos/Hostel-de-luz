@@ -145,8 +145,8 @@ export default function Modal({ customers, id_ }) {
       saidamanha: diasaidamanha,
       saida: diasaida,
       formapagamento: formapagamento,
-      valorpago: valorpago,
-      valordiaria: valordiaria,
+      valorpago: parseFloat(valorpago),
+      valordiaria: parseFloat(valordiaria),
       observacoes: observacoes,
       objreserva: objreserva,
       ativado: active,
@@ -175,8 +175,8 @@ export default function Modal({ customers, id_ }) {
       saidamanha: diasaidamanha,
       saida: diasaida,
       formapagamento: formapagamento,
-      valorpago: valorpago,
-      valordiaria: valordiaria,
+      valorpago: parseFloat(valorpago),
+      valordiaria: parseFloat(valordiaria),
       observacoes: observacoes,
       objreserva: objreserva,
       ativado: '0',
@@ -206,8 +206,8 @@ export default function Modal({ customers, id_ }) {
       saidamanha: diasaidamanha,
       saida: diasaida,
       formapagamento: formapagamento,
-      valorpago: valorpago,
-      valordiaria: valordiaria,
+      valorpago: parseFloat(valorpago),
+      valordiaria: parseFloat(valordiaria),
       observacoes: observacoes,
       objreserva: objreserva,
       ativado: '0',
@@ -215,7 +215,7 @@ export default function Modal({ customers, id_ }) {
       checkinID: checkinID,
       usuario: usuario,
       acesso_comanda: abertpor,
-      
+
     });
     mutate('/api/checkin/getAllCheckin')
   }
@@ -515,6 +515,28 @@ export default function Modal({ customers, id_ }) {
     })
   }
 
+  function mascaraMoeda(event) {
+    const campo = event.target;
+    const tecla = event.which || window.event.keyCode;
+    const valor = campo.value.replace(/[^\d]+/gi, '').split('').reverse();
+    let resultado = '';
+    const mascara = '########.##'.split('').reverse();
+  
+    for (let x = 0, y = 0; x < mascara.length && y < valor.length;) {
+      if (mascara[x] !== '#') {
+        resultado += mascara[x];
+        x++;
+      } else {
+        resultado += valor[y];
+        y++;
+        x++;
+      }
+    }
+  
+    campo.value = resultado.split('').reverse().join('');
+  }
+  
+
   return (
     <div className="modal fade" id="edit_modal" tabIndex="-1" role="dialog">
       <div className="modal-dialog" role="document">
@@ -542,7 +564,7 @@ export default function Modal({ customers, id_ }) {
                     if (item._id === id_) {
                       return (
                         <form className="row g-3" key={item.id}>
-                          <div className="col-md-6 space-t-15 mt-3">
+                          <div className="col-md-12 space-t-15 mt-3">
                             <label htmlFor="first-name" className="form-label">
                               Nome
                             </label>
@@ -629,7 +651,7 @@ export default function Modal({ customers, id_ }) {
 
                             </select>
                           </div>
-                          <div className="col-md-6 space-t-15 mt-3">
+                          {/* <div className="col-md-6 space-t-15 mt-3">
                             <label htmlFor="phone-2" className="form-label">
                               Ultimo dia de limpeza
                             </label>
@@ -640,7 +662,7 @@ export default function Modal({ customers, id_ }) {
                               id="phone-2"
                               onChange={(e) => setDiaLimpeza(e.target.value)}
                             />
-                          </div>
+                          </div> */}
                           <div className="col-md-12">
                             <label className="form-label">Observações</label>
                             <textarea
@@ -655,29 +677,27 @@ export default function Modal({ customers, id_ }) {
                             <label htmlFor="phone-2" className="form-label">
                               Valor da Diaria
                             </label>
-                            <CurrencyInput
-                              id="input-example"
-                              name="input-name"
-                              className="form-control slug-title"
-                              placeholder="Please enter a number"
-                              value={parseFloat(valordiaria).toLocaleString('pt-br', { minimumFractionDigits: 2 })}
-                              decimalsLimit={2}
-                              onValueChange={(value, name) => setValordiaria(value)}
+                            <input
+                              id="text"
+                              name="valor"
+                              className="form-control here slug-title"
+                              type="text"
+                              value={`R$ ${valordiaria}`}
+                              onChange={(e) => { mascaraMoeda(e), setValordiaria(e.target.value) }}
                             />
                           </div>
                           <div className="col-md-6 space-t-15 mt-3">
                             <label htmlFor="phone-2" className="form-label">
                               Valor Pago
                             </label>
-                            <CurrencyInput
-                              id="input-example"
-                              name="input-name"
-                              className="form-control slug-title"
-                              placeholder="Please enter a number"
-                              value={parseFloat(valorpago).toLocaleString('pt-br', { minimumFractionDigits: 2 })}
-                              decimalsLimit={2}
-                              onValueChange={(value, name) => setValorpago(value)}
-                            />;
+                            <input
+                              id="text"
+                              name="valor"
+                              className="form-control here slug-title"
+                              type="text"
+                              value={`R$ ${valorpago}`}
+                              onChange={(e) => { mascaraMoeda(e), setValorpago(e.target.value) }}
+                            />
                           </div>
                           <div className="col-md-12">
                             <label className="form-label">Forma de Pagamento</label>
@@ -1055,9 +1075,9 @@ export default function Modal({ customers, id_ }) {
                               </div>
                             </div>
                           } */}
-                            <div className="d-flex mb-3 col-md-6 justify-content-center align-items-center mt-4">
-                              Aberto por: {abertpor}
-                            </div>
+                          <div className="d-flex mb-3 col-md-6 justify-content-center align-items-center mt-4">
+                            Aberto por: {abertpor}
+                          </div>
                           {pagamentoconcluido === '1' ?
                             <div className="d-flex mb-3 col-md-6 justify-content-center mt-4">
                               <div className="row align-items-center justify-content-center text-center">

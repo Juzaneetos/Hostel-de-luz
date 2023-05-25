@@ -24,7 +24,7 @@ function AddDespesas() {
       quantidade: quantidade,
       hostel: hostel,
       entrada: dataAtual.toISOString().slice(0, 10),
-      valor: valor,
+      valor: parseFloat(valor),
     });
     toast('Despesa sendo adicionada!', {
       position: "top-right",
@@ -32,6 +32,27 @@ function AddDespesas() {
     mutate(`/api/despesas/getAllDespesas`);
   };
 
+  function mascaraMoeda(event) {
+    const campo = event.target;
+    const tecla = event.which || window.event.keyCode;
+    const valor = campo.value.replace(/[^\d]+/gi, '').split('').reverse();
+    let resultado = '';
+    const mascara = '########.##'.split('').reverse();
+  
+    for (let x = 0, y = 0; x < mascara.length && y < valor.length;) {
+      if (mascara[x] !== '#') {
+        resultado += mascara[x];
+        x++;
+      } else {
+        resultado += valor[y];
+        y++;
+        x++;
+      }
+    }
+  
+    campo.value = resultado.split('').reverse().join('');
+  }
+  
 
 
   return (
@@ -63,7 +84,8 @@ function AddDespesas() {
                 name="text"
                 className="form-control here slug-title"
                 type="text"
-                onChange={(e) => setValor(e.target.value)}
+                value={`R$ ${valor}`}
+                onChange={(e) => {mascaraMoeda(e), setValor(e.target.value) }}
               />
             </div>
           </div>
