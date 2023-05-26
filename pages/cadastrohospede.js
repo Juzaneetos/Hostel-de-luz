@@ -277,16 +277,17 @@ export default function Home() {
                               onChange={(e) => setPassaporte(e.target.value)}
                             />
                           </div>
-                          <div className="col-md-12 mt-3">
+                          <div className="col-md-12 mt-3 date-input">
                             <label htmlFor="phone-2" className="form-label">
                               Nascimento
                             </label>
                             <input
                               type="date"
-                              className="form-control"
+                              className="form-control slug-title"
                               id="phone-2"
                               onChange={(e) => setDatanascimento(e.target.value)}
                             />
+                            <span class="calendar-icon"></span>
                           </div>
                           <div className="d-flex mb-3 col-md-6 justify-content-center mt-4">
                             <div className="row align-items-center justify-content-center text-center">
