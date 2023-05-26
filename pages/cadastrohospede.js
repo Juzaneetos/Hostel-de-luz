@@ -13,70 +13,143 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
-
+import { ref, uploadBytesResumable, getDownloadURL, getStorage, deleteObject, uploadBytes } from 'firebase/storage';
+import { storage } from '../firebaseConfig.ts';
+import formatCpf from '@brazilian-utils/format-cpf';
 export default function Home() {
   const { data: hospedes } = useSwr(`/api/hospedes/getAllHospedes`, fetcher);
   const [Name, setName] = useState("");
-  const [rg, setRg] = useState("");
-  const [cpf, setCpf] = useState("");
+  const [rgFrenteImage, setRgFrenteImage] = useState(null);
+  const [rgVersoImage, setRgVersoImage] = useState(null);
   const [passaporte, setPassaporte] = useState("vazio");
   const [datanascimento, setDatanascimento] = useState("")
+  const [rg, setRg] = useState("")
   const [telefone, setTelefone] = useState("")
   const [observacoes, setObservações] = useState("")
   const [genero, setGenero] = useState("");
-  
+  const [downloadURL, setDownloadURL] = useState('');
+  const [progressUpload, setProgressUpload] = useState(0);
   const [email, setEmail] = useState("");
   const [saude, setSaude] = useState("");
   const [cidadania, setCidadania] = useState("");
   const [aceitotermos, setAceitoTermos] = useState("");
-  const [rgfrente, setRgFrente] = useState("");
-  const [rgverso, setRgVerso] = useState("");
+  const [cpf, setCpf] = useState("");
   const [aceitoregras, setAceitoRegras] = useState("");
 
   const [mostrarTextoCompleto, setMostrarTextoCompleto] = useState(false);
 
   const handleMostrarMais = () => {
-    setMostrarTextoCompleto(!mostrarTextoCompleto);}
+    setMostrarTextoCompleto(!mostrarTextoCompleto);
+  }
 
   const atthospoede = () => {
     let contador = 0;
     let errorOccurred = false;
     console.log(hospedes.length)
-    if (hospedes.length === 0) {
-      if (!errorOccurred) {
-        errorOccurred = true;
-        toast.success('Úsuario cadastrado!')
-        router.push("/b2b/hospedesall");
-        dispararbanco()
-      }
-    } else {
-      hospedes?.map((item, index) => {
-        if (Name === '' || cpf === '' || telefone === '') {
-          contador = contador + 1
-          if (!errorOccurred) {
-            errorOccurred = true;
-            toast.error('gentileza preencha os campos!')
-          }
-        } else if (item.nome === Name || item.rg === rg || item.cpf === cpf || item.passaporte === passaporte) {
-          contador = contador + 1
-          if (!errorOccurred) {
-            errorOccurred = true;
-            toast.error('Úsuario ja cadastrado')
-          }
-        } else if (contador === 0 && errorOccurred === false) {
-          if (!errorOccurred) {
-            errorOccurred = true;
-            toast.success('Úsuario cadastrado!')
-            dispararbanco()
-          }
+    if(Name === '' || telefone === '' || datanascimento === '' || saude === '' || cidadania === '' || rgFrenteImage === null || rgVersoImage === null || aceitotermos === '' || aceitoregras === ''){
+      toast.error('Gentileza preencha todos os campos, coloque pelo menos um documento.')
+    }else{
+      if (hospedes.length === 0) {
+        if (!errorOccurred) {
+          errorOccurred = true;
+          toast.success('Úsuario cadastrado!')
+          router.push("/b2b/hospedesall");
+          dispararbanco()
         }
-      })
+      } else {
+        hospedes?.map((item, index) => {
+          if (Name === '' || cpf === '' || telefone === '') {
+            contador = contador + 1
+            if (!errorOccurred) {
+              errorOccurred = true;
+              toast.error('gentileza preencha os campos!')
+            }
+          } else if (item.rg === rg || item.cpf === cpf || item.passaporte === passaporte) {
+            contador = contador + 1
+            if (!errorOccurred) {
+              errorOccurred = true;
+              toast.error('Úsuario ja cadastrado')
+            }
+          } else if (contador === 0 && errorOccurred === false) {
+            if (!errorOccurred) {
+              errorOccurred = true;
+              toast.success('Úsuario cadastrado!')
+              onSubmit()
+            }
+          }
+        })
+      }
     }
   };
 
+  const onSubmit = async () => {
+    let contador = 0;
+    let contadorToast = 0;
+    let imageArr = [];
+    [...Array(2)]?.map((item, index) => {
+      const name = `fotodocumento${cpf}${index}`
+      const storageRef = ref(storage, `image/${name}`)
+      let uploadTask
+      if(index === 0){
+        uploadTask = uploadBytesResumable(storageRef, rgFrenteImage)
+      }else{
+        uploadTask = uploadBytesResumable(storageRef, rgVersoImage)
+      }
+  
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+  
+          setProgressUpload(progress) // to show progress upload
+  
+          switch (snapshot.state) {
+            case 'paused':
+              console.log('Upload is paused')
+              break
+            case 'running':
+              console.log('Upload is running')
+              break
+          }
+        },
+        (error) => {
+          toast.error(error.message)
+        },
+  
+        async () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            //url is download url of file
+            setDownloadURL((current) => [
+              ...current,
+              {
+                url: url,
+                path: name,
+              },
+            ]);
+            const obj = [{ url: url, path: name }];
+            imageArr = [...imageArr, ...obj];
+            contador++;
+            console.log(imageArr.length, contador)
+  
+            if (2 === contador) {
+              setTimeout(() => {
+                contador = 0;
+                console.log(imageArr)
+                dispararbanco(imageArr)
+              }, 2000)
+            }
+          })
+        },
+      )
+    })
+    
 
-  const dispararbanco = async () => {
+  };
+
+  const dispararbanco = async (imageArr) => {
     console.log('Requisição concluída com sucesso!');
+    router.push("/");
     await axios.put(`/api/hospedes/insertHospedes`, {
       nome: Name,
       rg: rg,
@@ -85,9 +158,16 @@ export default function Home() {
       datanascimento: datanascimento,
       telefone: telefone,
       genero: genero,
+      email: email,
+      saude: saude,
+      cidadania: cidadania,
+      aceitotermos: aceitotermos,
+      rgfrente: imageArr[0],
+      rgverso: imageArr[1],
+      aceitoregras: aceitoregras,
       observacoes: observacoes
     });
-    router.push("/b2b/hospedesall");
+   
     mutate('/api/hospedes/getAllHospedes');
   }
 
@@ -103,7 +183,7 @@ export default function Home() {
         className="owl-carousel">
         <SwiperSlide >
           <div className="video-container" style={{ backgroundImage: `url('${bg2.src}')`, backgroundSize: 'cover' }}>
-            <div className='backgroundprovisorio d-flex flex-column justify-content-center align-items-center p-5' style={{ width: '100vw', height: '100%' }}>
+            <div className='backgroundprovisorio d-flex flex-column justify-content-center align-items-center p-0 pt-5 pb-5' style={{ width: '100vw', height: '100%' }}>
               <div className="row">
 
                 <div className="col-12">
@@ -180,6 +260,7 @@ export default function Home() {
                               type="text"
                               className="form-control"
                               id="phone-1"
+                              value={formatCpf(cpf)}
                               onChange={(e) => setCpf(e.target.value)}
                             />
                           </div>
@@ -238,7 +319,7 @@ export default function Home() {
                               <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>
                                 <input
                                   type="radio"
-                                  name="pagamento"
+                                  name="cidadania"
                                   value={'Brasileira'}
                                   style={{ width: '20px', margin: '0 15px 0 0' }}
                                   onChange={(e) => setCidadania(e.target.value)}
@@ -248,7 +329,7 @@ export default function Home() {
                               <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>
                                 <input
                                   type="radio"
-                                  name="pagamento"
+                                  name="cidadania"
                                   value={'Estrangeira'}
                                   style={{ width: '20px', margin: '0 15px 0 0' }}
                                   onChange={(e) => setCidadania(e.target.value)}
@@ -267,7 +348,36 @@ export default function Home() {
 
                             </select>
                           </div>
-
+                          <div className="col-md-6 mt-3">
+                            <label htmlFor="phone-1" className="form-label">
+                              RG Frente
+                            </label>
+                            <input
+                              type="file"
+                              className="form-control"
+                              id="phone-1"
+                              style={{ border: 'none', minHeight: '30px' }}
+                              onChange={(e) => setRgFrenteImage(e.target.files[0])}
+                            />
+                            {rgFrenteImage && (
+                              <img src={URL.createObjectURL(rgFrenteImage)} alt="RG Frente" />
+                            )}
+                          </div>
+                          <div className="col-md-6 mt-3">
+                            <label htmlFor="phone-1" className="form-label">
+                              RG Verso
+                            </label>
+                            <input
+                              type="file"
+                              className="form-control"
+                              id="phone-1"
+                              style={{ border: 'none', minHeight: '30px' }}
+                              onChange={(e) => setRgVersoImage(e.target.files[0])}
+                            />
+                            {rgVersoImage && (
+                              <img src={URL.createObjectURL(rgVersoImage)} alt="RG Verso" />
+                            )}
+                          </div>
                           <div className="col-md-12 mt-3">
                             <label className="form-label">Observações</label>
                             <textarea
@@ -277,6 +387,7 @@ export default function Home() {
                               onChange={(e) => setObservações(e.target.value)}
                             />
                           </div>
+
                           <div className="p-4 mt-3" style={{ borderRadius: '5px', background: 'whitesmoke', boxShadow: '0 0 3px black' }}>
                             <div>
 
@@ -289,7 +400,7 @@ export default function Home() {
                                 <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>
                                   <input
                                     type="radio"
-                                    name="pagamento"
+                                    name="termo"
                                     value={'Sim'}
                                     style={{ width: '20px', margin: '0 15px 0 0' }}
                                     onChange={(e) => setAceitoTermos(e.target.value)}
@@ -299,7 +410,7 @@ export default function Home() {
                                 <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>
                                   <input
                                     type="radio"
-                                    name="pagamento"
+                                    name="termo"
                                     value={'Não'}
                                     style={{ width: '20px', margin: '0 15px 0 0' }}
                                     onChange={(e) => setAceitoTermos(e.target.value)}
@@ -309,36 +420,12 @@ export default function Home() {
                               </div>
                             </div>
                           </div>
-                          <div className="col-md-6 mt-3">
-                            <label htmlFor="phone-1" className="form-label">
-                              RG Frente
-                            </label>
-                            <input
-                              type="file"
-                              className="form-control"
-                              id="phone-1"
-                              style={{ border: 'none', minHeight: '30px' }}
-                              onChange={(e) => setRgFrente(e.target.value)}
-                            />
-                            
-                          </div>
-                          <div className="col-md-6 mt-3">
-                            <label htmlFor="phone-1" className="form-label">
-                              RG Verso
-                            </label>
-                            <input
-                              type="file"
-                              className="form-control"
-                              id="phone-1"
-                              style={{ border: 'none', minHeight: '30px' }}
-                              onChange={(e) => setRgVerso(e.target.value)}
-                            />
-                          </div>
+
                           <div className="p-4 mt-3" style={{ borderRadius: '5px', background: 'whitesmoke', boxShadow: '0 0 3px black' }}>
                             <div></div>
                             <h4 className="text-center mb-2">Termo de Compromisso - REGRAS</h4>
                             <p className="mt-3" style={{ textAlign: 'center', maxHeight: mostrarTextoCompleto ? 'none' : '200px', overflow: 'hidden', transition: 'ma/xeight 0.3s ease-in-out' }}>
-                              <p className='mb-3' style={{fontWeight: '600'}}>Bem-vindo ao Hostel de luz!</p>
+                              <p className='mb-3' style={{ fontWeight: '600' }}>Bem-vindo ao Hostel de luz!</p>
                               <p className='mb-2'>Antes de aproveitar sua estadia, precisamos que você assine um termo de compromisso, prometendo seguir algumas regras básicas para mantermos a vibe sempre boa:
                               </p>
                               <p className='mb-2'>As diárias devem ser pagas até o momento do seu check-in.
@@ -370,7 +457,7 @@ export default function Home() {
                               <p className='mb-2'>Caso precise de um horário diferente de check-out, deixar suas malas e buscar depois ou voltar depois para tomar aquele banho, consulte na recepção qual a taxa.
                               </p>
                               <p className='mb-2'>Se precisar de algo, não hesite em nos consultar! Faremos de tudo que estiver ao nosso alcance para poder ajudar!
-                            </p></p>
+                              </p></p>
                             <div className="btn btn-primary mt-3" onClick={handleMostrarMais}>
                               {mostrarTextoCompleto ? 'Mostrar Menos' : 'Mostrar Mais'}
                             </div>
@@ -379,11 +466,12 @@ export default function Home() {
                             <input
                               type="checkbox"
                               id="phone-1"
-                              style={{width: '80px', height: '25px'}}
+                              value={'Aceito'}
+                              style={{ width: '80px', height: '25px' }}
                               onChange={(e) => setAceitoRegras(e.target.value)}
                             />
-                            <label htmlFor="phone-1" className="form-label m-0" style={{fontWeight: '600'}}>
-                            Li e aceito as regras do estabelecimento
+                            <label htmlFor="phone-1" className="form-label m-0" style={{ fontWeight: '600' }}>
+                              Li e aceito as regras do estabelecimento
                             </label>
                           </div>
                           <div className="col-md-12 mt-4 d-flex justify-content-center text-center">
