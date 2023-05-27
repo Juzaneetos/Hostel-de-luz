@@ -35,7 +35,7 @@ export default function Home() {
   const [aceitotermos, setAceitoTermos] = useState("");
   const [cpf, setCpf] = useState("");
   const [aceitoregras, setAceitoRegras] = useState("");
-
+  console.log(Name)
   const [mostrarTextoCompleto, setMostrarTextoCompleto] = useState(false);
 
   const handleMostrarMais = () => {
@@ -53,8 +53,8 @@ export default function Home() {
         if (!errorOccurred) {
           errorOccurred = true;
           toast.success('Úsuario cadastrado!')
-          router.push("/b2b/hospedesall");
-          dispararbanco()
+          onSubmit()
+          router.push("/");
         }
       } else {
         hospedes?.map((item, index) => {
