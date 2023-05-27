@@ -16,7 +16,12 @@ function AddDespesas() {
   const onSubmit = async (e) => {
     const dataAtual = new Date(); // Obtém a data atual
     e.preventDefault();
-    router.reload();
+    toast('Despesa sendo adicionada!', {
+      position: "top-right",
+    });
+    setTimeout(() => {
+      router.reload();
+    }, 3000)
     let data = await axios.post(`/api/despesas/insertDespesas`, {
       titulo: titulo,
       descricao: descricao,
@@ -26,9 +31,7 @@ function AddDespesas() {
       entrada: dataAtual.toISOString().slice(0, 10),
       valor: parseFloat(valor),
     });
-    toast('Despesa sendo adicionada!', {
-      position: "top-right",
-    });
+    
     mutate(`/api/despesas/getAllDespesas`);
   };
 

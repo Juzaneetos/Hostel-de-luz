@@ -214,7 +214,7 @@ export default function Menu({ parametro }) {
                     </Link>
                   </li>
 
-                  <li className={parametro === '21' ? `active` : ``}>
+                  <li className={parametro === '25' ? `active` : ``}>
                     <Link
                       className="sidenav-item-link"
                       href="/b2b/financeiroloja"

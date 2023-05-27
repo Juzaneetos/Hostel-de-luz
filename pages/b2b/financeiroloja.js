@@ -161,7 +161,7 @@ export default function Financeirodespesas() {
     return (
         <div style={{ backgroundColor: '#f3f3f3' }}>
             <div style={{ display: 'flex' }}>
-                <Menu parametro={'10'} />
+                <Menu parametro={'25'} />
                 <div className="ec-page-wrapper">
                     <div className="ec-content-wrapper">
                         <div className="content">

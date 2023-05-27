@@ -190,9 +190,12 @@ export default function Modal({ customers, id_ }) {
   const dispararcheckoutatt = async () => {
     let diasaida = '';
     let diasaidamanha = '';
+    toast.success('Atualizando estadia.')
     if (saida === saidafixa) { diasaida = saidafixa } else { diasaida = previousDate.toISOString().slice(0, 10) }
     if (saida === saidafixa) { diasaidamanha = saidamanha } else { diasaidamanha = saida }
-    router.reload()
+    setTimeout(() => {
+      router.reload();
+    }, 2000)
     let data = await axios.put(`/api/checkin/updateCheckin?id=${id_}`, {
       nome: Name,
       rg: rg,
@@ -232,6 +235,9 @@ export default function Modal({ customers, id_ }) {
     mutate('/api/quartos/getAllQuarto')
   }
   const dispararquartoanterior = async () => {
+    setTimeout(() => {
+      router.reload();
+    }, 2000)
     const response1 = await axios.put(`/api/quartos/updateQuarto?id=${idquartodef}`, {
       titulo: titulo_2,
       camas: camas2,
@@ -241,6 +247,7 @@ export default function Modal({ customers, id_ }) {
       genero: genero_2,
       ativado: ativado2,
     });
+    
     mutate('/api/quartos/getAllQuarto')
   }
 
@@ -341,6 +348,7 @@ export default function Modal({ customers, id_ }) {
     if (quartos.length === contador && block === 0) {
 
       try {
+        toast.success('Atualizando estadia.')
         dispararcheckoutaxios()
 
         dispararquarto()
@@ -348,8 +356,9 @@ export default function Modal({ customers, id_ }) {
         dispararquartoanterior()
 
         // Executa a segunda solicitação apenas se a primeira for concluída com sucesso
-
-        router.reload();
+        setTimeout(() => {
+          router.reload();
+        }, 2000)
       } catch (error) {
         console.error(error);
       }
@@ -451,16 +460,14 @@ export default function Modal({ customers, id_ }) {
     if (quartos.length === contador && block === 0) {
 
       try {
-
+        toast.success('Atualizando estadia.')
         dispararquarto()
-
         dispararcheckin()
-
         dispararquartoanterior()
+      
 
         // Executa a segunda solicitação apenas se a primeira for concluída com sucesso
 
-        router.reload();
       } catch (error) {
         console.error(error);
       }
@@ -730,7 +737,7 @@ export default function Modal({ customers, id_ }) {
                             <input
                               type="date"
                               className="form-control"
-                              value={saida}
+                              value={saidamanha}
                               id="phone-2"
                               onChange={(e) => datamudou(e.target.value, 'saida')}
                             />
@@ -1106,7 +1113,7 @@ export default function Modal({ customers, id_ }) {
                               </div>
                             </div>
                             :
-                            <div className="d-flex mb-3 col-md-12 justify-content-center mt-4">
+                            <div className="d-flex mb-3 col-md-6 justify-content-center mt-4">
                               <div className="row align-items-center justify-content-center text-center">
                                 <label className="form-label">Pagamento Concluído</label>
                                 <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>

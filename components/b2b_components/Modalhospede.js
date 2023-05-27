@@ -66,8 +66,8 @@ export default function Modal({ customers, id_ }) {
 
 
   const dispararbanco = async (imageArr) => {
-    console.log(imageArr.length)
-    await axios.put(`/api/hospedes/insertHospedes?id=${__id}`, {
+    router.reload()
+    await axios.put(`/api/hospedes/updateHospedes?id=${__id}`, {
       nome: Name,
       rg: rg,
       cpf: cpf,
@@ -84,7 +84,7 @@ export default function Modal({ customers, id_ }) {
       aceitoregras: aceitoregras,
       observacoes: observacoes
     });
-
+    
     mutate('/api/hospedes/getAllHospedes');
   }
   return (

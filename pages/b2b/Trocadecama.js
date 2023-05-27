@@ -57,6 +57,7 @@ export default function Trocadecama() {
       }
     })
   }
+
   const atualizarguias = () => {
     quartoarr?.map((item, index) => {
       item.arrCamas?.map((item2, index2) => {
@@ -89,7 +90,9 @@ export default function Trocadecama() {
 
   const disparaquartos = async (idquarto) => {
     toast.success("Quartos atualizados para hoje!")
-    Router.reload()
+    setTimeout(() => {
+      Router.reload()
+    }, 3000)
     await axios.put(`/api/quartos/updateQuarto?id=${idquarto}`, {
       titulo: titulo_,
       camas: camas,
@@ -286,8 +289,8 @@ export default function Trocadecama() {
                                                 const dataAtual = new Date(); // Obtém a data atual
                                                 const dataLimpeza = new Date(item3.limpeza); // Obtém a data de limpeza de item3
                                                 const diff = Math.floor((dataAtual - dataLimpeza) / (1000 * 60 * 60 * 24)); // Calcula a diferença em dias
-
-                                                if (diff < 7) {
+                                                const limpeza = diff >= 3;
+                                                if (diff < 7 && limpeza === false) {
                                                   return (
                                                     <tr key={item.id} className="align-middle">
                                                       <td>{item.titulo}</td>
