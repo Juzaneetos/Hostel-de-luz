@@ -138,7 +138,7 @@ export default function Checkin() {
   }
 
   const dispararbanco = async () => {
-    if(Name === '' || datanascimento === '' || entrada === '' || saida === '' || objreserva === [] || telefone === ''){return toast.error('Preencha os campos corretamente!')}
+    if(Name === '' || datanascimento === '' || entrada === '' || saida === '' || telefone === '' || numerocama === '' || valorpago === '' || valordiaria === ''){return toast.error('Preencha os campos corretamente!')}
     let contador = 0;
     const dataEntradaNovaReserva = new Date(entrada);
     const dataSaidaNovaReserva = new Date(saida);
