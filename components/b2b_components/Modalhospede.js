@@ -32,6 +32,7 @@ export default function Modal({ customers, id_ }) {
   const [aceitotermos, setAceitoTermos] = useState("");
   const [cpf, setCpf] = useState("");
   const [aceitoregras, setAceitoRegras] = useState("");
+  const [__id, setId] = useState("");
 
   const [mostrarTextoCompleto, setMostrarTextoCompleto] = useState(false);
 
@@ -50,7 +51,6 @@ export default function Modal({ customers, id_ }) {
         setCidadania(item.cidadania)
         setAceitoTermos(item.aceitotermos)
         setAceitoRegras(item.aceitoregras)
-
         setObservações(item.observacoes)
         setTelefone(item.telefone)
         setDatanascimento(item.datanascimento)
@@ -59,6 +59,7 @@ export default function Modal({ customers, id_ }) {
         setRg(item.rg)
         setName(item.nome)
         setGenero(item.genero)
+        setId(item._id)
       }
     })
   }, [id_])
@@ -66,7 +67,7 @@ export default function Modal({ customers, id_ }) {
 
   const dispararbanco = async (imageArr) => {
     console.log(imageArr.length)
-    await axios.put(`/api/hospedes/insertHospedes`, {
+    await axios.put(`/api/hospedes/insertHospedes?id=${__id}`, {
       nome: Name,
       rg: rg,
       cpf: cpf,
