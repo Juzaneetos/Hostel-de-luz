@@ -9,6 +9,7 @@ import axios from "axios";
 import { ref, uploadBytesResumable, getDownloadURL, getStorage, deleteObject, uploadBytes } from 'firebase/storage';
 import { storage } from '../../firebaseConfig.ts';
 import formatCpf from '@brazilian-utils/format-cpf';
+import { toast } from "react-toastify";
 export default function Modal({ customers, id_ }) {
   const [Name, setName] = useState("");
   const [rgFrenteImage, setRgFrenteImage] = useState(null);
@@ -62,74 +63,9 @@ export default function Modal({ customers, id_ }) {
     })
   }, [id_])
 
-  const onSubmit = async () => {
-    let contador = 0;
-    let contadorToast = 0;
-    let imageArr = [];
-    [...Array(2)]?.map((item, index) => {
-      const name = `fotodocumento${cpf}${index}`
-      const storageRef = ref(storage, `image/${name}`)
-      let uploadTask
-      if (index === 0) {
-        uploadTask = uploadBytesResumable(storageRef, rgFrenteImage)
-      } else {
-        uploadTask = uploadBytesResumable(storageRef, rgVersoImage)
-      }
-
-      uploadTask.on(
-        'state_changed',
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-
-          setProgressUpload(progress) // to show progress upload
-
-          switch (snapshot.state) {
-            case 'paused':
-              console.log('Upload is paused')
-              break
-            case 'running':
-              console.log('Upload is running')
-              break
-          }
-        },
-        (error) => {
-          toast.error(error.message)
-        },
-
-        async () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-            //url is download url of file
-            setDownloadURL((current) => [
-              ...current,
-              {
-                url: url,
-                path: name,
-              },
-            ]);
-            const obj = [{ url: url, path: name }];
-            imageArr = [...imageArr, ...obj];
-            contador++;
-            console.log(imageArr.length, contador)
-
-            if (2 === contador) {
-              setTimeout(() => {
-                contador = 0;
-                console.log(imageArr)
-                dispararbanco(imageArr)
-              }, 2000)
-            }
-          })
-        },
-      )
-    })
-
-
-  };
 
   const dispararbanco = async (imageArr) => {
-    console.log('Requisição concluída com sucesso!');
-    router.push("/");
+    console.log(imageArr.length)
     await axios.put(`/api/hospedes/insertHospedes`, {
       nome: Name,
       rg: rg,
@@ -142,8 +78,8 @@ export default function Modal({ customers, id_ }) {
       saude: saude,
       cidadania: cidadania,
       aceitotermos: aceitotermos,
-      rgfrente: imageArr[0],
-      rgverso: imageArr[1],
+      rgfrente: rgfrente,
+      rgverso: rgverso,
       aceitoregras: aceitoregras,
       observacoes: observacoes
     });
@@ -547,7 +483,7 @@ export default function Modal({ customers, id_ }) {
                           </div>
                           <div className="col-md-6 space-t-15 mt-4 d-flex justify-content-center text-center">
                             <div
-                              onClick={(e) => atthospoede()}
+                              onClick={(e) => dispararbanco()}
                               className="btn btn-sm btn-primary"
                               style={{ width: '250px' }}
                               data-bs-dismiss="modal"

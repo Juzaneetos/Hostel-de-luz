@@ -112,13 +112,13 @@ export default function Quartos() {
                                     <td  style={{width: '200px', height: '50px'}}><Image width={1000} height={1000} style={{objectFit: 'cover'}} src={item.imagem[0].url}/></td>
                                     <td className="text-right">
                                       <div className="btn-group">
-                                        <Link
+                                        {/* <Link
                                           href={`/b2b/editquarto?id=${item._id}`}
                                           title="Edit Detail"
                                           className="btn btn-primary"
                                         >
                                           <BsPencilFill />
-                                        </Link>
+                                        </Link> */}
                                         <button
                                           className="btn btn-outline-primary delete-btn"
                                           onClick={() => deleteQuarto(item._id)}
