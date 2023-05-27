@@ -74,7 +74,7 @@ export default function Jobs() {
                                                             </td>
                                                             <td className="d-flex justify-content-center">
                                                                 <div style={{ width: '50px', height: '50px', display: 'flex', marginLeft: '5px' }} className='flex-row align-items-center'>
-                                                                    <a href='https://firebasestorage.googleapis.com/v0/b/hosteldeluz-426b8.appspot.com/o/pdf%2FPDF-teste.pdf?alt=media&token=ada8f4c5-defe-43b6-8005-2c03704e1152' target='_blank' rel='noreferrer'>
+                                                                    <a href='https://firebasestorage.googleapis.com/v0/b/hostel-de-luz.appspot.com/o/pdf%2FPDF-teste.pdf?alt=media&token=b1ec4e98-9853-44ec-8b2d-e6b197338075' target='_blank' rel='noreferrer'>
                                                                         <FaFilePdf size={50} />
                                                                     </a>
                                                                 </div>
@@ -91,7 +91,7 @@ export default function Jobs() {
                                                             </td>
                                                             <td className="d-flex justify-content-center">
                                                                 <div style={{ width: '50px', height: '50px', display: 'flex', marginLeft: '5px' }} className='flex-row align-items-center'>
-                                                                    <a href='https://firebasestorage.googleapis.com/v0/b/hosteldeluz-426b8.appspot.com/o/pdf%2FPDF-teste.pdf?alt=media&token=ada8f4c5-defe-43b6-8005-2c03704e1152' target='_blank' rel='noreferrer'>
+                                                                    <a href='https://firebasestorage.googleapis.com/v0/b/hostel-de-luz.appspot.com/o/pdf%2FPDF-teste.pdf?alt=media&token=b1ec4e98-9853-44ec-8b2d-e6b197338075' target='_blank' rel='noreferrer'>
                                                                         <FaFilePdf size={50} />
                                                                     </a>
                                                                 </div>
@@ -108,7 +108,7 @@ export default function Jobs() {
                                                             </td>
                                                             <td className="d-flex justify-content-center">
                                                                 <div style={{ width: '50px', height: '50px', display: 'flex', marginLeft: '5px' }} className='flex-row align-items-center'>
-                                                                    <a href='https://firebasestorage.googleapis.com/v0/b/hosteldeluz-426b8.appspot.com/o/pdf%2FPDF-teste.pdf?alt=media&token=ada8f4c5-defe-43b6-8005-2c03704e1152' target='_blank' rel='noreferrer'>
+                                                                    <a href='https://firebasestorage.googleapis.com/v0/b/hostel-de-luz.appspot.com/o/pdf%2FPDF-teste.pdf?alt=media&token=b1ec4e98-9853-44ec-8b2d-e6b197338075' target='_blank' rel='noreferrer'>
                                                                         <FaFilePdf size={50} />
                                                                     </a>
                                                                 </div>
@@ -125,7 +125,7 @@ export default function Jobs() {
                                                             </td>
                                                             <td className="d-flex justify-content-center">
                                                                 <div style={{ width: '50px', height: '50px', display: 'flex', marginLeft: '5px' }} className='flex-row align-items-center'>
-                                                                    <a href='https://firebasestorage.googleapis.com/v0/b/hosteldeluz-426b8.appspot.com/o/pdf%2FPDF-teste.pdf?alt=media&token=ada8f4c5-defe-43b6-8005-2c03704e1152' target='_blank' rel='noreferrer'>
+                                                                    <a href='https://firebasestorage.googleapis.com/v0/b/hostel-de-luz.appspot.com/o/pdf%2FPDF-teste.pdf?alt=media&token=b1ec4e98-9853-44ec-8b2d-e6b197338075' target='_blank' rel='noreferrer'>
                                                                         <FaFilePdf size={50} />
                                                                     </a>
                                                                 </div>
