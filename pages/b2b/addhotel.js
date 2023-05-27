@@ -110,7 +110,7 @@ export default function AddBanners() {
 
       if (contadorToast === 0) {
         contadorToast++
-        toast('Aguarde hotel sendo adicionada!', {
+        toast('Aguarde hostel sendo adicionada!', {
           position: "top-right",
         });
       }
