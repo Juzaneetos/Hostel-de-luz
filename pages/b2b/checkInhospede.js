@@ -41,6 +41,8 @@ export default function Checkin() {
   const [objreserva, setObjreserva] = useState([]);
   const [active, setActive] = useState('1');
   const [pagamentoconcluido, setPagamentoConcluido] = useState('0');
+  const [limitador, setLimitador] = useState(false);
+  
   const checkinID = Math.floor(Math.random() * 10000000000000000000);
   const currentDate = new Date(saida);
   const previousDate = new Date(currentDate.setDate(currentDate.getDate() - 1));
@@ -75,6 +77,7 @@ export default function Checkin() {
 
   const registrarQuarto = (numerocama) => {
     console.log(previousDate.toISOString().slice(0, 10));
+    setLimitador(true)
     setObjreserva({
       hotel: hotel,
       quarto: idquarto,
@@ -123,58 +126,59 @@ export default function Checkin() {
 
 
   const dispararbanco = async () => {
-    if(Name === '' || datanascimento === '' || entrada === '' || saida === '' || objreserva === [] || telefone === ''){return toast.error('Preencha os campos corretamente!')}
-    let contador = 0;
-    const dataEntradaNovaReserva = new Date(entrada);
-    const dataSaidaNovaReserva = new Date(saida);
-   
-
-    quartos?.map((item, index) => {
-      contador++
-      if (item._id === idquarto) {
-        item.arrCamas?.map((item2, index) => {
-          let contadorcamas = 0;
-
-
-          item2?.map((item3, index2) => {
-            if (item3.numeroCama === numerocama && contadorcamas === 0) {
-              contadorcamas++;
-              item2.push({
-                numeroCama: numerocama,
-                vago: true,
-                hospede: Name,
-                limpeza: entrada,
-                entrada: entrada,
-                saida: saida,
-                base: false,
-                checkinID: checkinID,
-              })
-              titulo_ = item.titulo;
-              camas = item.camas;
-              arrCamas = item.arrCamas;
-              imagem = item.imagem;
-              hotel_ = item.hotel;
-              genero_ = item.genero;
-              ativado = item.ativado;
-            }
+    if(Name === '' || datanascimento === '' || entrada === '' || saida === '' || telefone === '' || numerocama === ''){return toast.error('Preencha os campos corretamente!')}else{
+      let contador = 0;
+      const dataEntradaNovaReserva = new Date(entrada);
+      const dataSaidaNovaReserva = new Date(saida);
+     
+  
+      quartos?.map((item, index) => {
+        contador++
+        if (item._id === idquarto) {
+          item.arrCamas?.map((item2, index) => {
+            let contadorcamas = 0;
+  
+  
+            item2?.map((item3, index2) => {
+              if (item3.numeroCama === numerocama && contadorcamas === 0) {
+                contadorcamas++;
+                item2.push({
+                  numeroCama: numerocama,
+                  vago: true,
+                  hospede: Name,
+                  limpeza: entrada,
+                  entrada: entrada,
+                  saida: saida,
+                  base: false,
+                  checkinID: checkinID,
+                })
+                titulo_ = item.titulo;
+                camas = item.camas;
+                arrCamas = item.arrCamas;
+                imagem = item.imagem;
+                hotel_ = item.hotel;
+                genero_ = item.genero;
+                ativado = item.ativado;
+              }
+            })
           })
-        })
-      }
-    })
-
-    if (quartos.length === contador) {
-      try {
-        toast.success('Check-in sendo realizado!')
-
-         dispararquarto()
-
-dispararcheckin()
-
-        // Executa a segunda solicitação apenas se a primeira for concluída com sucesso
-
-        router.push("/b2b/customers");
-      } catch (error) {
-        console.error(error);
+        }
+      })
+  
+      if (quartos.length === contador) {
+        try {
+          toast.success('Check-in sendo realizado!')
+  
+           dispararquarto()
+  
+  dispararcheckin()
+  
+          // Executa a segunda solicitação apenas se a primeira for concluída com sucesso
+  
+          router.push("/b2b/customers");
+        } catch (error) {
+          console.error(error);
+        }
       }
     }
 
