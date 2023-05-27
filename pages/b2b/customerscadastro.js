@@ -49,8 +49,8 @@ export default function Hospedecadastro() {
         if (!errorOccurred) {
           errorOccurred = true;
           toast.success('Úsuario cadastrado!')
+          onSubmit()
           router.push("/b2b/hospedesall");
-          dispararbanco()
         }
       } else {
         hospedes?.map((item, index) => {
