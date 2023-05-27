@@ -112,7 +112,7 @@ export default function Modal({ customers, id_ }) {
                   {customers?.map((item, index) => {
                     if (item._id === id_) {
                       return (
-                        <form className="row">
+                        <form key={index} className="row">
                           <div className="col-md-12 mt-3">
                             <label htmlFor="first-name" className="form-label">
                               Nome

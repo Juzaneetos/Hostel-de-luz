@@ -31,7 +31,7 @@ export default function Jobs() {
                         <div className="content">
                             <div className="breadcrumb-wrapper d-flex align-items-center justify-content-between">
                                 <div>
-                                    <h1>PDF's de treinamento</h1>
+                                    <h1>PDFs de treinamento</h1>
                                     <p className="breadcrumbs">
                                         <span>
                                             <Link href="/b2b">Dashboard</Link>
@@ -39,7 +39,7 @@ export default function Jobs() {
                                         <span>
                                             <i className="mdi mdi-chevron-right"></i>
                                         </span>
-                                        PDF's de treinamento
+                                        PDFs de treinamento
                                     </p>
                                 </div>
                             </div>
