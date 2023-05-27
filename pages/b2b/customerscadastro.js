@@ -145,7 +145,6 @@ export default function Hospedecadastro() {
 
   const dispararbanco = async (imageArr) => {
     console.log('Requisição concluída com sucesso!');
-    router.push("/b2b/hospedesall");
     await axios.put(`/api/hospedes/insertHospedes`, {
       nome: Name,
       rg: rg,
@@ -163,6 +162,7 @@ export default function Hospedecadastro() {
       aceitoregras: aceitoregras,
       observacoes: observacoes
     });
+    router.push("/b2b/hospedesall");
    
     mutate('/api/hospedes/getAllHospedes');
   }
