@@ -149,24 +149,31 @@ export default function Home() {
 
   const dispararbanco = async (imageArr) => {
     console.log('Requisição concluída com sucesso!');
-    router.push("/");
-    await axios.put(`/api/hospedes/insertHospedes`, {
-      nome: Name,
-      rg: rg,
-      cpf: cpf,
-      passaporte: passaporte,
-      datanascimento: datanascimento,
-      telefone: telefone,
-      genero: genero,
-      email: email,
-      saude: saude,
-      cidadania: cidadania,
-      aceitotermos: aceitotermos,
-      rgfrente: imageArr[0],
-      rgverso: imageArr[1],
-      aceitoregras: aceitoregras,
-      observacoes: observacoes
-    });
+    
+    try{
+      await axios.put(`/api/hospedes/insertHospedes`, {
+        nome: Name,
+        rg: rg,
+        cpf: cpf,
+        passaporte: passaporte,
+        datanascimento: datanascimento,
+        telefone: telefone,
+        genero: genero,
+        email: email,
+        saude: saude,
+        cidadania: cidadania,
+        aceitotermos: aceitotermos,
+        rgfrente: imageArr[0],
+        rgverso: imageArr[1],
+        aceitoregras: aceitoregras,
+        observacoes: observacoes
+      });
+
+      return router.push("/");
+    }catch(error){
+      console.log(error)
+    }
+    
    
     mutate('/api/hospedes/getAllHospedes');
   }
