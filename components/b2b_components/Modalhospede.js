@@ -315,13 +315,6 @@ export default function Modal({ customers, id_ }) {
                             <label htmlFor="phone-1" className="form-label">
                               RG Frente
                             </label>
-                            <input
-                              type="file"
-                              className="form-control"
-                              id="phone-1"
-                              style={{ border: 'none', minHeight: '30px' }}
-                              onChange={(e) => setRgFrenteImage(e.target.files[0])}
-                            />
                             {rgFrenteImage && (
                               <img src={URL.createObjectURL(rgFrenteImage)} alt="RG Frente" />
                             )}
@@ -334,13 +327,6 @@ export default function Modal({ customers, id_ }) {
                             <label htmlFor="phone-1" className="form-label">
                               RG Verso
                             </label>
-                            <input
-                              type="file"
-                              className="form-control"
-                              id="phone-1"
-                              style={{ border: 'none', minHeight: '30px' }}
-                              onChange={(e) => setRgVersoImage(e.target.files[0])}
-                            />
                             {rgVersoImage && (
                               <img src={URL.createObjectURL(rgVersoImage)} alt="RG Verso" />
                             )}
