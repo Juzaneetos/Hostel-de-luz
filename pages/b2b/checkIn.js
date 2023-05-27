@@ -489,9 +489,9 @@ export default function Checkin() {
                               {quarto.length > 0 ? (
                                 <>
                                   <h3 className="text-center mt-3 mb-2">{nomequarto}</h3>
-                                  <div className="col-12 d-flex justify-content-center mb-3 flex-wrap">
+                                  <div className="col-12 d-flex justify-content-center mb-3">
                                     <div
-                                      className="col-12 d-flex justify-content-center align-items-center"
+                                      className="col-12 d-flex justify-content-center align-items-center flex-wrap"
                                       style={{ padding: "40px", border: "3px solid black", maxWidth: '90%' }}
                                     >
                                       {quarto?.map((item2, index) => (
