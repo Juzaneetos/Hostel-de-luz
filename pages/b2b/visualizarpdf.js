@@ -19,9 +19,6 @@ export default function Jobs() {
         setModalOpen(!modalOpen);
     };
 
-    console.log(selecionado)
-
-
     return (
         <div style={{ backgroundColor: '#f3f3f3' }}>
             <div style={{ display: 'flex' }}>

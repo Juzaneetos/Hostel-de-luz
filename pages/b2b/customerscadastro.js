@@ -41,7 +41,6 @@ export default function Hospedecadastro() {
   const atthospoede = () => {
     let contador = 0;
     let errorOccurred = false;
-    console.log(hospedes.length)
     if(Name === '' || telefone === '' || datanascimento === '' || saude === '' || cidadania === '' || rgFrenteImage === null || rgVersoImage === null || aceitotermos === '' || aceitoregras === ''){
       toast.error('Gentileza preencha todos os campos, coloque pelo menos um documento.')
     }else{
@@ -99,15 +98,6 @@ export default function Hospedecadastro() {
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100
   
           setProgressUpload(progress) // to show progress upload
-  
-          switch (snapshot.state) {
-            case 'paused':
-              console.log('Upload is paused')
-              break
-            case 'running':
-              console.log('Upload is running')
-              break
-          }
         },
         (error) => {
           toast.error(error.message)
@@ -126,12 +116,10 @@ export default function Hospedecadastro() {
             const obj = [{ url: url, path: name }];
             imageArr = [...imageArr, ...obj];
             contador++;
-            console.log(imageArr.length, contador)
   
             if (2 === contador) {
               setTimeout(() => {
                 contador = 0;
-                console.log(imageArr)
                 dispararbanco(imageArr)
               }, 2000)
             }
@@ -144,7 +132,6 @@ export default function Hospedecadastro() {
   };
 
   const dispararbanco = async (imageArr) => {
-    console.log('Requisição concluída com sucesso!');
 
     await axios.put(`/api/hospedes/insertHospedes`, {
       nome: Name,
@@ -275,7 +262,7 @@ export default function Hospedecadastro() {
                               id="phone-2"
                               onChange={(e) => setDatanascimento(e.target.value)}
                             />
-                            <span class="calendar-icon"></span>
+                            <span className="calendar-icon"></span>
                           </div>
                           <div className="d-flex mb-3 col-md-6 justify-content-center mt-4">
                             <div className="row align-items-center justify-content-center text-center">

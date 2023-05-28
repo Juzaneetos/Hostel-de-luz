@@ -16,6 +16,7 @@ import { storage } from '../../firebaseConfig';
 import useSwr, { mutate } from "swr";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 import CrooperJs from '../../components/b2b_components/cropperbanner.js';
+
 export default function EditProduct() {
   const { data: hotel } = useSwr(`/api/hoteis/getAllHotel`, fetcher);
   const [imageToUpload, setImageToUpload] = useState([]);
@@ -76,14 +77,6 @@ export default function EditProduct() {
               const progress =
                 (snapshot.bytesTransferred / snapshot.totalBytes) * 100
               setProgressUpload(progress) // to show progress upload
-              switch (snapshot.state) {
-                case 'paused':
-                  console.log('Upload is paused')
-                  break
-                case 'running':
-                  console.log('Upload is running')
-                  break
-              }
             },
             (error) => {
               alert(error.message)
@@ -102,8 +95,6 @@ export default function EditProduct() {
                 const obj = [{ url: url, path: name }];
                 imageArr = [...imageArr, ...obj];
                 contador++;
-
-                console.log(file.length, contador)
 
                 if (file.length === contador) {
                   setTimeout(() => {
@@ -202,8 +193,6 @@ export default function EditProduct() {
 
     reader.readAsDataURL(file);
   };
-
-  console.log(file)
 
   return (
     <div style={{ backgroundColor: '#f3f3f3' }}>
@@ -326,16 +315,6 @@ export default function EditProduct() {
                                 <div className="ec-vendor-img-upload">
                                   <div className="ec-vendor-main-img">
                                     <div className="avatar-upload">
-
-                                      {/* <div className="d-flex flex-column align-items-center mb-5">
-                                        <h1>Selecione ou Arraste suas imagens</h1>
-                                        <FileUploader
-                                          multiple={true}
-                                          handleChange={handleChange}
-                                          name="file"
-                                          types={fileTypes}
-                                        />
-                                      </div> */}
 
                                       <div className="thumb-upload-set colo-md-12">
                                         {hotel?.map((item, index) => {

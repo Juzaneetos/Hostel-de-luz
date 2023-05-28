@@ -12,6 +12,7 @@ export default async (req, res) => {
         valorCompra: req.body.valorCompra,
         valorVenda: req.body.valorVenda,
         estoque: req.body.estoque,
+        imagem: req.body.imagem,
       }
     });
 

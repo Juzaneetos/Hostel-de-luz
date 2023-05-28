@@ -5,7 +5,7 @@ export default async function(req, res) {
 
   const { name, email, emailInput, telefone, texto, senderEmail, subtitleEmail } = req.body;
 
-  console.log( name, email, emailInput, telefone, texto, senderEmail, subtitleEmail );
+  
 
   const content = {
     to: email,

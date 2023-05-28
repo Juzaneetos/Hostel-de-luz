@@ -28,8 +28,9 @@ export default function Financeiro() {
 
     const { data: checkin } = useSwr(`/api/checkin/getAllCheckin`, fetcher);
     const { data: quartos } = useSwr(`/api/quartos/getAllQuarto`, fetcher);
-    var tamanho = checkin?.length || [];
-    console.log(hostel)
+
+    var tamanho = [];
+
     useEffect(() => {
         let valortotal = 0;
         let pagototal = 0;
@@ -42,7 +43,6 @@ export default function Financeiro() {
                 const saida = new Date(item.saida);
                 const timeDifference = saida.getTime() - entrada.getTime();
                 const diasDiferenca = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-                console.log(diasDiferenca)
                 pagototal = pagototal + (diasDiferenca + 1) * parseInt(item.valordiaria)
             }
             if (checkin.length === index + 1) {
@@ -52,6 +52,7 @@ export default function Financeiro() {
                 setCheckinArr(checkin)
             }
         })
+        tamanho = checkin?.length;
     }, [checkin])
 
     const filtrar = () => {
@@ -72,7 +73,6 @@ export default function Financeiro() {
                         const saida = new Date(item.saida);
                         const timeDifference = saida.getTime() - entrada.getTime();
                         const diasDiferenca = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-                        console.log(diasDiferenca)
                         newarr.push(item)
                         hospedesinativos = hospedesinativos + 1;
                         valortotal = valortotal + parseInt(item.valorpago)
@@ -104,7 +104,6 @@ export default function Financeiro() {
                             const saida = new Date(item.saida);
                             const timeDifference = saida.getTime() - entrada.getTime();
                             const diasDiferenca = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-                            console.log(diasDiferenca)
                             newarr.push(item)
                             hospedesinativos = hospedesinativos + 1;
                             valortotal = valortotal + parseInt(item.valorpago)
@@ -175,7 +174,6 @@ export default function Financeiro() {
                     }
                 }
                 if (checkin.length === index + 1) {
-                    console.log(newarr)
                     setCheckinArr(newarr)
                     setRendatotal2(valortotal)
                     setPagototal2(pagototal)
@@ -271,19 +269,19 @@ export default function Financeiro() {
                             <h2 className="p-3 mb-2">Geral</h2>
                             <div className="d-flex">
                                 <div className="col-lg-3 modalprice">
-                                    <h5 className="text-white">Renda Total</h5>
+                                    <h5 className="text-white">Renda Atual</h5>
                                     <div className="text-white">{formatter.format(rendatotal)}</div>
                                 </div>
                                 <div className="col-lg-3 modalprice">
-                                    <h5 className="text-white">Estimado</h5>
+                                    <h5 className="text-white">Renda Estimada</h5>
                                     <div className="text-white">{formatter.format(pagototal)}</div>
                                 </div>
                                 <div className="col-lg-3 modalprice">
-                                    <h5 className="text-white">Débitos</h5>
+                                    <h5 className="text-white">Débitos a Cobrar</h5>
                                     <div className="text-white">{formatter.format(rendatotal - pagototal)}</div>
                                 </div>
                                 <div className="col-lg-3 modalprice">
-                                    <h5 className="text-white">Hóspedes</h5>
+                                    <h5 className="text-white">Hospedagens</h5>
                                     <div className="text-white">{hospedes}</div>
                                 </div>
 
@@ -291,7 +289,7 @@ export default function Financeiro() {
 
                             <h2 className="pl-3 mt-3 pt-3">Mensal</h2>
                             <div className="d-flex flex-wrap align-items-end">
-                                <div className="col-md-4 space-t-15 mt-3 p-1">
+                                <div className="col-md-2 space-t-15 mt-3 py-1 pr-1">
                                     <label htmlFor="phone-2" className="form-label">
                                         Entrada
                                     </label>
@@ -302,7 +300,7 @@ export default function Financeiro() {
                                         onChange={(e) => setEntrada(e.target.value)}
                                     />
                                 </div>
-                                <div className="col-md-4 space-t-15 mt-3 p-1">
+                                <div className="col-md-2 space-t-15 mt-3 py-1 pr-1">
                                     <label htmlFor="phone-2" className="form-label">
                                         Saída
                                     </label>
@@ -313,43 +311,43 @@ export default function Financeiro() {
                                         onChange={(e) => setSaida(e.target.value)}
                                     />
                                 </div>
-                                <div className="col-md-4 space-t-15 mt-3 p-1">
+                                <div className="col-md-3 space-t-15 mt-3 py-1 pr-1">
                                     <label htmlFor="phone-2" className="form-label">
                                         Hostel
                                     </label>
                                     <select className="form-control" id="cars" onChange={(e) => setHostel(e.target.value)}>
                                         <option value='todos'>Todos os Hostels</option>
                                         {hoteis?.map((item, index) => {
-                                            console.log(item)
                                             return (<option key={item._id} value={item._id}>{item.titulo}</option>)
                                         })}
                                     </select>
                                 </div>
-
-                                <div style={{ cursor: 'pointer' }} className="col-lg-4 modalprice2" onClick={todosarr}>
-                                    <h5 className="text-white">Todos</h5>
-                                </div>
-                                <div style={{ cursor: 'pointer' }} className="col-lg-4 modalprice2" onClick={debitosativos}>
-                                    <h5 className="text-white">Débitos</h5>
-                                </div>
-                                <div style={{ cursor: 'pointer' }} className="col-lg-4 modalprice2" onClick={filtrar}>
-                                    <h5 className="text-white">Filtrar</h5>
+                                <div className="d-flex col-6 col-md-5 space-t-15 mt-3 py-1 text-center">
+                                    <div className="col-4 pr-1">
+                                        <button className="btn btn-primary text-white w-100" onClick={filtrar}>Filtrar</button>
+                                    </div>
+                                    <div className="col-4 pr-1">
+                                        <button className="btn btn-primary text-white w-100" onClick={debitosativos}>Débitos</button>
+                                    </div>
+                                    <div className="col-4">
+                                        <button className="btn btn-primary text-white w-100" onClick={todosarr}>Limpar</button>
+                                    </div>
                                 </div>
 
                                 <div className="col-lg-3 modalprice">
-                                    <h5 className="text-white">Renda Total</h5>
+                                    <h5 className="text-white">Renda Atual</h5>
                                     <div className="text-white">{formatter.format(rendatotal2)}</div>
                                 </div>
                                 <div className="col-lg-3 modalprice">
-                                    <h5 className="text-white">Pago Total</h5>
+                                    <h5 className="text-white">À Receber</h5>
                                     <div className="text-white">{formatter.format(pagototal2)}</div>
                                 </div>
                                 <div className="col-lg-3 modalprice">
-                                    <h5 className="text-white">Débitos</h5>
+                                    <h5 className="text-white">Total</h5>
                                     <div className="text-white">{formatter.format(rendatotal2 - pagototal2)}</div>
                                 </div>
                                 <div className="col-lg-3 modalprice">
-                                    <h5 className="text-white">Hóspedes</h5>
+                                    <h5 className="text-white">Hospedagens</h5>
                                     <div className="text-white">{hospedes2}</div>
                                 </div>
 
@@ -377,7 +375,7 @@ export default function Financeiro() {
                                                                 <th>Nome</th>
                                                                 <th>Telefone</th>
                                                                 <th>Estadia</th>
-                                                                <th>Total Diária</th>
+                                                                <th>Total Hospedagem</th>
                                                                 <th>Pago</th>
                                                                 <th>Estado</th>
                                                                 <th>Pagamento</th>
@@ -388,13 +386,19 @@ export default function Financeiro() {
                                                         <tbody>
                                                             {checkinArr?.map((item, index) => {
                                                                 console.log(item)
+                                                                const d1 = item?.entrada;
+                                                                const d2 = item?.saidamanha;
+                                                                const diffInMs = new Date(d2) - new Date(d1)
+                                                                const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
+                                                                console.log(diffInDays)
+
                                                                 if (item.ativado === '0') {
                                                                     return (
                                                                         <tr key={item.id} className="align-middle">
                                                                             <td>{item.nome}</td>
                                                                             <td>{item.telefone}</td>
                                                                             <td>{item.entrada}<br />{item.saida}</td>
-                                                                            <td>{item.valordiaria}</td>
+                                                                            <td>{diffInDays} x {item.valordiaria} = {diffInDays * item.valordiaria}</td>
                                                                             <td>{item.valorpago}</td>
                                                                             <td><div className={`${item.ativado === '1' ? 'styleativo' : 'styleinativo'}`}>{item.ativado === '1' ? 'Ativo' : 'Inativo'}</div></td>
                                                                             <td><div className={`${item.pagamentoconcluido === '1' ? 'styleativo' : 'styleinativo'}`}>{item.pagamentoconcluido === '1' ? 'Pago' : 'Débito'}</div></td>

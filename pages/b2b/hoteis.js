@@ -81,7 +81,6 @@ export default function Hoteis() {
                             <tbody>
 
                               {hoteis?.map((item, index) => {
-                                console.log(item)
                                 return (
                                   <tr key={index} className="align-middle">
                                     <td>{item.ativo === '1' ? 'Sim' : 'Não'}</td>

@@ -5,23 +5,11 @@ import useSwr, { mutate } from "swr";
 import { toast } from "react-toastify";
 import { AiOutlinePlus } from "react-icons/ai"
 
+import Image from 'next/image'
 import router from 'next/router'
 import Menu from "../../components/b2b_components/Menu";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
-
-//ADD NO CSS
-
-// [type="number"] {
-//   width: 60px;
-// padding: 0 8px !important;
-// }
-
-// .campoQtd{
-//   width: 60px;
-//   height: 35px;
-//   line-height: 33px;
-// }
 
 export default function NovoPedido({ }) {
   const { data: pedidos } = useSwr(`/api/pedidos/getAllPedidos`, fetcher)
@@ -44,8 +32,6 @@ export default function NovoPedido({ }) {
   const [filter, setFilter] = useState([]);
   const [active, setActive] = useState('');
   const [iditem, setIditem] = useState('');
-
-  console.log(pedidos)
 
   let hoje = new Date()
   let ano = hoje.getFullYear()
@@ -84,8 +70,6 @@ export default function NovoPedido({ }) {
       }
     })
   }, [iditem])
-
-  console.log(produtosPedido)
 
   useEffect(() => {
     let itemObtido;
@@ -142,7 +126,6 @@ export default function NovoPedido({ }) {
       setProdutosPedido([...produtosPedido, produto])
     } else {
       produtosPedido?.map((item) => {
-        console.log(item, produto._id)
         if (item._id === produto._id) {
           contador++;
         }
@@ -281,10 +264,8 @@ export default function NovoPedido({ }) {
                   </p>
                 </div>
                 <div className="row">
-                  <div className="col-lg-6">
+                  <div className="col-lg-5">
                     <div className="ec-cat-list card card-default mb-24px">
-                      <div className="card-body">
-
                         <div className="card-body">
                           <div className="ec-cat-form">
                             <form onSubmit={onSubmit}>
@@ -454,7 +435,6 @@ export default function NovoPedido({ }) {
                                 <select value={hostel} className="form-control here slug-title" id="cars" onChange={(e) => setHostel(e.target.value)}>
                                   <option value='todos'>Todos os Hostels</option>
                                   {hoteis?.map((item, index) => {
-                                    console.log(item)
                                     return (<option key={index} value={item._id}>{item.titulo}</option>)
                                   })}
                                 </select>
@@ -519,10 +499,9 @@ export default function NovoPedido({ }) {
                           </div>
                         </div>
                       </div>
-                    </div>
                   </div>
 
-                  <div className="col-xl-6 col-lg-12">
+                  <div className="col-12 col-xl-7">
                     <div className="ec-cat-list card card-default">
                       <div className="card-body">
                         <div className="table-responsive">
@@ -532,40 +511,20 @@ export default function NovoPedido({ }) {
                             className="form-control here slug-title"
                             onChange={(e) => { setSearchItem(e.target.value.toLowerCase()) }}
                           />
-                          <table id="responsive-data-table" className="table table-striped">
-                            <thead>
-                              <tr>
-                                <th>Qtd.</th>
-                                <th>Nome</th>
-                                <th>Valor</th>
-                                <th></th>
-                              </tr>
-                            </thead>
+                          <div className="d-flex flex-wrap align-middle justify-content-start" >
+                            <div className="col-12 d-flex flex-wrap align-middle justify-content-center py-2"> Clique nos produtos para adicionar ao pedido</div>
+                            {filter?.map((item, index) => {
+                              return (
+                                <div key={index} className="col-3 mouse-hover-pointer p-1" onClick={(e) => { { addItem(item), item.quantidade = 1 } }}>
+                                  <div className="teste p-1 d-flex flex-wrap align-middle justify-content-center">
+                                    <Image src={item.imagem[0].url} width={100} height={100} alt={item.nome} />
 
-                            <tbody>
-                              {filter?.map((item, index) => {
-                                return (
-                                  <tr key={index} className="align-middle">
-                                    <td><input type="number" className="campoQtd text-black" name="campoQtd" defaultValue={item.quantidade} onChange={(e) => item.quantidade = parseInt(e.target.value)} /></td>
-                                    <td>{item.nome}</td>
-                                    <td>{formatter.format(item.valorVenda)}</td>
-                                    <td className="text-right">
-                                      <div className="btn-group">
-                                        <button
-                                          type="value"
-                                          className="btn btn-success"
-                                          onClick={(e) => {
-                                            addItem(item);
-                                          }}
-                                        >
-                                          <AiOutlinePlus size={20} color={"#ffffff"} />
-                                        </button>
-                                      </div>
-                                    </td>
-                                  </tr>)
-                              })}
-                            </tbody>
-                          </table>
+                                    {item.nome}
+                                  </div>
+                                </div>
+                              )
+                            })}
+                          </div>
                         </div>
                       </div>
                     </div>

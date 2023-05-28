@@ -65,15 +65,6 @@ export default function AddBanners() {
               (snapshot.bytesTransferred / snapshot.totalBytes) * 100
 
             setProgressUpload(progress) // to show progress upload
-
-            switch (snapshot.state) {
-              case 'paused':
-                console.log('Upload is paused')
-                break
-              case 'running':
-                console.log('Upload is running')
-                break
-            }
           },
           (error) => {
             toast.error(error.message)
@@ -92,7 +83,6 @@ export default function AddBanners() {
               const obj = [{ url: url, path: name }];
               imageArr = [...imageArr, ...obj];
               contador++;
-              console.log(file.length, contador)
 
               if (file.length === contador) {
                 setTimeout(() => {

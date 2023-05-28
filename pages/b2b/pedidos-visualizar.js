@@ -122,7 +122,6 @@ export default function PedidosVisualizar({ }) {
 
                                   <tbody>
                                     {produtosPedido?.map((item, index) => {
-                                      console.log(item)
                                       return (
                                         <tr key={index} className="align-middle">
                                           <td>{item.quantidade}</td>

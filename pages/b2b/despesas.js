@@ -20,7 +20,7 @@ export default function Despesas({ }) {
   const [showEditCategoryComponent, setShowEditCategoryComponent] = useState(false);
 
   const { data: despesas } = useSwr(`/api/despesas/getAllDespesas`, fetcher);
-  console.log(despesas)
+
   var tamanho = despesas?.length || [];
 
   const deleteDespesas = async (id) => {

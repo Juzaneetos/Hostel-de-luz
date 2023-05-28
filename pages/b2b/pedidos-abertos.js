@@ -62,8 +62,6 @@ export default function PedidosFechados({ }) {
     );
   }
 
-  console.log(existe)
-
   useEffect(() => {
     let itemObtidoComanda;
     setFilter(pedido?.filter(item => {
@@ -132,7 +130,7 @@ export default function PedidosFechados({ }) {
                                   setSearchItemData(formattedDate);
                                 }}
                               />
-                              <span class="calendar-icon" style={{ top: '12px', right: '25px' }}></span>
+                              <span className="calendar-icon" style={{ top: '12px', right: '25px' }}></span>
                             </div>
                           </div>
                           <table id="responsive-data-table" className="table">

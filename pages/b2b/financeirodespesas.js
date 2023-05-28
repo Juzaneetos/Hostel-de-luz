@@ -27,7 +27,6 @@ export default function Financeirodespesas() {
     const { data: despesas } = useSwr(`/api/despesas/getAllDespesas`, fetcher);
     const { data: quartos } = useSwr(`/api/quartos/getAllQuarto`, fetcher);
     var tamanho = despesas?.length || [];
-    console.log(despesas)
 
     useEffect(() => {
         let valortotal = 0;
@@ -47,8 +46,7 @@ export default function Financeirodespesas() {
         let newarr = [];
         let valortotal = 0;
         let itensativos = 0;
-        console.log(categoria, hostel)
-        if(categoria === 'todos' && hostel === 'todos'){
+        if (categoria === 'todos' && hostel === 'todos') {
             despesas?.map((item, index) => {
                 const dataEntradaNovaReserva = new Date(entrada);
                 const dataSaidaNovaReserva = new Date(saida);
@@ -65,9 +63,9 @@ export default function Financeirodespesas() {
                     setHospedes2(itensativos);
                 }
             });
-        }else if(categoria !== 'todos' && hostel === 'todos'){
+        } else if (categoria !== 'todos' && hostel === 'todos') {
             despesas?.map((item, index) => {
-                if(item.categoria === categoria){
+                if (item.categoria === categoria) {
                     const dataEntradaNovaReserva = new Date(entrada);
                     const dataSaidaNovaReserva = new Date(saida);
                     const dataEntradaReserva = new Date(item.entrada);
@@ -84,9 +82,9 @@ export default function Financeirodespesas() {
                     setHospedes2(itensativos);
                 }
             });
-        }else if(categoria === 'todos' && hostel !== 'todos'){
+        } else if (categoria === 'todos' && hostel !== 'todos') {
             despesas?.map((item, index) => {
-                if(item.hostel === hostel){
+                if (item.hostel === hostel) {
                     const dataEntradaNovaReserva = new Date(entrada);
                     const dataSaidaNovaReserva = new Date(saida);
                     const dataEntradaReserva = new Date(item.entrada);
@@ -103,9 +101,9 @@ export default function Financeirodespesas() {
                     setHospedes2(itensativos);
                 }
             });
-        }else if(categoria !== 'todos' && hostel !== 'todos'){
+        } else if (categoria !== 'todos' && hostel !== 'todos') {
             despesas?.map((item, index) => {
-                if(item.hostel === hostel && item.categoria === categoria){
+                if (item.hostel === hostel && item.categoria === categoria) {
                     const dataEntradaNovaReserva = new Date(entrada);
                     const dataSaidaNovaReserva = new Date(saida);
                     const dataEntradaReserva = new Date(item.entrada);
@@ -140,7 +138,7 @@ export default function Financeirodespesas() {
                 setHospedes2(itensativos);
             }
         });
-        
+
     }
 
     const formatter = new Intl.NumberFormat('bt-BR', {
@@ -167,89 +165,72 @@ export default function Financeirodespesas() {
                                     Financeiro Despesas
                                 </p>
                             </div>
-                            {/* <h2 className="p-3 mb-2">Geral</h2>
-                            <div className="d-flex">
-                                <div className="col-lg-3 modalprice">
-                                    <h5 className="text-white">Renda Total</h5>
-                                    <div className="text-white">R$ {rendatotal},00</div>
-                                </div>
-                                <div className="col-lg-3 modalprice">
-                                    <h5 className="text-white">Estimado</h5>
-                                    <div className="text-white">R$ {pagototal},00</div>
-                                </div>
-                                <div className="col-lg-3 modalprice">
-                                    <h5 className="text-white">Débitos</h5>
-                                    <div className="text-white">R$ {rendatotal - pagototal},00</div>
-                                </div>
-                                <div className="col-lg-3 modalprice">
-                                    <h5 className="text-white">Hóspedes</h5>
-                                    <div className="text-white">{hospedes}</div>
-                                </div>
-
-                            </div> */}
 
                             <div className="d-flex flex-wrap align-items-end">
-                                <div className="col-md-3 space-t-15 mt-3 p-1 date-input">
-                                    <label htmlFor="phone-2" className="form-label">
-                                        Inicio
-                                    </label>
-                                    <input
-                                        type="date"
-                                        className="form-control slug-title"
-                                        id="phone-2"
-                                        onChange={(e) => setEntrada(e.target.value)}
-                                    />
-                                    <span class="calendar-icon" style={{top : '47px', right: '25px'}}></span>
+                                <div className="d-flex flex-wrap col-12 col-md-9 p-0">
+                                    <div className="col-md-3 space-t-15 mt-3 py-1 pr-1 date-input">
+                                        <label htmlFor="phone-2" className="form-label">
+                                            Inicio
+                                        </label>
+                                        <input
+                                            type="date"
+                                            className="form-control slug-title"
+                                            id="phone-2"
+                                            onChange={(e) => setEntrada(e.target.value)}
+                                        />
+                                        <span className="calendar-icon" style={{ top: '47px', right: '25px' }}></span>
+                                    </div>
+                                    <div className="col-md-3 space-t-15 mt-3 py-1 pr-1 date-input">
+                                        <label htmlFor="phone-2" className="form-label">
+                                            Fim
+                                        </label>
+                                        <input
+                                            type="date"
+                                            className="form-control slug-title"
+                                            id="phone-2"
+                                            onChange={(e) => setSaida(e.target.value)}
+                                        />
+                                        <span className="calendar-icon" style={{ top: '47px', right: '25px' }}></span>
+                                    </div>
+                                    <div className="col-md-3 space-t-15 mt-3 py-1 pr-1">
+                                        <label htmlFor="phone-2" className="form-label">
+                                            Categoria
+                                        </label>
+                                        <select className="form-control" id="cars" onChange={(e) => setCategoria(e.target.value)}>
+                                            <option value='todos'>Todas</option>
+                                            {allcategorias?.map((item, index) => {
+                                                return (<option key={index} value={item._id}>{item.titulo}</option>)
+                                            })}
+                                        </select>
+                                    </div>
+                                    <div className="col-md-3 space-t-15 mt-3 py-1 pr-1">
+                                        <label htmlFor="phone-2" className="form-label">
+                                            Hostel
+                                        </label>
+                                        <select className="form-control" id="cars" onChange={(e) => setHostel(e.target.value)}>
+                                            <option value='todos'>Todos os Hostels</option>
+                                            {hoteis?.map((item, index) => {
+                                                return (<option key={item._id} value={item._id}>{item.titulo}</option>)
+                                            })}
+                                        </select>
+                                    </div>
                                 </div>
-                                <div className="col-md-3 space-t-15 mt-3 p-1 date-input">
-                                    <label htmlFor="phone-2" className="form-label">
-                                        Fim
-                                    </label>
-                                    <input
-                                        type="date"
-                                        className="form-control slug-title"
-                                        id="phone-2"
-                                        onChange={(e) => setSaida(e.target.value)}
-                                    />
-                                    <span class="calendar-icon" style={{top : '47px', right: '25px'}}></span>
-                                </div>
-                                <div className="col-md-3 space-t-15 mt-3 p-1">
-                                    <label htmlFor="phone-2" className="form-label">
-                                        Categoria
-                                    </label>
-                                    <select className="form-control" id="cars" onChange={(e) => setCategoria(e.target.value)}>
-                                        <option value='todos'>Todas</option>
-                                        {allcategorias?.map((item, index) => {
-                                            console.log(item)
-                                            return (<option key={item._id} value={item._id}>{item.titulo}</option>)
-                                        })}
-                                    </select>
-                                </div>
-                                <div className="col-md-3 space-t-15 mt-3 p-1">
-                                    <label htmlFor="phone-2" className="form-label">
-                                        Hostel
-                                    </label>
-                                    <select className="form-control" id="cars" onChange={(e) => setHostel(e.target.value)}>
-                                        <option value='todos'>Todos os Hostels</option>
-                                        {hoteis?.map((item, index) => {
-                                            console.log(item)
-                                            return (<option key={item._id} value={item._id}>{item.titulo}</option>)
-                                        })}
-                                    </select>
-                                </div>
-                                <div style={{ cursor: 'pointer' }} className="col-lg-6 modalprice2" onClick={todosarr}>
-                                    <h5 className="text-white">Todos</h5>
-                                </div>
-                                <div style={{ cursor: 'pointer' }} className="col-lg-6 modalprice2" onClick={filtrar}>
-                                    <h5 className="text-white">Filtrar</h5>
+
+                                <div className="d-flex col-12 col-md-3 space-t-15 mt-3 py-1 text-center">
+                                    <div className="col-6 pr-1">
+                                        <button className="btn btn-primary text-white w-100" onClick={filtrar}>Filtrar</button>
+                                    </div>
+                                    <div className="col-6">
+                                        <button className="btn btn-primary text-white w-100" onClick={todosarr}>Limpar</button>
+                                    </div>
                                 </div>
 
                                 <div className="col-lg-6 modalprice">
-                                    <h5 className="text-white">Total</h5>
+                                    <h5 className="text-white">Valor Total</h5>
                                     <div className="text-white">{formatter.format(rendatotal2)}</div>
                                 </div>
                                 <div className="col-lg-6 modalprice">
-                                    <h5 className="text-white">Total cadastrado</h5>
+                                    <h5 className="text-white">Número de Despesas</h5>
                                     <div className="text-white">{hospedes2}</div>
                                 </div>
 
@@ -274,11 +255,10 @@ export default function Financeirodespesas() {
                                                     >
                                                         <thead>
                                                             <tr>
-                                                                <th>Titulo</th>
+                                                                <th>Categoria</th>
                                                                 <th>Entrada</th>
+                                                                <th>Título</th>
                                                                 <th>Valor</th>
-                                                                <th>quantidade</th>
-                                                                <th>categoria</th>
                                                                 <th>Descrição</th>
                                                             </tr>
                                                         </thead>
@@ -286,19 +266,19 @@ export default function Financeirodespesas() {
                                                         <tbody>
                                                             {despesasArr?.map((item, index) => {
                                                                 return (
-                                                                    <tr key={item.id} className="align-middle">
-                                                                        <td>{item.titulo}</td>
+                                                                    <tr key={index} className="align-middle">
+                                                                        <td>
+                                                                            {allcategorias?.map((item2, index2) => {
+                                                                                if (item.categoria === item2._id) {
+                                                                                    return (
+                                                                                        <p key={index2}>{item2.titulo}</p>
+                                                                                    )
+                                                                                }
+                                                                            })}
+                                                                        </td>
                                                                         <td>{item.entrada}</td>
+                                                                        <td>{item.titulo}</td>
                                                                         <td>{formatter.format(item.valor)}</td>
-                                                                        <td>{item.quantidade}</td>
-                                                                        <td>{allcategorias?.map((item2, index2) => {
-                                                                            if (item.categoria === item2._id) {
-                                                                                return (
-                                                                                    item2.titulo
-                                                                                )
-                                                                            }
-                                                                        })
-                                                                        }</td>
                                                                         <td style={{ borderLeft: '1px solid black', maxWidth: '160px', minWidth: '160px' }} className="text-left">
                                                                             {item.descricao}
                                                                         </td>

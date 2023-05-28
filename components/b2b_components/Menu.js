@@ -42,47 +42,22 @@ import {
 } from "react-icons/md"
 
 
-
-// import '../assets/js/custom'
-// import '../../assets/images';
-
 export default function Menu({ parametro }) {
-  const [isMenuLinkActived, setIsMenuLinkActived] = useState("active");
-  const [ordersMenu, setOrdersMenu] = useState(false);
-  const [productsMenu, setProductsMenu] = useState(false);
-  const [categoryMenu, setCategoryMenu] = useState(false);
-  const [cookies, setCookie, removeCookie] = useCookies(['user']);
-  let level = cookies.user_level;
+  const [cookies, setCookie] = useCookies(['user']);
+  const [level, setLevel] = useState('10');
 
-  function expandOrdersMenu() {
-    setOrdersMenu(true);
-    setProductsMenu(false);
-    setCategoryMenu(false);
-  }
+  useEffect(() => {
+    setLevel(cookies.user_level)
+  }, [cookies])
 
-  function expandProductsMenu() {
-    setOrdersMenu(false);
-    setProductsMenu(true);
-    setCategoryMenu(false);
-  }
-
-  function expandCategoryMenu() {
-    setOrdersMenu(false);
-    setProductsMenu(false);
-    setCategoryMenu(true);
-  }
 
   function clearCookies() {
-
     setCookie("access_token", "", { path: '/' });
     setCookie("user_id", ``, { path: '/' });
     setCookie("user_login", ``, { path: '/' });
     setCookie("user_level", ``, { path: '/' });
-
     return router.push("/b2b/login");
   }
-
-  console.log(level)
 
   return (
     <>
@@ -231,15 +206,17 @@ export default function Menu({ parametro }) {
 
 
               {level === '20' || level === '50' || level === '40' ?
-                <li className={parametro === '6' ? `active` : ``}>
-                  <Link
-                    className="sidenav-item-link"
-                    href="/b2b/Trocadecama"
-                  >
-                    <GiBroom size={24} />
-                    <span className="nav-text">Troca de Roupa Cama</span>
-                  </Link>
-                </li>
+                <>
+                  <li className={parametro === '6' ? `active` : ``}>
+                    <Link
+                      className="sidenav-item-link"
+                      href="/b2b/Trocadecama"
+                    >
+                      <GiBroom size={24} />
+                      <span className="nav-text">Troca de Roupa Cama</span>
+                    </Link>
+                  </li>
+                </>
                 :
                 <></>
               }
@@ -265,17 +242,17 @@ export default function Menu({ parametro }) {
               }
 
               {level === '20' || level === '50' || level === '40' ?
-              <>
-                <li className={parametro === '8' ? `active` : ``}>
-                  <Link
-                    className="sidenav-item-link"
-                    href="/b2b/despesas"
-                  >
-                    <GiPayMoney size={24} />
-                    <span className="nav-text">Despesas</span>
-                  </Link>
-                </li>
-              </>
+                <>
+                  <li className={parametro === '8' ? `active` : ``}>
+                    <Link
+                      className="sidenav-item-link"
+                      href="/b2b/despesas"
+                    >
+                      <GiPayMoney size={24} />
+                      <span className="nav-text">Despesas</span>
+                    </Link>
+                  </li>
+                </>
                 :
                 <></>
               }
@@ -376,7 +353,7 @@ export default function Menu({ parametro }) {
                 :
                 <></>}
 
-
+              <li className="d-none"></li>
             </ul>
           </div>
           <div className="btn-off"><a className="text-start mr-3 ml-3"><FaPowerOff onClick={() => clearCookies()} size={30} /></a></div>

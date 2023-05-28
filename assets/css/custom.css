@@ -18,7 +18,8 @@ input[type="date"]::-webkit-calendar-picker-icon {
 }
 
 .date-input input[type="date"] {
-  padding-right: 20px; /* deixa espaço para o ícone */
+  padding-right: 20px;
+  /* deixa espaço para o ícone */
 }
 
 .date-input .calendar-icon {
@@ -100,7 +101,7 @@ input[type="date"]::-webkit-calendar-picker-icon {
   transform: translate(-50%, -50%) rotate(calc(var(--angle) * 1deg));
 }
 
-#inputTag{
+#inputTag {
   height: 54px;
   padding: 2px;
 }
@@ -122,14 +123,14 @@ input[type="date"]::-webkit-calendar-picker-icon {
   transform: translate(-50%, -50%) rotate(calc(var(--angle) * 1deg));
 }
 
-.modalprice{
+.modalprice {
   display: flex;
-    flex-direction: column;
-    justify-content: center;
-    background: #3DADC5;
-    padding: 10px 15px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 0px;
+  flex-direction: column;
+  justify-content: center;
+  background: #3DADC5;
+  padding: 10px 15px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0px;
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
@@ -137,23 +138,24 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   cursor: pointer;
 }
 
-.modalprice2{
+.modalprice2 {
   display: flex;
-    flex-direction: column;
-    height: 60px;
-    justify-content: center;
-    background: #0D6EFD;
-    padding: 10px 15px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    transition: 0.5s all ease;
+  flex-direction: column;
+  height: 60px;
+  justify-content: center;
+  background: #0D6EFD;
+  padding: 10px 15px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  transition: 0.5s all ease;
 }
-.modalprice2:hover{
+
+.modalprice2:hover {
   display: flex;
-    flex-direction: column;
-    justify-content: center;
-    background: #4a92ff;
-    padding: 10px 15px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+  flex-direction: column;
+  justify-content: center;
+  background: #4a92ff;
+  padding: 10px 15px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .circuloquarto {
@@ -243,7 +245,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background-image: url("../img/banner/banner02.jpg");
 } */
 
-.btn{
+.btn {
   border-radius: 3px !important;
 }
 
@@ -751,3 +753,28 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   flex-wrap: wrap;
   justify-content: center;
 } */
+
+[type="number"] {
+  width: 60px;
+  padding: 0 8px !important;
+}
+
+.campoQtd {
+  width: 60px !important;
+  height: 35px !important;
+  line-height: 29px !important;
+  padding: 0 15px !important;
+  border: 1px solid #cbcbcb !important;
+  background-color: transparent !important;
+  color: #777 !important;
+  border-radius: 3px !important;
+}
+
+.teste{
+  border: 1px solid #cbcbcb;
+  border-radius: 3px;
+  margin-top: 5px;
+}
+.mouse-hover-pointer:hover{
+  cursor: pointer;
+}

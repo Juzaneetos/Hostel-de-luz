@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { FaTrashAlt, FaPencilAlt } from "react-icons/fa";
 
+import Image from 'next/image'
 import router from 'next/router'
 import AddProdutos from "../../components/b2b_components/produtos/Add";
 import EditProdutos from "../../components/b2b_components/produtos/Edit";
@@ -33,7 +34,7 @@ export default function Produtos() {
     <>
       <div style={{ backgroundColor: '#f3f3f3' }}>
         <div style={{ display: 'flex' }}>
-          <Menu parametro={'17'}/>
+          <Menu parametro={'17'} />
           <div className="ec-page-wrapper">
             <div className="ec-content-wrapper">
               <div className="content">
@@ -78,6 +79,7 @@ export default function Produtos() {
                                   <th>Nome</th>
                                   <th>Compra</th>
                                   <th>Venda</th>
+                                  <th>Imagem</th>
                                   <th></th>
                                 </tr>
                               </thead>
@@ -89,6 +91,7 @@ export default function Produtos() {
                                       <td>{item.nome}</td>
                                       <td>{formatter.format(parseFloat(item.valorCompra))}</td>
                                       <td>{formatter.format(parseFloat(item.valorVenda))}</td>
+                                      <td>{<Image src={item?.imagem[0].url} width={80} height={80} style={{width:'100px', height:'auto'}} />}</td>
                                       <td className="text-right">
                                         <div className="btn-group">
                                           <button

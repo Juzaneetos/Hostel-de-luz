@@ -26,7 +26,6 @@ export default function AddProduct() {
     useEffect(() => {
         policy_privacity?.map(item => { setPolicyPrivacity(item.text) })
     }, [])
-    console.log(id) 
 
     const onSubmit = async (e) => {
         e.preventDefault();

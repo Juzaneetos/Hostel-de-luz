@@ -71,7 +71,6 @@ export default function Hospede() {
                                     <td>{item.nome}</td>
                                     {quartos?.map((item2, index) => {
                                       if (item2._id === item.objreserva.quarto) {
-                                        console.log(item2)
                                         return (
 
                                           <td key={index}>{item2.titulo}</td>

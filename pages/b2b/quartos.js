@@ -16,14 +16,12 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 export default function Quartos() {
   const [id_, setId] = useState(0);
   const { data: quartos } = useSwr(`/api/quartos/getAllQuarto`, fetcher);
-  console.log(quartos)
   var tamanho = quartos?.length || [];
 
   const deleteQuarto = async (id) => {
     let contador = 0;
       quartos?.map((item, index) => {
         if (item._id === id) {
-          console.log('oi')
           item.arrCamas?.map((item, index) => {
             if (item.vago === true) {
               contador++

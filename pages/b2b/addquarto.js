@@ -91,15 +91,6 @@ export default function AddProduct() {
               (snapshot.bytesTransferred / snapshot.totalBytes) * 100
 
             setProgressUpload(progress) // to show progress upload
-
-            switch (snapshot.state) {
-              case 'paused':
-                console.log('Upload is paused')
-                break
-              case 'running':
-                console.log('Upload is running')
-                break
-            }
           },
           (error) => {
             toast.error(error.message)
@@ -118,7 +109,6 @@ export default function AddProduct() {
               const obj = [{ url: url, path: name }];
               imageArr = [...imageArr, ...obj];
               contador++;
-              console.log(file.length, contador)
 
               if (file.length === contador) {
                 setTimeout(() => {
@@ -220,7 +210,6 @@ export default function AddProduct() {
                                 <select onChange={(e) => setHotel(e.target.value)}>
                                   <option value={''} selected></option>
                                   {hoteis?.map((item, index) => {
-                                    console.log(item)
                                     return (
                                       <option key={index} value={item._id}>
                                         {item.titulo}

@@ -37,7 +37,6 @@ export default function Modal({ customers, id_ }) {
   const [pagamentoconcluido, setPagamentoConcluido] = useState('');
   const [checkinID, setCheckingID] = useState(0);
   const [camacheckinID, setCamaCheckinID] = useState(0);
-  console.log(active, pagamentoconcluido)
   const currentDate = new Date(saida);
   const previousDate = new Date(currentDate.setDate(currentDate.getDate()) - 1);
 
@@ -78,7 +77,6 @@ export default function Modal({ customers, id_ }) {
                 if (item.checkinID === item4.checkinID) {
                   setArrdatas(...arrdatas, item3)
                   setCamaCheckinID(item4.checkinID)
-                  console.log(item4)
                 }
               })
             })
@@ -104,7 +102,6 @@ export default function Modal({ customers, id_ }) {
   let ativado2 = '';
 
   const registrarQuarto = (numerocama) => {
-    console.log(previousDate.toISOString().slice(0, 10));
     setObjreserva({
       hotel: hotel,
       quarto: idquarto,
@@ -241,7 +238,6 @@ export default function Modal({ customers, id_ }) {
             if (item3.numeroCama === numerocama && contadorcamas === 0) {
               if (block === 0) {
                 if (item3.checkinID === checkinID) {
-                  console.log('pass')
                 } else {
                   const dataEntradaNovaReserva = new Date(entrada);
                   const dataSaidaNovaReserva = new Date(saida);
@@ -256,13 +252,11 @@ export default function Modal({ customers, id_ }) {
 
               }
               if (item2.length === index2 + 1 && block === 0) {
-                console.log('toaqui')
                 if (spliceonce === 0) {
                   hoteis?.map((item, index) => {
                     quartos?.map((item7, index) => {
                       item7.arrCamas?.map((item8, index) => {
                         item8?.map((item9, index2) => {
-                          console.log(item9.checkinID === camacheckinID)
                           if (item9.checkinID === camacheckinID) {
                             const indexsplice = item8.findIndex(item5 => item5.checkinID === checkinID);
                             if (indexsplice !== -1) {
@@ -352,7 +346,6 @@ export default function Modal({ customers, id_ }) {
             if (item3.numeroCama === numerocama && contadorcamas === 0) {
               if (block === 0) {
                 if (item3.checkinID === checkinID) {
-                  console.log('pass')
                 } else {
                   const dataEntradaNovaReserva = new Date(entrada);
                   const dataSaidaNovaReserva = new Date(saida);
@@ -367,13 +360,11 @@ export default function Modal({ customers, id_ }) {
 
               }
               if (item2.length === index2 + 1 && block === 0) {
-                console.log('toaqui')
                 if (spliceonce === 0) {
                   hoteis?.map((item, index) => {
                     quartos?.map((item7, index) => {
                       item7.arrCamas?.map((item8, index) => {
                         item8?.map((item9, index2) => {
-                          console.log(item9.checkinID === camacheckinID)
                           if (item9.checkinID === camacheckinID) {
                             const indexsplice = item8.findIndex(item5 => item5.checkinID === checkinID);
                             if (indexsplice !== -1) {
@@ -442,7 +433,6 @@ export default function Modal({ customers, id_ }) {
     }
 
   }
-  console.log(quartos)
 
   return (
     <div className="modal fade" id="edit_modal" tabIndex="-1" role="dialog">
@@ -662,7 +652,6 @@ export default function Modal({ customers, id_ }) {
                                             <div>Oculpados: {
                                               item.arrCamas?.map((item2, index) => {
                                                 item2?.map((item5, index) => {
-                                                  console.log(item5)
                                                   const dataEntradaNovaReserva = new Date(entrada);
                                                   const dataSaidaNovaReserva = new Date(saida);
                                                   const dataEntradaReserva = new Date(item5.entrada);

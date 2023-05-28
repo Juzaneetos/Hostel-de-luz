@@ -29,7 +29,6 @@ export default function AddProduct() {
     const onSubmit = async (e) => {
         e.preventDefault();
 
-        console.log(_id)
         let data = await axios.put(`/api/terms/updateTerms?id=${_id}`, {
             text: termsResponsibility,
             active: active,

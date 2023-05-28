@@ -41,7 +41,6 @@ export default function Editquarto({ id }) {
     idmongo = Router.query.id;
     quarto?.map((item, index) => {
       if (item._id === idmongo) {
-        console.log(item)
         setObjid(item._id)
         setProductName(item.titulo)
         setHotel(item.hotel)
@@ -53,8 +52,6 @@ export default function Editquarto({ id }) {
       }
     })
   }, [])
-
-  console.log(arrqtdcamas.length, parseFloat(qtdcamas))
 
   const onsubmit = (objid) => {
     let arrnovo = arrqtdcamas;
@@ -98,14 +95,6 @@ export default function Editquarto({ id }) {
                     const progress =
                       (snapshot.bytesTransferred / snapshot.totalBytes) * 100
                     setProgressUpload(progress) // to show progress upload
-                    switch (snapshot.state) {
-                      case 'paused':
-                        console.log('Upload is paused')
-                        break
-                      case 'running':
-                        console.log('Upload is running')
-                        break
-                    }
                   },
                   (error) => {
                     alert(error.message)
@@ -183,7 +172,6 @@ export default function Editquarto({ id }) {
   }
 
   const dispararbanco = async (imarr, arrayquartos) => {
-    console.log(qtdcamas)
     let data = await axios.post(`/api/quartos/updateQuarto?id=${objid}`, {
       titulo: productName,
       camas: qtdcamas,
@@ -206,9 +194,6 @@ export default function Editquarto({ id }) {
             arrqtdcamas?.filter(a =>
               a[0].numeroCama !== numerocama
             ));
-          console.log(arrqtdcamas.filter(a =>
-            a[0].numeroCama !== numerocama
-          ))
         } else {
           contador++
         }
@@ -306,7 +291,6 @@ export default function Editquarto({ id }) {
                                 <label className="form-label">Hotel</label>
                                 <select onChange={(e) => setHotel(e.target.value)}>
                                   {hoteis?.map((item, index) => {
-                                    console.log(item)
                                     if (item._id === hotel) {
                                       return (
                                         <option selected key={index} value={item._id}>
@@ -372,7 +356,6 @@ export default function Editquarto({ id }) {
 
                                       <div className="thumb-upload-set colo-md-12">
                                         {quarto?.map((item, index) => {
-                                          console.log(item._id, idmongo)
                                           if (item._id === idmongo) {
                                             return (
                                               <div key={index}>

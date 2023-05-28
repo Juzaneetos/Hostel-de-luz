@@ -59,7 +59,6 @@ export default function Checkin() {
   let ativado = '';
 
   const registrarQuarto = (numerocama) => {
-    console.log(previousDate.toISOString().slice(0, 10));
     setObjreserva({
       hotel: hotel,
       quarto: idquarto,
@@ -108,7 +107,6 @@ export default function Checkin() {
     const dataEntradaNovaReserva = new Date(entrada);
     const dataSaidaNovaReserva = new Date(saida);
     const quartoSaida = (JSON.stringify(dataEntradaNovaReserva) === JSON.stringify(dataSaidaNovaReserva));
-    console.log(quartoSaida)
 
     if (quartoSaida) return alert('datas não podem ser iguais');
 
@@ -293,7 +291,6 @@ export default function Checkin() {
                                                 <div>Oculpados: {
                                                   item.arrCamas?.map((item2, index) => {
                                                     item2?.map((item5, index) => {
-                                                      console.log(item5)
                                                       const dataEntradaNovaReserva = new Date(entrada);
                                                       const dataSaidaNovaReserva = new Date(saida);
                                                       const dataEntradaReserva = new Date(item5.entrada);

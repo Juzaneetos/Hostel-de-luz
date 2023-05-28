@@ -19,7 +19,6 @@ export default function Trocadecama() {
   const { data: quartos } = useSwr(`/api/quartos/getAllQuarto`, fetcher);
   var tamanho = quartos?.length || [];
   let quartoarr = quartos || [];
-  console.log(quartoarr)
   var estruturaWpp = `https://api.whatsapp.com/send?phone=5514996528505&text=Guia de serviço gerada pelo painel admnistrativo%20%20%0a%0a${wpplink}`;
   let titulo_ = '';
   let camas = '';

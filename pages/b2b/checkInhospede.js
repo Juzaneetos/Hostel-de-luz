@@ -76,7 +76,6 @@ export default function Checkin() {
   }, [hospedes])
 
   const registrarQuarto = (numerocama) => {
-    console.log(previousDate.toISOString().slice(0, 10));
     setLimitador(true)
     setObjreserva({
       hotel: hotel,
@@ -185,7 +184,6 @@ export default function Checkin() {
   }
 
   const verificar = (id) => {
-    console.log(entrada, saida)
     if (entrada === '' && saida === '') {
       toast.error('Preencha a data de entrada e saída!')
     } else {
@@ -194,8 +192,6 @@ export default function Checkin() {
   }
 
   const datamudou = (valor, parametro) => {
-    if (parametro === 'entrada') { console.log(valor, saida, parametro) }
-    if (parametro === 'saida') { console.log(valor, entrada, parametro) }
     if (entrada === '' && parametro === 'entrada') {
       setEntrada(valor)
       return

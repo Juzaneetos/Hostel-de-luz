@@ -62,7 +62,6 @@ export default function Checkin() {
   let cadastrado = false;
 
   const registrarQuarto = (numerocama) => {
-    console.log(previousDate.toISOString().slice(0, 10));
     setObjreserva({
       hotel: hotel,
       quarto: idquarto,
@@ -71,8 +70,6 @@ export default function Checkin() {
   }
 
   const datamudou = (valor, parametro) => {
-    if (parametro === 'entrada') { console.log(valor, saida, parametro) }
-    if (parametro === 'saida') { console.log(valor, entrada, parametro) }
     if (entrada === '' && parametro === 'entrada') {
       setEntrada(valor)
       return
@@ -196,7 +193,6 @@ export default function Checkin() {
   }
 
   const verificar = (id) => {
-    console.log(entrada, saida)
     if (entrada === '' && saida === '') {
       toast.error('Preencha a data de entrada e saída!')
     } else {
@@ -314,7 +310,7 @@ export default function Checkin() {
                                   className="form-control slug-title"
                                   onChange={(e) => setDatanascimento(e.target.value)}
                                 />
-                                <span class="calendar-icon"></span>
+                                <span className="calendar-icon"></span>
                               </div>
                               <div className="col-md-6">
                                 <label className="form-label">Genero</label>
@@ -397,7 +393,7 @@ export default function Checkin() {
                                   value={entrada}
                                   onChange={(e) => datamudou(e.target.value, 'entrada')}
                                 />
-                                <span class="calendar-icon"></span>
+                                <span className="calendar-icon"></span>
                               </div>
                               <div className="col-md-6 date-input">
                                 <label className="form-label">Saida</label>
@@ -416,7 +412,7 @@ export default function Checkin() {
                                     value={saida}
                                     onChange={(e) => datamudou(e.target.value, 'saida')}
                                   />}
-                                  <span class="calendar-icon"></span>
+                                  <span className="calendar-icon"></span>
 
                               </div>
 
@@ -448,7 +444,6 @@ export default function Checkin() {
 
                                       if (item.hotel === hotel) {
                                         let counting = 0;
-                                        console.log(item)
                                         return (
                                           <>
                                             <div key={index} className="col-md-3 m-2" style={{ position: 'relative', height: '150px', overflow: 'hidden' }}>

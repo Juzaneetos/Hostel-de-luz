@@ -8,7 +8,7 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const Login = () => {
   const { data: users } = useSwr(`/api/users/getAllUsers`, fetcher);
-  console.log(users)
+
   return (
     <SignIn users={users} />
   );

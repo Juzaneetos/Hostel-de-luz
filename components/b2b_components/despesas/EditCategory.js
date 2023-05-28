@@ -107,13 +107,13 @@ function EditCategory({ despesasId, despesas, setShowEditCategoryComponent }) {
               Categoria
             </label>
             <div className="col-12">
-              <select value={categoria} onChange={(e) => setCategoria(e.target.value)} className="form-control here slug-title" name="select">
-                <option value="geral">geral</option>
+              <select defaultValue={categoria} onChange={(e) => setCategoria(e.target.value)} className="form-control here slug-title" name="select">
                 {allcategorias?.map((item, index) => {
                   return(
                     <option key={item._id} value={item._id}>{item.titulo}</option>
-                  )
-                })}
+                    )
+                  })}
+                  <option value="geral">Geral</option>
               </select>
             </div>
           </div>
@@ -122,8 +122,8 @@ function EditCategory({ despesasId, despesas, setShowEditCategoryComponent }) {
               Hostel
             </label>
             <div className="col-12">
-              <select value={hostel} onChange={(e) => sethostel(e.target.value)} className="form-control here slug-title" name="select">
-                <option value="geral">geral</option>
+              <select defaultValue={hostel} onChange={(e) => sethostel(e.target.value)} className="form-control here slug-title" name="select">
+                <option value="geral">Geral</option>
                 {allhostels?.map((item, index) => {
                   return(
                     <option key={item._id} value={item._id}>{item.titulo}</option>

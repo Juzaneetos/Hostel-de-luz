@@ -15,7 +15,7 @@ export default function Hospede() {
   const { data: checkin } = useSwr(`/api/checkin/getAllCheckin`, fetcher);
   const { data: quartos } = useSwr(`/api/quartos/getAllQuarto`, fetcher);
   var tamanho = checkin?.length || [];
-  console.log(id_)
+  
   return (
     <div style={{ backgroundColor: '#f3f3f3' }}>
       <div style={{ display: 'flex' }}>
@@ -67,14 +67,12 @@ export default function Hospede() {
 
                             <tbody>
                               {checkin?.map((item, index) => {
-                                console.log(item)
                                 if(item.ativado === '1'){
                                   return (
                                     <tr key={item.id} className="align-middle">
                                       <td>{item.nome}</td>
                                       {quartos?.map((item2, index) => {
                                         if(item2._id === item.objreserva.quarto){
-                                          console.log(item2)
                                           return(
                                             <td key={index}>{item2.titulo}</td>
                                           )

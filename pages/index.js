@@ -65,7 +65,7 @@ export default function Home() {
               <div className='mt-5'><h1 style={{color: 'white', textShadow: '0 0 10px black'}}>Bem-vindos, obrigado pela sua visita!</h1></div>
               <div><h5 style={{color: 'white', textShadow: '0 0 10px black'}}>Estamos trabalhando para recebê-los em breve</h5></div>
               <div className='mt-5'><h5 style={{color: 'white', textShadow: '0 0 10px black'}}>Entre em contato</h5></div>
-              <div class="social">
+              <div className="social">
                 <ul className='mobtextcenter'>
                   <li className='text-white' style={{fontSize: '18px', textShadow: '0 0 10px black'}}>Telefone: (19) 98422-2373</li>
                 </ul>

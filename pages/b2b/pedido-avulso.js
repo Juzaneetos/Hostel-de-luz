@@ -121,14 +121,12 @@ export default function NovoPedido({ }) {
 
 
   };
-  console.log(produtosPedido)
   const addItem = async (produto) => {
     let contador = 0;
     if (produtosPedido.length === 0) {
       setProdutosPedido([...produtosPedido, produto])
     } else {
       produtosPedido?.map((item) => {
-        console.log(item, produto._id)
         if (item._id === produto._id) {
           contador++;
         }
@@ -424,7 +422,6 @@ export default function NovoPedido({ }) {
                                 <select className="form-control here slug-title" id="cars" onChange={(e) => setHostel(e.target.value)}>
                                   <option value='todos'>Todos os Hostels</option>
                                   {hoteis?.map((item, index) => {
-                                    console.log(item)
                                     return (<option key={index} value={item._id}>{item.titulo}</option>)
                                   })}
                                 </select>

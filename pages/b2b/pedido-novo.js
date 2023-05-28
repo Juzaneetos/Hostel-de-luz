@@ -5,23 +5,11 @@ import useSwr, { mutate } from "swr";
 import { toast } from "react-toastify";
 import { AiOutlinePlus } from "react-icons/ai"
 
+import Image from 'next/image'
 import router from 'next/router'
 import Menu from "../../components/b2b_components/Menu";
 import { useCookies, expires } from 'react-cookie';
 const fetcher = (url) => fetch(url).then((res) => res.json());
-
-//ADD NO CSS
-
-// [type="number"] {
-//   width: 60px;
-// padding: 0 8px !important;
-// }
-
-// .campoQtd{
-//   width: 60px;
-//   height: 35px;
-//   line-height: 33px;
-// }
 
 export default function NovoPedido({ }) {
   const { data: hoteis } = useSwr(`/api/hoteis/getAllHotel`, fetcher);
@@ -45,7 +33,7 @@ export default function NovoPedido({ }) {
   let ano = hoje.getFullYear()
   let mes = hoje.getMonth() + 1
   let dia = hoje.getDate()
-  
+
   let dataDia = `${ano}-${mes < 10 ? '0' + mes : mes}-${dia < 10 ? '0' + dia : dia}`;
 
   const formatter = new Intl.NumberFormat('bt-BR', {
@@ -79,8 +67,10 @@ export default function NovoPedido({ }) {
         }
       })
     })
+
     let datadefechamento = ''
-    if(active === '0'){datadefechamento = new Date()}
+
+    if (active === '0') { datadefechamento = new Date() }
     let data = await axios.post(`/api/pedidos/insertPedido`, {
       data_pedido: dataPedido,
       comandas: comandasPedido,
@@ -102,20 +92,18 @@ export default function NovoPedido({ }) {
       item.quantidade = 0;
     })
 
-      toast('Pedido adiconado com sucesso!', {
-        position: "top-right",
-      });
-     
+    toast('Pedido adiconado com sucesso!', {
+      position: "top-right",
+    });
 
   };
-console.log(produtosPedido)
+
   const addItem = async (produto) => {
     let contador = 0;
     if (produtosPedido.length === 0) {
       setProdutosPedido([...produtosPedido, produto])
     } else {
       produtosPedido?.map((item) => {
-        console.log(item, produto._id)
         if (item._id === produto._id) {
           contador++;
         }
@@ -217,7 +205,7 @@ console.log(produtosPedido)
     const valor = campo.value.replace(/[^\d]+/gi, '').split('').reverse();
     let resultado = '';
     const mascara = '########.##'.split('').reverse();
-  
+
     for (let x = 0, y = 0; x < mascara.length && y < valor.length;) {
       if (mascara[x] !== '#') {
         resultado += mascara[x];
@@ -228,16 +216,15 @@ console.log(produtosPedido)
         x++;
       }
     }
-  
+
     campo.value = resultado.split('').reverse().join('');
   }
-  
 
   return (
     <>
       <div className="bg-geral">
         <div style={{ display: 'flex' }}>
-          <Menu  parametro={'18'}/>
+          <Menu parametro={'18'} />
           <div className="ec-page-wrapper">
             <div className="ec-content-wrapper">
               <div className="content">
@@ -254,226 +241,223 @@ console.log(produtosPedido)
                   </p>
                 </div>
                 <div className="row">
-                  <div className="col-lg-6">
+                  <div className="col-12 col-lg-5">
                     <div className="ec-cat-list card card-default mb-24px">
                       <div className="card-body">
 
-                        <div className="card-body">
-                          <div className="ec-cat-form">
-                            <form onSubmit={onSubmit}>
-                              <div className="form-group row">
-                                <label htmlFor="text" className="col-12 col-form-label">
-                                  Data
-                                </label>
-                                <div className="col-12">
-                                  <input
-                                    id="data"
-                                    name="data"
-                                    className="form-control here slug-title"
-                                    type="date"
-                                    defaultValue={dataDia}
-                                    onChange={(e) => setDataPedido(e.target.value)}
-                                  />
-                                </div>
-
-                                <label htmlFor="text" className="col-12 col-form-label">
-                                  Comprador
-                                </label>
-                                <div className="col-12">
-                                  <input
-                                    id="text"
-                                    name="nome"
-                                    className="form-control here slug-title"
-                                    type="text"
-                                    required
-                                    value={comandasPedido}
-                                    onChange={(e) => setComandasPedido(e.target.value)}
-                                  />
-                                </div>
-
-                                <label htmlFor="text" className="col-12 col-form-label">
-                                  Documento
-                                </label>
-                                <div className="col-12">
-                                  <input
-                                    id="text"
-                                    name="nome"
-                                    className="form-control here slug-title"
-                                    type="text"
-                                    required
-                                    value={cpf}
-                                    onChange={(e) => setCpf(e.target.value)}
-                                  />
-                                </div>
-
-                                <label htmlFor="produtos" className="col-12 col-form-label">
-                                  Produtos
-                                </label>
-                                <div className="col-12">
-                                  <ul>
-                                    {produtosPedido?.map((item, index) => {
-                                      return (
-                                        <li key={index} style={{ display: "flex", alignItems: "center", marginBottom: "5px" }}>
-                                          <button
-                                            onClick={(e) => deleteItem(e, item._id, (parseFloat(item.valorVenda) * parseFloat(item.quantidade)))}>
-                                            <FaTrash style={{ color: '#DC3545' }} />
-                                          </button>
-                                          <input
-                                            type="number"
-                                            name="campoQtd"
-                                            className="campoQtd mx-1"
-                                            defaultValue={item.quantidade}
-                                            onChange={(e) => attPedido(e.target.value, item._id)}
-                                          />
-                                          <div className="d-flex justify-content-between w-100">
-                                            <p>{item.nome}</p>
-                                            <p>{formatter.format(parseFloat(item.valorVenda))}</p>
-                                          </div>
-                                        </li>
-                                      )
-                                    })}
-                                  </ul>
-                                </div>
-
-                                <label htmlFor="text" className="col-12 col-form-label">
-                                  Desconto em Reais
-                                </label>
-                                <div className="col-12 d-flex align-items-center">
-                                  <input
-                                    id="text"
-                                    name="valor"
-                                    className="form-control here slug-title"
-                                    type="text"
-                                    value={`R$ ${descontoPedido}`}
-                                    onChange={(e) => {mascaraMoeda(e), setDescontoPedido(e.target.value) }}
-                                  />
-                                  <button className="btn btn-info ml-1" type="attValorTotal" onClick={(e) => { attValorTotal(e, parseFloat(descontoPedido)) }}>Aplicar</button>
-                                </div>
-
-                                <label htmlFor="estoque" className="col-12 col-form-label">
-                                  Valor Total
-                                </label>
-                                <div className="col-12">
-                                  <input
-                                    id="estoque"
-                                    name="estoque"
-                                    className="form-control here slug-title"
-                                    type="text"
-                                    disabled
-                                    value={formatter.format(parseFloat(valorTotalPedido))}
-                                    onChange={(e) => setValorTotalPedido(e.target.value)}
-                                  />
-                                </div>
-
-                                <label htmlFor="text" className="col-12 col-form-label">
-                                  Método de Pagamento
-                                </label>
-                                <div className="col-12">
-                                  <select
-                                    id="metodoPagamento"
-                                    name="metodoPagamento"
-                                    className="form-control here slug-title"
-                                    defaultValue={metodoPedido}
-                                    onChange={(e) => setMetodoPedido(e.target.value)}
-                                  >
-                                    <option value="">Escolha uma opção de pagamento</option>
-                                    <option value="Cartão Crédito">Cartão Crédito</option>
-                                    <option value="Cartão Dédito">Cartão Dédito</option>
-                                    <option value="Dinheiro">Dinheiro</option>
-                                    <option value="Cheque">Cheque</option>
-                                    <option value="Pix">Pix</option>
-                                    <option value="Outro">Outro</option>
-                                  </select>
-                                </div>
-                                {(metodoPedido === "Dinheiro") ?
-                                  <>
-                                    <label htmlFor="text" className="col-12 col-form-label">
-                                      Valor Pago
-                                    </label>
-                                    <div className="col-12 d-flex align-items-center">
-                                      <input
-                                        id="text"
-                                        name="valorPago"
-                                        className="form-control here slug-title"
-                                        type="text"
-                                        value={`R$ ${pagamentoPedido}`}
-                                        onChange={(e) => {mascaraMoeda(e), setPagamentoPedido(e.target.value) }}
-                                      />
-                                      <button className="btn btn-info ml-1" type="attTroco" onClick={(e) => { attTroco(e, parseFloat(pagamentoPedido)) }}>Aplicar</button>
-                                    </div>
-
-                                    <label htmlFor="text" className="col-12 col-form-label">
-                                      Troco
-                                    </label>
-                                    <div className="col-12">
-                                      <input
-                                        id="text"
-                                        name="valor"
-                                        className="form-control here slug-title"
-                                        type="text"
-                                        disabled
-                                        value={formatter.format(parseFloat(trocoPedido))}
-                                      />
-                                    </div>
-                                  </> : <></>
-                                }
-
+                        <div className="ec-cat-form">
+                          <form onSubmit={onSubmit}>
+                            <div className="form-group row">
+                              <label htmlFor="text" className="col-12 col-form-label">
+                                Data
+                              </label>
+                              <div className="col-12">
+                                <input
+                                  id="data"
+                                  name="data"
+                                  className="form-control here slug-title"
+                                  type="date"
+                                  defaultValue={dataDia}
+                                  onChange={(e) => setDataPedido(e.target.value)}
+                                />
                               </div>
 
-                              <div className="space-t-15 mt-3 mb-3">
-                                    <label htmlFor="phone-2" className="form-label">
-                                        Hostel
-                                    </label>
-                                    <select className="form-control here slug-title" id="cars" onChange={(e) => setHostel(e.target.value)}>
-                                        <option value='todos'>Todos os Hostels</option>
-                                        {hoteis?.map((item, index) => {
-                                            console.log(item)
-                                            return (<option key={index} value={item._id}>{item.titulo}</option>)
-                                        })}
-                                    </select>
-                                </div>
+                              <label htmlFor="text" className="col-12 col-form-label">
+                                Comprador
+                              </label>
+                              <div className="col-12">
+                                <input
+                                  id="text"
+                                  name="nome"
+                                  className="form-control here slug-title"
+                                  type="text"
+                                  required
+                                  value={comandasPedido}
+                                  onChange={(e) => setComandasPedido(e.target.value)}
+                                />
+                              </div>
 
-                              <div className="d-flex mb-3 space-t-15">
-                                <div className="row align-items-center">
-                                  <label className="form-label">Fechar Comanda?</label>
-                                  <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>
-                                      <input
-                                        type="radio"
-                                        name="active"
-                                        value={'0'}
-                                        style={{ width: '20px', margin: '0 15px 0 0' }}
-                                        onChange={(e) => setActive(e.target.value)}
-                                      />
-                                    Sim
+                              <label htmlFor="text" className="col-12 col-form-label">
+                                Documento
+                              </label>
+                              <div className="col-12">
+                                <input
+                                  id="text"
+                                  name="nome"
+                                  className="form-control here slug-title"
+                                  type="text"
+                                  required
+                                  value={cpf}
+                                  onChange={(e) => setCpf(e.target.value)}
+                                />
+                              </div>
+
+                              <label htmlFor="produtos" className="col-12 col-form-label">
+                                Produtos
+                              </label>
+                              <div className="col-12">
+                                <ul>
+                                  {produtosPedido?.map((item, index) => {
+                                    return (
+                                      <li key={index} style={{ display: "flex", alignItems: "center", marginBottom: "5px" }}>
+                                        <button
+                                          onClick={(e) => deleteItem(e, item._id, (parseFloat(item.valorVenda) * parseFloat(item.quantidade)))}>
+                                          <FaTrash style={{ color: '#DC3545' }} />
+                                        </button>
+                                        <input
+                                          type="number"
+                                          name="campoQtd"
+                                          className="campoQtd mx-1"
+                                          defaultValue={item.quantidade}
+                                          onChange={(e) => attPedido(e.target.value, item._id)}
+                                        />
+                                        <div className="d-flex justify-content-between w-100">
+                                          <p>{item.nome}</p>
+                                          <p>{formatter.format(parseFloat(item.valorVenda))}</p>
+                                        </div>
+                                      </li>
+                                    )
+                                  })}
+                                </ul>
+                              </div>
+
+                              <label htmlFor="text" className="col-12 col-form-label">
+                                Desconto em Reais
+                              </label>
+                              <div className="col-12 d-flex align-items-center">
+                                <input
+                                  id="text"
+                                  name="valor"
+                                  className="form-control here slug-title"
+                                  type="text"
+                                  value={`R$ ${descontoPedido}`}
+                                  onChange={(e) => { mascaraMoeda(e), setDescontoPedido(e.target.value) }}
+                                />
+                                <button className="btn btn-info ml-1" type="attValorTotal" onClick={(e) => { attValorTotal(e, parseFloat(descontoPedido)) }}>Aplicar</button>
+                              </div>
+
+                              <label htmlFor="estoque" className="col-12 col-form-label">
+                                Valor Total
+                              </label>
+                              <div className="col-12">
+                                <input
+                                  id="estoque"
+                                  name="estoque"
+                                  className="form-control here slug-title"
+                                  type="text"
+                                  disabled
+                                  value={`R$ ${valorTotalPedido}`}
+                                  onChange={(e) => setValorTotalPedido(e.target.value)}
+                                />
+                              </div>
+
+                              <label htmlFor="text" className="col-12 col-form-label">
+                                Método de Pagamento
+                              </label>
+                              <div className="col-12">
+                                <select
+                                  id="metodoPagamento"
+                                  name="metodoPagamento"
+                                  className="form-control here slug-title"
+                                  defaultValue={metodoPedido}
+                                  onChange={(e) => setMetodoPedido(e.target.value)}
+                                >
+                                  <option value="">Escolha uma opção de pagamento</option>
+                                  <option value="Cartão Crédito">Cartão Crédito</option>
+                                  <option value="Cartão Dédito">Cartão Dédito</option>
+                                  <option value="Dinheiro">Dinheiro</option>
+                                  <option value="Cheque">Cheque</option>
+                                  <option value="Pix">Pix</option>
+                                  <option value="Outro">Outro</option>
+                                </select>
+                              </div>
+                              {(metodoPedido === "Dinheiro") ?
+                                <>
+                                  <label htmlFor="text" className="col-12 col-form-label">
+                                    Valor Pago
+                                  </label>
+                                  <div className="col-12 d-flex align-items-center">
+                                    <input
+                                      id="text"
+                                      name="valorPago"
+                                      className="form-control here slug-title"
+                                      type="text"
+                                      value={`R$ ${pagamentoPedido}`}
+                                      onChange={(e) => { mascaraMoeda(e), setPagamentoPedido(e.target.value) }}
+                                    />
+                                    <button className="btn btn-info ml-1" type="attTroco" onClick={(e) => { attTroco(e, parseFloat(pagamentoPedido)) }}>Aplicar</button>
                                   </div>
-                                  <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>
-                                      <input
-                                        type="radio"
-                                        name="active"
-                                        value={'1'}
-                                        style={{ width: '20px', margin: '0 15px 0 0' }}
-                                        onChange={(e) => setActive(e.target.value)}
-                                      />
-                                    Não
-                                  </div>
-                                </div>
-                              </div>
 
-                              <div className="row">
-                                <div className="col-12">
-                                  <button name="submit" type="submit" className="btn btn-warning">
-                                    Concluir compra
-                                  </button>
+                                  <label htmlFor="text" className="col-12 col-form-label">
+                                    Troco
+                                  </label>
+                                  <div className="col-12">
+                                    <input
+                                      id="text"
+                                      name="valor"
+                                      className="form-control here slug-title"
+                                      type="text"
+                                      disabled
+                                      value={formatter.format(parseFloat(trocoPedido))}
+                                    />
+                                  </div>
+                                </> : <></>
+                              }
+
+                            </div>
+
+                            <div className="space-t-15 mt-3 mb-3">
+                              <label htmlFor="phone-2" className="form-label">
+                                Hostel
+                              </label>
+                              <select className="form-control here slug-title" id="cars" onChange={(e) => setHostel(e.target.value)}>
+                                <option value='todos'>Todos os Hostels</option>
+                                {hoteis?.map((item, index) => {
+                                  return (<option key={index} value={item._id}>{item.titulo}</option>)
+                                })}
+                              </select>
+                            </div>
+
+                            <div className="d-flex mb-3 space-t-15">
+                              <div className="row align-items-center">
+                                <label className="form-label">Fechar Comanda?</label>
+                                <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>
+                                  <input
+                                    type="radio"
+                                    name="active"
+                                    value={'0'}
+                                    style={{ width: '20px', margin: '0 15px 0 0' }}
+                                    onChange={(e) => setActive(e.target.value)}
+                                  />
+                                  Sim
+                                </div>
+                                <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>
+                                  <input
+                                    type="radio"
+                                    name="active"
+                                    value={'1'}
+                                    style={{ width: '20px', margin: '0 15px 0 0' }}
+                                    onChange={(e) => setActive(e.target.value)}
+                                  />
+                                  Não
                                 </div>
                               </div>
-                            </form>
-                          </div>
+                            </div>
+
+                            <div className="row">
+                              <div className="col-12">
+                                <button name="submit" type="submit" className="btn btn-warning">
+                                  Concluir compra
+                                </button>
+                              </div>
+                            </div>
+                          </form>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  <div className="col-xl-6 col-lg-12">
+                  <div className="col-12 col-xl-7">
                     <div className="ec-cat-list card card-default">
                       <div className="card-body">
                         <div className="table-responsive">
@@ -483,41 +467,19 @@ console.log(produtosPedido)
                             className="form-control here slug-title"
                             onChange={(e) => { setSearchItem(e.target.value.toLowerCase()) }}
                           />
-                          <table id="responsive-data-table" className="table table-striped">
-                            <thead>
-                              <tr>
-                                <th>Qtd.</th>
-                                <th>Nome</th>
-                                <th>Valor</th>
-                                <th></th>
-                              </tr>
-                            </thead>
-
-                            <tbody>
-                              {filter?.map((item, index) => {
-                                console.log(filter)
-                                return (
-                                  <tr key={index} className="align-middle">
-                                    <td><input type="number" className="campoQtd text-black" name="campoQtd" defaultValue={item.quantidade} onChange={(e) => item.quantidade = parseInt(e.target.value)} /></td>
-                                    <td>{item.nome}</td>
-                                    <td>{formatter.format(item.valorVenda)}</td>
-                                    <td className="text-right">
-                                      <div className="btn-group">
-                                        <button
-                                          type="value"
-                                          className="btn btn-success"
-                                          onClick={(e) => {
-                                            addItem(item);
-                                          }}
-                                        >
-                                          <AiOutlinePlus size={20} color={"#ffffff"}/>
-                                        </button>
-                                      </div>
-                                    </td>
-                                  </tr>)
-                              })}
-                            </tbody>
-                          </table>
+                          <div className="d-flex flex-wrap align-middle justify-content-start" >
+                            <div className="col-12 d-flex flex-wrap align-middle justify-content-center py-2"> Clique nos produtos para adicionar ao pedido</div>
+                            {filter?.map((item, index) => {
+                              return (
+                                <div key={index} className="col-3 mouse-hover-pointer p-1" onClick={(e) => { { addItem(item), item.quantidade = 1 } }}>
+                                  <div className="teste p-1 d-flex flex-wrap align-middle justify-content-center">
+                                    <Image src={item.imagem[0].url} width={100} height={100} alt={item.nome} />
+                                    {item.nome}
+                                  </div>
+                                </div>
+                              )
+                            })}
+                          </div>
                         </div>
                       </div>
                     </div>

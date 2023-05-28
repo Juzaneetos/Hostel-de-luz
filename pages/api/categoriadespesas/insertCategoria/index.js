@@ -7,9 +7,9 @@ export default async (req, res) => {
 
     db.collection("categoriadespesas").insertOne({
       titulo: req.body.titulo
-    }).then((data) => {
-      console.log(data)
-    }).catch((err) => console.log(err));
+    })
+    .then((data) => console.log(data))
+    .catch((err) => console.log(err));
 
     // res.json(getCustomerByID);
   } catch (e) {

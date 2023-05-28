@@ -44,7 +44,7 @@ export default function Financeirodespesas() {
         let newarr = [];
         let valortotal = 0;
         let itensativos = 0;
-        if(categoria === 'todos' && hostel === 'todos'){
+        if (categoria === 'todos' && hostel === 'todos') {
             getAllPedidos?.map((item, index) => {
                 const dataEntradaNovaReserva = new Date(entrada);
                 const dataSaidaNovaReserva = new Date(saida);
@@ -61,9 +61,9 @@ export default function Financeirodespesas() {
                     setHospedes2(itensativos);
                 }
             });
-        }else if(categoria !== 'todos' && hostel === 'todos'){
+        } else if (categoria !== 'todos' && hostel === 'todos') {
             getAllPedidos?.map((item, index) => {
-                if(item.categoria === categoria){
+                if (item.categoria === categoria) {
                     const dataEntradaNovaReserva = new Date(entrada);
                     const dataSaidaNovaReserva = new Date(saida);
                     const dataEntradaReserva = new Date(item.data_pedido);
@@ -80,9 +80,9 @@ export default function Financeirodespesas() {
                     setHospedes2(itensativos);
                 }
             });
-        }else if(categoria === 'todos' && hostel !== 'todos'){
+        } else if (categoria === 'todos' && hostel !== 'todos') {
             getAllPedidos?.map((item, index) => {
-                if(item.hostel === hostel){
+                if (item.hostel === hostel) {
                     const dataEntradaNovaReserva = new Date(entrada);
                     const dataSaidaNovaReserva = new Date(saida);
                     const dataEntradaReserva = new Date(item.data_pedido);
@@ -99,9 +99,9 @@ export default function Financeirodespesas() {
                     setHospedes2(itensativos);
                 }
             });
-        }else if(categoria !== 'todos' && hostel !== 'todos'){
+        } else if (categoria !== 'todos' && hostel !== 'todos') {
             getAllPedidos?.map((item, index) => {
-                if(item.hostel === hostel && item.categoria === categoria){
+                if (item.hostel === hostel && item.categoria === categoria) {
                     const dataEntradaNovaReserva = new Date(entrada);
                     const dataSaidaNovaReserva = new Date(saida);
                     const dataEntradaReserva = new Date(item.data_pedido);
@@ -126,7 +126,7 @@ export default function Financeirodespesas() {
         let newarr = [];
         let valortotal = 0;
         let itensativos = 0;
-        if(categoria === 'todos' && hostel === 'todos'){
+        if (categoria === 'todos' && hostel === 'todos') {
             getAllPedidos?.map((item, index) => {
                 newarr.push(item)
                 itensativos = itensativos + 1;
@@ -137,9 +137,9 @@ export default function Financeirodespesas() {
                     setHospedes2(itensativos);
                 }
             });
-        }else if(hostel !== 'todos'){
+        } else if (hostel !== 'todos') {
             getAllPedidos?.map((item, index) => {
-                if(item.hostel === hostel){
+                if (item.hostel === hostel) {
                     newarr.push(item)
                     itensativos = itensativos + 1;
                     valortotal = valortotal + parseFloat(item.valor_total)
@@ -166,7 +166,7 @@ export default function Financeirodespesas() {
                     <div className="ec-content-wrapper">
                         <div className="content">
                             <div className="breadcrumb-wrapper d-flex align-items-center justify-content-between">
-                                <h1>Financeiro Despesas</h1>
+                                <h1>Financeiro Loja</h1>
                                 <p className="breadcrumbs">
                                     <span>
                                         <Link href="/b2b">Dashboard</Link>
@@ -174,32 +174,13 @@ export default function Financeirodespesas() {
                                     <span>
                                         <i className="mdi mdi-chevron-right"></i>
                                     </span>
-                                    Financeiro Despesas
+                                    Financeiro Loja
                                 </p>
                             </div>
-                            {/* <h2 className="p-3 mb-2">Geral</h2>
-                            <div className="d-flex">
-                                <div className="col-lg-3 modalprice">
-                                    <h5 className="text-white">Renda Total</h5>
-                                    <div className="text-white">R$ {rendatotal},00</div>
-                                </div>
-                                <div className="col-lg-3 modalprice">
-                                    <h5 className="text-white">Estimado</h5>
-                                    <div className="text-white">R$ {pagototal},00</div>
-                                </div>
-                                <div className="col-lg-3 modalprice">
-                                    <h5 className="text-white">Débitos</h5>
-                                    <div className="text-white">R$ {rendatotal - pagototal},00</div>
-                                </div>
-                                <div className="col-lg-3 modalprice">
-                                    <h5 className="text-white">Hóspedes</h5>
-                                    <div className="text-white">{hospedes}</div>
-                                </div>
-
-                            </div> */}
 
                             <div className="d-flex flex-wrap align-items-end">
-                                <div className="col-md-4 space-t-15 mt-3 p-1 date-input">
+
+                                <div className="col-6 col-md-3 space-t-15 mt-3 py-1 pr-1 date-input">
                                     <label htmlFor="phone-2" className="form-label">
                                         Inicio
                                     </label>
@@ -209,9 +190,9 @@ export default function Financeirodespesas() {
                                         id="phone-2"
                                         onChange={(e) => setEntrada(e.target.value)}
                                     />
-                                    <span class="calendar-icon" style={{ top: '47px', right: '25px' }}></span>
+                                    <span className="calendar-icon" style={{ top: '47px', right: '25px' }}></span>
                                 </div>
-                                <div className="col-md-4 space-t-15 mt-3 p-1 date-input">
+                                <div className="col-6 col-md-3 space-t-15 mt-3 py-1 pr-1 date-input">
                                     <label htmlFor="phone-2" className="form-label">
                                         Fim
                                     </label>
@@ -221,34 +202,35 @@ export default function Financeirodespesas() {
                                         id="phone-2"
                                         onChange={(e) => setSaida(e.target.value)}
                                     />
-                                    <span class="calendar-icon" style={{ top: '47px', right: '25px' }}></span>
+                                    <span className="calendar-icon" style={{ top: '47px', right: '25px' }}></span>
                                 </div>
-                                <div className="col-md-4 space-t-15 mt-3 p-1">
+                                <div className="col-6 col-md-3 space-t-15 mt-3 py-1 pr-1">
                                     <label htmlFor="phone-2" className="form-label">
                                         Hostel
                                     </label>
                                     <select className="form-control" id="cars" onChange={(e) => setHostel(e.target.value)}>
                                         <option value='todos'>Todos os Hostels</option>
                                         {hoteis?.map((item, index) => {
-                                            console.log(item)
                                             return (<option key={index} value={item._id}>{item.titulo}</option>)
                                         })}
                                     </select>
                                 </div>
-                                <div style={{ cursor: 'pointer' }} className="col-lg-6 modalprice2" onClick={todosarr}>
-                                    <h5 className="text-white">Todos</h5>
-                                </div>
-                                <div style={{ cursor: 'pointer' }} className="col-lg-6 modalprice2" onClick={filtrar}>
-                                    <h5 className="text-white">Filtrar</h5>
+                                <div className="d-flex col-6 col-md-3 space-t-15 mt-3 py-1 text-center">
+                                    <div className="col-6 pr-1">
+                                        <button className="btn btn-primary text-white w-100" onClick={filtrar}>Filtrar</button>
+                                    </div>
+                                    <div className="col-6">
+                                        <button className="btn btn-primary text-white w-100" onClick={todosarr}>Limpar</button>
+                                    </div>
                                 </div>
 
                                 <div className="col-lg-6 modalprice">
-                                    <h5 className="text-white">Total</h5>
-                                    <div className="text-white">{formatter.format(rendatotal2)}</div>
+                                    <h5 className="text-white">Pedidos Realizados</h5>
+                                    <div className="text-white">{hospedes2}</div>
                                 </div>
                                 <div className="col-lg-6 modalprice">
-                                    <h5 className="text-white">Total cadastrado</h5>
-                                    <div className="text-white">{hospedes2}</div>
+                                    <h5 className="text-white">Renda Total</h5>
+                                    <div className="text-white">{formatter.format(rendatotal2)}</div>
                                 </div>
 
                             </div>

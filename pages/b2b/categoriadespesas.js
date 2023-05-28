@@ -20,7 +20,7 @@ export default function CategoriaDespesas({ }) {
   const [showEditCategoryComponent, setShowEditCategoryComponent] = useState(false);
 
   const { data: categoriadespesas } = useSwr(`/api/categoriadespesas/getAllCategoria`, fetcher);
-  console.log(categoriadespesas)
+  
   var tamanho = categoriadespesas?.length || [];
 
   const deleteDespesas = async (id) => {

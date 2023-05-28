@@ -62,8 +62,6 @@ export default function PedidosFechados({ }) {
     );
   }
 
-  console.log(existe)
-
   useEffect(() => {
     let itemObtidoComanda;
     setFilter(pedido?.filter(item => {
@@ -75,7 +73,6 @@ export default function PedidosFechados({ }) {
   useEffect(() => {
     let itemObtidoData;
     let contador = 0;
-    console.log(searchItemData === 'Invalid Date')
     setFilter(pedido?.filter((item, index) => {
       let dataPedido = new Date(item.data_pedido).toLocaleDateString('pt-BR');
       itemObtidoData = dataPedido.toLowerCase().includes(searchItemData);
@@ -139,7 +136,7 @@ export default function PedidosFechados({ }) {
                                   setSearchItemData(formattedDate);
                                 }}
                               />
-                              <span class="calendar-icon" style={{ top: '12px', right: '25px' }}></span>
+                              <span className="calendar-icon" style={{ top: '12px', right: '25px' }}></span>
                             </div>
                           </div>
                           <table id="responsive-data-table" className="table">
