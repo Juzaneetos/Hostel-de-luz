@@ -107,6 +107,7 @@ export default function Users({ }) {
                                             setUsersEditId(item._id);
                                             setShowEditCategoryComponent(true);
                                             }}
+                                            style={{marginRight: '10px'}}
                                           >
                                             <BsPencilFill />
                                           </button>

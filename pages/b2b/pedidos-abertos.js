@@ -177,6 +177,7 @@ export default function PedidosFechados({ }) {
                                               query: { id: `${item?._id}` }
                                             }}
                                             title="Edit Detail"
+                                            style={{marginRight: '10px'}}
                                             className="btn btn-primary"
                                           >
                                             <BsPencilFill />

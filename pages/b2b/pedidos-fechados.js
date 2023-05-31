@@ -184,7 +184,8 @@ export default function PedidosFechados({ }) {
                                                 id: item._id, // pass the id 
                                               },
                                             }}
-                                            className="btn btn-info"
+                                            style={{marginRight: '10px'}}
+                                            className="btn btn-primary"
                                           > <BsFillEyeFill size={18}/></Link>
                                             <button
                                               className="btn btn-outline-info delete-btn"

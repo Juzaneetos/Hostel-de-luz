@@ -95,6 +95,7 @@ export default function CategoriaDespesas({ }) {
                                               setCategoryEditId(item._id);
                                               setShowEditCategoryComponent(true);
                                             }}
+                                            style={{marginRight: '10px'}}
                                           >
                                             <BsPencilFill />
                                           </button>

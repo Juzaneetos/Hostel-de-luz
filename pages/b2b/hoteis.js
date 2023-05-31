@@ -96,6 +96,7 @@ export default function Hoteis() {
                                           }}
                                           title="Edit Detail"
                                           className="btn btn-primary"
+                                          style={{marginRight: '10px'}}
                                         >
                                           <BsPencilFill />
                                         </Link>
