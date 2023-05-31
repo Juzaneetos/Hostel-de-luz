@@ -193,12 +193,14 @@ export default function PedidosFechados({ }) {
                                 }
                               })}
                             </tbody>
-                            <tfoot>
+                            <tfoot style={{background: '#F2F2F2'}}>
                               <tr>
                                 <th>Qtd.</th>
                                 <th>{existe > 0 ? filter?.length : '0'}</th>
                                 <th>Valor Total</th>
                                 <th>{totalTableValue}</th>
+                                <th></th>
+                                <th></th>
                                 <th></th>
                               </tr>
                             </tfoot>

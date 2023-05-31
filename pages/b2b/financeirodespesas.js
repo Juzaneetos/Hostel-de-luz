@@ -225,11 +225,11 @@ export default function Financeirodespesas() {
                                     </div>
                                 </div>
 
-                                <div className="col-lg-6 modalprice" style={{background: '#D93B3B'}}>
+                                <div className="col-lg-6 modalprice">
                                     <h5 className="text-white">Número de Despesas</h5>
                                     <div className="text-white">{hospedes2}</div>
                                 </div>
-                                <div className="col-lg-6 modalprice">
+                                <div className="col-lg-6 modalprice" style={{background: '#D93B3B'}}>
                                     <h5 className="text-white">Valor Total</h5>
                                     <div className="text-white">{formatter.format(rendatotal2)}</div>
                                 </div>

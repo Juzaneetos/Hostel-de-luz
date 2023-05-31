@@ -39,7 +39,7 @@ export default function Home() {
   const [mostrarTextoCompleto, setMostrarTextoCompleto] = useState(false);
   const [qualproblema, setQualproblema] = useState("");
   const [parametro, setParametro] = useState('');
-  
+  console.log(rgVersoImage)
   // http://localhost:3000/cadastrohospede?hostel=jardimtrevo
   // http://localhost:3000/cadastrohospede?hostel=joaojorge
 
@@ -168,6 +168,9 @@ export default function Home() {
   };
 
   const dispararbanco = async (imageArr) => {
+    setTimeout(() => {
+      router.push("/agradecimento");
+    }, 3000)
     try {
       await axios.put(`/api/hospedes/insertHospedes`, {
         nome: Name,
@@ -189,7 +192,7 @@ export default function Home() {
         qualproblema: qualproblema,
       });
 
-      return router.push("/agradecimento");
+      
     } catch (error) {
       console.log(error)
     }
@@ -285,7 +288,31 @@ export default function Home() {
                                 className="form-control" id="email" />
                             </div>
                           </div>
-
+                          <div className="d-flex mb-3 col-md-4 justify-content-center mt-4">
+                            <div className="row align-items-center justify-content-center text-center">
+                              <label className="form-label">Cidadania</label>
+                              <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>
+                                <input
+                                  type="radio"
+                                  name="cidadania"
+                                  value={'Brasileira'}
+                                  style={{ width: '20px', margin: '0 15px 0 0' }}
+                                  onChange={(e) => setCidadania(e.target.value)}
+                                />
+                                Brasileira
+                              </div>
+                              <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>
+                                <input
+                                  type="radio"
+                                  name="cidadania"
+                                  value={'Estrangeira'}
+                                  style={{ width: '20px', margin: '0 15px 0 0' }}
+                                  onChange={(e) => setCidadania(e.target.value)}
+                                />
+                                Estrangeira
+                              </div>
+                            </div>
+                          </div>
                           <div className="d-flex mb-3 col-md-4 justify-content-center mt-4">
                             <div className="row align-items-center justify-content-center text-center">
                               <label className="form-label">Tem algum problema de saúde?</label>
@@ -321,31 +348,7 @@ export default function Home() {
                                 className="form-control" id="email" />
                             </div>
                           </div>
-                          <div className="d-flex mb-3 col-md-4 justify-content-center mt-4">
-                            <div className="row align-items-center justify-content-center text-center">
-                              <label className="form-label">Cidadania</label>
-                              <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>
-                                <input
-                                  type="radio"
-                                  name="cidadania"
-                                  value={'Brasileira'}
-                                  style={{ width: '20px', margin: '0 15px 0 0' }}
-                                  onChange={(e) => setCidadania(e.target.value)}
-                                />
-                                Brasileira
-                              </div>
-                              <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>
-                                <input
-                                  type="radio"
-                                  name="cidadania"
-                                  value={'Estrangeira'}
-                                  style={{ width: '20px', margin: '0 15px 0 0' }}
-                                  onChange={(e) => setCidadania(e.target.value)}
-                                />
-                                Estrangeira
-                              </div>
-                            </div>
-                          </div>
+                          
                           {cidadania === 'Brasileira' &&
                             <>
                               <div className="col-md-12 mt-3">
@@ -415,7 +418,7 @@ export default function Home() {
                           </div>
                           <div className="col-md-6 mt-3">
                             <label htmlFor="phone-1" className="form-label">
-                              Foto RG Frente
+                              Foto Frente
                             </label>
                             <input
                               type="file"
@@ -426,12 +429,12 @@ export default function Home() {
                               onChange={(e) => setRgFrenteImage(e.target.files[0])}
                             />
                             {rgFrenteImage && (
-                              <img src={URL.createObjectURL(rgFrenteImage)} alt="RG Frente" />
+                              <img src={URL.createObjectURL(rgFrenteImage)} alt="Foto Frente" />
                             )}
                           </div>
                           <div className="col-md-6 mt-3">
                             <label htmlFor="phone-1" className="form-label">
-                              Foto RG Verso
+                              Foto Verso
                             </label>
                             <input
                               type="file"
@@ -442,7 +445,7 @@ export default function Home() {
                               onChange={(e) => setRgVersoImage(e.target.files[0])}
                             />
                             {rgVersoImage && (
-                              <img src={URL.createObjectURL(rgVersoImage)} alt="RG Verso" />
+                              <img src={URL.createObjectURL(rgVersoImage)} alt="Foto Verso" />
                             )}
                           </div>
                           <div className="col-md-12 mt-3">

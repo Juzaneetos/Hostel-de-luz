@@ -54,16 +54,7 @@ export default function Home() {
                       <h4 className="text-center mb-3 mt-3">Obrigado por se cadastrar, visite nossa redes sociais!</h4>
                       <div className="d-flex justify-content-center">
                         <div className="p-2">
-                          <Image
-                            src={require('../assets/img/facebook.png')}
-                            width={50}
-                            priority
-                            alt=""
-                            style={{ objectFit: 'cover', width: '50px' }}
-                            className='rounded'
-                          />
-                        </div>
-                        <div className="p-2">
+                          <a href='https://www.instagram.com/hosteldeluz/' target='_blank' rel='noreferrer'>
                           <Image
                             src={require('../assets/img/instagram.png')}
                             width={50}
@@ -72,6 +63,7 @@ export default function Home() {
                             style={{ objectFit: 'cover', width: '50px' }}
                             className='rounded'
                           />
+                          </a>
                         </div>
                       </div>
 

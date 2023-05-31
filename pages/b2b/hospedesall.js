@@ -119,26 +119,27 @@ export default function Hospedeall() {
                                       <td>{item.genero}</td>
                                       <td className="text-right">
                                         <div className="btn-group">
-                                          <a
-                                            target="_blank" rel="noreferrer" href={`https://api.whatsapp.com/send?phone=55${item.telefone}&text=Olá, me chamo...`}
-                                            title="Whatsapp"
-                                            style={{ marginRight: '10px', background: '#25D366' }}
-                                            className="btn btn-primary"
-                                          >
-                                            <BsWhatsapp />
-                                          </a>
-                                          <a
+                                        <a
                                             href="javasript:void(0)"
                                             data-link-action="editmodal"
                                             title="Edit Detail"
                                             data-bs-toggle="modal"
                                             data-bs-target="#edit_modal"
                                             className="btn btn-primary"
-                                            style={{fontWeight: 600, background: '#32CD32'}}
+                                            style={{marginRight: '10px', fontWeight: 600}}
                                             onClick={() => setId(item._id)}
                                           >
                                             INICIAR CHECK-IN
                                           </a>
+                                          <a
+                                            target="_blank" rel="noreferrer" href={`https://api.whatsapp.com/send?phone=55${item.telefone}&text=Olá, me chamo...`}
+                                            title="Whatsapp"
+                                            style={{  background: '#25D366' }}
+                                            className="btn btn-primary"
+                                          >
+                                            <BsWhatsapp />
+                                          </a>
+                                          
                                         </div>
                                       </td>
                                     </tr>
@@ -156,26 +157,27 @@ export default function Hospedeall() {
                                           <td>{item.genero}</td>
                                           <td className="text-right">
                                             <div className="btn-group">
-                                              <a
-                                                target="_blank" rel="noreferrer" href={`https://api.whatsapp.com/send?phone=55${item.telefone}&text=Olá, me chamo...`}
-                                                title="Whatsapp"
-                                                style={{ marginRight: '10px', background: '#25D366' }}
-                                                className="btn btn-primary"
-                                              >
-                                                <BsWhatsapp size={20} />
-                                              </a>
-                                              <a
+                                            <a
                                                 href="javasript:void(0)"
                                                 data-link-action="editmodal"
                                                 title="Edit Detail"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#edit_modal"
                                                 className="btn btn-primary"
-                                                style={{fontWeight: 600, background: '#32CD32'}}
+                                                style={{ marginRight: '10px', fontWeight: 600}}
                                                 onClick={() => setId(item._id)}
                                               >
                                                 INICIAR CHECK-IN
                                               </a>
+                                              <a
+                                                target="_blank" rel="noreferrer" href={`https://api.whatsapp.com/send?phone=55${item.telefone}&text=Olá, me chamo...`}
+                                                title="Whatsapp"
+                                                style={{ background: '#25D366' }}
+                                                className="btn btn-primary"
+                                              >
+                                                <BsWhatsapp size={20} />
+                                              </a>
+                                              
                                             </div>
                                           </td>
                                         </tr>

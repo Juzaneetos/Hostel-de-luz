@@ -90,7 +90,7 @@ export default function Modal({ customers, id_ }) {
       formulario: formulario,
       qualproblema: qualproblema,
     });
-    
+
     mutate('/api/hospedes/getAllHospedes');
   }
   return (
@@ -157,7 +157,55 @@ export default function Modal({ customers, id_ }) {
                                 className="form-control" id="email" />
                             </div>
                           </div>
+                          <div className="d-flex mb-3 col-md-4 justify-content-center mt-4">
+                            <div className="row align-items-center justify-content-center text-center">
+                              <label className="form-label">Cidadania</label>
+                              <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>
+                                {cidadania === 'Brasileira' ?
+                                  <input
+                                    type="radio"
+                                    name="cidadania"
+                                    defaultChecked
+                                    value={'Brasileira'}
+                                    style={{ width: '20px', margin: '0 15px 0 0' }}
+                                    onChange={(e) => setCidadania(e.target.value)}
+                                  />
+                                  :
+                                  <input
+                                    type="radio"
+                                    name="cidadania"
+                                    value={'Brasileira'}
+                                    style={{ width: '20px', margin: '0 15px 0 0' }}
+                                    onChange={(e) => setCidadania(e.target.value)}
+                                  />
+                                }
 
+                                Brasileira
+                              </div>
+                              <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>
+                                {cidadania === 'Estrangeira' ?
+                                  <input
+                                    type="radio"
+                                    name="cidadania"
+                                    defaultChecked
+                                    value={'Estrangeira'}
+                                    style={{ width: '20px', margin: '0 15px 0 0' }}
+                                    onChange={(e) => setCidadania(e.target.value)}
+                                  />
+                                  :
+                                  <input
+                                    type="radio"
+                                    name="cidadania"
+                                    value={'Estrangeira'}
+                                    style={{ width: '20px', margin: '0 15px 0 0' }}
+                                    onChange={(e) => setCidadania(e.target.value)}
+                                  />
+                                }
+
+                                Estrangeira
+                              </div>
+                            </div>
+                          </div>
                           <div className="d-flex mb-3 col-md-4 justify-content-center mt-4">
                             <div className="row align-items-center justify-content-center text-center">
                               <label className="form-label">Tem algum problema de saúde?</label>
@@ -217,55 +265,7 @@ export default function Modal({ customers, id_ }) {
                                 className="form-control" id="email" />
                             </div>
                           </div>
-                          <div className="d-flex mb-3 col-md-4 justify-content-center mt-4">
-                            <div className="row align-items-center justify-content-center text-center">
-                              <label className="form-label">Cidadania</label>
-                              <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>
-                                {cidadania === 'Brasileira' ?
-                                  <input
-                                    type="radio"
-                                    name="cidadania"
-                                    defaultChecked
-                                    value={'Brasileira'}
-                                    style={{ width: '20px', margin: '0 15px 0 0' }}
-                                    onChange={(e) => setCidadania(e.target.value)}
-                                  />
-                                  :
-                                  <input
-                                    type="radio"
-                                    name="cidadania"
-                                    value={'Brasileira'}
-                                    style={{ width: '20px', margin: '0 15px 0 0' }}
-                                    onChange={(e) => setCidadania(e.target.value)}
-                                  />
-                                }
 
-                                Brasileira
-                              </div>
-                              <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>
-                                {cidadania === 'Estrangeira' ?
-                                  <input
-                                    type="radio"
-                                    name="cidadania"
-                                    defaultChecked
-                                    value={'Estrangeira'}
-                                    style={{ width: '20px', margin: '0 15px 0 0' }}
-                                    onChange={(e) => setCidadania(e.target.value)}
-                                  />
-                                  :
-                                  <input
-                                    type="radio"
-                                    name="cidadania"
-                                    value={'Estrangeira'}
-                                    style={{ width: '20px', margin: '0 15px 0 0' }}
-                                    onChange={(e) => setCidadania(e.target.value)}
-                                  />
-                                }
-
-                                Estrangeira
-                              </div>
-                            </div>
-                          </div>
 
                           {cidadania === 'Brasileira' &&
                             <>
@@ -276,6 +276,7 @@ export default function Modal({ customers, id_ }) {
                                 <input
                                   type="text"
                                   className="form-control"
+                                  value={rg}
                                   onChange={(e) => setRg(e.target.value)}
                                   id="phone-1"
                                 />
@@ -322,7 +323,7 @@ export default function Modal({ customers, id_ }) {
                             />
                             <span class="calendar-icon"></span>
                           </div>
-                          
+
                           <div className="col-md-12 mt-3">
                             <label className="form-label">Genero</label>
                             <select className="form-control" onChange={(e) => setGenero(e.target.value)}>

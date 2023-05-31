@@ -347,7 +347,7 @@ export default function Hospedecadastro() {
                           </div>
                           <div className="col-md-6 mt-3">
                             <label htmlFor="phone-1" className="form-label">
-                              RG Frente
+                              Foto Frente
                             </label>
                             <input
                               type="file"
@@ -357,12 +357,12 @@ export default function Hospedecadastro() {
                               onChange={(e) => setRgFrenteImage(e.target.files[0])}
                             />
                             {rgFrenteImage && (
-                              <img src={URL.createObjectURL(rgFrenteImage)} alt="RG Frente" />
+                              <img src={URL.createObjectURL(rgFrenteImage)} alt="Foto Frente" />
                             )}
                           </div>
                           <div className="col-md-6 mt-3">
                             <label htmlFor="phone-1" className="form-label">
-                              RG Verso
+                              Foto Verso
                             </label>
                             <input
                               type="file"
@@ -372,7 +372,7 @@ export default function Hospedecadastro() {
                               onChange={(e) => setRgVersoImage(e.target.files[0])}
                             />
                             {rgVersoImage && (
-                              <img src={URL.createObjectURL(rgVersoImage)} alt="RG Verso" />
+                              <img src={URL.createObjectURL(rgVersoImage)} alt="Foto Verso" />
                             )}
                           </div>
                           <div className="col-md-12 mt-3">
