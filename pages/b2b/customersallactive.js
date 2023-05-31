@@ -7,7 +7,7 @@ import Menu from "../../components/b2b_components/Menu";
 import Footer from "../../components/b2b_components/Footer";
 import useSwr, { mutate } from "swr";
 import { BsPencilFill, BsWhatsapp } from "react-icons/bs"
-
+import { format } from 'date-fns';
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function Hospede() {
@@ -15,7 +15,10 @@ export default function Hospede() {
   const { data: checkin } = useSwr(`/api/checkin/getAllCheckin`, fetcher);
   const { data: quartos } = useSwr(`/api/quartos/getAllQuarto`, fetcher);
   var tamanho = checkin?.length || [];
-
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    return format(date, 'dd/MM/yyyy');
+  }
   return (
     <div style={{ backgroundColor: '#f3f3f3' }}>
       <div style={{ display: 'flex' }}>
@@ -78,10 +81,10 @@ export default function Hospede() {
                                       }
                                     })}
                                     <td>{item.telefone}</td>
-                                    <td>{item.entrada}</td>
-                                    <td>{item.saidamanha}</td>
+                                    <td>{formatDate(item.entrada)}</td>
+                                    <td>{formatDate(item.saidamanha)}</td>
                                     <td><div className={`${item.ativado === '1' ? 'styleativo' : 'styleinativo'}`}>{item.ativado === '1' ? 'Ativo' : 'Inativo'}</div></td>
-                                    <td><div className={`${item.pagamentoconcluido === '1' ? 'styleativo' : 'styleinativo'}`}>{item.pagamentoconcluido === '1' ? 'Pago' : 'Débito'}</div></td>
+                                    <td><div className={`${item.pagamentoconcluido === '1' ? 'styleativo' : 'styleinativo'}`}>{item.pagamentoconcluido === '1' ? 'Pago' : 'Em Aberto'}</div></td>
                                     <td className="text-right">
                                       <div className="btn-group">
                                         <a
@@ -90,7 +93,7 @@ export default function Hospede() {
                                           style={{ marginRight: '10px', background: '#25D366' }}
                                           className="btn btn-primary"
                                         >
-                                          <BsWhatsapp />
+                                          <BsWhatsapp size={20} />
                                         </a>
                                         <a
                                           href="javasript:void(0)"

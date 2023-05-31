@@ -276,7 +276,7 @@ export default function Financeiro() {
                                     <h5 className="text-white">Renda Estimada</h5>
                                     <div className="text-white">{formatter.format(pagototal)}</div>
                                 </div>
-                                <div className="col-lg-3 modalprice">
+                                <div className="col-lg-3 modalprice" style={{background: '#D93B3B'}}>
                                     <h5 className="text-white">Débitos a Cobrar</h5>
                                     <div className="text-white">{formatter.format(rendatotal - pagototal)}</div>
                                 </div>
@@ -327,7 +327,7 @@ export default function Financeiro() {
                                         <button className="btn btn-primary text-white w-100" onClick={filtrar}>Filtrar</button>
                                     </div>
                                     <div className="col-4 pr-1">
-                                        <button className="btn btn-primary text-white w-100" onClick={debitosativos}>Débitos</button>
+                                        <button className="btn btn-primary text-white w-100" onClick={debitosativos}>Débitos Ativos</button>
                                     </div>
                                     <div className="col-4">
                                         <button className="btn btn-primary text-white w-100" onClick={todosarr}>Limpar</button>
@@ -338,7 +338,7 @@ export default function Financeiro() {
                                     <h5 className="text-white">Renda Atual</h5>
                                     <div className="text-white">{formatter.format(rendatotal2)}</div>
                                 </div>
-                                <div className="col-lg-3 modalprice">
+                                <div className="col-lg-3 modalprice" style={{background: '#D93B3B'}}>
                                     <h5 className="text-white">À Receber</h5>
                                     <div className="text-white">{formatter.format(pagototal2)}</div>
                                 </div>
@@ -401,7 +401,7 @@ export default function Financeiro() {
                                                                             <td>{diffInDays} x {item.valordiaria} = {diffInDays * item.valordiaria}</td>
                                                                             <td>{item.valorpago}</td>
                                                                             <td><div className={`${item.ativado === '1' ? 'styleativo' : 'styleinativo'}`}>{item.ativado === '1' ? 'Ativo' : 'Inativo'}</div></td>
-                                                                            <td><div className={`${item.pagamentoconcluido === '1' ? 'styleativo' : 'styleinativo'}`}>{item.pagamentoconcluido === '1' ? 'Pago' : 'Débito'}</div></td>
+                                                                            <td><div className={`${item.pagamentoconcluido === '1' ? 'styleativo' : 'styleinativo'}`}>{item.pagamentoconcluido === '1' ? 'Pago' : 'Em Aberto'}</div></td>
                                                                             <td className="text-right">
                                                                                 <div className="btn-group">
                                                                                     <a

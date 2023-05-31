@@ -33,6 +33,8 @@ export default function Modal({ customers, id_ }) {
   const [cpf, setCpf] = useState("");
   const [aceitoregras, setAceitoRegras] = useState("");
   const [__id, setId] = useState("");
+  const [formulario, setFormulario] = useState("");
+  const [qualproblema, setQualproblema] = useState("");
 
   const [mostrarTextoCompleto, setMostrarTextoCompleto] = useState(false);
 
@@ -60,6 +62,8 @@ export default function Modal({ customers, id_ }) {
         setName(item.nome)
         setGenero(item.genero)
         setId(item._id)
+        setFormulario(item.formulario)
+        setQualproblema(item.qualproblema)
       }
     })
   }, [id_])
@@ -82,7 +86,9 @@ export default function Modal({ customers, id_ }) {
       rgfrente: rgfrente,
       rgverso: rgverso,
       aceitoregras: aceitoregras,
-      observacoes: observacoes
+      observacoes: observacoes,
+      formulario: formulario,
+      qualproblema: qualproblema,
     });
     
     mutate('/api/hospedes/getAllHospedes');
@@ -133,7 +139,7 @@ export default function Modal({ customers, id_ }) {
                               <label htmlFor="email" className="form-label">
                                 Telefone
                               </label>
-                              <input type="text"
+                              <input type="number"
                                 value={telefone}
                                 onChange={(e) => setTelefone(e.target.value)}
                                 className="form-control" id="email" />
@@ -152,59 +158,7 @@ export default function Modal({ customers, id_ }) {
                             </div>
                           </div>
 
-                          <div className="col-md-12 mt-3">
-                            <label htmlFor="phone-1" className="form-label">
-                              RG
-                            </label>
-                            <input
-                              type="text"
-                              value={rg}
-                              className="form-control"
-                              onChange={(e) => setRg(e.target.value)}
-                              id="phone-1"
-                            />
-                          </div>
-
-                          <div className="col-md-12 mt-3">
-                            <label htmlFor="phone-1" className="form-label">
-                              CPF
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              id="phone-1"
-                              value={formatCpf(cpf)}
-                              onChange={(e) => setCpf(e.target.value)}
-                            />
-                          </div>
-
-
-                          <div className="col-md-12 mt-3">
-                            <label htmlFor="phone-1" className="form-label">
-                              Passaporte
-                            </label>
-                            <input
-                              type="text"
-                              value={passaporte}
-                              className="form-control"
-                              id="phone-1"
-                              onChange={(e) => setPassaporte(e.target.value)}
-                            />
-                          </div>
-                          <div className="col-md-12 mt-3 date-input">
-                            <label htmlFor="phone-2" className="form-label">
-                              Nascimento
-                            </label>
-                            <input
-                              type="date"
-                              value={datanascimento}
-                              className="form-control slug-title"
-                              id="phone-2"
-                              onChange={(e) => setDatanascimento(e.target.value)}
-                            />
-                            <span class="calendar-icon"></span>
-                          </div>
-                          <div className="d-flex mb-3 col-md-6 justify-content-center mt-4">
+                          <div className="d-flex mb-3 col-md-4 justify-content-center mt-4">
                             <div className="row align-items-center justify-content-center text-center">
                               <label className="form-label">Tem algum problema de saúde?</label>
                               <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>
@@ -253,7 +207,17 @@ export default function Modal({ customers, id_ }) {
                               </div>
                             </div>
                           </div>
-                          <div className="d-flex mb-3 col-md-6 justify-content-center mt-4">
+                          <div className={`col-md-4 mt-lg-4`}>
+                            <div className={`col-md-12 ${saude === 'Não' && 'd-none'}`}>
+                              <label htmlFor="email" className="form-label">
+                                Qual?
+                              </label>
+                              <input type="text" value={qualproblema}
+                                onChange={(e) => setQualproblema(e.target.value)}
+                                className="form-control" id="email" />
+                            </div>
+                          </div>
+                          <div className="d-flex mb-3 col-md-4 justify-content-center mt-4">
                             <div className="row align-items-center justify-content-center text-center">
                               <label className="form-label">Cidadania</label>
                               <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>
@@ -302,6 +266,63 @@ export default function Modal({ customers, id_ }) {
                               </div>
                             </div>
                           </div>
+
+                          {cidadania === 'Brasileira' &&
+                            <>
+                              <div className="col-md-12 mt-3">
+                                <label htmlFor="phone-1" className="form-label">
+                                  RG
+                                </label>
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  onChange={(e) => setRg(e.target.value)}
+                                  id="phone-1"
+                                />
+                              </div>
+
+                              <div className="col-md-12 mt-3">
+                                <label htmlFor="phone-1" className="form-label">
+                                  CPF
+                                </label>
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  id="phone-1"
+                                  value={formatCpf(cpf)}
+                                  onChange={(e) => setCpf(e.target.value)}
+                                />
+                              </div>
+                            </>
+                          }
+
+                          {cidadania === 'Estrangeira' &&
+                            <div className="col-md-12 mt-3">
+                              <label htmlFor="phone-1" className="form-label">
+                                Passaporte
+                              </label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                id="phone-1"
+                                onChange={(e) => setPassaporte(e.target.value)}
+                              />
+                            </div>
+                          }
+                          <div className="col-md-12 mt-3 date-input">
+                            <label htmlFor="phone-2" className="form-label">
+                              Nascimento
+                            </label>
+                            <input
+                              type="date"
+                              value={datanascimento}
+                              className="form-control slug-title"
+                              id="phone-2"
+                              onChange={(e) => setDatanascimento(e.target.value)}
+                            />
+                            <span class="calendar-icon"></span>
+                          </div>
+                          
                           <div className="col-md-12 mt-3">
                             <label className="form-label">Genero</label>
                             <select className="form-control" onChange={(e) => setGenero(e.target.value)}>

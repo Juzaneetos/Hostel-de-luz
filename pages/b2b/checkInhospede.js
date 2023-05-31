@@ -587,7 +587,7 @@ export default function Checkin() {
                                                             fontWeight: "700",
                                                             width: '80px',
                                                             height: '75px',
-                                                            background: "rgb(200, 229, 255)",
+                                                            background: "rgb(118 190 255)",
                                                           }}
                                                           onClick={() => { registrarQuarto(item3.numeroCama), setNumerocama(item3.numeroCama), toast.error('registrado'), setArrdatas(item2) }}
                                                         >
@@ -605,7 +605,7 @@ export default function Checkin() {
                                                             fontWeight: "700",
                                                             width: '100px',
                                                             color: 'white',
-                                                            background: "rgb(200, 229, 255)",
+                                                            background: "rgb(118 190 255)",
                                                           }}
                                                           onClick={() => toast.error("Já reservado")}
                                                         >
@@ -668,7 +668,7 @@ export default function Checkin() {
                                                           position: "absolute",
                                                           fontWeight: "700",
                                                           width: '100px',
-                                                          background: "rgb(200, 229, 255)",
+                                                          background: "rgb(118 190 255)",
                                                           color: 'white'
                                                         }}
                                                         onClick={() => toast.error("Já reservado")}

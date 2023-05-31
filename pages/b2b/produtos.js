@@ -77,6 +77,7 @@ export default function Produtos() {
                               <thead>
                                 <tr>
                                   <th>Nome</th>
+                                  <th>Estoque</th>
                                   <th>Compra</th>
                                   <th>Venda</th>
                                   <th>Imagem</th>
@@ -89,6 +90,7 @@ export default function Produtos() {
                                   return (
                                     <tr key={index} className="align-middle">
                                       <td>{item.nome}</td>
+                                      <td>{item.estoque}</td>
                                       <td>{formatter.format(parseFloat(item.valorCompra))}</td>
                                       <td>{formatter.format(parseFloat(item.valorVenda))}</td>
                                       <td>{<Image src={item?.imagem[0].url} width={80} height={80} style={{width:'100px', height:'auto'}} />}</td>

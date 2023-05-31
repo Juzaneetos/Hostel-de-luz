@@ -102,7 +102,7 @@ export default function Hospedeall() {
                               <tr>
                                 <th>Nome</th>
                                 <th>Telefone</th>
-                                <th>RG</th>
+                                <th>CPF</th>
                                 <th>Gênero</th>
                                 <th></th>
                               </tr>
@@ -115,7 +115,7 @@ export default function Hospedeall() {
                                     <tr key={item.id} className="align-middle">
                                       <td>{item.nome}</td>
                                       <td>{item.telefone}</td>
-                                      <td>{item.rg}</td>
+                                      <td>{item.cpf}</td>
                                       <td>{item.genero}</td>
                                       <td className="text-right">
                                         <div className="btn-group">
@@ -134,9 +134,10 @@ export default function Hospedeall() {
                                             data-bs-toggle="modal"
                                             data-bs-target="#edit_modal"
                                             className="btn btn-primary"
+                                            style={{fontWeight: 600, background: '#32CD32'}}
                                             onClick={() => setId(item._id)}
                                           >
-                                            <BsPencilFill />
+                                            INICIAR CHECK-IN
                                           </a>
                                         </div>
                                       </td>
@@ -151,7 +152,7 @@ export default function Hospedeall() {
                                         <tr key={item.id} className="align-middle">
                                           <td>{item.nome}</td>
                                           <td>{item.telefone}</td>
-                                          <td>{item.rg}</td>
+                                          <td>{item.cpf}</td>
                                           <td>{item.genero}</td>
                                           <td className="text-right">
                                             <div className="btn-group">
@@ -161,7 +162,7 @@ export default function Hospedeall() {
                                                 style={{ marginRight: '10px', background: '#25D366' }}
                                                 className="btn btn-primary"
                                               >
-                                                <BsWhatsapp />
+                                                <BsWhatsapp size={20} />
                                               </a>
                                               <a
                                                 href="javasript:void(0)"
@@ -170,9 +171,10 @@ export default function Hospedeall() {
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#edit_modal"
                                                 className="btn btn-primary"
+                                                style={{fontWeight: 600, background: '#32CD32'}}
                                                 onClick={() => setId(item._id)}
                                               >
-                                                <BsPencilFill />
+                                                INICIAR CHECK-IN
                                               </a>
                                             </div>
                                           </td>

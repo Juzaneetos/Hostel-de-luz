@@ -18011,16 +18011,17 @@ a.badge-purple.focus {
 }
 .btn.btn-primary {
   color: #ffffff;
-  background-color: #3675d3;
-  border-color: #3675d3;
+  background-color: #3DADC5;
+  border-color: #3DADC5;
   border-radius: 3px;
+  transition: 0.3s all ease;
   /* align-items: self-end; */
 }
 .btn.btn-primary:hover,
 .btn.btn-outline-primary:hover {
   color: #ffffff;
-  background-color: #3EADC5;
-  border-color: #3EADC5;
+  background-color: #898A89;
+  border-color: #898A89;
   border-radius: 3px;
 }
 .btn.btn-secondary {

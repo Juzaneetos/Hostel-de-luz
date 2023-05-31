@@ -16,7 +16,16 @@ export default async (req, res) => {
         datanascimento: req.body.datanascimento,
         telefone: req.body.telefone,
         genero: req.body.genero,
-        observacoes: req.body.observacoes
+        email: req.body.email,
+        saude: req.body.saude,
+        cidadania: req.body.cidadania,
+        aceitotermos: req.body.aceitotermos,
+        rgfrente: req.body.rgfrente,
+        rgverso: req.body.rgverso,
+        aceitoregras: req.body.aceitoregras,
+        observacoes: req.body.observacoes,
+        formulario: req.body.formulario,
+        qualproblema: req.body.qualproblema
       }
     });
 

@@ -16,6 +16,7 @@ import 'swiper/css/scrollbar';
 import { ref, uploadBytesResumable, getDownloadURL, getStorage, deleteObject, uploadBytes } from 'firebase/storage';
 import { storage } from '../firebaseConfig.ts';
 import formatCpf from '@brazilian-utils/format-cpf';
+import { useLocation } from 'react-router-dom';
 export default function Home() {
   const { data: hospedes } = useSwr(`/api/hospedes/getAllHospedes`, fetcher);
   const [Name, setName] = useState("");
@@ -30,23 +31,54 @@ export default function Home() {
   const [downloadURL, setDownloadURL] = useState('');
   const [progressUpload, setProgressUpload] = useState(0);
   const [email, setEmail] = useState("");
-  const [saude, setSaude] = useState("");
+  const [saude, setSaude] = useState("Não");
   const [cidadania, setCidadania] = useState("");
   const [aceitotermos, setAceitoTermos] = useState("");
   const [cpf, setCpf] = useState("");
   const [aceitoregras, setAceitoRegras] = useState("");
   const [mostrarTextoCompleto, setMostrarTextoCompleto] = useState(false);
+  const [qualproblema, setQualproblema] = useState("");
+  const [parametro, setParametro] = useState('');
+  
+  // http://localhost:3000/cadastrohospede?hostel=jardimtrevo
+  // http://localhost:3000/cadastrohospede?hostel=joaojorge
 
   const handleMostrarMais = () => {
     setMostrarTextoCompleto(!mostrarTextoCompleto);
   }
+  
+  useEffect(() => {
+    setParametro(router.query.hostel);
+  }, [hospedes])
+
+  const hostelscadastrados = [
+    {
+      parametro: '1',
+      cnpj: '21.084.315/0001-34',
+      razasocial: 'JULIANA AZEVEDO JACQUES',
+      nomefantasia: 'HOSTEL DE LUZ',
+      endereco: 'RUA JOSÉ PATERNO, 170 - VILA JOÃO JORGE - CAMPINAS-SP',
+      telefone: '(19) 98422-2373',
+      email: 'hosteldeluz@gmail.com'
+    },
+    {
+      parametro: '2',
+      cnpj: '48.937.041/0001-35',
+      razasocial: 'JULIANA AZEVEDO JACQUES',
+      nomefantasia: 'HOSTEL DE LUZ',
+      endereco: 'RUA THOMAS ALVES BROWN, 212 JARDIM TREVO',
+      telefone: '(19) 98422-2373',
+      email: 'hosteldeluz@gmail.com'
+    },
+  ]
 
   const atthospoede = () => {
+    if(parametro === undefined){return toast.error('Parece que esse formulário não esta relacionado a nenhum hostel.')}
     let contador = 0;
     let errorOccurred = false;
-    if(Name === '' || telefone === '' || datanascimento === '' || saude === '' || cidadania === '' || rgFrenteImage === null || rgVersoImage === null || aceitotermos === '' || aceitoregras === ''){
+    if (Name === '' || telefone === '' || datanascimento === '' || saude === '' || cidadania === '' || rgFrenteImage === null || rgVersoImage === null || aceitotermos === '' || aceitoregras === '') {
       toast.error('Gentileza preencha todos os campos, coloque pelo menos um documento.')
-    }else{
+    } else {
       if (hospedes.length === 0) {
         if (!errorOccurred) {
           errorOccurred = true;
@@ -81,6 +113,7 @@ export default function Home() {
   };
 
   const onSubmit = async () => {
+    
     let contador = 0;
     let contadorToast = 0;
     let imageArr = [];
@@ -88,24 +121,24 @@ export default function Home() {
       const name = `fotodocumento${cpf}${index}`
       const storageRef = ref(storage, `image/${name}`)
       let uploadTask
-      if(index === 0){
+      if (index === 0) {
         uploadTask = uploadBytesResumable(storageRef, rgFrenteImage)
-      }else{
+      } else {
         uploadTask = uploadBytesResumable(storageRef, rgVersoImage)
       }
-  
+
       uploadTask.on(
         'state_changed',
         (snapshot) => {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-  
+
           setProgressUpload(progress) // to show progress upload
         },
         (error) => {
           toast.error(error.message)
         },
-  
+
         async () => {
           getDownloadURL(uploadTask.snapshot.ref).then((url) => {
             //url is download url of file
@@ -119,7 +152,7 @@ export default function Home() {
             const obj = [{ url: url, path: name }];
             imageArr = [...imageArr, ...obj];
             contador++;
-  
+
             if (2 === contador) {
               setTimeout(() => {
                 contador = 0;
@@ -130,12 +163,12 @@ export default function Home() {
         },
       )
     })
-    
+
 
   };
 
-  const dispararbanco = async (imageArr) => {    
-    try{
+  const dispararbanco = async (imageArr) => {
+    try {
       await axios.put(`/api/hospedes/insertHospedes`, {
         nome: Name,
         rg: rg,
@@ -151,15 +184,17 @@ export default function Home() {
         rgfrente: imageArr[0],
         rgverso: imageArr[1],
         aceitoregras: aceitoregras,
-        observacoes: observacoes
+        observacoes: observacoes,
+        formulario: parametro,
+        qualproblema: qualproblema,
       });
 
-      return router.push("/");
-    }catch(error){
+      return router.push("/agradecimento");
+    } catch (error) {
       console.log(error)
     }
-    
-   
+
+
     mutate('/api/hospedes/getAllHospedes');
   }
 
@@ -196,6 +231,25 @@ export default function Home() {
                       <h1 className="text-center mt-3">Seja Bem vindo!</h1>
                       <h3 className="text-center mb-3">Preencha o formulario abaixo para se cadastrar!</h3>
                       <div>
+                        {hostelscadastrados?.map((item, index) => {
+                            console.log(parametro)
+                          if(parametro === item.parametro){
+                            return (
+                              <>
+                                <p><b>CNPJ: </b>{item.cnpj}</p>
+                                <p><b>Razão Social: </b>{item.razasocial}</p>
+                                <p><b>Nome Fantasia: </b>{item.nomefantasia}</p>
+  
+                                <p><b>Endereço: </b>{item.endereco}</p>
+                                <p><b>Telefone: </b>{item.telefone}</p>
+                                <p><b>E-mail: </b>{item.email}</p>
+                              </>
+                            )
+                          }
+                        })}
+
+                      </div>
+                      <div>
                         <form className="row">
                           <div className="col-md-12 mt-3">
                             <label htmlFor="first-name" className="form-label">
@@ -215,7 +269,7 @@ export default function Home() {
                               <label htmlFor="email" className="form-label">
                                 Telefone
                               </label>
-                              <input type="text"
+                              <input type="number"
                                 onChange={(e) => setTelefone(e.target.value)}
                                 className="form-control" id="email" />
                             </div>
@@ -232,56 +286,7 @@ export default function Home() {
                             </div>
                           </div>
 
-                          <div className="col-md-12 mt-3">
-                            <label htmlFor="phone-1" className="form-label">
-                              RG
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              onChange={(e) => setRg(e.target.value)}
-                              id="phone-1"
-                            />
-                          </div>
-
-                          <div className="col-md-12 mt-3">
-                            <label htmlFor="phone-1" className="form-label">
-                              CPF
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              id="phone-1"
-                              value={formatCpf(cpf)}
-                              onChange={(e) => setCpf(e.target.value)}
-                            />
-                          </div>
-
-
-                          <div className="col-md-12 mt-3">
-                            <label htmlFor="phone-1" className="form-label">
-                              Passaporte
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              id="phone-1"
-                              onChange={(e) => setPassaporte(e.target.value)}
-                            />
-                          </div>
-                          <div className="col-md-12 mt-3 date-input">
-                            <label htmlFor="phone-2" className="form-label">
-                              Nascimento
-                            </label>
-                            <input
-                              type="date"
-                              className="form-control slug-title"
-                              id="phone-2"
-                              onChange={(e) => setDatanascimento(e.target.value)}
-                            />
-                            <span className="calendar-icon"></span>
-                          </div>
-                          <div className="d-flex mb-3 col-md-6 justify-content-center mt-4">
+                          <div className="d-flex mb-3 col-md-4 justify-content-center mt-4">
                             <div className="row align-items-center justify-content-center text-center">
                               <label className="form-label">Tem algum problema de saúde?</label>
                               <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>
@@ -306,7 +311,17 @@ export default function Home() {
                               </div>
                             </div>
                           </div>
-                          <div className="d-flex mb-3 col-md-6 justify-content-center mt-4">
+                          <div className={`col-md-4 mt-lg-4`}>
+                            <div className={`col-md-12 ${saude === 'Não' && 'd-none'}`}>
+                              <label htmlFor="email" className="form-label">
+                                Qual?
+                              </label>
+                              <input type="text"
+                                onChange={(e) => setQualproblema(e.target.value)}
+                                className="form-control" id="email" />
+                            </div>
+                          </div>
+                          <div className="d-flex mb-3 col-md-4 justify-content-center mt-4">
                             <div className="row align-items-center justify-content-center text-center">
                               <label className="form-label">Cidadania</label>
                               <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>
@@ -331,6 +346,63 @@ export default function Home() {
                               </div>
                             </div>
                           </div>
+                          {cidadania === 'Brasileira' &&
+                            <>
+                              <div className="col-md-12 mt-3">
+                                <label htmlFor="phone-1" className="form-label">
+                                  RG
+                                </label>
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  onChange={(e) => setRg(e.target.value)}
+                                  id="phone-1"
+                                />
+                              </div>
+
+                              <div className="col-md-12 mt-3">
+                                <label htmlFor="phone-1" className="form-label">
+                                  CPF
+                                </label>
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  id="phone-1"
+                                  value={formatCpf(cpf)}
+                                  onChange={(e) => setCpf(e.target.value)}
+                                />
+                              </div>
+                            </>
+                          }
+
+                          {cidadania === 'Estrangeira' &&
+                            <div className="col-md-12 mt-3">
+                              <label htmlFor="phone-1" className="form-label">
+                                Passaporte
+                              </label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                id="phone-1"
+                                onChange={(e) => setPassaporte(e.target.value)}
+                              />
+                            </div>
+                          }
+
+
+                          <div className="col-md-12 mt-3 date-input">
+                            <label htmlFor="phone-2" className="form-label">
+                              Nascimento
+                            </label>
+                            <input
+                              type="date"
+                              className="form-control slug-title"
+                              id="phone-2"
+                              onChange={(e) => setDatanascimento(e.target.value)}
+                            />
+                            <span className="calendar-icon"></span>
+                          </div>
+
                           <div className="col-md-12 mt-3">
                             <label className="form-label">Genero</label>
                             <select className="form-control" onChange={(e) => setGenero(e.target.value)}>
@@ -343,11 +415,12 @@ export default function Home() {
                           </div>
                           <div className="col-md-6 mt-3">
                             <label htmlFor="phone-1" className="form-label">
-                              RG Frente
+                              Foto RG Frente
                             </label>
                             <input
                               type="file"
                               className="form-control"
+                              accept=".png, .jpeg, .jpg, .pdf"
                               id="phone-1"
                               style={{ border: 'none', minHeight: '30px' }}
                               onChange={(e) => setRgFrenteImage(e.target.files[0])}
@@ -358,11 +431,12 @@ export default function Home() {
                           </div>
                           <div className="col-md-6 mt-3">
                             <label htmlFor="phone-1" className="form-label">
-                              RG Verso
+                              Foto RG Verso
                             </label>
                             <input
                               type="file"
                               className="form-control"
+                              accept=".png, .jpeg, .jpg, .pdf"
                               id="phone-1"
                               style={{ border: 'none', minHeight: '30px' }}
                               onChange={(e) => setRgVersoImage(e.target.files[0])}
@@ -417,40 +491,43 @@ export default function Home() {
                           <div className="p-4 mt-3" style={{ borderRadius: '5px', background: 'whitesmoke', boxShadow: '0 0 3px black' }}>
                             <div></div>
                             <h4 className="text-center mb-2">Termo de Compromisso - REGRAS</h4>
-                            <p className="mt-3" style={{ textAlign: 'center', maxHeight: mostrarTextoCompleto ? 'none' : '200px', overflow: 'hidden', transition: 'ma/xeight 0.3s ease-in-out' }}>
-                              <p className='mb-3' style={{ fontWeight: '600' }}>Bem-vindo ao Hostel de luz!</p>
-                              <p className='mb-2'>Antes de aproveitar sua estadia, precisamos que você assine um termo de compromisso, prometendo seguir algumas regras básicas para mantermos a vibe sempre boa:
-                              </p>
-                              <p className='mb-2'>As diárias devem ser pagas até o momento do seu check-in.
-                              </p>
-                              <p className='mb-2'>Guarde seus pertences com carinho e atenção.
-                              </p>
-                              <p className='mb-2'>Nós não nos responsabilizamos por quaisquer objetos alegados serem perdidos dentro da propriedade. Mas se nós acharmos, vamos guardar com todo carinho e tentar devolver.
-                              </p>
-                              <p className='mb-2'>Para segurança de todos, temos câmeras  nas áreas comuns, e por questões de privacidade, não podemos ter nos quartos e banheiros.
-                              </p>
-                              <p className='mb-2'>Temos uma cozinha equipada para melhor conforto dos hóspedes. Não deixe qualquer louça suja, nem comida nas panelas.
-                              </p>
-                              <p className='mb-2'>Temos etiquetas e caneta na bancada. Identifique seus itens com nome e data de checkout para que a gente possa se organizar melhor.
-                              </p>
-                              <p className='mb-2'>Toda quinta-feira fazemos uma limpeza e os itens sem identificação serão descartados, ok?
-                              </p>
-                              <p className='mb-2'>Mantenha as áreas comuns limpas, especialmente o banheiro e cozinha.
-                              </p>
-                              <p className='mb-2'>É estritamente proibido o uso de drogas ilícitas dentro do hostel. Assim como transitar sem camiseta ou em trajes menores.
-                              </p>
-                              <p className='mb-2'>Caso você danifique qualquer objeto, será responsável pelos custos referentes ao conserto.
-                              </p>
-                              <p className='mb-2'>Para permanência de não hóspedes, há uma taxa de R$10. Sendo proibida a entrada no quarto e o horário de saída é até 23h00.
-                              </p>
-                              <p className='mb-2'>Não troque de cama e não pegue travesseiros ou lençóis/cobertores de outras camas.
-                              </p>
-                              <p className='mb-2'>O check-out tem que ser feito até as 11h! Por favor, respeite pois precisamos fazer higienização do quarto e das camas para os próximos hóspedes.
-                              </p>
-                              <p className='mb-2'>Caso precise de um horário diferente de check-out, deixar suas malas e buscar depois ou voltar depois para tomar aquele banho, consulte na recepção qual a taxa.
-                              </p>
-                              <p className='mb-2'>Se precisar de algo, não hesite em nos consultar! Faremos de tudo que estiver ao nosso alcance para poder ajudar!
-                              </p></p>
+                            <div className="mt-3" style={{ maxHeight: mostrarTextoCompleto ? 'none' : '200px', overflow: 'hidden', transition: 'ma/xeight 0.3s ease-in-out' }}>
+                              <ul>
+                                <li className='mb-3 text-center' style={{ fontWeight: '600' }}>Bem-vindo ao Hostel de luz!</li>
+                                <li className='mb-2 text-center'>Antes de aproveitar sua estadia, precisamos que você assine um termo de compromisso, prometendo seguir algumas regras básicas para mantermos a vibe sempre boa:
+                                </li><br />
+                                <li className='mb-2'>• As diárias devem ser pagas até o momento do seu check-in.
+                                </li>
+                                <li className='mb-2'>• Guarde seus pertences com carinho e atenção.
+                                </li>
+                                <li className='mb-2'>• Nós não nos responsabilizamos por quaisquer objetos alegados serem perdidos dentro da propriedade. Mas se nós acharmos, vamos guardar com todo carinho e tentar devolver.
+                                </li>
+                                <li className='mb-2'>• Para segurança de todos, temos câmeras  nas áreas comuns, e por questões de privacidade, não podemos ter nos quartos e banheiros.
+                                </li>
+                                <li className='mb-2'>• Temos uma cozinha equipada para melhor conforto dos hóspedes. Não deixe qualquer louça suja, nem comida nas panelas.
+                                </li>
+                                <li className='mb-2'>• Temos etiquetas e caneta na bancada. Identifique seus itens com nome e data de checkout para que a gente possa se organizar melhor.
+                                </li>
+                                <li className='mb-2'>• Toda quinta-feira fazemos uma limpeza e os itens sem identificação serão descartados, ok?
+                                </li>
+                                <li className='mb-2'>• Mantenha as áreas comuns limpas, especialmente o banheiro e cozinha.
+                                </li>
+                                <li className='mb-2'>• É estritamente proibido o uso de drogas ilícitas dentro do hostel. Assim como transitar sem camiseta ou em trajes menores.
+                                </li>
+                                <li className='mb-2'>• Caso você danifique qualquer objeto, será responsável pelos custos referentes ao conserto.
+                                </li>
+                                <li className='mb-2'>• Para permanência de não hóspedes, há uma taxa de R$10. Sendo proibida a entrada no quarto e o horário de saída é até 23h00.
+                                </li>
+                                <li className='mb-2'>• Não troque de cama e não pegue travesseiros ou lençóis/cobertores de outras camas.
+                                </li>
+                                <li className='mb-2'>• O check-out tem que ser feito até as 11h! Por favor, respeite pois precisamos fazer higienização do quarto e das camas para os próximos hóspedes.
+                                </li>
+                                <li className='mb-2'>• Caso precise de um horário diferente de check-out, deixar suas malas e buscar depois ou voltar depois para tomar aquele banho, consulte na recepção qual a taxa.
+                                </li>
+                                <li className='mb-2'>• Se precisar de algo, não hesite em nos consultar! Faremos de tudo que estiver ao nosso alcance para poder ajudar!
+                                </li>
+                              </ul>
+                            </div>
                             <div className="btn btn-primary mt-3" onClick={handleMostrarMais}>
                               {mostrarTextoCompleto ? 'Mostrar Menos' : 'Mostrar Mais'}
                             </div>

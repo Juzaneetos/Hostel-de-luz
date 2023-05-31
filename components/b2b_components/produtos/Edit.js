@@ -155,14 +155,17 @@ function EditProdutos({ produtosId, produtos, setShowEditProdutosComponent }) {
 
 
             contador = 0;
-            let data = await axios.put(`/api/produtos/updateProdutos?id=${id}`, {
-              titulo: productName,
-              subtitulo: fullProductDescription,
+            setTimeout(() => {
+              router.reload();
+             }, 2000)
+            let data = await axios.put(`/api/produtos/updateProdutos?id=${id_}`, {
+              nome: produtosNome,
+              valorCompra: parseFloat(produtosValorCompra),
+              valorVenda: parseFloat(produtosValorVenda),
+              estoque: produtosEstoque,
               imagem: file,
-              ativo: active,
             });
             mutate('/api/produtos/getAllProdutos');
-            router.push("/b2b/produtos");
 
           }
         }
@@ -173,6 +176,9 @@ function EditProdutos({ produtosId, produtos, setShowEditProdutosComponent }) {
   const senGalery = async (Arr) => {
 
     let filteredArr = Arr.filter(a => a.url !== undefined);
+    setTimeout(() => {
+     router.reload();
+    }, 2000)
 
     await axios.put(`/api/produtos/updateProdutos?id=${id_}`, {
       nome: produtosNome,
@@ -183,7 +189,7 @@ function EditProdutos({ produtosId, produtos, setShowEditProdutosComponent }) {
     });
 
     mutate(`/api/produtos/getAllProdutos/`);
-    router.push("/b2b/produtos");
+   
 
     toast('Produto sendo editado!', {
       position: "top-right",
