@@ -410,7 +410,7 @@ export default function Financeiro() {
                                                                                         style={{ marginRight: '10px', background: '#25D366' }}
                                                                                         className="btn btn-primary"
                                                                                     >
-                                                                                        <BsWhatsapp />
+                                                                                        <BsWhatsapp size={20}/>
                                                                                     </a>
                                                                                     <a
                                                                                         href="javasript:void(0)"
