@@ -269,20 +269,20 @@ export default function Financeiro() {
                             <h2 className="p-3 mb-2">Geral</h2>
                             <div className="d-flex">
                                 <div className="col-lg-3 modalprice">
-                                    <h5 className="text-white">Renda Atual</h5>
-                                    <div className="text-white">{formatter.format(rendatotal)}</div>
+                                    <h5 className="text-white">Hospedagens</h5>
+                                    <div className="text-white">{hospedes}</div>
                                 </div>
                                 <div className="col-lg-3 modalprice">
                                     <h5 className="text-white">Renda Estimada</h5>
                                     <div className="text-white">{formatter.format(pagototal)}</div>
                                 </div>
+                                <div className="col-lg-3 modalprice">
+                                    <h5 className="text-white">Renda Atual</h5>
+                                    <div className="text-white">{formatter.format(rendatotal)}</div>
+                                </div>
                                 <div className="col-lg-3 modalprice" style={{background: '#D93B3B'}}>
                                     <h5 className="text-white">Débitos a Cobrar</h5>
                                     <div className="text-white">{formatter.format(rendatotal - pagototal)}</div>
-                                </div>
-                                <div className="col-lg-3 modalprice">
-                                    <h5 className="text-white">Hospedagens</h5>
-                                    <div className="text-white">{hospedes}</div>
                                 </div>
 
                             </div>
@@ -335,6 +335,10 @@ export default function Financeiro() {
                                 </div>
 
                                 <div className="col-lg-3 modalprice">
+                                    <h5 className="text-white">Hospedagens</h5>
+                                    <div className="text-white">{hospedes2}</div>
+                                </div>
+                                <div className="col-lg-3 modalprice">
                                     <h5 className="text-white">Renda Atual</h5>
                                     <div className="text-white">{formatter.format(rendatotal2)}</div>
                                 </div>
@@ -345,10 +349,6 @@ export default function Financeiro() {
                                 <div className="col-lg-3 modalprice">
                                     <h5 className="text-white">Total</h5>
                                     <div className="text-white">{formatter.format(rendatotal2 - pagototal2)}</div>
-                                </div>
-                                <div className="col-lg-3 modalprice">
-                                    <h5 className="text-white">Hospedagens</h5>
-                                    <div className="text-white">{hospedes2}</div>
                                 </div>
 
                             </div>
