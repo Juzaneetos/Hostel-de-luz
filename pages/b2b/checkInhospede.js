@@ -9,7 +9,7 @@ import { useState, useEffect, useRef } from "react";
 import Calendario from '../../components/b2b_components/Calendario'
 import useSwr, { mutate } from "swr";
 const fetcher = (url) => fetch(url).then((res) => res.json());
-
+import { differenceInDays, parseISO } from 'date-fns';
 import CurrencyInput from 'react-currency-input-field'
 import formatCpf from '@brazilian-utils/format-cpf';
 import { useCookies, expires } from 'react-cookie';
@@ -74,6 +74,14 @@ export default function Checkin() {
       }
     })
   }, [hospedes])
+  function calcularDiferencaDias(dataInicio, dataFim) {
+    const inicio = parseISO(dataInicio);
+    const fim = parseISO(dataFim);
+    const diferenca = differenceInDays(fim, inicio);
+    
+    return diferenca;
+  }
+  let somatoria = calcularDiferencaDias(entrada, saida) * valordiaria;
 
   const registrarQuarto = (numerocama) => {
     setLimitador(true)
@@ -123,8 +131,9 @@ export default function Checkin() {
     mutate('/api/quartos/getAllQuarto');
   }
 
-
+  let contadordisparo = 0;
   const dispararbanco = async () => {
+    
     if(Name === '' || datanascimento === '' || entrada === '' || saida === '' || telefone === '' || numerocama === '' || valorpago === '' || valordiaria === ''){return toast.error('Preencha os campos corretamente!')}else{
       let contador = 0;
       const dataEntradaNovaReserva = new Date(entrada);
@@ -164,13 +173,14 @@ export default function Checkin() {
         }
       })
   
-      if (quartos.length === contador) {
+      if (quartos.length === contador && contadordisparo === 0) {
+        contadordisparo++;
         try {
           toast.success('Check-in sendo realizado!')
   
            dispararquarto()
   
-  dispararcheckin()
+            dispararcheckin()
   
           // Executa a segunda solicitação apenas se a primeira for concluída com sucesso
   
@@ -445,7 +455,9 @@ export default function Checkin() {
                                 <span className="calendar-icon"></span>
                               </div>
 
-
+                              <div className="col-md-12 date-input text-center mb-3">
+                                <h5>Valor Total: R${somatoria ? somatoria.toFixed(2) : 'Esperando dados...'}</h5>
+                              </div>
 
                               <h3 className="text-center"> Escolha o Hotel </h3>
                               <div className="col-md-12 d-flex flex-wrap justify-content-around">
