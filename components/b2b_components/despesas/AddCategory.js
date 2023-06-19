@@ -13,25 +13,33 @@ function AddDespesas() {
   const [categoria, setCategoria] = useState("");
   const [quantidade, setQuantidade] = useState("");
   const [hostel, sethostel] = useState("");
+  const [dataAtual, setDataAtual] = useState("");
   const onSubmit = async (e) => {
-    const dataAtual = new Date(); // Obtém a data atual
+   
     e.preventDefault();
-    toast('Despesa sendo adicionada!', {
-      position: "top-right",
-    });
-    setTimeout(() => {
-      router.reload();
-    }, 3000)
-    let data = await axios.post(`/api/despesas/insertDespesas`, {
-      titulo: titulo,
-      descricao: descricao,
-      categoria: categoria,
-      quantidade: quantidade,
-      hostel: hostel,
-      entrada: dataAtual.toISOString().slice(0, 10),
-      valor: parseFloat(valor),
-    });
     
+    if(titulo === '' || categoria === '' || hostel === '' || dataAtual === '' || valor === ''){
+      toast.error('Preencha os campos corretamente!', {
+        position: "top-right",
+      });
+    }else{
+      toast('Despesa sendo adicionada!', {
+        position: "top-right",
+      });
+      setTimeout(() => {
+        router.reload();
+      }, 3000)
+      let data = await axios.post(`/api/despesas/insertDespesas`, {
+        titulo: titulo,
+        descricao: descricao,
+        categoria: categoria,
+        quantidade: quantidade,
+        hostel: hostel,
+        entrada: dataAtual,
+        valor: parseFloat(valor),
+      });
+    }
+
     mutate(`/api/despesas/getAllDespesas`);
   };
 
@@ -41,7 +49,7 @@ function AddDespesas() {
     const valor = campo.value.replace(/[^\d]+/gi, '').split('').reverse();
     let resultado = '';
     const mascara = '########.##'.split('').reverse();
-  
+
     for (let x = 0, y = 0; x < mascara.length && y < valor.length;) {
       if (mascara[x] !== '#') {
         resultado += mascara[x];
@@ -52,10 +60,10 @@ function AddDespesas() {
         x++;
       }
     }
-  
+
     campo.value = resultado.split('').reverse().join('');
   }
-  
+
 
 
   return (
@@ -63,6 +71,18 @@ function AddDespesas() {
       <div className="ec-cat-form">
         <h4>Adicionar Despesa</h4>
         <form onSubmit={onSubmit}>
+          <div className="col-md-12 space-t-15 mt-3 py-1 pr-1 date-input">
+            <label htmlFor="phone-2" className="form-label">
+              Data
+            </label>
+            <input
+              type="date"
+              className="form-control slug-title"
+              id="phone-2"
+              onChange={(e) => setDataAtual(e.target.value)}
+            />
+            <span className="calendar-icon" style={{ top: '47px', right: '25px' }}></span>
+          </div>
           <div className="form-group row">
             <label htmlFor="text" className="col-12 col-form-label">
               Nome
@@ -88,7 +108,7 @@ function AddDespesas() {
                 className="form-control here slug-title"
                 type="text"
                 value={`R$ ${valor}`}
-                onChange={(e) => {mascaraMoeda(e), setValor(e.target.value) }}
+                onChange={(e) => { mascaraMoeda(e), setValor(e.target.value) }}
               />
             </div>
           </div>
@@ -100,7 +120,7 @@ function AddDespesas() {
               <select onChange={(e) => setCategoria(e.target.value)} className="form-control here slug-title" name="select">
                 <option value="geral">geral</option>
                 {allcategorias?.map((item, index) => {
-                  return(
+                  return (
                     <option key={item._id} value={item._id}>{item.titulo}</option>
                   )
                 })}
@@ -115,7 +135,7 @@ function AddDespesas() {
               <select onChange={(e) => sethostel(e.target.value)} className="form-control here slug-title" name="select">
                 <option value="geral">geral</option>
                 {allhostels?.map((item, index) => {
-                  return(
+                  return (
                     <option key={item._id} value={item._id}>{item.titulo}</option>
                   )
                 })}

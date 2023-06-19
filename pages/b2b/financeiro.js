@@ -7,7 +7,8 @@ import Menu from "../../components/b2b_components/Menu";
 import Footer from "../../components/b2b_components/Footer";
 import useSwr, { mutate } from "swr";
 import { BsPencilFill, BsWhatsapp } from "react-icons/bs";
-
+import { format } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function Financeiro() {
@@ -276,7 +277,7 @@ export default function Financeiro() {
                                     <h5 className="text-white">Renda Estimada</h5>
                                     <div className="text-white">{formatter.format(pagototal)}</div>
                                 </div>
-                                <div className="col-lg-3 modalprice">
+                                <div className="col-lg-3 modalprice" style={{background: '#89e500'}}>
                                     <h5 className="text-white">Renda Atual</h5>
                                     <div className="text-white">{formatter.format(rendatotal)}</div>
                                 </div>
@@ -338,7 +339,7 @@ export default function Financeiro() {
                                     <h5 className="text-white">Hospedagens</h5>
                                     <div className="text-white">{hospedes2}</div>
                                 </div>
-                                <div className="col-lg-3 modalprice">
+                                <div className="col-lg-3 modalprice" style={{background: '#89e500'}}>
                                     <h5 className="text-white">Renda Atual</h5>
                                     <div className="text-white">{formatter.format(rendatotal2)}</div>
                                 </div>
@@ -384,20 +385,21 @@ export default function Financeiro() {
                                                         </thead>
 
                                                         <tbody>
-                                                            {checkinArr?.map((item, index) => {
+                                                            {checkinArr.reverse()?.map((item, index) => {
                                                                 console.log(item)
                                                                 const d1 = item?.entrada;
                                                                 const d2 = item?.saidamanha;
                                                                 const diffInMs = new Date(d2) - new Date(d1)
                                                                 const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
                                                                 console.log(diffInDays)
-
+                                                                const formattedDate = format(new Date(item.entrada), 'dd/MM/yyyy', { locale: ptBR });
+                                                                const formattedDate2 = format(new Date(item.saida), 'dd/MM/yyyy', { locale: ptBR });
                                                                 if (item.ativado === '0') {
                                                                     return (
                                                                         <tr key={item.id} className="align-middle">
                                                                             <td>{item.nome}</td>
                                                                             <td>{item.telefone}</td>
-                                                                            <td>{item.entrada}<br />{item.saida}</td>
+                                                                            <td>{formattedDate}<br />{formattedDate2}</td>
                                                                             <td>{diffInDays} x {item.valordiaria} = {diffInDays * item.valordiaria}</td>
                                                                             <td>{item.valorpago}</td>
                                                                             <td><div className={`${item.ativado === '1' ? 'styleativo' : 'styleinativo'}`}>{item.ativado === '1' ? 'Ativo' : 'Inativo'}</div></td>

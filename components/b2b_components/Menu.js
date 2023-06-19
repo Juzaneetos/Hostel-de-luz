@@ -79,15 +79,6 @@ export default function Menu({ parametro }) {
             <ul className="nav sidebar-inner" id="sidebar-menu">
               {level === '20' || level === '50' || level === '40' ?
                 <>
-                  <li className={parametro === '1' ? `active` : ``}>
-                    <Link
-                      className="sidenav-item-link"
-                      href="/b2b/checkIn"
-                    >
-                      <BsCalendar2Check size={24} />
-                      <span className="nav-text">Novo Check-In</span>
-                    </Link>
-                  </li>
 
                   <li className={parametro === '2' ? `active` : ``}>
                     <Link
@@ -112,7 +103,7 @@ export default function Menu({ parametro }) {
 
                   <hr />
 
-                  <li className={parametro === '4' ? `active` : ``}>
+                  {/* <li className={parametro === '4' ? `active` : ``}>
                     <Link
                       className="sidenav-item-link"
                       href="/b2b/customerscadastro"
@@ -120,7 +111,7 @@ export default function Menu({ parametro }) {
                       <BsFillPersonCheckFill size={24} />
                       <span className="nav-text">Novo Hóspede</span>
                     </Link>
-                  </li>
+                  </li> */}
 
                   <li className={parametro === '5' ? `active` : ``}>
                     <Link
@@ -136,7 +127,7 @@ export default function Menu({ parametro }) {
                 <></>
               }
 
-              {level === '30' || level === '50' || level === '40' ?
+              {level === '20' || level === '50' || level === '40' ?
                 <>
                   {level === '50' || level === '40' ? <hr /> : <></>}
                   <li className={parametro === '17' ? `active` : ``}>

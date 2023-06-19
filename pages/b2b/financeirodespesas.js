@@ -6,7 +6,8 @@ import Modal from "../../components/b2b_components/Modal";
 import Menu from "../../components/b2b_components/Menu";
 import Footer from "../../components/b2b_components/Footer";
 import useSwr, { mutate } from "swr";
-
+import { format } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -256,7 +257,7 @@ export default function Financeirodespesas() {
                                                         <thead>
                                                             <tr>
                                                                 <th>Categoria</th>
-                                                                <th>Entrada</th>
+                                                                <th>Cadastro</th>
                                                                 <th>Título</th>
                                                                 <th>Valor</th>
                                                                 <th>Descrição</th>
@@ -264,7 +265,8 @@ export default function Financeirodespesas() {
                                                         </thead>
 
                                                         <tbody>
-                                                            {despesasArr?.map((item, index) => {
+                                                            {despesasArr.reverse()?.map((item, index) => {
+                                                                 const formattedDate = format(new Date(item.entrada), 'dd/MM/yyyy', { locale: ptBR });
                                                                 return (
                                                                     <tr key={index} className="align-middle">
                                                                         <td>
@@ -276,7 +278,7 @@ export default function Financeirodespesas() {
                                                                                 }
                                                                             })}
                                                                         </td>
-                                                                        <td>{item.entrada}</td>
+                                                                        <td>{formattedDate}</td>
                                                                         <td>{item.titulo}</td>
                                                                         <td>{formatter.format(item.valor)}</td>
                                                                         <td style={{ borderLeft: '1px solid black', maxWidth: '160px', minWidth: '160px' }} className="text-left">

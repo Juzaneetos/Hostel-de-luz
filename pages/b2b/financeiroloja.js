@@ -6,7 +6,8 @@ import Modal from "../../components/b2b_components/Modal";
 import Menu from "../../components/b2b_components/Menu";
 import Footer from "../../components/b2b_components/Footer";
 import useSwr, { mutate } from "swr";
-
+import { format } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -228,7 +229,7 @@ export default function Financeirodespesas() {
                                     <h5 className="text-white">Pedidos Realizados</h5>
                                     <div className="text-white">{hospedes2}</div>
                                 </div>
-                                <div className="col-lg-6 modalprice">
+                                <div className="col-lg-6 modalprice" style={{background: '#89e500'}}>
                                     <h5 className="text-white">Renda Total</h5>
                                     <div className="text-white">{formatter.format(rendatotal2)}</div>
                                 </div>
@@ -263,11 +264,12 @@ export default function Financeirodespesas() {
                                                         </thead>
 
                                                         <tbody>
-                                                            {despesasArr?.map((item, index) => {
+                                                            {despesasArr.reverse()?.map((item, index) => {
+                                                                const formattedDate = format(new Date(item.data_pedido), 'dd/MM/yyyy', { locale: ptBR });
                                                                 return (
                                                                     <tr key={item.id} className="align-middle">
                                                                         <td>{item.comandas}</td>
-                                                                        <td>{item.data_pedido}</td>
+                                                                        <td>{formattedDate}</td>
                                                                         <td>{formatter.format(item.desconto)}</td>
                                                                         <td>{formatter.format(item.valor_total)}</td>
                                                                         <td>{item.metodo_pagamento}</td>

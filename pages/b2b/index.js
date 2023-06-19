@@ -17,7 +17,7 @@ export default function PendingOrder() {
       <Menu />
       <div className="mt-6">
         <h1 className="mb-4 mt-6">Seja Bem Vindo!</h1>
-        <h2>Painel admnistrativo Hostel de Luz.</h2>
+        <h2>Painel administrativo Hostel de Luz.</h2>
       </div>
     </div>
   );

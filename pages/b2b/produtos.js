@@ -86,7 +86,7 @@ export default function Produtos() {
                               </thead>
 
                               <tbody>
-                                {produtos?.map((item, index) => {
+                                {produtos.reverse()?.map((item, index) => {
                                   return (
                                     <tr key={index} className="align-middle">
                                       <td>{item.nome}</td>

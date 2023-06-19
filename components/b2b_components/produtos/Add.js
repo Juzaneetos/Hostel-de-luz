@@ -104,7 +104,9 @@ function AddProdutos() {
     });
 
     mutate(`/api/produtos/getAllProdutos`);
-
+    setTimeout(() => {
+      router.reload();
+    }, 3000)
     await axios.post(`/api/produtos/insertProdutos/`, {
       nome: produtosNome,
       valorCompra: parseFloat(produtosValorCompra),
@@ -112,7 +114,6 @@ function AddProdutos() {
       estoque: produtosEstoque,
       imagem: Arr,
     });
-    router.push("/b2b/produtos");
     mutate('/api/hoteis/getAllProdutos');
     clearInputs();
   }

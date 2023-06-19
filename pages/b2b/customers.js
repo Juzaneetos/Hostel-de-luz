@@ -71,7 +71,7 @@ export default function Hospede() {
                             </thead>
 
                             <tbody>
-                              {checkin?.map((item, index) => {
+                              {checkin.reverse()?.map((item, index) => {
                                 if(item.ativado === '1'){
                                   return (
                                     <tr key={item.id} className="align-middle">

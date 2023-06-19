@@ -13,7 +13,8 @@ import Menu from "../../components/b2b_components/Menu";
 import Footer from "../../components/b2b_components/Footer";
 import useSwr, { mutate } from "swr";
 const fetcher = (url) => fetch(url).then((res) => res.json());
-
+import { format } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
 export default function Despesas({ }) {
   const [despesasEditId, setCategoryEditId] = useState("");
   const [despesasInfo, setCategoryInfo] = useState([]);
@@ -82,7 +83,7 @@ export default function Despesas({ }) {
                               <thead>
                                 <tr>
                                   <th>Nome</th>
-                                  <th>Valor</th>
+                                  <th>Cadastro</th>
                                   <th>Quantidade</th>
                                   <th>Valor</th>
                                   <th>Descrição</th>
@@ -92,10 +93,11 @@ export default function Despesas({ }) {
 
                               <tbody>
                                 {despesas?.map((item) => {
+                                  const formattedDate = format(new Date(item.entrada), 'dd/MM/yyyy', { locale: ptBR });
                                   return (
                                     <tr key={item._id} className="align-middle">
                                       <td>{item.titulo}</td>
-                                      <td>{item.entrada}</td>
+                                      <td>{formattedDate}</td>
                                       <td>{item.quantidade}</td>
                                       <td>{formatter.format(parseFloat(item.valor))}</td>
                                       <td>{item.descricao.length >= 20 ? `${item.descricao.slice(0, 20)}...` : `${item.descricao}`}</td>

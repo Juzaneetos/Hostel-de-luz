@@ -147,7 +147,7 @@ export default function PedidosFechados({ }) {
                             </thead>
 
                             <tbody>
-                              {filter?.map((item, index) => {
+                              {filter.reverse()?.map((item, index) => {
                                 const originalDate = item.dataentrada;
                                 const fechamentoDate = item.datafechamento;
                                 let fechamentoDateformat = ''

@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import CurrencyInput from 'react-currency-input-field'
 import formatCpf from '@brazilian-utils/format-cpf';
 import { useCookies, expires } from 'react-cookie';
+import { differenceInDays, parseISO } from 'date-fns';
 export default function Modal({ customers, id_ }) {
   const { data: hoteis } = useSwr(`/api/hoteis/getAllHotel`, fetcher);
   const { data: quartos } = useSwr(`/api/quartos/getAllQuarto`, fetcher);
@@ -98,6 +99,15 @@ export default function Modal({ customers, id_ }) {
       }
     })
   }, [id_])
+
+  function calcularDiferencaDias(dataInicio, dataFim) {
+    const inicio = parseISO(dataInicio);
+    const fim = parseISO(dataFim);
+    const diferenca = differenceInDays(fim, inicio);
+    
+    return diferenca;
+  }
+  let somatoria = calcularDiferencaDias(entrada, saida) * valordiaria;
 
   let contadordisponivel = 0;
   let contadorrenderizado = 0;
@@ -744,6 +754,9 @@ export default function Modal({ customers, id_ }) {
                             <span className="calendar-icon"></span>
                           </div>
 
+                          <div className="col-md-12 date-input text-center mt-3">
+                                <h5>Valor Total: R${somatoria ? somatoria.toFixed(2) : 'Esperando dados...'}</h5>
+                              </div>
 
                           <h3 className="text-center mb-2 mt-4"> Escolha o Hotel </h3>
                           <div className="col-md-12 d-flex flex-wrap justify-content-around">

@@ -145,7 +145,7 @@ export default function NovoPedido({ }) {
   const attValorPedido = async (e) => {
     let valorTotal = 0;
     produtosPedido?.map((item, index) => {
-      let valorParcial = item.quantidade * item.valorVenda
+      let valorParcial = parseFloat(item.quantidade) * parseFloat(item.valorVenda);
 
       valorTotal = parseFloat(valorTotal) + parseFloat(valorParcial);
     })
@@ -248,18 +248,19 @@ export default function NovoPedido({ }) {
                         <div className="ec-cat-form">
                           <form onSubmit={onSubmit}>
                             <div className="form-group row">
-                              <label htmlFor="text" className="col-12 col-form-label">
-                                Data
-                              </label>
-                              <div className="col-12">
+
+                              <div className="col-md-12 space-t-15 mt-3 date-input">
+                                <label htmlFor="phone-2" className="form-label">
+                                  Entrada
+                                </label>
                                 <input
-                                  id="data"
-                                  name="data"
-                                  className="form-control here slug-title"
                                   type="date"
-                                  defaultValue={dataDia}
-                                  onChange={(e) => setDataPedido(e.target.value)}
+                                  className="form-control"
+                                  value={dataDia}
+                                  id="phone-2"
+                                  onChange={(e) => setDataPedido(e.target.value, 'entrada')}
                                 />
+                                <span className="calendar-icon"></span>
                               </div>
 
                               <label htmlFor="text" className="col-12 col-form-label">
@@ -472,9 +473,10 @@ export default function NovoPedido({ }) {
                             {filter?.map((item, index) => {
                               return (
                                 <div key={index} className="col-3 mouse-hover-pointer p-1" onClick={(e) => { { addItem(item), item.quantidade = 1 } }}>
-                                  <div className="teste p-1 d-flex flex-wrap align-middle justify-content-center">
+                                  <div className="teste p-1 d-flex flex-wrap align-middle justify-content-center text-center">
                                     <Image src={item.imagem[0].url} width={100} height={100} alt={item.nome} />
-                                    {item.nome}
+                                    {item.nome}<br />
+                                    R${item.valorVenda.toFixed(2)}
                                   </div>
                                 </div>
                               )

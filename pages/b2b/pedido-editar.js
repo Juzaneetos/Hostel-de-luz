@@ -95,7 +95,7 @@ export default function NovoPedido({ }) {
       })
     })
     let datadefechamento = ''
-    if(active === '0'){datadefechamento = new Date()}
+    if (active === '0') { datadefechamento = new Date() }
     let data = await axios.put(`/api/pedidos/updatePedido?id=${iditem}`, {
       data_pedido: dataPedido,
       comandas: comandasPedido,
@@ -167,7 +167,7 @@ export default function NovoPedido({ }) {
   const attValorPedido = async (e) => {
     let valorTotal = 0;
     produtosPedido?.map((item, index) => {
-      let valorParcial = item.quantidade * item.valorVenda
+      let valorParcial = parseFloat(item.quantidade) * parseFloat(item.valorVenda)
 
       valorTotal = parseFloat(valorTotal) + parseFloat(valorParcial);
     })
@@ -227,7 +227,7 @@ export default function NovoPedido({ }) {
     const valor = campo.value.replace(/[^\d]+/gi, '').split('').reverse();
     let resultado = '';
     const mascara = '########.##'.split('').reverse();
-  
+
     for (let x = 0, y = 0; x < mascara.length && y < valor.length;) {
       if (mascara[x] !== '#') {
         resultado += mascara[x];
@@ -238,10 +238,10 @@ export default function NovoPedido({ }) {
         x++;
       }
     }
-  
+
     campo.value = resultado.split('').reverse().join('');
   }
-  
+
 
   return (
     <>
@@ -266,239 +266,240 @@ export default function NovoPedido({ }) {
                 <div className="row">
                   <div className="col-lg-5">
                     <div className="ec-cat-list card card-default mb-24px">
-                        <div className="card-body">
-                          <div className="ec-cat-form">
-                            <form onSubmit={onSubmit}>
-                              <div className="form-group row">
-                                <label htmlFor="text" className="col-12 col-form-label">
-                                  Data
+                      <div className="card-body">
+                        <div className="ec-cat-form">
+                          <form onSubmit={onSubmit}>
+                            <div className="form-group row">
+
+                              <div className="col-md-12 space-t-15 mt-3 date-input">
+                                <label htmlFor="phone-2" className="form-label">
+                                  Entrada
                                 </label>
-                                <div className="col-12">
-                                  <input
-                                    id="data"
-                                    name="data"
-                                    className="form-control here slug-title"
-                                    type="date"
-                                    defaultValue={dataPedido}
-                                    onChange={(e) => setDataPedido(e.target.value)}
-                                  />
-                                </div>
-
-                                <label htmlFor="text" className="col-12 col-form-label">
-                                  Comprador
-                                </label>
-                                <div className="col-12">
-                                  <input
-                                    id="text"
-                                    name="nome"
-                                    className="form-control here slug-title"
-                                    type="text"
-                                    required
-                                    value={comandasPedido}
-                                    onChange={(e) => setComandasPedido(e.target.value)}
-                                  />
-                                </div>
-
-                                <label htmlFor="text" className="col-12 col-form-label">
-                                  Documento
-                                </label>
-                                <div className="col-12">
-                                  <input
-                                    id="text"
-                                    name="nome"
-                                    className="form-control here slug-title"
-                                    type="text"
-                                    required
-                                    value={cpf}
-                                    onChange={(e) => setCpf(e.target.value)}
-                                  />
-                                </div>
-
-                                <label htmlFor="produtos" className="col-12 col-form-label">
-                                  Produtos
-                                </label>
-                                <div className="col-12">
-                                  <ul>
-                                    {produtosPedido?.map((item, index) => {
-                                      return (
-                                        <li key={index} style={{ display: "flex", alignItems: "center", marginBottom: "5px" }}>
-                                          <button
-                                            onClick={(e) => deleteItem(e, item._id, (parseFloat(item.valorVenda) * parseFloat(item.quantidade)))}>
-                                            <FaTrash style={{ color: '#DC3545' }} />
-                                          </button>
-                                          <input
-                                            type="number"
-                                            name="campoQtd"
-                                            className="campoQtd mx-1"
-                                            defaultValue={item.quantidade}
-                                            onChange={(e) => attPedido(e.target.value, item._id)}
-                                          />
-                                          <div className="d-flex justify-content-between w-100">
-                                            <p>{item.nome}</p>
-                                            <p>{formatter.format(parseFloat(item.valorVenda))}</p>
-                                          </div>
-                                        </li>
-                                      )
-                                    })}
-                                  </ul>
-                                </div>
-
-                                <label htmlFor="text" className="col-12 col-form-label">
-                                  Desconto em Reais
-                                </label>
-                                <div className="col-12 d-flex align-items-center">
-                                  <input
-                                    id="text"
-                                    name="valor"
-                                    className="form-control here slug-title"
-                                    type="text"
-                                    value={`R$ ${descontoPedido}`}
-                                    onChange={(e) => {mascaraMoeda(e), setDescontoPedido(e.target.value) }}
-                                  />
-                                  <button className="btn btn-info ml-1" type="attValorTotal" onClick={(e) => { attValorTotal(e, descontoPedido) }}>Aplicar</button>
-                                </div>
-
-                                <label htmlFor="estoque" className="col-12 col-form-label">
-                                  Valor Total
-                                </label>
-                                <div className="col-12">
-                                  <input
-                                    id="estoque"
-                                    name="estoque"
-                                    className="form-control here slug-title"
-                                    type="text"
-                                    disabled
-                                    value={formatter.format(parseFloat(valorTotalPedido))}
-                                    onChange={(e) => setValorTotalPedido(e.target.value)}
-                                  />
-                                </div>
-
-                                <label htmlFor="text" className="col-12 col-form-label">
-                                  Método de Pagamento
-                                </label>
-                                <div className="col-12">
-                                  <select
-                                    id="metodoPagamento"
-                                    name="metodoPagamento"
-                                    className="form-control here slug-title"
-                                    defaultValue={metodoPedido}
-                                    onChange={(e) => setMetodoPedido(e.target.value)}
-                                  >
-                                    <option value="">{metodoPedido}</option>
-                                    <option value="Cartão Crédito">Cartão Crédito</option>
-                                    <option value="Cartão Dédito">Cartão Dédito</option>
-                                    <option value="Dinheiro">Dinheiro</option>
-                                    <option value="Cheque">Cheque</option>
-                                    <option value="Pix">Pix</option>
-                                    <option value="Outro">Outro</option>
-                                  </select>
-                                </div>
-                                {(metodoPedido === "Dinheiro") ?
-                                  <>
-                                    <label htmlFor="text" className="col-12 col-form-label">
-                                      Valor Pago
-                                    </label>
-                                    <div className="col-12 d-flex align-items-center">
-                                      <input
-                                        id="text"
-                                        name="valorPago"
-                                        className="form-control here slug-title"
-                                        type="text"
-                                        value={`R$ ${pagamentoPedido}`}
-                                        onChange={(e) => {mascaraMoeda(e), setPagamentoPedido(e.target.value) }}
-                                      />
-                                      <button className="btn btn-info ml-1" type="attTroco" onClick={(e) => { attTroco(e, parseFloat(pagamentoPedido)) }}>Aplicar</button>
-                                    </div>
-
-                                    <label htmlFor="text" className="col-12 col-form-label">
-                                      Troco
-                                    </label>
-                                    <div className="col-12">
-                                      <input
-                                        id="text"
-                                        name="valor"
-                                        className="form-control here slug-title"
-                                        type="text"
-                                        disabled
-                                        value={formatter.format(parseFloat(trocoPedido))}
-                                      />
-                                    </div>
-                                  </> : <></>
-                                }
-
+                                <input
+                                  type="date"
+                                  className="form-control"
+                                  value={dataPedido}
+                                  id="phone-2"
+                                  onChange={(e) => setDataPedido(e.target.value, 'entrada')}
+                                />
+                                <span className="calendar-icon"></span>
                               </div>
 
-                              <div className="space-t-15 mt-3 mb-3">
-                                <label htmlFor="phone-2" className="form-label">
-                                  Hostel
-                                </label>
-                                <select value={hostel} className="form-control here slug-title" id="cars" onChange={(e) => setHostel(e.target.value)}>
-                                  <option value='todos'>Todos os Hostels</option>
-                                  {hoteis?.map((item, index) => {
-                                    return (<option key={index} value={item._id}>{item.titulo}</option>)
+                              <label htmlFor="text" className="col-12 col-form-label">
+                                Comprador
+                              </label>
+                              <div className="col-12">
+                                <input
+                                  id="text"
+                                  name="nome"
+                                  className="form-control here slug-title"
+                                  type="text"
+                                  required
+                                  value={comandasPedido}
+                                  onChange={(e) => setComandasPedido(e.target.value)}
+                                />
+                              </div>
+
+                              <label htmlFor="text" className="col-12 col-form-label">
+                                Documento
+                              </label>
+                              <div className="col-12">
+                                <input
+                                  id="text"
+                                  name="nome"
+                                  className="form-control here slug-title"
+                                  type="text"
+                                  required
+                                  value={cpf}
+                                  onChange={(e) => setCpf(e.target.value)}
+                                />
+                              </div>
+
+                              <label htmlFor="produtos" className="col-12 col-form-label">
+                                Produtos
+                              </label>
+                              <div className="col-12">
+                                <ul>
+                                  {produtosPedido?.map((item, index) => {
+                                    return (
+                                      <li key={index} style={{ display: "flex", alignItems: "center", marginBottom: "5px" }}>
+                                        <button
+                                          onClick={(e) => deleteItem(e, item._id, (parseFloat(item.valorVenda) * parseFloat(item.quantidade)))}>
+                                          <FaTrash style={{ color: '#DC3545' }} />
+                                        </button>
+                                        <input
+                                          type="number"
+                                          name="campoQtd"
+                                          className="campoQtd mx-1"
+                                          defaultValue={item.quantidade}
+                                          onChange={(e) => attPedido(e.target.value, item._id)}
+                                        />
+                                        <div className="d-flex justify-content-between w-100">
+                                          <p>{item.nome}</p>
+                                          <p>{formatter.format(parseFloat(item.valorVenda))}</p>
+                                        </div>
+                                      </li>
+                                    )
                                   })}
+                                </ul>
+                              </div>
+
+                              <label htmlFor="text" className="col-12 col-form-label">
+                                Desconto em Reais
+                              </label>
+                              <div className="col-12 d-flex align-items-center">
+                                <input
+                                  id="text"
+                                  name="valor"
+                                  className="form-control here slug-title"
+                                  type="text"
+                                  value={`R$ ${descontoPedido}`}
+                                  onChange={(e) => { mascaraMoeda(e), setDescontoPedido(e.target.value) }}
+                                />
+                                <button className="btn btn-info ml-1" type="attValorTotal" onClick={(e) => { attValorTotal(e, descontoPedido) }}>Aplicar</button>
+                              </div>
+
+                              <label htmlFor="estoque" className="col-12 col-form-label">
+                                Valor Total
+                              </label>
+                              <div className="col-12">
+                                <input
+                                  id="estoque"
+                                  name="estoque"
+                                  className="form-control here slug-title"
+                                  type="text"
+                                  disabled
+                                  value={formatter.format(parseFloat(valorTotalPedido))}
+                                  onChange={(e) => setValorTotalPedido(e.target.value)}
+                                />
+                              </div>
+
+                              <label htmlFor="text" className="col-12 col-form-label">
+                                Método de Pagamento
+                              </label>
+                              <div className="col-12">
+                                <select
+                                  id="metodoPagamento"
+                                  name="metodoPagamento"
+                                  className="form-control here slug-title"
+                                  defaultValue={metodoPedido}
+                                  onChange={(e) => setMetodoPedido(e.target.value)}
+                                >
+                                  <option value="">{metodoPedido}</option>
+                                  <option value="Cartão Crédito">Cartão Crédito</option>
+                                  <option value="Cartão Dédito">Cartão Dédito</option>
+                                  <option value="Dinheiro">Dinheiro</option>
+                                  <option value="Cheque">Cheque</option>
+                                  <option value="Pix">Pix</option>
+                                  <option value="Outro">Outro</option>
                                 </select>
                               </div>
+                              {(metodoPedido === "Dinheiro") ?
+                                <>
+                                  <label htmlFor="text" className="col-12 col-form-label">
+                                    Valor Pago
+                                  </label>
+                                  <div className="col-12 d-flex align-items-center">
+                                    <input
+                                      id="text"
+                                      name="valorPago"
+                                      className="form-control here slug-title"
+                                      type="text"
+                                      value={`R$ ${pagamentoPedido}`}
+                                      onChange={(e) => { mascaraMoeda(e), setPagamentoPedido(e.target.value) }}
+                                    />
+                                    <button className="btn btn-info ml-1" type="attTroco" onClick={(e) => { attTroco(e, parseFloat(pagamentoPedido)) }}>Aplicar</button>
+                                  </div>
 
-                              <div className="d-flex mb-3">
-                                <div className="row align-items-center">
-                                  <label className="form-label">Fechar Comanda?</label>
-                                  <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>
-                                    {active === '0' ?
-                                      <input
-                                        type="radio"
-                                        name="active"
-                                        value={'0'}
-                                        defaultChecked
-                                        style={{ width: '20px', margin: '0 15px 0 0' }}
-                                        onChange={(e) => setActive(e.target.value)}
-                                      />
-                                      :
-                                      <input
-                                        type="radio"
-                                        name="active"
-                                        value={'0'}
-                                        style={{ width: '20px', margin: '0 15px 0 0' }}
-                                        onChange={(e) => setActive(e.target.value)}
-                                      />
-                                    }
-                                    Sim
+                                  <label htmlFor="text" className="col-12 col-form-label">
+                                    Troco
+                                  </label>
+                                  <div className="col-12">
+                                    <input
+                                      id="text"
+                                      name="valor"
+                                      className="form-control here slug-title"
+                                      type="text"
+                                      disabled
+                                      value={formatter.format(parseFloat(trocoPedido))}
+                                    />
                                   </div>
-                                  <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>
-                                    {active === '1' ?
-                                      <input
-                                        type="radio"
-                                        name="active"
-                                        value={'1'}
-                                        defaultChecked
-                                        style={{ width: '20px', margin: '0 15px 0 0' }}
-                                        onChange={(e) => setActive(e.target.value)}
-                                      />
-                                      :
-                                      <input
-                                        type="radio"
-                                        name="active"
-                                        value={'1'}
-                                        style={{ width: '20px', margin: '0 15px 0 0' }}
-                                        onChange={(e) => setActive(e.target.value)}
-                                      />
-                                    }
-                                    Não
-                                  </div>
+                                </> : <></>
+                              }
+
+                            </div>
+
+                            <div className="space-t-15 mt-3 mb-3">
+                              <label htmlFor="phone-2" className="form-label">
+                                Hostel
+                              </label>
+                              <select value={hostel} className="form-control here slug-title" id="cars" onChange={(e) => setHostel(e.target.value)}>
+                                <option value='todos'>Todos os Hostels</option>
+                                {hoteis?.map((item, index) => {
+                                  return (<option key={index} value={item._id}>{item.titulo}</option>)
+                                })}
+                              </select>
+                            </div>
+
+                            <div className="d-flex mb-3">
+                              <div className="row align-items-center">
+                                <label className="form-label">Fechar Comanda?</label>
+                                <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>
+                                  {active === '0' ?
+                                    <input
+                                      type="radio"
+                                      name="active"
+                                      value={'0'}
+                                      defaultChecked
+                                      style={{ width: '20px', margin: '0 15px 0 0' }}
+                                      onChange={(e) => setActive(e.target.value)}
+                                    />
+                                    :
+                                    <input
+                                      type="radio"
+                                      name="active"
+                                      value={'0'}
+                                      style={{ width: '20px', margin: '0 15px 0 0' }}
+                                      onChange={(e) => setActive(e.target.value)}
+                                    />
+                                  }
+                                  Sim
+                                </div>
+                                <div className="col-auto d-flex align-items-center" style={{ height: '50px' }}>
+                                  {active === '1' ?
+                                    <input
+                                      type="radio"
+                                      name="active"
+                                      value={'1'}
+                                      defaultChecked
+                                      style={{ width: '20px', margin: '0 15px 0 0' }}
+                                      onChange={(e) => setActive(e.target.value)}
+                                    />
+                                    :
+                                    <input
+                                      type="radio"
+                                      name="active"
+                                      value={'1'}
+                                      style={{ width: '20px', margin: '0 15px 0 0' }}
+                                      onChange={(e) => setActive(e.target.value)}
+                                    />
+                                  }
+                                  Não
                                 </div>
                               </div>
+                            </div>
 
-                              <div className="row">
-                                <div className="col-12">
-                                  <button name="submit" type="submit" className="btn btn-warning">
-                                    Atualizar compra
-                                  </button>
-                                </div>
+                            <div className="row">
+                              <div className="col-12">
+                                <button name="submit" type="submit" className="btn btn-warning">
+                                  Atualizar compra
+                                </button>
                               </div>
-                            </form>
-                          </div>
+                            </div>
+                          </form>
                         </div>
                       </div>
+                    </div>
                   </div>
 
                   <div className="col-12 col-xl-7">
@@ -516,10 +517,10 @@ export default function NovoPedido({ }) {
                             {filter?.map((item, index) => {
                               return (
                                 <div key={index} className="col-3 mouse-hover-pointer p-1" onClick={(e) => { { addItem(item), item.quantidade = 1 } }}>
-                                  <div className="teste p-1 d-flex flex-wrap align-middle justify-content-center">
+                                  <div className="teste p-1 d-flex flex-wrap align-middle justify-content-center text-center">
                                     <Image src={item.imagem[0].url} width={100} height={100} alt={item.nome} />
-
-                                    {item.nome}
+                                    {item.nome}<br />
+                                    R${item.valorVenda.toFixed(2)}
                                   </div>
                                 </div>
                               )
