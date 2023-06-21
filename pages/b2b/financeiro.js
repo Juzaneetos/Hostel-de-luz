@@ -290,27 +290,29 @@ export default function Financeiro() {
 
                             <h2 className="pl-3 mt-3 pt-3">Mensal</h2>
                             <div className="d-flex flex-wrap align-items-end">
-                                <div className="col-md-2 space-t-15 mt-3 py-1 pr-1">
+                                <div className="col-md-2 space-t-15 mt-3 py-1 pr-1 date-input">
                                     <label htmlFor="phone-2" className="form-label">
                                         Entrada
                                     </label>
                                     <input
                                         type="date"
-                                        className="form-control"
+                                        className="form-control slug-title"
                                         id="phone-2"
                                         onChange={(e) => setEntrada(e.target.value)}
                                     />
+                                    <span className="calendar-icon" style={{ top: '47px', right: '25px' }}></span>
                                 </div>
-                                <div className="col-md-2 space-t-15 mt-3 py-1 pr-1">
+                                <div className="col-md-2 space-t-15 mt-3 py-1 pr-1 date-input">
                                     <label htmlFor="phone-2" className="form-label">
                                         Saída
                                     </label>
                                     <input
                                         type="date"
-                                        className="form-control"
+                                        className="form-control slug-title"
                                         id="phone-2"
                                         onChange={(e) => setSaida(e.target.value)}
                                     />
+                                    <span className="calendar-icon" style={{ top: '47px', right: '25px' }}></span>
                                 </div>
                                 <div className="col-md-3 space-t-15 mt-3 py-1 pr-1">
                                     <label htmlFor="phone-2" className="form-label">
@@ -385,7 +387,7 @@ export default function Financeiro() {
                                                         </thead>
 
                                                         <tbody>
-                                                            {checkinArr.reverse()?.map((item, index) => {
+                                                            {checkinArr?.reverse()?.map((item, index) => {
                                                                 console.log(item)
                                                                 const d1 = item?.entrada;
                                                                 const d2 = item?.saidamanha;

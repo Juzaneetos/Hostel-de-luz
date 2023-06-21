@@ -1,6 +1,7 @@
 import axios from "axios";
 import Image from 'next/image';
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+
 import Link from "next/link";
 import useSwr, { mutate } from "swr";
 import router from 'next/router'
@@ -17,6 +18,7 @@ import { ref, uploadBytesResumable, getDownloadURL, getStorage, deleteObject, up
 import { storage } from '../firebaseConfig.ts';
 import formatCpf from '@brazilian-utils/format-cpf';
 import { useLocation } from 'react-router-dom';
+import SignaturePad from 'signature_pad';
 export default function Home() {
   const { data: hospedes } = useSwr(`/api/hospedes/getAllHospedes`, fetcher);
   const [Name, setName] = useState("");
@@ -39,14 +41,29 @@ export default function Home() {
   const [mostrarTextoCompleto, setMostrarTextoCompleto] = useState(false);
   const [qualproblema, setQualproblema] = useState("");
   const [parametro, setParametro] = useState('');
-  console.log(rgVersoImage)
+  const [assinatura, setAssinatura] = useState('');
+  const [liberado, setLiberado] = useState(false);
+
   // http://localhost:3000/cadastrohospede?hostel=jardimtrevo
   // http://localhost:3000/cadastrohospede?hostel=joaojorge
 
   const handleMostrarMais = () => {
     setMostrarTextoCompleto(!mostrarTextoCompleto);
   }
-  
+
+  const canvasRef = useRef(null);
+  let signaturePad = useRef(null);
+
+  useEffect(() => {
+    signaturePad.current = new SignaturePad(canvasRef.current);
+  }, []);
+
+  const handleSaveSignature = async () => {
+    const signatureImage = signaturePad.current.toDataURL();
+    setAssinatura(signaturePad.current.toDataURL())
+    setLiberado(true);
+  };
+
   useEffect(() => {
     setParametro(router.query.hostel);
   }, [hospedes])
@@ -73,7 +90,7 @@ export default function Home() {
   ]
 
   const atthospoede = () => {
-    if(parametro === undefined){return toast.error('Parece que esse formulário não esta relacionado a nenhum hostel.')}
+    if (parametro === undefined) { return toast.error('Parece que esse formulário não esta relacionado a nenhum hostel.') }
     let contador = 0;
     let errorOccurred = false;
     if (Name === '' || telefone === '' || datanascimento === '' || saude === '' || cidadania === '' || rgFrenteImage === null || rgVersoImage === null || aceitotermos === '' || aceitoregras === '') {
@@ -113,59 +130,114 @@ export default function Home() {
   };
 
   const onSubmit = async () => {
-    
     let contador = 0;
     let contadorToast = 0;
     let imageArr = [];
-    [...Array(2)]?.map((item, index) => {
-      const name = `fotodocumento${cpf}${index}`
-      const storageRef = ref(storage, `image/${name}`)
-      let uploadTask
-      if (index === 0) {
-        uploadTask = uploadBytesResumable(storageRef, rgFrenteImage)
+    [...Array(3)]?.map((item, index) => {
+      if (index === 2) {
+        // Lógica para lidar com o item adicional (índice 2)
+        const name = `fotodocumento${cpf}${index}`;
+        const blob = dataURItoBlob(assinatura);
+        const storageRef = ref(storage, `image/${name}`);
+        const uploadTask = uploadBytesResumable(storageRef, blob);
+
+        uploadTask.on(
+          'state_changed',
+          (snapshot) => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+
+            setProgressUpload(progress); // to show progress upload
+          },
+          (error) => {
+            toast.error(error.message);
+          },
+          async () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+              // url is download url of file
+              setDownloadURL((current) => [
+                ...current,
+                {
+                  url: url,
+                  path: name,
+                },
+              ]);
+              const obj = [{ url: url, path: name }];
+              imageArr = [...imageArr, ...obj];
+              contador++;
+
+              if (3 === contador) {
+                setTimeout(() => {
+                  contador = 0;
+                  dispararbanco(imageArr);
+                }, 2000);
+              }
+            });
+          }
+        );
       } else {
-        uploadTask = uploadBytesResumable(storageRef, rgVersoImage)
+        // Lógica para lidar com os arquivos
+        const name = `fotodocumento${cpf}${index}`;
+        const storageRef = ref(storage, `image/${name}`);
+        let uploadTask;
+
+        if (index === 0) {
+          uploadTask = uploadBytesResumable(storageRef, rgFrenteImage);
+        } else {
+          uploadTask = uploadBytesResumable(storageRef, rgVersoImage);
+        }
+
+        uploadTask.on(
+          'state_changed',
+          (snapshot) => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+
+            setProgressUpload(progress); // to show progress upload
+          },
+          (error) => {
+            toast.error(error.message);
+          },
+          async () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+              // url is download url of file
+              setDownloadURL((current) => [
+                ...current,
+                {
+                  url: url,
+                  path: name,
+                },
+              ]);
+              const obj = [{ url: url, path: name }];
+              imageArr = [...imageArr, ...obj];
+              contador++;
+
+              if (3 === contador) {
+                setTimeout(() => {
+                  contador = 0;
+                  dispararbanco(imageArr);
+                }, 2000);
+              }
+            });
+          }
+        );
       }
-
-      uploadTask.on(
-        'state_changed',
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-
-          setProgressUpload(progress) // to show progress upload
-        },
-        (error) => {
-          toast.error(error.message)
-        },
-
-        async () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-            //url is download url of file
-            setDownloadURL((current) => [
-              ...current,
-              {
-                url: url,
-                path: name,
-              },
-            ]);
-            const obj = [{ url: url, path: name }];
-            imageArr = [...imageArr, ...obj];
-            contador++;
-
-            if (2 === contador) {
-              setTimeout(() => {
-                contador = 0;
-                dispararbanco(imageArr)
-              }, 2000)
-            }
-          })
-        },
-      )
-    })
-
-
+    });
   };
+
+  // Função para converter a string base64 em Blob
+  function dataURItoBlob(dataURI) {
+    const byteString = atob(dataURI.split(',')[1]);
+    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeString });
+  }
+
+
 
   const dispararbanco = async (imageArr) => {
     setTimeout(() => {
@@ -184,15 +256,16 @@ export default function Home() {
         saude: saude,
         cidadania: cidadania,
         aceitotermos: aceitotermos,
-        rgfrente: imageArr[0],
+        rgfrente: imageArr[2],
         rgverso: imageArr[1],
+        assinatura: imageArr[0],
         aceitoregras: aceitoregras,
         observacoes: observacoes,
         formulario: parametro,
         qualproblema: qualproblema,
       });
 
-      
+
     } catch (error) {
       console.log(error)
     }
@@ -235,14 +308,14 @@ export default function Home() {
                       <h3 className="text-center mb-3">Preencha o formulario abaixo para se cadastrar!</h3>
                       <div>
                         {hostelscadastrados?.map((item, index) => {
-                            console.log(parametro)
-                          if(parametro === item.parametro){
+                          console.log(parametro)
+                          if (parametro === item.parametro) {
                             return (
                               <>
                                 <p><b>CNPJ: </b>{item.cnpj}</p>
                                 <p><b>Razão Social: </b>{item.razasocial}</p>
                                 <p><b>Nome Fantasia: </b>{item.nomefantasia}</p>
-  
+
                                 <p><b>Endereço: </b>{item.endereco}</p>
                                 <p><b>Telefone: </b>{item.telefone}</p>
                                 <p><b>E-mail: </b>{item.email}</p>
@@ -348,7 +421,7 @@ export default function Home() {
                                 className="form-control" id="email" />
                             </div>
                           </div>
-                          
+
                           {cidadania === 'Brasileira' &&
                             <>
                               <div className="col-md-12 mt-3">
@@ -416,6 +489,21 @@ export default function Home() {
 
                             </select>
                           </div>
+                          <div className="d-flex flex-column align-items-center mt-3">
+                            <div style={{ width: '400px', boxShadow: '0 0 10px' }}>
+
+                              <canvas ref={canvasRef} width="400" height="200"></canvas>
+                            </div>
+                            <div className="col-md-12 mt-4 d-flex justify-content-center text-center">
+                              <div
+                                onClick={handleSaveSignature}
+                                className="btn btn-sm btn-primary qty_close"
+                                style={{ width: '250px' }}
+                              >
+                                Salvar Assinatura
+                              </div>
+                            </div>
+                          </div>
                           <div className="col-md-6 mt-3">
                             <label htmlFor="phone-1" className="form-label">
                               Foto Frente
@@ -448,6 +536,7 @@ export default function Home() {
                               <img src={URL.createObjectURL(rgVersoImage)} alt="Foto Verso" />
                             )}
                           </div>
+                          
                           <div className="col-md-12 mt-3">
                             <label className="form-label">Observações</label>
                             <textarea
@@ -535,6 +624,7 @@ export default function Home() {
                               {mostrarTextoCompleto ? 'Mostrar Menos' : 'Mostrar Mais'}
                             </div>
                           </div>
+                          
                           <div className="col-md-12 mt-3 d-flex align-items-center justify-content-center">
                             <input
                               type="checkbox"
@@ -547,15 +637,28 @@ export default function Home() {
                               Li e aceito as regras do estabelecimento
                             </label>
                           </div>
-                          <div className="col-md-12 mt-4 d-flex justify-content-center text-center">
-                            <div
-                              onClick={(e) => atthospoede(e)}
-                              className="btn btn-sm btn-primary qty_close"
-                              style={{ width: '250px' }}
-                            >
-                              Enviar Cadastro!
+                          {liberado === true ?
+                            <div className="col-md-12 mt-4 d-flex justify-content-center text-center">
+                              <div
+                                onClick={(e) => atthospoede(e)}
+                                className="btn btn-sm btn-primary qty_close"
+                                style={{ width: '250px' }}
+                              >
+                                Enviar Cadastro!
+                              </div>
                             </div>
-                          </div>
+                            :
+                            <div className="col-md-12 mt-4 d-flex justify-content-center text-center ">
+                              <div
+                                onClick={(e) => toast.error('Salve sua assinatura!')}
+                                className="btn btn-sm btn-primary qty_close fundo-vermelho"
+                                style={{ width: '250px' }}
+                              >
+                                Enviar Cadastro!
+                              </div>
+                            </div>
+                          }
+
 
                         </form>
 

@@ -80,6 +80,10 @@ input[type="date"]::-webkit-calendar-picker-icon {
   flex-direction: column;
 }
 
+.fundo-vermelho {
+  background-color: #D93B3B !important;
+}
+
 
 .electricblaze-yxyKslpMBkjKVPcsWvD4 {
   display: none;

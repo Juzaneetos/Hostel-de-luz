@@ -264,7 +264,7 @@ export default function Financeirodespesas() {
                                                         </thead>
 
                                                         <tbody>
-                                                            {despesasArr.reverse()?.map((item, index) => {
+                                                            {despesasArr?.reverse()?.map((item, index) => {
                                                                 const formattedDate = format(new Date(item.data_pedido), 'dd/MM/yyyy', { locale: ptBR });
                                                                 return (
                                                                     <tr key={item.id} className="align-middle">

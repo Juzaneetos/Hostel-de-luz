@@ -22,6 +22,7 @@ export default async (req, res) => {
         aceitotermos: req.body.aceitotermos,
         rgfrente: req.body.rgfrente,
         rgverso: req.body.rgverso,
+        assinatura: req.body.assinatura,
         aceitoregras: req.body.aceitoregras,
         observacoes: req.body.observacoes,
         formulario: req.body.formulario,
