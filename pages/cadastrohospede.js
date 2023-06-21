@@ -19,6 +19,7 @@ import { storage } from '../firebaseConfig.ts';
 import formatCpf from '@brazilian-utils/format-cpf';
 import { useLocation } from 'react-router-dom';
 import SignaturePad from 'signature_pad';
+import SignatureCanvas from '../components/b2b_components/SignatureCanvascomponent';
 export default function Home() {
   const { data: hospedes } = useSwr(`/api/hospedes/getAllHospedes`, fetcher);
   const [Name, setName] = useState("");
@@ -488,6 +489,21 @@ export default function Home() {
                               <option value={'outros'}>Outros</option>
 
                             </select>
+                          </div>
+                          <div className="d-flex flex-column align-items-center mt-3">
+                            <div style={{ width: '400px', boxShadow: '0 0 10px' }}>
+
+                            <SignatureCanvas />
+                            </div>
+                            <div className="col-md-12 mt-4 d-flex justify-content-center text-center">
+                              <div
+                                onClick={handleSaveSignature}
+                                className="btn btn-sm btn-primary qty_close"
+                                style={{ width: '250px' }}
+                              >
+                                Salvar Assinatura
+                              </div>
+                            </div>
                           </div>
                           <div className="d-flex flex-column align-items-center mt-3">
                             <div style={{ width: '400px', boxShadow: '0 0 10px' }}>
