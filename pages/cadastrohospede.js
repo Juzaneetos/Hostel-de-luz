@@ -19,7 +19,7 @@ import { storage } from '../firebaseConfig.ts';
 import formatCpf from '@brazilian-utils/format-cpf';
 import { useLocation } from 'react-router-dom';
 import SignaturePad from 'signature_pad';
-import SignatureCanvas from '../components/b2b_components/SignatureCanvascomponent';
+// import SignatureCanvas from '../components/b2b_components/SignatureCanvascomponent';
 export default function Home() {
   const { data: hospedes } = useSwr(`/api/hospedes/getAllHospedes`, fetcher);
   const [Name, setName] = useState("");
@@ -51,7 +51,6 @@ export default function Home() {
   const handleMostrarMais = () => {
     setMostrarTextoCompleto(!mostrarTextoCompleto);
   }
-
   const canvasRef = useRef(null);
   let signaturePad = useRef(null);
 
@@ -493,7 +492,7 @@ export default function Home() {
                           <div className="d-flex flex-column align-items-center mt-3">
                             <div style={{ width: '400px', boxShadow: '0 0 10px' }}>
 
-                            <SignatureCanvas />
+                            {/* <SignatureCanvas /> */}
                             </div>
                             <div className="col-md-12 mt-4 d-flex justify-content-center text-center">
                               <div

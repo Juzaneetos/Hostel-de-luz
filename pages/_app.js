@@ -28,7 +28,6 @@ import "../styles/checkoutPage.css";
 import "../styles/productPage.css";
 import "../styles/loginPage.css";
 import "../styles/registerPage.css";
-
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { CheckoutArr } from "../Context";
