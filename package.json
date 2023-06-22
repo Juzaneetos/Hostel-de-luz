@@ -37,7 +37,6 @@
     "react-paginate": "^8.1.4",
     "react-router-dom": "^6.4.3",
     "react-scripts": "^5.0.1",
-    "react-signature-pad-wrapper": "^3.3.1",
     "react-toastify": "^9.1.1",
     "serverless-mysql": "^1.5.4",
     "signature_pad": "^4.1.5",
