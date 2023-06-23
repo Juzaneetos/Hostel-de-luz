@@ -12,11 +12,10 @@ import formatCpf from '@brazilian-utils/format-cpf';
 import { toast } from "react-toastify";
 export default function Modal({ customers, id_ }) {
   const [Name, setName] = useState("");
-  const [rgFrenteImage, setRgFrenteImage] = useState(null);
-  const [rgVersoImage, setRgVersoImage] = useState(null);
 
   const [rgfrente, setRgfrente] = useState("");
   const [rgverso, setRgverso] = useState("");
+  const [assinatura, setAssinatura] = useState("");
 
   const [passaporte, setPassaporte] = useState("vazio");
   const [datanascimento, setDatanascimento] = useState("")
@@ -48,6 +47,7 @@ export default function Modal({ customers, id_ }) {
         console.log(item)
         setRgfrente(item.rgfrente)
         setRgverso(item.rgverso)
+        setAssinatura(item.assinatura)
         setEmail(item.email)
         setSaude(item.saude)
         setCidadania(item.cidadania)
@@ -85,6 +85,7 @@ export default function Modal({ customers, id_ }) {
       aceitotermos: aceitotermos,
       rgfrente: rgfrente,
       rgverso: rgverso,
+      assinatura: assinatura,
       aceitoregras: aceitoregras,
       observacoes: observacoes,
       formulario: formulario,
@@ -338,11 +339,8 @@ export default function Modal({ customers, id_ }) {
                             <label htmlFor="phone-1" className="form-label">
                               RG Frente
                             </label>
-                            {rgFrenteImage && (
-                              <img src={URL.createObjectURL(rgFrenteImage)} alt="RG Frente" />
-                            )}
                             {rgfrente && (
-                              <img className={rgFrenteImage && 'd-none'} src={rgfrente.url} alt="RG Frente" />
+                              <img src={rgfrente.url} alt="RG Frente" />
                             )}
 
                           </div>
@@ -350,12 +348,19 @@ export default function Modal({ customers, id_ }) {
                             <label htmlFor="phone-1" className="form-label">
                               RG Verso
                             </label>
-                            {rgVersoImage && (
-                              <img src={URL.createObjectURL(rgVersoImage)} alt="RG Verso" />
-                            )}
                             {rgverso && (
-                              <img className={rgVersoImage && 'd-none'} src={rgverso.url} alt="RG Verso" />
+                              <img src={rgverso.url} alt="RG Verso" />
                             )}
+                          </div>
+                          <div className="col-12 d-flex justify-content-center">
+                            <div className="col-md-4 mt-3">
+                              <label htmlFor="phone-1" className="form-label text-center w-100">
+                                Assinatura
+                              </label>
+                              {assinatura && (
+                                <img src={assinatura.url} alt="RG Verso" />
+                              )}
+                            </div>
                           </div>
                           <div className="col-md-12 mt-3">
                             <label className="form-label">Observações</label>

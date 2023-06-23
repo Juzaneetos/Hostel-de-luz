@@ -14,6 +14,7 @@ import { differenceInDays, parseISO } from 'date-fns';
 export default function Modal({ customers, id_ }) {
   const { data: hoteis } = useSwr(`/api/hoteis/getAllHotel`, fetcher);
   const { data: quartos } = useSwr(`/api/quartos/getAllQuarto`, fetcher);
+  const { data: hospedes } = useSwr(`/api/hospedes/getAllHospedes`, fetcher);
   const [arrdatas, setArrdatas] = useState();
   const [Name, setName] = useState("");
   const [rg, setRg] = useState("");
@@ -45,59 +46,70 @@ export default function Modal({ customers, id_ }) {
   const [camacheckinID, setCamaCheckinID] = useState(0);
   const [usuario, setUsuario] = useState('');
   const [abertpor, setAbertopor] = useState("");
+  const [rgfrente, setRgfrente] = useState("");
+  const [rgverso, setRgverso] = useState("");
+  const [assinatura, setAssinatura] = useState("");
   const currentDate = new Date(saida);
   const previousDate = new Date(currentDate.setDate(currentDate.getDate()) - 1);
   let newarr = [];
   useEffect(() => {
     customers?.map((item, index) => {
-      if (item._id === id_) {
-        setPagamentoConcluido(item.pagamentoconcluido)
-        setActive(item.ativado)
-        setObjreserva(item.objreserva)
-        setValordiaria(item.valordiaria)
-        setValorpago(item.valorpago)
-        setObservações(item.observacoes)
-        setFormaPagamento(item.formapagamento)
-        setTelefone(item.telefone)
-        setDiaLimpeza(item.diaLimpeza)
-        setDatanascimento(item.datanascimento)
-        setSaida(item.saida)
-        setSaidafixa(item.saida)
-        setEntrada(item.entrada)
-        setPassaporte(item.passaporte)
-        setCpf(item.cpf)
-        setSaidamanha(item.saidamanha)
-        setRg(item.rg)
-        setName(item.nome)
-        setGenero(item.genero)
-        setHotel(item.objreserva.hotel)
-        setIdquarto(item.objreserva.quarto)
-        setNumerocama(item.objreserva.cama)
-        setCama(item.objreserva.cama)
-        setCheckingID(item.checkinID)
-        setUsuario(item.usuario)
-        setAbertopor(item.acesso_comanda)
-        quartos?.map((item2, index) => {
-          if (item.objreserva.quarto === item2._id) {
-            setQuarto(item2.arrCamas)
-            setIdquarto(item2._id)
-            setIdquartodef(item2._id)
-            item2.arrCamas?.map((item3, index) => {
-              item3?.map((item4, index5) => {
-
-                if (item.checkinID === item4.checkinID) {
-                  newarr = [...newarr, item4];
-                  setCamaCheckinID(item4.checkinID)
-                }
-                if (item3.length === index5 + 1) {
-                  setArrdatas(newarr)
-                }
-              })
+      hospedes?.map((item5, index) => {
+        if (item._id === id_) {
+          console.log(item5.cpf === item.cpf)
+            if(item5.cpf === item.cpf){
+            setRgfrente(item5.rgfrente)
+            setRgverso(item5.rgverso)
+            setAssinatura(item5.assinatura)
+            }
+            setPagamentoConcluido(item.pagamentoconcluido)
+            setActive(item.ativado)
+            setObjreserva(item.objreserva)
+            setValordiaria(item.valordiaria)
+            setValorpago(item.valorpago)
+            setObservações(item.observacoes)
+            setFormaPagamento(item.formapagamento)
+            setTelefone(item.telefone)
+            setDiaLimpeza(item.diaLimpeza)
+            setDatanascimento(item.datanascimento)
+            setSaida(item.saida)
+            setSaidafixa(item.saida)
+            setEntrada(item.entrada)
+            setPassaporte(item.passaporte)
+            setCpf(item.cpf)
+            setSaidamanha(item.saidamanha)
+            setRg(item.rg)
+            setName(item.nome)
+            setGenero(item.genero)
+            setHotel(item.objreserva.hotel)
+            setIdquarto(item.objreserva.quarto)
+            setNumerocama(item.objreserva.cama)
+            setCama(item.objreserva.cama)
+            setCheckingID(item.checkinID)
+            setUsuario(item.usuario)
+            setAbertopor(item.acesso_comanda)
+            quartos?.map((item2, index) => {
+              if (item.objreserva.quarto === item2._id) {
+                setQuarto(item2.arrCamas)
+                setIdquarto(item2._id)
+                setIdquartodef(item2._id)
+                item2.arrCamas?.map((item3, index) => {
+                  item3?.map((item4, index5) => {
+    
+                    if (item.checkinID === item4.checkinID) {
+                      newarr = [...newarr, item4];
+                      setCamaCheckinID(item4.checkinID)
+                    }
+                    if (item3.length === index5 + 1) {
+                      setArrdatas(newarr)
+                    }
+                  })
+                })
+              }
             })
           }
-        })
-      }
-    })
+        
+    })})
   }, [id_])
 
   function calcularDiferencaDias(dataInicio, dataFim) {
@@ -752,6 +764,34 @@ export default function Modal({ customers, id_ }) {
                               onChange={(e) => datamudou(e.target.value, 'saida')}
                             />
                             <span className="calendar-icon"></span>
+                          </div>
+
+                          <div className="col-md-6 mt-3">
+                            <label htmlFor="phone-1" className="form-label">
+                              RG Frente
+                            </label>
+                            {rgfrente && (
+                              <img src={rgfrente.url} alt="RG Frente" />
+                            )}
+
+                          </div>
+                          <div className="col-md-6 mt-3">
+                            <label htmlFor="phone-1" className="form-label">
+                              RG Verso
+                            </label>
+                            {rgverso && (
+                              <img src={rgverso.url} alt="RG Verso" />
+                            )}
+                          </div>
+                          <div className="col-12 d-flex justify-content-center">
+                            <div className="col-md-4 mt-3">
+                              <label htmlFor="phone-1" className="form-label text-center w-100">
+                                Assinatura
+                              </label>
+                              {assinatura && (
+                                <img src={assinatura.url} alt="RG Verso" />
+                              )}
+                            </div>
                           </div>
 
                           <div className="col-md-12 date-input text-center mt-3">
