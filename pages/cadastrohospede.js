@@ -277,21 +277,7 @@ export default function Home() {
 
   return (
     <>
-    <div className="d-flex flex-column align-items-center mt-3">
-                            <div style={{ width: '400px', boxShadow: '0 0 10px' }}>
-                              <canvas ref={canvasRef} width="400" height="200"></canvas>
-
-                            </div>
-                            <div className="col-md-12 mt-4 d-flex justify-content-center text-center">
-                              <div
-                                onClick={handleSaveSignature}
-                                className="btn btn-sm btn-primary qty_close"
-                                style={{ width: '250px' }}
-                              >
-                                Salvar Assinatura
-                              </div>
-                            </div>
-                          </div>
+    
       {/* <!-- ec Banner Slider --> */}
       <Swiper
         modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
@@ -355,28 +341,30 @@ export default function Home() {
                             />
                           </div>
 
-
-                          <div className="col-md-12 mt-3">
-                            <div className="col-md-12">
-                              <label htmlFor="email" className="form-label">
-                                Telefone
-                              </label>
-                              <input type="number"
-                                onChange={(e) => setTelefone(e.target.value)}
-                                className="form-control" id="email" />
-                            </div>
+                          <div className="col-md-12 mt-3 date-input">
+                            <label htmlFor="phone-2" className="form-label">
+                              Nascimento
+                            </label>
+                            <input
+                              type="date"
+                              className="form-control slug-title"
+                              id="phone-2"
+                              onChange={(e) => setDatanascimento(e.target.value)}
+                            />
+                            <span className="calendar-icon"></span>
                           </div>
 
                           <div className="col-md-12 mt-3">
-                            <div className="col-md-12">
-                              <label htmlFor="email" className="form-label">
-                                E-mail
-                              </label>
-                              <input type="text"
-                                onChange={(e) => setEmail(e.target.value)}
-                                className="form-control" id="email" />
-                            </div>
+                            <label className="form-label">Genero</label>
+                            <select className="form-control" onChange={(e) => setGenero(e.target.value)}>
+                              <option value={''} selected></option>
+                              <option value={'masculino'} >Masculino</option>
+                              <option value={'feminino'}>Feminino</option>
+                              <option value={'outros'}>Outros</option>
+
+                            </select>
                           </div>
+
                           <div className="d-flex mb-3 col-md-4 justify-content-center mt-4">
                             <div className="row align-items-center justify-content-center text-center">
                               <label className="form-label">Cidadania</label>
@@ -437,6 +425,61 @@ export default function Home() {
                                 className="form-control" id="email" />
                             </div>
                           </div>
+                          <div className="col-md-6 mt-3">
+                            <label htmlFor="phone-1" className="form-label">
+                              Foto Frente
+                            </label>
+                            <input
+                              type="file"
+                              className="form-control"
+                              accept=".png, .jpeg, .jpg, .pdf"
+                              id="phone-1"
+                              style={{ border: 'none', minHeight: '30px' }}
+                              onChange={(e) => setRgFrenteImage(e.target.files[0])}
+                            />
+                            {rgFrenteImage && (
+                              <img src={URL.createObjectURL(rgFrenteImage)} alt="Foto Frente" />
+                            )}
+                          </div>
+                          <div className="col-md-6 mt-3">
+                            <label htmlFor="phone-1" className="form-label">
+                              Foto Verso
+                            </label>
+                            <input
+                              type="file"
+                              className="form-control"
+                              accept=".png, .jpeg, .jpg, .pdf"
+                              id="phone-1"
+                              style={{ border: 'none', minHeight: '30px' }}
+                              onChange={(e) => setRgVersoImage(e.target.files[0])}
+                            />
+                            {rgVersoImage && (
+                              <img src={URL.createObjectURL(rgVersoImage)} alt="Foto Verso" />
+                            )}
+                          </div>
+                          <div className="col-md-12 mt-3">
+                            <div className="col-md-12">
+                              <label htmlFor="email" className="form-label">
+                                Contato
+                              </label>
+                              <input type="number"
+                                onChange={(e) => setTelefone(e.target.value)}
+                                className="form-control" id="email" />
+                            </div>
+                          </div>
+
+                          <div className="col-md-12 mt-3">
+                            <div className="col-md-12">
+                              <label htmlFor="email" className="form-label">
+                                E-mail
+                              </label>
+                              <input type="text"
+                                onChange={(e) => setEmail(e.target.value)}
+                                className="form-control" id="email" />
+                            </div>
+                          </div>
+                         
+                          
 
                           {cidadania === 'Brasileira' &&
                             <>
@@ -482,71 +525,11 @@ export default function Home() {
                           }
 
 
-                          <div className="col-md-12 mt-3 date-input">
-                            <label htmlFor="phone-2" className="form-label">
-                              Nascimento
-                            </label>
-                            <input
-                              type="date"
-                              className="form-control slug-title"
-                              id="phone-2"
-                              onChange={(e) => setDatanascimento(e.target.value)}
-                            />
-                            <span className="calendar-icon"></span>
-                          </div>
-
-                          <div className="col-md-12 mt-3">
-                            <label className="form-label">Genero</label>
-                            <select className="form-control" onChange={(e) => setGenero(e.target.value)}>
-                              <option value={''} selected></option>
-                              <option value={'masculino'} >Masculino</option>
-                              <option value={'feminino'}>Feminino</option>
-                              <option value={'outros'}>Outros</option>
-
-                            </select>
-                          </div>
-                          <div className="d-flex flex-column align-items-center mt-3">
-                            <div style={{ width: '400px', boxShadow: '0 0 10px' }}>
-
-                              <div id="signature-pad">
-                                <canvas className="signature-canvas"></canvas>
-                              </div>
-                            </div>
-
-                          </div>
                           
-                          <div className="col-md-6 mt-3">
-                            <label htmlFor="phone-1" className="form-label">
-                              Foto Frente
-                            </label>
-                            <input
-                              type="file"
-                              className="form-control"
-                              accept=".png, .jpeg, .jpg, .pdf"
-                              id="phone-1"
-                              style={{ border: 'none', minHeight: '30px' }}
-                              onChange={(e) => setRgFrenteImage(e.target.files[0])}
-                            />
-                            {rgFrenteImage && (
-                              <img src={URL.createObjectURL(rgFrenteImage)} alt="Foto Frente" />
-                            )}
-                          </div>
-                          <div className="col-md-6 mt-3">
-                            <label htmlFor="phone-1" className="form-label">
-                              Foto Verso
-                            </label>
-                            <input
-                              type="file"
-                              className="form-control"
-                              accept=".png, .jpeg, .jpg, .pdf"
-                              id="phone-1"
-                              style={{ border: 'none', minHeight: '30px' }}
-                              onChange={(e) => setRgVersoImage(e.target.files[0])}
-                            />
-                            {rgVersoImage && (
-                              <img src={URL.createObjectURL(rgVersoImage)} alt="Foto Verso" />
-                            )}
-                          </div>
+
+                          
+                          
+                        
 
                           <div className="col-md-12 mt-3">
                             <label className="form-label">Observações</label>
@@ -634,9 +617,7 @@ export default function Home() {
                             <div className="btn btn-primary mt-3" onClick={handleMostrarMais}>
                               {mostrarTextoCompleto ? 'Mostrar Menos' : 'Mostrar Mais'}
                             </div>
-                          </div>
-
-                          <div className="col-md-12 mt-3 d-flex align-items-center justify-content-center">
+                            <div className="col-md-12 mt-3 d-flex align-items-center justify-content-center">
                             <input
                               type="checkbox"
                               id="phone-1"
@@ -647,6 +628,24 @@ export default function Home() {
                             <label htmlFor="phone-1" className="form-label m-0" style={{ fontWeight: '600' }}>
                               Li e aceito as regras do estabelecimento
                             </label>
+                          </div>
+                          </div>
+
+                          
+                          <div className="d-flex flex-column align-items-center mt-3">
+                            <div style={{ width: '400px', boxShadow: '0 0 10px' }}>
+                              <canvas ref={canvasRef} width="400" height="200"></canvas>
+
+                            </div>
+                            <div className="col-md-12 mt-4 d-flex justify-content-center text-center">
+                              <div
+                                onClick={handleSaveSignature}
+                                className="btn btn-sm btn-primary qty_close"
+                                style={{ width: '250px' }}
+                              >
+                                Salvar Assinatura
+                              </div>
+                            </div>
                           </div>
                           {liberado === true ?
                             <div className="col-md-12 mt-4 d-flex justify-content-center text-center">
