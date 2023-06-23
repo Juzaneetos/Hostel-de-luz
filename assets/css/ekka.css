@@ -21563,7 +21563,7 @@ div.copied {
 .sidebar .sidebar-inner > li.active > a {
   position: relative;
   z-index: 10;
-  color: #3675D3;
+  color: #3EADC5;
 }
 .sidebar .sidebar-inner > li.active > a:before {
   opacity: 1;
@@ -21576,7 +21576,7 @@ div.copied {
   width: 5px;
   height: 100%;
   border-radius: 5px;
-  background: #3675d3;
+  background: #3EADC5;
   opacity: 0;
 }
 .sidebar .sidebar-inner .section-title {
