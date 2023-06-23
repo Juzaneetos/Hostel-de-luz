@@ -122,12 +122,14 @@ function EditCategory({ despesasId, despesas, setShowEditCategoryComponent }) {
               Hostel
             </label>
             <div className="col-12">
-              <select defaultValue={hostel} onChange={(e) => sethostel(e.target.value)} className="form-control here slug-title" name="select">
-                <option value="geral">Geral</option>
+              <select value={hostel} onChange={(e) => sethostel(e.target.value)} className="form-control here slug-title" name="select">
+               
                 {allhostels?.map((item, index) => {
-                  return(
-                    <option key={item._id} value={item._id}>{item.titulo}</option>
-                  )
+                  if(item._id === hostel){
+                    return(
+                      <option key={item._id} value={item._id}>{item.titulo}</option>
+                      )
+                  }
                 })}
               </select>
             </div>

@@ -13,12 +13,7 @@ const nextConfig = {
   },
   webpack: (config, { isServer }) => {
     config.resolve.fallback = { fs: false, net: false, tls: false};
-    if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        canvas: require.resolve('canvas'),
-      };
-    }
+   
     return config;
   },
   async headers() {

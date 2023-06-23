@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import useSwr, { mutate } from "swr";
 import Menu from "../../components/b2b_components/Menu";
 import { useRouter } from "next/router";
-
+import ReactToPrint from 'react-to-print';
+import { useRef } from "react";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 import { format } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
@@ -22,6 +23,7 @@ export default function PedidosVisualizar({ }) {
   const [entrada, setEntrada] = useState("");
   const [fechamento, setFechamento] = useState("");
   const [abertpor, setAbertopor] = useState("");
+  const innerPageRef = useRef();
   const [valorTotalPedidoSemDesconto, setValorTotalPedidoSemDesconto] = useState(0);
 
   let valorTotalSemDesconto = 0;
@@ -45,10 +47,10 @@ export default function PedidosVisualizar({ }) {
     currency: 'BRL',
   });
 
-  
-  
- 
- 
+
+
+
+
 
   return (
     <>
@@ -57,10 +59,17 @@ export default function PedidosVisualizar({ }) {
           <Menu />
           <div className="ec-page-wrapper">
             <div className="ec-content-wrapper">
-              <div className="content">
+              <div className="content" ref={innerPageRef}>
                 <div className="breadcrumb-wrapper breadcrumb-wrapper-2 breadcrumb-contacts">
                   <h1>Pedido nº {idPedido}</h1>
-                  <p className="breadcrumbs print-some-elemento">
+                  <ReactToPrint
+                    trigger={() => <div className="pr-1">
+                      <button className="btn btn-primary text-white displaynone">Download</button>
+                    </div>}
+                    content={() => innerPageRef.current}
+                    pageStyle={`@page { padding: 20px; }`}
+                  />
+                  <p className="breadcrumbs print-some-elemento displaynone">
                     <span>
                       <a href="#">Dashboard</a>
                     </span>
@@ -78,10 +87,8 @@ export default function PedidosVisualizar({ }) {
                         <div className="card-body">
                           <div className="ec-cat-form">
                             <div className="form-group row">
-                              <label htmlFor="text" className="col-12 col-form-label">
-                                Data
-                              </label>
-                              <div className="col-12">
+                              <div className="col-md-6 date-input">
+                                <label className="form-label">Data</label>
                                 <input
                                   id="data"
                                   name="data"
@@ -91,11 +98,8 @@ export default function PedidosVisualizar({ }) {
                                   disabled
                                 />
                               </div>
-
-                              <label htmlFor="text" className="col-12 col-form-label">
-                                Comandas
-                              </label>
-                              <div className="col-12">
+                              <div className="col-md-6 date-input">
+                                <label className="form-label">Comandas</label>
                                 <input
                                   id="text"
                                   name="nome"
@@ -146,10 +150,9 @@ export default function PedidosVisualizar({ }) {
                                 </table>
                               </div>
 
-                              <label htmlFor="text" className="col-12 col-form-label">
-                                Desconto em reais
-                              </label>
-                              <div className="col-12 d-flex align-items-center">
+                             
+                              <div className="col-md-6 date-input">
+                                <label className="form-label">Desconto em reais</label>
                                 <input
                                   id="text"
                                   name="valor"
@@ -159,11 +162,8 @@ export default function PedidosVisualizar({ }) {
                                   value={formatter.format(parseFloat(descontoPedido))}
                                 />
                               </div>
-
-                              <label htmlFor="estoque" className="col-12 col-form-label">
-                                Valor total já com desconto
-                              </label>
-                              <div className="col-12">
+                              <div className="col-md-6 date-input">
+                                <label className="form-label">Valor total já com desconto</label>
                                 <input
                                   id="estoque"
                                   name="estoque"
@@ -174,11 +174,8 @@ export default function PedidosVisualizar({ }) {
                                   onChange={(e) => setValorTotalPedido(e.target.value)}
                                 />
                               </div>
-
-                              <label htmlFor="text" className="col-12 col-form-label">
-                                Método de pagamento
-                              </label>
-                              <div className="col-12">
+                              <div className="col-md-6 date-input">
+                                <label className="form-label">Método de pagamento</label>
                                 <input
                                   id="estoque"
                                   name="estoque"
@@ -188,10 +185,8 @@ export default function PedidosVisualizar({ }) {
                                   value={metodoPedido}
                                 />
                               </div>
-                              <label htmlFor="text" className="col-12 col-form-label">
-                                Aberto Por
-                              </label>
-                              <div className="col-12">
+                              <div className="col-md-6 date-input">
+                                <label className="form-label"> Aberto Por</label>
                                 <input
                                   id="estoque"
                                   name="estoque"
@@ -201,6 +196,7 @@ export default function PedidosVisualizar({ }) {
                                   value={abertpor}
                                 />
                               </div>
+
                               <label htmlFor="text" className="col-12 col-form-label">
                                 Entrada e Fechamento
                               </label>
@@ -226,7 +222,7 @@ export default function PedidosVisualizar({ }) {
                               </div>
                             </div>
 
-                            <div className="row print-some-elemento">
+                            <div className="row print-some-elemento displaynone">
                               <div className="col-12">
                                 <button onClick={(e) => history.go(-1)} className="btn btn-info mr-3">
                                   Voltar
@@ -240,6 +236,7 @@ export default function PedidosVisualizar({ }) {
                   </div>
                 </div>
               </div>
+              
             </div>
           </div>
         </div>

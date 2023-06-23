@@ -3,36 +3,40 @@ import axios from "axios";
 import useSwr, { mutate } from "swr";
 import router from 'next/router'
 import { toast } from "react-toastify";
+const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function AddUsers() {
+  const { data: hoteis } = useSwr(`/api/hoteis/getAllHotel`, fetcher);
   const [usersName, setUserName] = useState("");
   const [usersEmail, setUserEmail] = useState("");
   const [usersLogin, setUserLogin] = useState("");
   const [usersPassword, setUsersPassword] = useState("");
+  const [userhostel, setUserhostel] = useState("");
   const [usersLevel, setUsersLevel] = useState(0);
-  console.log(usersName, usersEmail, usersLogin, usersPassword, usersLevel )
+  console.log(usersName, usersEmail, usersLogin, usersPassword, usersLevel)
   const onSubmit = async (e) => {
     e.preventDefault();
-   var lvlAccess = 0;
+    var lvlAccess = 0;
 
     if (usersLevel === 'funcionarioSite') { lvlAccess = '10' }
     if (usersLevel === 'funcionarioHostel') { lvlAccess = '20' }
     if (usersLevel === 'funcionarioLoja') { lvlAccess = '30' }
     if (usersLevel === 'gerente') { lvlAccess = '40' }
-    
-    router.reload();
+
     await axios.post(`/api/users/insertUsers`, {
       name: usersName,
       email: usersEmail,
       user: usersLogin,
       password: usersPassword,
+      hostel: userhostel,
       userlevel: lvlAccess,
       active: 1,
-
+      
     });
     toast('Usuário sendo adicionado!', {
       position: "top-right",
-      });
+    });
+    router.reload();
     mutate(`/api/users`);
   };
 
@@ -101,6 +105,20 @@ export default function AddUsers() {
           </div>
 
           <div className="form-group row">
+            <label htmlFor="phone-2" className="col-12 col-form-label">
+              Hostel
+            </label>
+            <div className="col-12">
+            <select className="form-control here slug-title" id="cars" onChange={(e) => setUserhostel(e.target.value)}>
+              <option value='todos'>Todos os Hostels</option>
+              {hoteis?.map((item, index) => {
+                return (<option key={item._id} value={item._id}>{item.titulo}</option>)
+              })}
+            </select>
+            </div>
+          </div>
+
+          <div className="form-group row">
             <label htmlFor="color" className="col-12 col-form-label">
               Level
             </label>
@@ -111,21 +129,20 @@ export default function AddUsers() {
                 className="form-control here slug-title"
                 onChange={(e) => setUsersLevel(e.target.value)}
               >
-              
-              <option value="">Escolha o acesso</option>
-              <option value="funcionarioSite">Funcionario Site</option>
-              <option value="funcionarioHostel">Funcionario Hostel</option>
-              <option value="funcionarioLoja">Funcionario Loja</option>
-              <option value="gerente">Gerente</option>
+
+                <option value="">Escolha o acesso</option>
+                <option value="funcionarioSite">Funcionario Site</option>
+                <option value="funcionarioHostel">Funcionario Hostel</option>
+                <option value="gerente">Gerente</option>
               </select>
             </div>
           </div>
 
           <div className="row">
             <div className="col-12">
-            <button name="submit" type="submit" className="btn btn-primary">
-            Adicionar Acesso
-            </button>
+              <button name="submit" type="submit" className="btn btn-primary">
+                Adicionar Acesso
+              </button>
             </div>
           </div>
         </form>

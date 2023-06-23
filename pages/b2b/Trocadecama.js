@@ -9,12 +9,17 @@ import Footer from "../../components/b2b_components/Footer";
 import useSwr, { mutate } from "swr";
 import Router from 'next/router'
 const fetcher = (url) => fetch(url).then((res) => res.json());
-
+import { useCookies, expires } from 'react-cookie';
 export default function Trocadecama() {
   const [id_, setId] = useState(0);
   const [enviada, setEnviada] = useState(false);
   const [enviada2, setEnviada2] = useState(false);
   const [wpplink, setWpplink] = useState('');
+  const [cookies, setCookie] = useCookies(['user']);
+  const [userhostel, setUserhostel] = useState('');
+  useEffect(() => {
+    setUserhostel(cookies.user_hostel)
+  }, [cookies])
   // const { data: checkin } = useSwr(`/api/checkin/getAllCheckin`, fetcher);
   const { data: quartos } = useSwr(`/api/quartos/getAllQuarto`, fetcher);
   var tamanho = quartos?.length || [];
@@ -62,7 +67,7 @@ export default function Trocadecama() {
       item.arrCamas?.map((item2, index2) => {
         if (item2.length > 1) {
           item2.map((item3, index3) => {
-            if (item3.base === false) {
+            if (item3.base === false && item.hotel === userhostel) {
               const dataAtual = new Date(); // Obtém a data atual
               const dataLimpeza = new Date(item3.limpeza); // Obtém a data de limpeza de item3
               const diff = Math.floor((dataAtual - dataLimpeza) / (1000 * 60 * 60 * 24)); // Calcula a diferença em dias
@@ -204,7 +209,7 @@ export default function Trocadecama() {
                                         return (
                                           <>
                                             {item2?.map((item3, index3) => {
-                                              if (item3.base === false) {
+                                              if (item3.base === false && item.hotel === userhostel) {
                                                 const dataAtual = new Date(); // Obtém a data atual
                                                 const dataLimpeza = new Date(item3.limpeza); // Obtém a data de limpeza de item3
                                                 const diff = Math.floor((dataAtual - dataLimpeza) / (1000 * 60 * 60 * 24)); // Calcula a diferença em dias
@@ -284,7 +289,7 @@ export default function Trocadecama() {
                                         return (
                                           <>
                                             {item2.sort(compareLimpeza).map((item3, index3) => {
-                                              if (item3.base === false) {
+                                              if (item3.base === false && item.hotel === userhostel) {
                                                 const dataAtual = new Date(); // Obtém a data atual
                                                 const dataLimpeza = new Date(item3.limpeza); // Obtém a data de limpeza de item3
                                                 const diff = Math.floor((dataAtual - dataLimpeza) / (1000 * 60 * 60 * 24)); // Calcula a diferença em dias

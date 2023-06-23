@@ -10,6 +10,7 @@ export default async (req, res) => {
       email: req.body.email,
       login: req.body.user,
       password: req.body.password,
+      hostel: req.body.hostel,
       level: req.body.userlevel,
       active: 1,
     }).then((data) => {

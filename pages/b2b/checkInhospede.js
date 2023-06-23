@@ -48,6 +48,7 @@ export default function Checkin() {
   const previousDate = new Date(currentDate.setDate(currentDate.getDate() - 1));
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
   let userID = cookies.user_id;
+  let userHostel = cookies.user_hostel;
   let contadordisponivel = 0;
   let contadorrenderizado = 0;
   let titulo_ = '';
@@ -462,15 +463,18 @@ export default function Checkin() {
                               <h3 className="text-center"> Escolha o Hotel </h3>
                               <div className="col-md-12 d-flex flex-wrap justify-content-around">
                                 {hoteis?.map((item, index) => {
-                                  return (
-                                    <div key={index} className={`col-md-5 mb-3`} style={{ position: 'relative', height: '150px', overflow: 'hidden', background: `url(${item.imagem[0].url})` }}>
-                                      <div className={`circulohotel d-flex flex-column ${hotel === item._id ? 'backgroundactive' : ''}`} style={{ position: 'absolute', fontWeight: '700' }} onClick={() => verificar(item._id)}>
-                                        <div className="text-center" style={{ background: '#000000a1', padding: '12px', borderRadius: '5px' }}>
-                                          {item.titulo}
+                                  if(userHostel === item._id){
+
+                                    return (
+                                      <div key={index} className={`col-md-5 mb-3`} style={{ position: 'relative', height: '150px', overflow: 'hidden', background: `url(${item.imagem[0].url})` }}>
+                                        <div className={`circulohotel d-flex flex-column ${hotel === item._id ? 'backgroundactive' : ''}`} style={{ position: 'absolute', fontWeight: '700' }} onClick={() => verificar(item._id)}>
+                                          <div className="text-center" style={{ background: '#000000a1', padding: '12px', borderRadius: '5px' }}>
+                                            {item.titulo}
+                                          </div>
                                         </div>
                                       </div>
-                                    </div>
-                                  )
+                                    )
+                                  }
                                 })}
                               </div>
 

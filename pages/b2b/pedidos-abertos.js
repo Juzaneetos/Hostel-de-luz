@@ -10,14 +10,18 @@ import { BsPencilFill } from "react-icons/bs";
 import { format } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 const fetcher = (url) => fetch(url).then((res) => res.json());
-
+import { useCookies, expires } from 'react-cookie';
 export default function PedidosFechados({ }) {
   const [searchItemComanda, setSearchItemComanda] = useState("");
   const [searchItemData, setSearchItemData] = useState("");
   const [filter, setFilter] = useState([]);
   const [totalTableValue, setTotalTableValue] = useState(0);
   const [existe, setExiste] = useState(false);
-
+  const [cookies, setCookie] = useCookies(['user']);
+  const [userhostel, setUserhostel] = useState('');
+  useEffect(() => {
+    setUserhostel(cookies.user_hostel)
+  }, [cookies])
   const { data: pedido } = useSwr(`/api/pedidos/getAllPedidos`, fetcher);
 
 
@@ -27,7 +31,7 @@ export default function PedidosFechados({ }) {
   });
 
   useEffect(() => {
-    setFilter(pedido)
+    setFilter(pedido?.reverse())
   }, [pedido])
 
   useEffect(() => {
@@ -39,7 +43,7 @@ export default function PedidosFechados({ }) {
     let valorTotalFinal = 0;
 
     filter?.map((item, index) => {
-      if (item.ativo === '1') {
+      if (item.ativo === '1' && userhostel === item.hostel) {
         values.push({
           id: item._id,
           valorTotal: parseFloat(item.valor_total)
@@ -148,6 +152,7 @@ export default function PedidosFechados({ }) {
 
                             <tbody>
                               {filter?.reverse()?.map((item, index) => {
+                                if(userhostel === item.hostel){
                                 const originalDate = item.dataentrada;
                                 const fechamentoDate = item.datafechamento;
                                 let fechamentoDateformat = ''
@@ -191,10 +196,10 @@ export default function PedidosFechados({ }) {
                                         </div>
                                       </td>
                                     </tr>)
-                                }
+                                }}
                               })}
                             </tbody>
-                            <tfoot style={{background: '#F2F2F2'}}>
+                            {/* <tfoot style={{background: '#F2F2F2'}}>
                               <tr>
                                 <th>Qtd.</th>
                                 <th>{existe > 0 ? filter?.length : '0'}</th>
@@ -204,7 +209,7 @@ export default function PedidosFechados({ }) {
                                 <th></th>
                                 <th></th>
                               </tr>
-                            </tfoot>
+                            </tfoot> */}
                           </table>
                         </div>
                       </div>

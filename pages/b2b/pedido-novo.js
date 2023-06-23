@@ -12,7 +12,6 @@ import { useCookies, expires } from 'react-cookie';
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function NovoPedido({ }) {
-  const { data: hoteis } = useSwr(`/api/hoteis/getAllHotel`, fetcher);
   const [dataPedido, setDataPedido] = useState("");
   const [comandasPedido, setComandasPedido] = useState("");
   const [produtosPedido, setProdutosPedido] = useState([]);
@@ -75,7 +74,7 @@ export default function NovoPedido({ }) {
       data_pedido: dataPedido,
       comandas: comandasPedido,
       cpf: cpf,
-      hostel: hostel,
+      hostel: cookies.user_hostel,
       dataentrada: new Date(),
       datafechamento: datadefechamento,
       ativo: active,
@@ -155,7 +154,7 @@ export default function NovoPedido({ }) {
   const attValorPedidoAdicao = async (valorAdcionar) => {
     let valorTotal = 0;
     produtosPedido?.map((item, index) => {
-      let valorParcial = item.quantidade * item.valorVenda
+      let valorParcial = parseFloat(item.quantidade) * parseFloat(item.valorVenda)
 
       valorTotal = parseFloat(valorTotal) + parseFloat(valorParcial);
     })
@@ -405,18 +404,6 @@ export default function NovoPedido({ }) {
                                 </> : <></>
                               }
 
-                            </div>
-
-                            <div className="space-t-15 mt-3 mb-3">
-                              <label htmlFor="phone-2" className="form-label">
-                                Hostel
-                              </label>
-                              <select className="form-control here slug-title" id="cars" onChange={(e) => setHostel(e.target.value)}>
-                                <option value='todos'>Todos os Hostels</option>
-                                {hoteis?.map((item, index) => {
-                                  return (<option key={index} value={item._id}>{item.titulo}</option>)
-                                })}
-                              </select>
                             </div>
 
                             <div className="d-flex mb-3 space-t-15">

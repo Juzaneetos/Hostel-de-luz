@@ -761,14 +761,16 @@ export default function Modal({ customers, id_ }) {
                           <h3 className="text-center mb-2 mt-4"> Escolha o Hotel </h3>
                           <div className="col-md-12 d-flex flex-wrap justify-content-around">
                             {hoteis?.map((item, index) => {
-                              return (
-                                <div key={index} className={`col-md-5 mb-3`} style={{ position: 'relative', height: '150px', overflow: 'hidden', background: `url(${item.imagem[0].url})` }}>
-                                  <div className={`circulohotel d-flex flex-column ${hotel === item._id ? 'backgroundactive' : ''}`} style={{ position: 'absolute', fontWeight: '700' }} onClick={() => toast.error('não é possivel trocar de Hostel!')}>
-                                    {item.titulo}
-
+                              if(hotel === item._id){
+                                return (
+                                  <div key={index} className={`col-md-5 mb-3`} style={{ position: 'relative', height: '150px', overflow: 'hidden', background: `url(${item.imagem[0].url})` }}>
+                                    <div className={`circulohotel d-flex flex-column ${hotel === item._id ? 'backgroundactive' : ''}`} style={{ position: 'absolute', fontWeight: '700' }} onClick={() => toast.error('não é possivel trocar de Hostel!')}>
+                                      {item.titulo}
+  
+                                    </div>
                                   </div>
-                                </div>
-                              )
+                                )
+                              }
                             })}
                           </div>
 

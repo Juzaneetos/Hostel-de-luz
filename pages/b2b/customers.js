@@ -11,16 +11,20 @@ import { format } from 'date-fns';
 const fetcher = (url) => fetch(url).then((res) => res.json());
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-
+import { useCookies, expires } from 'react-cookie';
 export default function Hospede() {
   const [id_, setId] = useState('');
+  const [cookies, setCookie] = useCookies(['user']);
   const { data: checkin } = useSwr(`/api/checkin/getAllCheckin`, fetcher);
   const { data: quartos } = useSwr(`/api/quartos/getAllQuarto`, fetcher);
   var tamanho = checkin?.length || [];
   const [nomeFiltro, setNomeFiltro] = useState("");
   const [dataInicioFiltro, setDataInicioFiltro] = useState(null);
   const [dataFimFiltro, setDataFimFiltro] = useState(null);
-
+  const [userhostel, setUserhostel] = useState('');
+  useEffect(() => {
+    setUserhostel(cookies.user_hostel)
+  }, [cookies])
   function formatDate(dateString) {
     const date = new Date(dateString);
     return format(date, 'dd/MM/yyyy');
@@ -105,10 +109,16 @@ export default function Hospede() {
                               </thead>
 
                               <tbody>
-                                {checkin?.reverse()
-                                  .filter(item => {
+                                {checkin
+                                  ?.filter(item => {
                                     // Filtro por nome
                                     if (nomeFiltro && !item.nome.toLowerCase().includes(nomeFiltro.toLowerCase())) {
+                                      return false;
+                                    }
+                                    if (item.objreserva.hotel !== userhostel) {
+                                      return false;
+                                    }
+                                    if (item.ativado === '0') {
                                       return false;
                                     }
 
@@ -124,7 +134,7 @@ export default function Hospede() {
 
                                     return true;
                                   })
-                                  .map((item, index) => {
+                                  ?.reverse()?.map((item, index) => {
                                     return (
                                       <tr key={item.id} className="align-middle">
                                         <td>{item.nome}</td>

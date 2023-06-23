@@ -782,3 +782,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .mouse-hover-pointer:hover{
   cursor: pointer;
 }
+
+@media print {
+  .displaynone{
+    display: none;
+  }
+}

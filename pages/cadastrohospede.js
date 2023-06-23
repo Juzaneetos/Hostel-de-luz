@@ -1,3 +1,4 @@
+'use client'
 import axios from "axios";
 import Image from 'next/image';
 import { useEffect, useState, useRef } from "react";
@@ -276,6 +277,21 @@ export default function Home() {
 
   return (
     <>
+    <div className="d-flex flex-column align-items-center mt-3">
+                            <div style={{ width: '400px', boxShadow: '0 0 10px' }}>
+                              <canvas ref={canvasRef} width="400" height="200"></canvas>
+
+                            </div>
+                            <div className="col-md-12 mt-4 d-flex justify-content-center text-center">
+                              <div
+                                onClick={handleSaveSignature}
+                                className="btn btn-sm btn-primary qty_close"
+                                style={{ width: '250px' }}
+                              >
+                                Salvar Assinatura
+                              </div>
+                            </div>
+                          </div>
       {/* <!-- ec Banner Slider --> */}
       <Swiper
         modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
@@ -492,33 +508,13 @@ export default function Home() {
                           <div className="d-flex flex-column align-items-center mt-3">
                             <div style={{ width: '400px', boxShadow: '0 0 10px' }}>
 
-                            {/* <SignatureCanvas /> */}
-                            </div>
-                            <div className="col-md-12 mt-4 d-flex justify-content-center text-center">
-                              <div
-                                onClick={handleSaveSignature}
-                                className="btn btn-sm btn-primary qty_close"
-                                style={{ width: '250px' }}
-                              >
-                                Salvar Assinatura
+                              <div id="signature-pad">
+                                <canvas className="signature-canvas"></canvas>
                               </div>
                             </div>
-                          </div>
-                          <div className="d-flex flex-column align-items-center mt-3">
-                            <div style={{ width: '400px', boxShadow: '0 0 10px' }}>
 
-                              <canvas ref={canvasRef} width="400" height="200"></canvas>
-                            </div>
-                            <div className="col-md-12 mt-4 d-flex justify-content-center text-center">
-                              <div
-                                onClick={handleSaveSignature}
-                                className="btn btn-sm btn-primary qty_close"
-                                style={{ width: '250px' }}
-                              >
-                                Salvar Assinatura
-                              </div>
-                            </div>
                           </div>
+                          
                           <div className="col-md-6 mt-3">
                             <label htmlFor="phone-1" className="form-label">
                               Foto Frente
@@ -551,7 +547,7 @@ export default function Home() {
                               <img src={URL.createObjectURL(rgVersoImage)} alt="Foto Verso" />
                             )}
                           </div>
-                          
+
                           <div className="col-md-12 mt-3">
                             <label className="form-label">Observações</label>
                             <textarea
@@ -639,7 +635,7 @@ export default function Home() {
                               {mostrarTextoCompleto ? 'Mostrar Menos' : 'Mostrar Mais'}
                             </div>
                           </div>
-                          
+
                           <div className="col-md-12 mt-3 d-flex align-items-center justify-content-center">
                             <input
                               type="checkbox"

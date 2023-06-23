@@ -4,10 +4,9 @@ import { FaTrash } from "react-icons/fa";
 import useSwr, { mutate } from "swr";
 import { toast } from "react-toastify";
 import { AiOutlinePlus } from "react-icons/ai"
-
+import { useCookies, expires } from 'react-cookie';
 import router from 'next/router'
 import Menu from "../../components/b2b_components/Menu";
-import { useCookies, expires } from 'react-cookie';
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 //ADD NO CSS
@@ -24,7 +23,6 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 // }
 
 export default function NovoPedido({ }) {
-  const { data: hoteis } = useSwr(`/api/hoteis/getAllHotel`, fetcher);
   const [dataPedido, setDataPedido] = useState("");
   const [comandasPedido, setComandasPedido] = useState("");
   const [produtosPedido, setProdutosPedido] = useState([]);
@@ -44,7 +42,10 @@ export default function NovoPedido({ }) {
   const [active, setActive] = useState('1');
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
   const { data: produtos } = useSwr(`/api/produtos/getAllProdutos`, fetcher);
-
+  const [userhostel, setUserhostel] = useState('');
+  useEffect(() => {
+    setUserhostel(cookies.user_hostel)
+  }, [cookies])
   let hoje = new Date()
   let ano = hoje.getFullYear()
   let mes = hoje.getMonth() + 1
@@ -89,7 +90,7 @@ export default function NovoPedido({ }) {
       data_pedido: dataPedido,
       comandas: comandasPedido,
       cpf: cpf,
-      hostel: hostel,
+      hostel: userhostel,
       dataentrada: new Date(),
       datafechamento: datadefechamento,
       ativo: active,
@@ -415,17 +416,6 @@ export default function NovoPedido({ }) {
 
                               </div>
 
-                              <div className="space-t-15 mt-3 mb-3">
-                                <label htmlFor="phone-2" className="form-label">
-                                  Hostel
-                                </label>
-                                <select className="form-control here slug-title" id="cars" onChange={(e) => setHostel(e.target.value)}>
-                                  <option value='todos'>Todos os Hostels</option>
-                                  {hoteis?.map((item, index) => {
-                                    return (<option key={index} value={item._id}>{item.titulo}</option>)
-                                  })}
-                                </select>
-                              </div>
 
                               <div className="d-flex mb-3 space-t-15">
                                 <div className="row align-items-center">

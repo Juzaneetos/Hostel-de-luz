@@ -3,6 +3,8 @@ import axios from "axios";
 import router from 'next/router'
 import { toast } from "react-toastify";
 import useSwr, { mutate } from "swr";
+import { useCookies, expires } from 'react-cookie';
+import { useEffect } from "react";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 function AddDespesas() {
   const { data: allcategorias } = useSwr(`/api/categoriadespesas/getAllCategoria`, fetcher);
@@ -14,11 +16,16 @@ function AddDespesas() {
   const [quantidade, setQuantidade] = useState("");
   const [hostel, sethostel] = useState("");
   const [dataAtual, setDataAtual] = useState("");
+  const [cookies, setCookie] = useCookies(['user']);
+  const [userhostel, setUserhostel] = useState('');
+  useEffect(() => {
+    setUserhostel(cookies.user_hostel)
+  }, [cookies])
   const onSubmit = async (e) => {
    
     e.preventDefault();
     
-    if(titulo === '' || categoria === '' || hostel === '' || dataAtual === '' || valor === ''){
+    if(titulo === '' || categoria === '' || dataAtual === '' || valor === ''){
       toast.error('Preencha os campos corretamente!', {
         position: "top-right",
       });
@@ -34,7 +41,7 @@ function AddDespesas() {
         descricao: descricao,
         categoria: categoria,
         quantidade: quantidade,
-        hostel: hostel,
+        hostel: userhostel,
         entrada: dataAtual,
         valor: parseFloat(valor),
       });
@@ -120,21 +127,6 @@ function AddDespesas() {
               <select onChange={(e) => setCategoria(e.target.value)} className="form-control here slug-title" name="select">
                 <option value="geral">geral</option>
                 {allcategorias?.map((item, index) => {
-                  return (
-                    <option key={item._id} value={item._id}>{item.titulo}</option>
-                  )
-                })}
-              </select>
-            </div>
-          </div>
-          <div className="form-group row">
-            <label htmlFor="text" className="col-12 col-form-label">
-              Hostel
-            </label>
-            <div className="col-12">
-              <select onChange={(e) => sethostel(e.target.value)} className="form-control here slug-title" name="select">
-                <option value="geral">geral</option>
-                {allhostels?.map((item, index) => {
                   return (
                     <option key={item._id} value={item._id}>{item.titulo}</option>
                   )

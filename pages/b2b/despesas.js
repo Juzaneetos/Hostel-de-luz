@@ -15,11 +15,16 @@ import useSwr, { mutate } from "swr";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 import { format } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
+import { useCookies, expires } from 'react-cookie';
 export default function Despesas({ }) {
   const [despesasEditId, setCategoryEditId] = useState("");
   const [despesasInfo, setCategoryInfo] = useState([]);
   const [showEditCategoryComponent, setShowEditCategoryComponent] = useState(false);
-
+  const [cookies, setCookie] = useCookies(['user']);
+  const [userhostel, setUserhostel] = useState('');
+  useEffect(() => {
+    setUserhostel(cookies.user_hostel)
+  }, [cookies])
   const { data: despesas } = useSwr(`/api/despesas/getAllDespesas`, fetcher);
 
   var tamanho = despesas?.length || [];
@@ -93,37 +98,40 @@ export default function Despesas({ }) {
 
                               <tbody>
                                 {despesas?.map((item) => {
-                                  const formattedDate = format(new Date(item.entrada), 'dd/MM/yyyy', { locale: ptBR });
-                                  return (
-                                    <tr key={item._id} className="align-middle">
-                                      <td>{item.titulo}</td>
-                                      <td>{formattedDate}</td>
-                                      <td>{item.quantidade}</td>
-                                      <td>{formatter.format(parseFloat(item.valor))}</td>
-                                      <td>{item.descricao.length >= 20 ? `${item.descricao.slice(0, 20)}...` : `${item.descricao}`}</td>
-                                      <td className="text-right">
-                                        <div className="btn-group">
-                                          <button
-                                            type="value"
-                                            className="btn btn-primary"
-                                            onClick={(e) => {
-                                              setCategoryEditId(item._id);
-                                              setShowEditCategoryComponent(true);
-                                            }}
-                                            style={{marginRight: '10px'}}
-                                          >
-                                            <BsPencilFill />
-                                          </button>
-                                          <button
-                                            className="btn btn-outline-primary delete-btn"
-                                            onClick={() => deleteDespesas(item._id)}
-                                          >
-                                            <FaTrash color="#d93b3b" />
-                                          </button>
-                                        </div>
-                                      </td>
-                                    </tr>
-                                  );
+                                  console.log(item)
+                                  if(item.hostel === userhostel){
+                                    const formattedDate = format(new Date(item.entrada), 'dd/MM/yyyy', { locale: ptBR });
+                                    return (
+                                      <tr key={item._id} className="align-middle">
+                                        <td>{item.titulo}</td>
+                                        <td>{formattedDate}</td>
+                                        <td>{item.quantidade}</td>
+                                        <td>{formatter.format(parseFloat(item.valor))}</td>
+                                        <td>{item.descricao.length >= 20 ? `${item.descricao.slice(0, 20)}...` : `${item.descricao}`}</td>
+                                        <td className="text-right">
+                                          <div className="btn-group">
+                                            <button
+                                              type="value"
+                                              className="btn btn-primary"
+                                              onClick={(e) => {
+                                                setCategoryEditId(item._id);
+                                                setShowEditCategoryComponent(true);
+                                              }}
+                                              style={{marginRight: '10px'}}
+                                            >
+                                              <BsPencilFill />
+                                            </button>
+                                            <button
+                                              className="btn btn-outline-primary delete-btn"
+                                              onClick={() => deleteDespesas(item._id)}
+                                            >
+                                              <FaTrash color="#d93b3b" />
+                                            </button>
+                                          </div>
+                                        </td>
+                                      </tr>
+                                    );
+                                  }
                                 })}
                               </tbody>
                             </table>

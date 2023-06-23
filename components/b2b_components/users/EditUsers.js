@@ -2,16 +2,19 @@ import axios from "axios";
 import router from 'next/router'
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import useSwr, { mutate } from "swr";
 import { BsPencilFill } from "react-icons/bs";
+import useSwr, { mutate } from "swr";
+const fetcher = (url) => fetch(url).then((res) => res.json());
+
 export default function EditUsers({ usersEditId, users }) {
+  const { data: hoteis } = useSwr(`/api/hoteis/getAllHotel`, fetcher);
   const [id_, setId_] = useState();
   const [usersName, setUserName] = useState("");
   const [usersLogin, setUserLogin] = useState("");
   const [usersEmail, setUserEmail] = useState("");
   const [usersPassword, setUsersPassword] = useState("");
   const [usersLevel, setUsersLevel] = useState();
-
+  const [userhostel, setUserhostel] = useState("");
 
   useEffect(() => {
     users?.map(item => {
@@ -20,6 +23,7 @@ export default function EditUsers({ usersEditId, users }) {
         setUserEmail(item.email);
         setUserLogin(item.login);
         setUsersPassword(item.password);
+        setUserhostel(item.hostel);
         setId_(item._id);
         if(item.level === 10) {setUsersLevel('Funcionario')}
         if(item.level === 30) {setUsersLevel('Gerente')}
@@ -41,6 +45,7 @@ export default function EditUsers({ usersEditId, users }) {
       email: usersEmail,
       user: usersLogin,
       password: usersPassword,
+      hostel: userhostel,
       userlevel: lvlAccess,
       active: 1,
     });
@@ -117,6 +122,20 @@ export default function EditUsers({ usersEditId, users }) {
                 value={usersPassword}
                 onChange={(e) => setUsersPassword(e.target.value)}
               />
+            </div>
+          </div>
+
+          <div className="form-group row">
+            <label htmlFor="phone-2" className="col-12 col-form-label">
+              Hostel
+            </label>
+            <div className="col-12">
+            <select className="form-control here slug-title" value={userhostel} id="cars" onChange={(e) => setUserhostel(e.target.value)}>
+              <option value='todos'>Todos os Hostels</option>
+              {hoteis?.map((item, index) => {
+                return (<option key={item._id} value={item._id}>{item.titulo}</option>)
+              })}
+            </select>
             </div>
           </div>
 

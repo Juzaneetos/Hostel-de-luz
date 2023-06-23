@@ -56,6 +56,7 @@ export default function Menu({ parametro }) {
     setCookie("user_id", ``, { path: '/' });
     setCookie("user_login", ``, { path: '/' });
     setCookie("user_level", ``, { path: '/' });
+    setCookie("user_hostel", ``, { path: '/' });
     return router.push("/b2b/login");
   }
 
@@ -101,7 +102,6 @@ export default function Menu({ parametro }) {
                     </Link>
                   </li>
 
-                  <hr />
 
                   {/* <li className={parametro === '4' ? `active` : ``}>
                     <Link
@@ -122,6 +122,7 @@ export default function Menu({ parametro }) {
                       <span className="nav-text">Todos os Hóspedes</span>
                     </Link>
                   </li>
+                  <hr />
                 </>
                 :
                 <></>
@@ -179,16 +180,19 @@ export default function Menu({ parametro }) {
                       <span className="nav-text">Venda Por Fora</span>
                     </Link>
                   </li>
+                  {level === '50' || level === '40' ?
+                    <li className={parametro === '25' ? `active` : ``}>
+                      <Link
+                        className="sidenav-item-link"
+                        href="/b2b/financeiroloja"
+                      >
+                        <GiReceiveMoney size={24} />
+                        <span className="nav-text">Financeiro Loja</span>
+                      </Link>
+                    </li>
 
-                  <li className={parametro === '25' ? `active` : ``}>
-                    <Link
-                      className="sidenav-item-link"
-                      href="/b2b/financeiroloja"
-                    >
-                      <GiReceiveMoney size={24} />
-                      <span className="nav-text">Financeiro Loja</span>
-                    </Link>
-                  </li>
+                    : <></>}
+
                   <hr />
                 </>
                 :

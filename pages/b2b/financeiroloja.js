@@ -8,7 +8,8 @@ import Footer from "../../components/b2b_components/Footer";
 import useSwr, { mutate } from "swr";
 import { format } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
-
+import ReactToPrint from 'react-to-print';
+import { useRef } from "react";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function Financeirodespesas() {
@@ -24,13 +25,13 @@ export default function Financeirodespesas() {
     const [despesasArr, setCheckinArr] = useState([]);
     const [categoria, setCategoria] = useState("todos");
     const [hostel, setHostel] = useState("todos");
-
+    const innerPageRef = useRef();
     var tamanho = getAllPedidos?.length || [];
 
     useEffect(() => {
         let valortotal = 0;
         let itensativos = 0;
-        getAllPedidos?.map((item, index) => {
+        getAllPedidos?.reverse()?.map((item, index) => {
             itensativos = itensativos + 1;
             valortotal = valortotal + parseFloat(item.valor_total)
             if (getAllPedidos.length === index + 1) {
@@ -165,9 +166,16 @@ export default function Financeirodespesas() {
                 <Menu parametro={'25'} />
                 <div className="ec-page-wrapper">
                     <div className="ec-content-wrapper">
-                        <div className="content">
+                        <div className="content" ref={innerPageRef}>
                             <div className="breadcrumb-wrapper d-flex align-items-center justify-content-between">
                                 <h1>Financeiro Loja</h1>
+                                <ReactToPrint
+                                    trigger={() => <div className="pr-1">
+                                    <button className="btn btn-primary text-white">Download</button>
+                                </div>}
+                                    content={() => innerPageRef.current}
+                                    pageStyle={`@page { padding: 20px; }`}
+                                />
                                 <p className="breadcrumbs">
                                     <span>
                                         <Link href="/b2b">Dashboard</Link>
@@ -229,7 +237,7 @@ export default function Financeirodespesas() {
                                     <h5 className="text-white">Pedidos Realizados</h5>
                                     <div className="text-white">{hospedes2}</div>
                                 </div>
-                                <div className="col-lg-6 modalprice" style={{background: '#89e500'}}>
+                                <div className="col-lg-6 modalprice" style={{ background: '#89e500' }}>
                                     <h5 className="text-white">Renda Total</h5>
                                     <div className="text-white">{formatter.format(rendatotal2)}</div>
                                 </div>

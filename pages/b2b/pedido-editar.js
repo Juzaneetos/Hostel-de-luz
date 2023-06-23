@@ -434,9 +434,11 @@ export default function NovoPedido({ }) {
                                 Hostel
                               </label>
                               <select value={hostel} className="form-control here slug-title" id="cars" onChange={(e) => setHostel(e.target.value)}>
-                                <option value='todos'>Todos os Hostels</option>
+                           
                                 {hoteis?.map((item, index) => {
-                                  return (<option key={index} value={item._id}>{item.titulo}</option>)
+                                  if(hostel === item._id){
+                                    return (<option key={index} value={item._id}>{item.titulo}</option>)
+                                  }
                                 })}
                               </select>
                             </div>

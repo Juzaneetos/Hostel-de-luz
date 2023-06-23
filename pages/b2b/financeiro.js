@@ -5,10 +5,12 @@ import Link from "next/link";
 import Modal from "../../components/b2b_components/Modal";
 import Menu from "../../components/b2b_components/Menu";
 import Footer from "../../components/b2b_components/Footer";
-import useSwr, { mutate } from "swr";
 import { BsPencilFill, BsWhatsapp } from "react-icons/bs";
 import { format } from 'date-fns';
+import ReactToPrint from 'react-to-print';
+import { useRef } from "react";
 import ptBR from 'date-fns/locale/pt-BR';
+import useSwr, { mutate } from "swr";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function Financeiro() {
@@ -26,7 +28,7 @@ export default function Financeiro() {
     const [entrada, setEntrada] = useState('');
     const [saida, setSaida] = useState('');
     const [checkinArr, setCheckinArr] = useState([]);
-
+    const innerPageRef = useRef();
     const { data: checkin } = useSwr(`/api/checkin/getAllCheckin`, fetcher);
     const { data: quartos } = useSwr(`/api/quartos/getAllQuarto`, fetcher);
 
@@ -36,7 +38,7 @@ export default function Financeiro() {
         let valortotal = 0;
         let pagototal = 0;
         let hospedesinativos = 0;
-        checkin?.map((item, index) => {
+        checkin?.reverse()?.map((item, index) => {
             if (item.ativado === '0') {
                 hospedesinativos = hospedesinativos + 1;
                 valortotal = valortotal + parseInt(item.valorpago)
@@ -254,9 +256,16 @@ export default function Financeiro() {
                 <Menu parametro={'7'} />
                 <div className="ec-page-wrapper">
                     <div className="ec-content-wrapper">
-                        <div className="content">
+                        <div className="content" ref={innerPageRef}>
                             <div className="breadcrumb-wrapper d-flex align-items-center justify-content-between">
                                 <h1>Financeiro Hóspede</h1>
+                                <ReactToPrint
+                                    trigger={() => <div className="pr-1">
+                                    <button className="btn btn-primary text-white">Download</button>
+                                </div>}
+                                    content={() => innerPageRef.current}
+                                    pageStyle={`@page { padding: 20px; }`}
+                                />
                                 <p className="breadcrumbs">
                                     <span>
                                         <Link href="/b2b">Dashboard</Link>

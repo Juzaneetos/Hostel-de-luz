@@ -7,9 +7,11 @@ import Menu from "../../components/b2b_components/Menu";
 import Link from "next/link"
 import router from "next/router";
 import { BsFillEyeFill } from "react-icons/bs";
+import { BsPencilFill } from "react-icons/bs";
 import { format } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 const fetcher = (url) => fetch(url).then((res) => res.json());
+import { useCookies, expires } from 'react-cookie';
 
 export default function PedidosFechados({ }) {
   const [searchItemComanda, setSearchItemComanda] = useState("");
@@ -17,7 +19,11 @@ export default function PedidosFechados({ }) {
   const [filter, setFilter] = useState([]);
   const [totalTableValue, setTotalTableValue] = useState(0);
   const [existe, setExiste] = useState(false);
-
+  const [cookies, setCookie] = useCookies(['user']);
+  const [userhostel, setUserhostel] = useState('');
+  useEffect(() => {
+    setUserhostel(cookies.user_hostel)
+  }, [cookies])
   const { data: pedido } = useSwr(`/api/pedidos/getAllPedidos`, fetcher);
 
 
@@ -27,7 +33,7 @@ export default function PedidosFechados({ }) {
   });
 
   useEffect(() => {
-    setFilter(pedido)
+    setFilter(pedido?.reverse())
   }, [pedido])
 
   useEffect(() => {
@@ -39,7 +45,7 @@ export default function PedidosFechados({ }) {
     let valorTotalFinal = 0;
 
     filter?.map((item, index) => {
-      if(item.ativo === '0'){
+      if (item.ativo === '0' && userhostel === item.hostel) {
         values.push({
           id: item._id,
           valorTotal: parseFloat(item.valor_total)
@@ -76,13 +82,13 @@ export default function PedidosFechados({ }) {
     setFilter(pedido?.filter((item, index) => {
       let dataPedido = new Date(item.data_pedido).toLocaleDateString('pt-BR');
       itemObtidoData = dataPedido.toLowerCase().includes(searchItemData);
-      if(searchItemData === 'Invalid Date'){
+      if (searchItemData === 'Invalid Date') {
         return true;
-      }else{
+      } else {
         return itemObtidoData;
       }
     }));
-    
+
   }, [searchItemData]);
 
   const deletePedido = async (id) => {
@@ -95,7 +101,7 @@ export default function PedidosFechados({ }) {
     <>
       <div className="bg-geral">
         <div style={{ display: 'flex' }}>
-          <Menu  parametro={'20'}/>
+          <Menu parametro={'20'} />
           <div className="ec-page-wrapper">
             <div className="ec-content-wrapper">
               <div className="content">
@@ -130,7 +136,7 @@ export default function PedidosFechados({ }) {
                                 type="date"
                                 placeholder="Digite sua busca por data"
                                 className="form-control here slug-title"
-                                onChange={(e) => { 
+                                onChange={(e) => {
                                   const selectedDate = new Date(e.target.value);
                                   const formattedDate = selectedDate.toLocaleDateString("pt-BR");
                                   setSearchItemData(formattedDate);
@@ -154,19 +160,21 @@ export default function PedidosFechados({ }) {
 
                             <tbody>
                               {filter?.reverse()?.map((item, index) => {
-                                const originalDate = item.dataentrada;
-                                const fechamentoDate = item.datafechamento;
-                                let fechamentoDateformat = ''
-                                  if(fechamentoDate !== ''){
-                                     fechamentoDateformat = format(new Date(fechamentoDate), 'dd/MM/yyyy', { locale: ptBR });
+                                if (userhostel === item.hostel && item.ativo === '0') {
+                                  const originalDate = item.dataentrada;
+                                  const fechamentoDate = item.datafechamento;
+                                  let fechamentoDateformat = '';
+                                  if (fechamentoDate !== '') {
+                                    fechamentoDateformat = format(new Date(fechamentoDate), 'dd/MM/yyyy', { locale: ptBR });
                                   }
                                   const formattedDate = format(new Date(originalDate), 'dd/MM/yyyy', { locale: ptBR });
-                                if(item.ativo === '0'){
+
                                   const dataPedido = new Date(item.data_pedido.split('T')[0]);
                                   const dia = String(dataPedido.getUTCDate()).padStart(2, '0');
                                   const mes = String(dataPedido.getUTCMonth() + 1).padStart(2, '0');
                                   const ano = dataPedido.getUTCFullYear();
                                   const dataFormatada = `${dia}/${mes}/${ano}`;
+
                                   return (
                                     <tr key={index} className="align-middle">
                                       <td>{dataFormatada}</td>
@@ -179,27 +187,30 @@ export default function PedidosFechados({ }) {
                                         <div className="btn-group">
                                           <Link
                                             href={{
-                                              pathname: `/b2b/pedidos-visualizar`,
-                                              query: {
-                                                id: item._id, // pass the id 
-                                              },
+                                              pathname: '/b2b/pedidos-visualizar',
+                                              query: { id: `${item?._id}` }
                                             }}
-                                            style={{marginRight: '10px'}}
+                                            title="Edit Detail"
+                                            style={{ marginRight: '10px' }}
                                             className="btn btn-primary"
-                                          > <BsFillEyeFill size={18}/></Link>
-                                            <button
-                                              className="btn btn-outline-info delete-btn"
-                                              onClick={() => deletePedido(item._id)}
-                                            >
-                                              <FaTrash color="#DC3545" />
-                                            </button>
+                                          >
+                                            <BsPencilFill />
+                                          </Link>
+                                          <button
+                                            className="btn btn-outline-info delete-btn"
+                                            onClick={() => deletePedido(item._id)}
+                                          >
+                                            <FaTrash color="#DC3545" />
+                                          </button>
                                         </div>
                                       </td>
-                                    </tr>)
+                                    </tr>
+                                  );
                                 }
                               })}
+
                             </tbody>
-                            <tfoot>
+                            {/* <tfoot>
                               <tr>
                                 <th>Qtd.</th>
                                 <th>{existe > 0 ? filter?.length : '0'}</th>
@@ -207,7 +218,7 @@ export default function PedidosFechados({ }) {
                                 <th>{totalTableValue}</th>
                                 <th></th>
                               </tr>
-                            </tfoot>
+                            </tfoot> */}
                           </table>
                         </div>
                       </div>

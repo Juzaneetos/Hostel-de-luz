@@ -23,6 +23,7 @@ export default function SignUp({ users }) {
         setCookie("user_id", `${item._id}`, { path: '/' });
         setCookie("user_login", `${item.login}`, { path: '/' });
         setCookie("user_level", `${item.level}`, { path: '/' });
+        setCookie("user_hostel", `${item.hostel}`, { path: '/' });
 
         return router.push("/b2b");
       }
