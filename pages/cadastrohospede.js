@@ -539,7 +539,7 @@ export default function Home() {
                             <label className="form-label">Observações</label>
                             <textarea
                               rows={5}
-                              className="slug-title"
+                              className="slug-title text-black"
                               id="inputEmail4"
                               onChange={(e) => setObservações(e.target.value)}
                             />
