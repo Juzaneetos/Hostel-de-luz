@@ -141,7 +141,7 @@ export default function NovoPedido({ }) {
       toast.success(`${produto.nome} foi adicionado lista!`, {
         position: "top-right",
       });
-      attValorPedidoAdicao((parseFloat(produto.valorVenda) * parseFloat(produto.quantidade)));
+      attValorPedidoAdicao((parseFloat(produto.valorVenda) * 1));
       return;
     }
   }
@@ -177,17 +177,17 @@ export default function NovoPedido({ }) {
   const attValorPedidoAdicao = async (valorAdcionar) => {
     let valorTotal = 0;
     produtosPedido?.map((item, index) => {
-      let valorParcial = item.quantidade * item.valorVenda
+      let valorParcial = parseFloat(item.quantidade) * parseFloat(item.valorVenda)
 
       valorTotal = parseFloat(valorTotal) + parseFloat(valorParcial);
     })
-    setValorTotalPedido(valorTotal + valorAdcionar)
+    setValorTotalPedido(parseFloat(valorTotal) + parseFloat(valorAdcionar))
   }
 
   const attValorPedidoDelete = async (valorSubtrair) => {
     let valorTotal = 0;
     produtosPedido?.map((item, index) => {
-      let valorParcial = item.quantidade * item.valorVenda
+      let valorParcial = parseFloat(item.quantidade) * parseFloat(item.valorVenda)
 
       valorTotal = parseFloat(valorTotal) + parseFloat(valorParcial);
     })
@@ -427,20 +427,6 @@ export default function NovoPedido({ }) {
                                 </> : <></>
                               }
 
-                            </div>
-
-                            <div className="space-t-15 mt-3 mb-3">
-                              <label htmlFor="phone-2" className="form-label">
-                                Hostel
-                              </label>
-                              <select value={hostel} className="form-control here slug-title" id="cars" onChange={(e) => setHostel(e.target.value)}>
-                           
-                                {hoteis?.map((item, index) => {
-                                  if(hostel === item._id){
-                                    return (<option key={index} value={item._id}>{item.titulo}</option>)
-                                  }
-                                })}
-                              </select>
                             </div>
 
                             <div className="d-flex mb-3">

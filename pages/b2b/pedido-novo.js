@@ -118,7 +118,7 @@ export default function NovoPedido({ }) {
       toast.success(`${produto.nome} foi adicionado lista!`, {
         position: "top-right",
       });
-      attValorPedidoAdicao((parseFloat(produto.valorVenda) * parseFloat(produto.quantidade)));
+      attValorPedidoAdicao((parseFloat(produto.valorVenda) * 1));
       return;
     }
   }
@@ -131,17 +131,17 @@ export default function NovoPedido({ }) {
     attValorPedidoDelete(valorSubtrair);
   }
 
-  const attPedido = async (value, id) => {
+  const attPedido = (value, id) => {
     produtosPedido?.map((item, index) => {
 
       if (item._id === id) {
-        item.quantidade = parseFloat(value);
+        item.quantidade = value;
       }
     })
     attValorPedido();
   }
 
-  const attValorPedido = async (e) => {
+  const attValorPedido = (e) => {
     let valorTotal = 0;
     produtosPedido?.map((item, index) => {
       let valorParcial = parseFloat(item.quantidade) * parseFloat(item.valorVenda);
@@ -151,7 +151,7 @@ export default function NovoPedido({ }) {
     setValorTotalPedido(valorTotal)
   }
 
-  const attValorPedidoAdicao = async (valorAdcionar) => {
+  const attValorPedidoAdicao = (valorAdcionar) => {
     let valorTotal = 0;
     produtosPedido?.map((item, index) => {
       let valorParcial = parseFloat(item.quantidade) * parseFloat(item.valorVenda)
@@ -161,24 +161,24 @@ export default function NovoPedido({ }) {
     setValorTotalPedido(valorTotal + valorAdcionar)
   }
 
-  const attValorPedidoDelete = async (valorSubtrair) => {
+  const attValorPedidoDelete = (valorSubtrair) => {
     let valorTotal = 0;
     produtosPedido?.map((item, index) => {
-      let valorParcial = item.quantidade * item.valorVenda
+      let valorParcial = parseFloat(item.quantidade) * parseFloat(item.valorVenda)
 
       valorTotal = parseFloat(valorTotal) + parseFloat(valorParcial);
     })
     setValorTotalPedido(valorTotal - valorSubtrair)
   }
 
-  const attValorTotal = async (e, valorDesconto) => {
+  const attValorTotal = (e, valorDesconto) => {
     e.preventDefault();
     let valorFinal = parseFloat(valorTotalPedido) - parseFloat(valorDesconto);
     retiraDotComma(valorFinal)
     setValorTotalPedido(valorFinal)
   }
 
-  const attTroco = async (e, valorPago) => {
+  const attTroco =   (e, valorPago) => {
     e.preventDefault();
     let troco = parseFloat(pagamentoPedido) - parseFloat(valorTotalPedido);
     retiraDotComma(troco)
@@ -308,7 +308,7 @@ export default function NovoPedido({ }) {
                                           type="number"
                                           name="campoQtd"
                                           className="campoQtd mx-1"
-                                          defaultValue={item.quantidade}
+                                          defaultValue={parseFloat(item.quantidade)}
                                           onChange={(e) => attPedido(e.target.value, item._id)}
                                         />
                                         <div className="d-flex justify-content-between w-100">
