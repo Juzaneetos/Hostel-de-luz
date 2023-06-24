@@ -107,25 +107,44 @@ export default function Home() {
         }
       } else {
         hospedes?.map((item, index) => {
+          let verdadeiro = item.passaporte === 'vazio';
+
           if (Name === '' || cpf === '' || telefone === '') {
             contador = contador + 1
             if (!errorOccurred) {
               errorOccurred = true;
               toast.error('gentileza preencha os campos!')
             }
-          } else if (item.rg === rg || item.cpf === cpf || item.passaporte === passaporte) {
-            contador = contador + 1
-            if (!errorOccurred) {
-              errorOccurred = true;
-              toast.error('Úsuario ja cadastrado')
+          } else if(verdadeiro === true){
+            if (item.rg === rg || item.cpf === cpf) {
+              contador = contador + 1
+              if (!errorOccurred) {
+                errorOccurred = true;
+                toast.error('Úsuario ja cadastrado')
+              }
+            } else if (contador === 0 && errorOccurred === false) {
+              if (!errorOccurred) {
+                errorOccurred = true;
+                toast.success('Úsuario cadastrado!')
+                onSubmit()
+              }
             }
-          } else if (contador === 0 && errorOccurred === false) {
-            if (!errorOccurred) {
-              errorOccurred = true;
-              toast.success('Úsuario cadastrado!')
-              onSubmit()
+          }else{
+            if (item.passaporte === passaporte) {
+              contador = contador + 1
+              if (!errorOccurred) {
+                errorOccurred = true;
+                toast.error('Úsuario ja cadastrado')
+              }
+            } else if (contador === 0 && errorOccurred === false) {
+              if (!errorOccurred) {
+                errorOccurred = true;
+                toast.success('Úsuario cadastrado!')
+                onSubmit()
+              }
             }
           }
+          
         })
       }
     }
