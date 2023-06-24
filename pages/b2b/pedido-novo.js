@@ -135,7 +135,7 @@ export default function NovoPedido({ }) {
     produtosPedido?.map((item, index) => {
 
       if (item._id === id) {
-        item.quantidade = parseInt(value);
+        item.quantidade = parseFloat(value);
       }
     })
     attValorPedido();
