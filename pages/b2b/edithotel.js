@@ -124,7 +124,7 @@ export default function EditProduct() {
 
             if (contadorToast === 0) {
               contadorToast++
-              toast('Aguarde Banner sendo editado!', {
+              toast('Aguarde Hostel sendo editado!', {
                 position: "top-right",
               });
             }
