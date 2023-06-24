@@ -292,6 +292,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background-color: #0D6EFD !important;
 }
 
+.tamanhoassinaturadektop{
+  width: 400px;
+}
+
 .imageBanner {
   width: 100%;
   height: 100%;
@@ -413,6 +417,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     justify-content: center;
   }
 
+  .tamanhoassinaturadektop{
+    width: auto;
+  }
+
   .mob-featured {
     align-items: center;
     flex-direction: column;
@@ -469,6 +477,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 @media all and (min-width: 241px) and (max-width: 480px) {
   .mob-column {
     flex-direction: column;
+  }
+
+  .tamanhoassinaturadektop{
+    width: auto;
   }
 
   .mob-row {
@@ -540,6 +552,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     flex-direction: row;
   }
 
+  .tamanhoassinaturadektop{
+    width: auto;
+  }
+
   .mob-center {
     justify-content: center;
   }
@@ -607,6 +623,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
   .mob-center {
     justify-content: center;
+  }
+
+  .tamanhoassinaturadektop{
+    width: auto;
   }
 
   .mob-none {

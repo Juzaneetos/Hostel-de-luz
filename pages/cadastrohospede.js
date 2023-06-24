@@ -2,7 +2,7 @@
 import axios from "axios";
 import Image from 'next/image';
 import { useEffect, useState, useRef } from "react";
-
+import { BsEraser } from 'react-icons/bs';
 import Link from "next/link";
 import useSwr, { mutate } from "swr";
 import router from 'next/router'
@@ -60,6 +60,7 @@ export default function Home() {
   }, []);
 
   const handleSaveSignature = async () => {
+    toast('Assinatura salva com sucesso!')
     const signatureImage = signaturePad.current.toDataURL();
     setAssinatura(signaturePad.current.toDataURL())
     setLiberado(true);
@@ -275,9 +276,12 @@ export default function Home() {
     mutate('/api/hospedes/getAllHospedes');
   }
 
+  const handleClear = () => {
+    signaturePad.current.clear();
+  };
   return (
     <>
-    
+
       {/* <!-- ec Banner Slider --> */}
       <Swiper
         modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
@@ -478,8 +482,8 @@ export default function Home() {
                                 className="form-control" id="email" />
                             </div>
                           </div>
-                         
-                          
+
+
 
                           {cidadania === 'Brasileira' &&
                             <>
@@ -525,11 +529,11 @@ export default function Home() {
                           }
 
 
-                          
 
-                          
-                          
-                        
+
+
+
+
 
                           <div className="col-md-12 mt-3">
                             <label className="form-label">Observações</label>
@@ -618,24 +622,27 @@ export default function Home() {
                               {mostrarTextoCompleto ? 'Mostrar Menos' : 'Mostrar Mais'}
                             </div>
                             <div className="col-md-12 mt-3 d-flex align-items-center justify-content-center">
-                            <input
-                              type="checkbox"
-                              id="phone-1"
-                              value={'Aceito'}
-                              style={{ width: '80px', height: '25px' }}
-                              onChange={(e) => setAceitoRegras(e.target.value)}
-                            />
-                            <label htmlFor="phone-1" className="form-label m-0" style={{ fontWeight: '600' }}>
-                              Li e aceito as regras do estabelecimento
-                            </label>
-                          </div>
+                              <input
+                                type="checkbox"
+                                id="phone-1"
+                                value={'Aceito'}
+                                style={{ width: '80px', height: '25px' }}
+                                onChange={(e) => setAceitoRegras(e.target.value)}
+                              />
+                              <label htmlFor="phone-1" className="form-label m-0" style={{ fontWeight: '600' }}>
+                                Li e aceito as regras do estabelecimento
+                              </label>
+                            </div>
                           </div>
 
-                          
+
                           <div className="d-flex flex-column align-items-center mt-3">
-                            <div style={{ width: '400px', boxShadow: '0 0 10px' }}>
-                              <canvas ref={canvasRef} width="400" height="200"></canvas>
-
+                            <label className="form-label">Escreva sua assinatura aqui</label>
+                            <div style={{ boxShadow: '0 0 10px' }} className="tamanhoassinaturadektop">
+                              <canvas ref={canvasRef}  height="200"></canvas>
+                              <div className="btn btn-sm btn-primary qty_close" style={{height: '30px'}} onClick={handleClear}>
+                                <BsEraser size={20} style={{marginRight: '10px'}}/> Limpar assinatura
+                              </div>
                             </div>
                             <div className="col-md-12 mt-4 d-flex justify-content-center text-center">
                               <div
