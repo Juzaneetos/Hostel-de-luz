@@ -293,7 +293,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .tamanhoassinaturadektop{
-  width: 400px;
+  width: 300px;
 }
 
 .imageBanner {
@@ -418,7 +418,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   }
 
   .tamanhoassinaturadektop{
-    width: auto;
+    width: 100%;
   }
 
   .mob-featured {
@@ -480,7 +480,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   }
 
   .tamanhoassinaturadektop{
-    width: auto;
+    width: 100%;
   }
 
   .mob-row {
@@ -553,7 +553,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   }
 
   .tamanhoassinaturadektop{
-    width: auto;
+    width: 100%;
   }
 
   .mob-center {
@@ -626,7 +626,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   }
 
   .tamanhoassinaturadektop{
-    width: auto;
+    width: 100%;
   }
 
   .mob-none {

@@ -639,7 +639,7 @@ export default function Home() {
                           <div className="d-flex flex-column align-items-center mt-3">
                             <label className="form-label">Escreva sua assinatura aqui</label>
                             <div style={{ boxShadow: '0 0 10px' }} className="tamanhoassinaturadektop">
-                              <canvas ref={canvasRef}  height="200"></canvas>
+                              <canvas ref={canvasRef} height="200"></canvas>
                               <div className="btn btn-sm btn-primary qty_close" style={{height: '30px'}} onClick={handleClear}>
                                 <BsEraser size={20} style={{marginRight: '10px'}}/> Limpar assinatura
                               </div>
