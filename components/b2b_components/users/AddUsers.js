@@ -22,7 +22,10 @@ export default function AddUsers() {
     if (usersLevel === 'funcionarioHostel') { lvlAccess = '20' }
     if (usersLevel === 'funcionarioLoja') { lvlAccess = '30' }
     if (usersLevel === 'gerente') { lvlAccess = '40' }
-
+    toast('Usuário sendo adicionado!', {
+      position: "top-right",
+    });
+    mutate(`/api/users`);
     await axios.post(`/api/users/insertUsers`, {
       name: usersName,
       email: usersEmail,
@@ -33,11 +36,9 @@ export default function AddUsers() {
       active: 1,
       
     });
-    toast('Usuário sendo adicionado!', {
-      position: "top-right",
-    });
+    
     router.reload();
-    mutate(`/api/users`);
+    
   };
 
   return (
