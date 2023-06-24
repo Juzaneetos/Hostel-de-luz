@@ -18015,6 +18015,7 @@ a.badge-purple.focus {
   border-color: #3DADC5;
   border-radius: 3px;
   transition: 0.3s all ease;
+  line-height: 1.2;
   /* align-items: self-end; */
 }
 .btn.btn-primary:hover,

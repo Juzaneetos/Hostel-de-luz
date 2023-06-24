@@ -112,6 +112,7 @@ export default function Modal({ customers, id_ }) {
     })})
   }, [id_])
 
+  let somatoria = calcularDiferencaDias(entrada, saidamanha) * valordiaria;
   function calcularDiferencaDias(dataInicio, dataFim) {
     const inicio = parseISO(dataInicio);
     const fim = parseISO(dataFim);
@@ -119,7 +120,6 @@ export default function Modal({ customers, id_ }) {
     
     return diferenca;
   }
-  let somatoria = calcularDiferencaDias(entrada, saida) * valordiaria;
 
   let contadordisponivel = 0;
   let contadorrenderizado = 0;
@@ -565,6 +565,7 @@ export default function Modal({ customers, id_ }) {
     campo.value = resultado.split('').reverse().join('');
   }
   
+  
 
   return (
     <div className="modal fade" id="edit_modal" tabIndex="-1" role="dialog">
@@ -762,9 +763,13 @@ export default function Modal({ customers, id_ }) {
                               value={saidamanha}
                               id="phone-2"
                               onChange={(e) => datamudou(e.target.value, 'saida')}
-                            />
+                              />
                             <span className="calendar-icon"></span>
                           </div>
+
+                          <div className="col-md-12 date-input text-center mb-3 mt-3">
+                              <h5>Valor Total: R${somatoria ? somatoria.toFixed(2) : 'Esperando dados...'}</h5>
+                              </div>
 
                           <div className="col-md-6 mt-3">
                             <label htmlFor="phone-1" className="form-label">
@@ -790,13 +795,9 @@ export default function Modal({ customers, id_ }) {
                               </label>
                               {assinatura && (
                                 <img src={assinatura.url} alt="RG Verso" />
-                              )}
+                                )}
                             </div>
                           </div>
-
-                          <div className="col-md-12 date-input text-center mt-3">
-                                <h5>Valor Total: R${somatoria ? somatoria.toFixed(2) : 'Esperando dados...'}</h5>
-                              </div>
 
                           <h3 className="text-center mb-2 mt-4"> Escolha o Hotel </h3>
                           <div className="col-md-12 d-flex flex-wrap justify-content-around">

@@ -79,8 +79,8 @@ export default function NovoPedido({ }) {
   }, [searchItem]);
 
   const onSubmit = async (e) => {
-    e.preventDefault();
     router.push("/b2b/pedidos-abertos");
+    e.preventDefault();
     toast('Pedido editado com sucesso!', {
       position: "top-right",
     });
@@ -110,9 +110,9 @@ export default function NovoPedido({ }) {
       metodo_pagamento: metodoPedido,
       acesso_comanda: abertpor,
     });
-
+    router.reload();
     mutate(`/api/pedidos`);
-
+    router.push("/b2b/pedidos-abertos");
     filter?.map((item) => {
       item.quantidade = 0;
     })
