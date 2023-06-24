@@ -40,6 +40,9 @@ import {
   BiBookAdd,
   MdSell
 } from "react-icons/md"
+import {
+  AiFillFilePdf
+} from "react-icons/ai"
 
 
 export default function Menu({ parametro }) {
@@ -209,6 +212,15 @@ export default function Menu({ parametro }) {
                     >
                       <GiBroom size={24} />
                       <span className="nav-text">Troca de Roupa Cama</span>
+                    </Link>
+                  </li>
+                  <li className={parametro === '6' ? `active` : ``}>
+                    <Link
+                      className="sidenav-item-link"
+                      href="/b2b/visualizarpdf"
+                    >
+                      <AiFillFilePdf size={24} />
+                      <span className="nav-text">PDF's</span>
                     </Link>
                   </li>
                 </>
