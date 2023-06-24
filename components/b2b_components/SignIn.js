@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Image from 'next/image'
 import router from "next/router";
-
+import { toast } from "react-toastify";
 
 export default function SignUp({ users }) {
   const [userLogin, setUserLogin] = useState("");
@@ -16,16 +16,22 @@ export default function SignUp({ users }) {
 
   function login(e) {
     e.preventDefault();
-
-    users?.forEach(item => {
+    let contador = 0;
+    users?.forEach((item, index) => {
       if (item.login === userLogin && item.password === userPassword) {
         setCookie("access_token", "3erdy34kirud34otud345yc43857cp29458f", { path: '/' });
         setCookie("user_id", `${item._id}`, { path: '/' });
         setCookie("user_login", `${item.login}`, { path: '/' });
         setCookie("user_level", `${item.level}`, { path: '/' });
         setCookie("user_hostel", `${item.hostel}`, { path: '/' });
-
+        toast(`Seja Bem vindo ${item.name}` )
         return router.push("/b2b");
+      }else{
+        if(contador === 0 && users.length === index + 1){
+          contador++;
+          toast.error('usuario ou senha incorretos!')
+          return
+        }
       }
     });
 
