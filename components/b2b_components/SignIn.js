@@ -19,6 +19,7 @@ export default function SignUp({ users }) {
     let contador = 0;
     users?.forEach((item, index) => {
       if (item.login === userLogin && item.password === userPassword) {
+        contador++;
         setCookie("access_token", "3erdy34kirud34otud345yc43857cp29458f", { path: '/' });
         setCookie("user_id", `${item._id}`, { path: '/' });
         setCookie("user_login", `${item.login}`, { path: '/' });
