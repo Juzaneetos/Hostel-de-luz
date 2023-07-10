@@ -45,7 +45,7 @@ export default function PedidosFechados({ }) {
     let valorTotalFinal = 0;
 
     filter?.map((item, index) => {
-      if (item.ativo === '0' && userhostel === item.hostel) {
+      if (item.ativo === '0' && userhostel === item.hostel || userhostel === '' && item.ativo === '0') {
         values.push({
           id: item._id,
           valorTotal: parseFloat(item.valor_total)
@@ -160,7 +160,8 @@ export default function PedidosFechados({ }) {
 
                             <tbody>
                               {filter?.reverse()?.map((item, index) => {
-                                if (userhostel === item.hostel && item.ativo === '0') {
+                                console.log(userhostel)
+                                if (userhostel === item.hostel && item.ativo === '0' || userhostel === '' && item.ativo === '0') {
                                   const originalDate = item.dataentrada;
                                   const fechamentoDate = item.datafechamento;
                                   let fechamentoDateformat = '';

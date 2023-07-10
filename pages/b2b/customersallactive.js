@@ -122,8 +122,9 @@ export default function Hospede() {
                                     if (nomeFiltro && !item.nome.toLowerCase().includes(nomeFiltro.toLowerCase())) {
                                       return false;
                                     }
-
-                                    if (item.objreserva.hotel !== userhostel) {
+                                    if(userhostel === ''){
+                                      console.log('adm')
+                                    }else if (item.objreserva.hotel !== userhostel) {
                                       return false;
                                     }
 

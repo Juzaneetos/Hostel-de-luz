@@ -776,7 +776,7 @@ export default function Modal({ customers, id_ }) {
                               RG Frente
                             </label>
                             {rgfrente && (
-                              <img src={rgfrente.url} alt="RG Frente" />
+                              <img className="tramanhodocumento" src={rgfrente.url} alt="RG Frente" />
                             )}
 
                           </div>
@@ -785,7 +785,7 @@ export default function Modal({ customers, id_ }) {
                               RG Verso
                             </label>
                             {rgverso && (
-                              <img src={rgverso.url} alt="RG Verso" />
+                              <img className="tramanhodocumento" src={rgverso.url} alt="RG Verso" />
                             )}
                           </div>
                           <div className="col-12 d-flex justify-content-center">
@@ -794,7 +794,7 @@ export default function Modal({ customers, id_ }) {
                                 Assinatura
                               </label>
                               {assinatura && (
-                                <img src={assinatura.url} alt="RG Verso" />
+                                <img className="tramanhodocumento" src={assinatura.url} alt="RG Verso" />
                                 )}
                             </div>
                           </div>
