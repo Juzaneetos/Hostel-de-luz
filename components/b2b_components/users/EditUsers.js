@@ -25,14 +25,14 @@ export default function EditUsers({ usersEditId, users }) {
         setUsersPassword(item.password);
         setUserhostel(item.hostel);
         setId_(item._id);
-        if(item.level === 10) {setUsersLevel('Funcionario')}
-        if(item.level === 30) {setUsersLevel('Gerente')}
-        if(item.level === 50) {setUsersLevel('WebMaster')}
+        if(item.level === 10) {setUsersLevel('funcionarioSite')}
+        if(item.level === 20) {setUsersLevel('funcionarioHostel')}
+        if(item.level === 30) {setUsersLevel('funcionarioLoja')}
+        if(item.level === 40) {setUsersLevel('gerente')}
+        if(item.level === 50) {setUsersLevel('webmaster')}
       }
     })
   }, [usersEditId]);
-
-
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -152,8 +152,9 @@ export default function EditUsers({ usersEditId, users }) {
               >
               
               <option value={usersLevel}>{usersLevel}</option>
-              <option value="funcionario">Funcionario</option>
-              <option value="gerente">Gerente</option>
+                <option value="funcionarioSite">Funcionario Site</option>
+                <option value="funcionarioHostel">Funcionario Hostel</option>
+                <option value="gerente">Gerente</option>
               </select>
             </div>
           </div>

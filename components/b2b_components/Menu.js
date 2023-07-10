@@ -81,6 +81,7 @@ export default function Menu({ parametro }) {
           <div className="ec-navigation overflow-auto" data-simplebar>
 
             <ul className="nav sidebar-inner" id="sidebar-menu">
+              {console.log(level)}
               {level === '20' || level === '50' || level === '40' ?
                 <>
 
