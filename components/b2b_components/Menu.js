@@ -221,7 +221,7 @@ export default function Menu({ parametro }) {
                       href="/b2b/visualizarpdf"
                     >
                       <AiFillFilePdf size={24} />
-                      <span className="nav-text">PDF's</span>
+                      <span className="nav-text">PDFs</span>
                     </Link>
                   </li>
                 </>
