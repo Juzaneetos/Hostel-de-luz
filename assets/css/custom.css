@@ -179,6 +179,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   transform: translate(-50%, -50%) rotate(calc(var(--angle) * 1deg));
 }
 
+.posicaomenumob{
+  transition: 0.5s all ease;
+  z-index: 99;
+}
+
 .backgroundactive {
   background-color: rgba(200, 229, 255, 0.596);
   color: white !important;
@@ -413,8 +418,20 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     flex-direction: column;
   }
 
+
+  .estilomenuflutuante{
+    top: 15px;
+    position: absolute;
+    right: 20px;
+  }
+
   .tramanhodocumento{
     width: 100%;
+  }
+
+  .posicaomenumob{
+    position: fixed;
+    right: -155px;
   }
 
   .mob-none {
@@ -494,6 +511,20 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   .tramanhodocumento{
     width: 100%;
   }
+  .posicaomenumobshow{
+    position: fixed;
+    right: -155px !important;
+    z-index: 99;
+  }
+  .estilomenuflutuante{
+    top: 15px;
+    position: absolute;
+    right: 20px;
+  }
+  .posicaomenumob{
+    position: fixed;
+    right: 200px;
+  }
   .tamanhoassinaturadektop{
     width: 300px;
   }
@@ -563,7 +594,20 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     flex-direction: column;
   }
 
-
+  .posicaomenumobshow{
+    position: fixed;
+    right: -155px !important;
+    z-index: 99;
+  }
+  .estilomenuflutuante{
+    top: 15px;
+    position: absolute;
+    right: 20px;
+  }
+  .posicaomenumob{
+    position: fixed;
+    right: 200px;
+  }
   .tramanhodocumento{
     width: 100%;
   }
@@ -638,7 +682,20 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   .tramanhodocumento{
     width: 100%;
   }
-
+  .posicaomenumobshow{
+    position: fixed;
+    right: -155px !important;
+    z-index: 99;
+  }
+  .estilomenuflutuante{
+    top: 15px;
+    position: absolute;
+    right: 20px;
+  }
+  .posicaomenumob{
+    position: fixed;
+    right: 200px;
+  }
   .mob-row {
     flex-direction: row;
   }

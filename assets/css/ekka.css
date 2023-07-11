@@ -5660,6 +5660,7 @@ fieldset:disabled .btn {
   -webkit-box-flex: 1;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
+  height: 90vh;
   padding: 1rem;
 }
 
@@ -20268,7 +20269,7 @@ code {
 }
 @media (max-width: 767.98px) {
   .content {
-    padding: 30px 15px;
+    padding: 50px 15px;
   }
 }
 

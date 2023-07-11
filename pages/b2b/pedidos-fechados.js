@@ -160,7 +160,6 @@ export default function PedidosFechados({ }) {
 
                             <tbody>
                               {filter?.reverse()?.map((item, index) => {
-                                console.log(userhostel)
                                 if (userhostel === item.hostel && item.ativo === '0' || userhostel === '' && item.ativo === '0') {
                                   const originalDate = item.dataentrada;
                                   const fechamentoDate = item.datafechamento;

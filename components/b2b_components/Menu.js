@@ -2,8 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 import router from "next/router";
 import { useCookies, expires } from 'react-cookie';
-
+import Menumobile from './MenuMobile';
 import { useEffect, useState } from "react";
+import { FiMenu } from 'react-icons/fi';
 import {
   FaUserAlt,
   FaBookmark,
@@ -48,7 +49,7 @@ import {
 export default function Menu({ parametro }) {
   const [cookies, setCookie] = useCookies(['user']);
   const [level, setLevel] = useState('10');
-
+  const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
     setLevel(cookies.user_level)
   }, [cookies])
@@ -63,21 +64,27 @@ export default function Menu({ parametro }) {
     return router.push("/b2b/login");
   }
 
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <>
+    <div className="menu-icon estilomenuflutuante" onClick={toggleMenu}>
+        <FiMenu size={25}/>
+      </div>
       <div style={{ width: '400px' }}></div>
       <div
-        className="ec-left-sidebar ec-bg-sidebar"
+        className={`ec-left-sidebar ec-bg-sidebar posicaomenumob ${isOpen && 'posicaomenumobshow'}`}
         style={{ backgroundColor: "#FFF", borderRight: "1px solid #F3F3F3" }}
       >
+        
         <div id="sidebar" className="sidebar ec-sidebar-footer p-0">
-
           <div className="ec-brand">
             <Link href="/b2b/" style={{ margin: '0 auto' }}>
               <Image style={{ maxWidth: '200px', padding: '15px' }} width={500} src={require('../../assets/img/hostellogo.png')} alt="Logo Hotel de Luz" />
             </Link>
           </div>
-
           <div className="ec-navigation overflow-auto" data-simplebar>
 
             <ul className="nav sidebar-inner" id="sidebar-menu">

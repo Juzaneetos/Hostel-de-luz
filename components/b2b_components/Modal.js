@@ -608,8 +608,8 @@ export default function Modal({ customers, id_ }) {
                           </div>
 
 
-                          <div className="col-md-6 space-t-15 d-flex justify-content-between mt-3">
-                            <div className="col-md-12">
+                          <div className="col-md-6 col-12 space-t-15 d-flex justify-content-between mt-3">
+                            <div className="col-md-12 col-12">
                               <label htmlFor="email" className="form-label">
                                 Telefone
                               </label>
@@ -804,7 +804,7 @@ export default function Modal({ customers, id_ }) {
                             {hoteis?.map((item, index) => {
                               if(hotel === item._id){
                                 return (
-                                  <div key={index} className={`col-md-5 mb-3`} style={{ position: 'relative', height: '150px', overflow: 'hidden', background: `url(${item.imagem[0].url})` }}>
+                                  <div key={index} className={`col-md-5 col-12 mb-3`} style={{ position: 'relative', height: '150px', overflow: 'hidden', background: `url(${item.imagem[0].url})` }}>
                                     <div className={`circulohotel d-flex flex-column ${hotel === item._id ? 'backgroundactive' : ''}`} style={{ position: 'absolute', fontWeight: '700' }} onClick={() => toast.error('não é possivel trocar de Hostel!')}>
                                       {item.titulo}
   
@@ -818,7 +818,7 @@ export default function Modal({ customers, id_ }) {
                           {hotel.length > 0 ?
                             <>
                               <h3 className="text-center mt-3"> Escolha o Quarto </h3>
-                              <div className="col-md-12 d-flex justify-content-center">
+                              <div className="col-md-12 col-12 d-flex justify-content-center" style={{ flexWrap: 'wrap' }}>
                                 {quartos?.map((item, index) => {
 
                                   const dataEntradaNovaReserva = new Date(entrada);
@@ -828,7 +828,7 @@ export default function Modal({ customers, id_ }) {
                                     let counting = 0;
                                     return (
                                       <>
-                                        <div key={index} className="col-md-3 m-2" style={{ position: 'relative', height: '200px', overflow: 'hidden' }}>
+                                        <div key={index} className="col-md-3 col-12 m-2" style={{ position: 'relative', height: '200px', overflow: 'hidden' }}>
                                           <div className={`circuloquarto d-flex flex-column ${idquarto === item._id ? 'backgroundactive2' : ''}`} style={{ position: 'absolute', fontWeight: '700', backgroundImage: `url(${item.imagem[0].url})` }} onClick={() => { setQuarto(item.arrCamas), setNomeQuarto(item.titulo), setIdquarto(item._id) }}>
                                             <div className="text-center" style={{ background: '#000000a1', padding: '12px', borderRadius: '5px' }}>
                                               {item.titulo}
