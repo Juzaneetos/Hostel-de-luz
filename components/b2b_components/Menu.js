@@ -73,7 +73,7 @@ export default function Menu({ parametro }) {
     <div className="menu-icon estilomenuflutuante" onClick={toggleMenu}>
         <FiMenu size={25}/>
       </div>
-      <div style={{ width: '400px' }}></div>
+      <div className="d-none d-lg-block" style={{ width: '400px' }}></div>
       <div
         className={`ec-left-sidebar ec-bg-sidebar posicaomenumob ${isOpen && 'posicaomenumobshow'}`}
         style={{ backgroundColor: "#FFF", borderRight: "1px solid #F3F3F3" }}
@@ -84,8 +84,11 @@ export default function Menu({ parametro }) {
             <Link href="/b2b/" style={{ margin: '0 auto' }}>
               <Image style={{ maxWidth: '200px', padding: '15px' }} width={500} src={require('../../assets/img/hostellogo.png')} alt="Logo Hotel de Luz" />
             </Link>
+            <div className="menu-icon estilomenuflutuante" onClick={toggleMenu}>
+        <FiMenu size={25}/>
+      </div>
           </div>
-          <div className="ec-navigation overflow-auto" data-simplebar>
+          <div className="ec-navigation overflow-auto tramanhodocumento" data-simplebar>
 
             <ul className="nav sidebar-inner" id="sidebar-menu">
               {console.log(level)}

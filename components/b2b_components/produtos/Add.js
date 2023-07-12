@@ -179,7 +179,7 @@ function AddProdutos() {
         <h4>Adicionar</h4>
         <form onSubmit={onSubmit} className="row">
 
-          <div className="row col-6">
+          <div className="row col-12 col-lg-6">
             <div className="form-group row col-12">
               <label htmlFor="text" className="col-12 col-form-label">
                 Nome
@@ -239,7 +239,7 @@ function AddProdutos() {
             </div>
           </div>
 
-          <div className="row col-6">
+          <div className="row col-12 col-lg-6">
             <div style={{ width: '100%', height: '100%', border: '5px solid #99999987' }}>
               <CrooperJs fileall={file} setFile={setFile} handleFileChange={handleFileChange} imageSrc={imageSrc} setImageSrc={setImageSrc} />
             </div>

@@ -263,7 +263,7 @@ function EditProdutos({ produtosId, produtos, setShowEditProdutosComponent }) {
         </div>
         <form onSubmit={onSubmit} className="row d-flex flex-wrap">
 
-          <div className="row col-6">
+          <div className="row col-12 col-lg-6">
             <div className="form-group row col-12">
               <label htmlFor="text" className="col-12 col-form-label">
                 Nome
@@ -325,7 +325,7 @@ function EditProdutos({ produtosId, produtos, setShowEditProdutosComponent }) {
             </div>
           </div>
 
-          <div className="row col-6">
+          <div className="row col-12 col-lg-6">
             <div style={{ width: '100%', height: '100%', border: '2px solid #e3e3e3' }}>
               <CrooperJs fileall={file} setFile={setFile} handleFileChange={handleFileChange} imageSrc={imageSrc} setImageSrc={setImageSrc} />
             </div>

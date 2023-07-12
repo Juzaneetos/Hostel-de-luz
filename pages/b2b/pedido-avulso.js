@@ -281,8 +281,8 @@ export default function NovoPedido({ }) {
                             <form onSubmit={onSubmit}>
                               <div className="form-group row">
 
-                                <div className="d-flex">
-                                  <div className="col-lg-3 p-1">
+                                <div className="d-flex flex-wrap">
+                                  <div className="col-lg-3 col-12 p-1">
                                     <label htmlFor="text" className="col-12 col-form-label">
                                       Nome
                                     </label>
@@ -298,7 +298,7 @@ export default function NovoPedido({ }) {
                                       />
                                     </div>
                                   </div>
-                                  <div className="col-lg-3 p-1">
+                                  <div className="col-lg-3 col-12 p-1">
                                     <label htmlFor="text" className="col-12 col-form-label">
                                       Valor da Compra
                                     </label>
@@ -314,7 +314,7 @@ export default function NovoPedido({ }) {
                                       />
                                     </div>
                                   </div>
-                                  <div className="col-lg-3 p-1">
+                                  <div className="col-lg-3 col-12 p-1">
                                     <label htmlFor="text" className="col-12 col-form-label">
                                       Valor da venda
                                     </label>
@@ -330,7 +330,7 @@ export default function NovoPedido({ }) {
                                       />
                                     </div>
                                   </div>
-                                  <div className="col-lg-3 p-1">
+                                  <div className="col-lg-3 col-12 p-1">
                                     <label htmlFor="text" className="col-12 col-form-label">
                                       Quantidade
                                     </label>

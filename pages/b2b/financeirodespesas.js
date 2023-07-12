@@ -177,7 +177,7 @@ export default function Financeirodespesas() {
 
                             <div className="d-flex flex-wrap align-items-end">
                                 <div className="d-flex flex-wrap col-12 col-md-9 p-0">
-                                    <div className="col-md-3 space-t-15 mt-3 py-1 pr-1 date-input">
+                                    <div className="col-md-3 col-6 space-t-15 mt-3 py-1 pr-1 date-input">
                                         <label htmlFor="phone-2" className="form-label">
                                             Inicio
                                         </label>
@@ -189,7 +189,7 @@ export default function Financeirodespesas() {
                                         />
                                         <span className="calendar-icon" style={{ top: '47px', right: '25px' }}></span>
                                     </div>
-                                    <div className="col-md-3 space-t-15 mt-3 py-1 pr-1 date-input">
+                                    <div className="col-md-3 col-6 space-t-15 mt-3 py-1 pr-1 date-input">
                                         <label htmlFor="phone-2" className="form-label">
                                             Fim
                                         </label>
@@ -201,7 +201,7 @@ export default function Financeirodespesas() {
                                         />
                                         <span className="calendar-icon" style={{ top: '47px', right: '25px' }}></span>
                                     </div>
-                                    <div className="col-md-3 space-t-15 mt-3 py-1 pr-1">
+                                    <div className="col-md-3 col-6 space-t-15 mt-3 py-1 pr-1">
                                         <label htmlFor="phone-2" className="form-label">
                                             Categoria
                                         </label>
@@ -212,7 +212,7 @@ export default function Financeirodespesas() {
                                             })}
                                         </select>
                                     </div>
-                                    <div className="col-md-3 space-t-15 mt-3 py-1 pr-1">
+                                    <div className="col-md-3 col-6 space-t-15 mt-3 py-1 pr-1">
                                         <label htmlFor="phone-2" className="form-label">
                                             Hostel
                                         </label>
@@ -234,11 +234,11 @@ export default function Financeirodespesas() {
                                     </div>
                                 </div>
 
-                                <div className="col-lg-6 modalprice">
+                                <div className="col-lg-6 col-12 modalprice">
                                     <h5 className="text-white">Número de Despesas</h5>
                                     <div className="text-white">{hospedes2}</div>
                                 </div>
-                                <div className="col-lg-6 modalprice" style={{background: '#D93B3B'}}>
+                                <div className="col-lg-6 col-12 modalprice" style={{background: '#D93B3B'}}>
                                     <h5 className="text-white">Valor Total</h5>
                                     <div className="text-white">{formatter.format(rendatotal2)}</div>
                                 </div>

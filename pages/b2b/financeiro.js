@@ -277,20 +277,20 @@ export default function Financeiro() {
                                 </p>
                             </div>
                             <h2 className="p-3 mb-2">Geral</h2>
-                            <div className="d-flex">
-                                <div className="col-lg-3 modalprice">
+                            <div className="d-flex flex-wrap">
+                                <div className="col-lg-3 col-12 modalprice">
                                     <h5 className="text-white">Hospedagens</h5>
                                     <div className="text-white">{hospedes}</div>
                                 </div>
-                                <div className="col-lg-3 modalprice">
+                                <div className="col-lg-3 col-12 modalprice">
                                     <h5 className="text-white">Renda Estimada</h5>
                                     <div className="text-white">{formatter.format(pagototal)}</div>
                                 </div>
-                                <div className="col-lg-3 modalprice" style={{background: '#89e500'}}>
+                                <div className="col-lg-3 col-12 modalprice" style={{background: '#89e500'}}>
                                     <h5 className="text-white">Renda Atual</h5>
                                     <div className="text-white">{formatter.format(rendatotal)}</div>
                                 </div>
-                                <div className="col-lg-3 modalprice" style={{background: '#D93B3B'}}>
+                                <div className="col-lg-3 col-12 modalprice" style={{background: '#D93B3B'}}>
                                     <h5 className="text-white">Débitos a Cobrar</h5>
                                     <div className="text-white">{formatter.format(rendatotal - pagototal)}</div>
                                 </div>
@@ -299,7 +299,7 @@ export default function Financeiro() {
 
                             <h2 className="pl-3 mt-3 pt-3">Mensal</h2>
                             <div className="d-flex flex-wrap align-items-end">
-                                <div className="col-md-2 space-t-15 mt-3 py-1 pr-1 date-input">
+                                <div className="col-md-2 col-6 space-t-15 mt-3 py-1 pr-1 date-input">
                                     <label htmlFor="phone-2" className="form-label">
                                         Entrada
                                     </label>
@@ -311,7 +311,7 @@ export default function Financeiro() {
                                     />
                                     <span className="calendar-icon" style={{ top: '47px', right: '25px' }}></span>
                                 </div>
-                                <div className="col-md-2 space-t-15 mt-3 py-1 pr-1 date-input">
+                                <div className="col-md-2 col-6 space-t-15 mt-3 py-1 pr-1 date-input">
                                     <label htmlFor="phone-2" className="form-label">
                                         Saída
                                     </label>
@@ -323,7 +323,7 @@ export default function Financeiro() {
                                     />
                                     <span className="calendar-icon" style={{ top: '47px', right: '25px' }}></span>
                                 </div>
-                                <div className="col-md-3 space-t-15 mt-3 py-1 pr-1">
+                                <div className="col-md-3 col-12 space-t-15 mt-3 py-1 pr-1">
                                     <label htmlFor="phone-2" className="form-label">
                                         Hostel
                                     </label>
@@ -334,7 +334,7 @@ export default function Financeiro() {
                                         })}
                                     </select>
                                 </div>
-                                <div className="d-flex col-6 col-md-5 space-t-15 mt-3 py-1 text-center">
+                                <div className="d-flex col-12 col-md-5 space-t-15 mt-3 py-1 text-center">
                                     <div className="col-4 pr-1">
                                         <button className="btn btn-primary text-white w-100" onClick={filtrar}>Filtrar</button>
                                     </div>
@@ -346,19 +346,19 @@ export default function Financeiro() {
                                     </div>
                                 </div>
 
-                                <div className="col-lg-3 modalprice">
+                                <div className="col-lg-3 col-12 modalprice">
                                     <h5 className="text-white">Hospedagens</h5>
                                     <div className="text-white">{hospedes2}</div>
                                 </div>
-                                <div className="col-lg-3 modalprice" style={{background: '#89e500'}}>
+                                <div className="col-lg-3 col-12 modalprice" style={{background: '#89e500'}}>
                                     <h5 className="text-white">Renda Atual</h5>
                                     <div className="text-white">{formatter.format(rendatotal2)}</div>
                                 </div>
-                                <div className="col-lg-3 modalprice" style={{background: '#D93B3B'}}>
+                                <div className="col-lg-3 col-12 modalprice" style={{background: '#D93B3B'}}>
                                     <h5 className="text-white">À Receber</h5>
                                     <div className="text-white">{formatter.format(pagototal2)}</div>
                                 </div>
-                                <div className="col-lg-3 modalprice">
+                                <div className="col-lg-3 col-12 modalprice">
                                     <h5 className="text-white">Total</h5>
                                     <div className="text-white">{formatter.format(rendatotal2 - pagototal2)}</div>
                                 </div>
