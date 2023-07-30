@@ -17,7 +17,7 @@ export default function Hospedeall() {
   const [hospedesarr, setHospedesarr] = useState([]);
   const [newarr, setNewarr] = useState([]);
   var tamanho = hospedes?.length || [];
-
+console.log(hospedes)
 
   useEffect(() => {
     setHospedesarr(hospedes);
@@ -164,7 +164,7 @@ export default function Hospedeall() {
                                           <td>{item.nome}</td>
                                           <td>{item.telefone}</td>
                                           <td>{item.cpf}</td>
-                                          <td>{item.genero}</td>
+                                          <td>{formatarDataParaPtBr(item.datacadastro)}Hrs</td>
                                           <td className="text-right">
                                             <div className="btn-group">
                                             <a

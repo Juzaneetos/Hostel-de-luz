@@ -237,7 +237,7 @@ console.log(cookies)
                       <span className="nav-text">Troca de Roupa Cama</span>
                     </Link>
                   </li>
-                  <li className={parametro === '6' ? `active` : ``}>
+                  <li className={parametro === '16' ? `active` : ``}>
                     <Link
                       className="sidenav-item-link"
                       href="/b2b/visualizarpdf"

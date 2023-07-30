@@ -205,17 +205,22 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .circulocama:hover {
-  background: rgb(200, 229, 255);
+  background: rgb(200 229 255 / 74%);
   cursor: pointer;
 }
 
 .circuloquarto:hover {
-  background: rgb(200, 229, 255);
+  background: rgb(200 229 255 / 74%);
+  cursor: pointer;
+}
+
+.circuloquarto2:hover {
+  background: rgb(200 229 255 / 74%) !important;
   cursor: pointer;
 }
 
 .circulohotel:hover {
-  background: rgb(200, 229, 255);
+  background: rgb(200 229 255 / 74%);
   cursor: pointer;
 }
 
