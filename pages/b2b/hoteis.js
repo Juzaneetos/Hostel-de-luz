@@ -100,12 +100,12 @@ export default function Hoteis() {
                                         >
                                           <BsPencilFill />
                                         </Link>
-                                        <button
+                                        {/* <button
                                           className="btn btn-outline-primary delete-btn"
                                           onClick={() => deleteHostel(item._id)}
                                         >
                                           <FaTrash color="#d93b3b" />
-                                        </button>
+                                        </button> */}
                                       </div>
                                     </td>
                                   </tr>

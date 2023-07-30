@@ -162,27 +162,29 @@ export default function Hospede() {
                                         </td>
                                         <td className="text-right">
                                           <div className="btn-group">
-                                            <a
-                                              target="_blank"
-                                              rel="noreferrer"
-                                              href={`https://api.whatsapp.com/send?phone=55${item.telefone}&text=Olá, me chamo...`}
-                                              title="Whatsapp"
-                                              style={{ marginRight: '10px', background: '#25D366' }}
-                                              className="btn btn-primary"
-                                            >
-                                              <BsWhatsapp size={20} />
-                                            </a>
-                                            <a
+                                          <a
                                               href="javasript:void(0)"
                                               data-link-action="editmodal"
                                               title="Edit Detail"
                                               data-bs-toggle="modal"
                                               data-bs-target="#edit_modal"
                                               className="btn btn-primary"
+                                              style={{marginRight: '10px'}}
                                               onClick={() => setId(item._id)}
                                             >
                                               <BsPencilFill />
                                             </a>
+                                            <a
+                                              target="_blank"
+                                              rel="noreferrer"
+                                              href={`https://api.whatsapp.com/send?phone=55${item.telefone}&text=Olá, me chamo...`}
+                                              title="Whatsapp"
+                                              style={{ background: '#25D366' }}
+                                              className="btn btn-primary"
+                                            >
+                                              <BsWhatsapp size={20} />
+                                            </a>
+                                           
                                           </div>
                                         </td>
                                       </tr>

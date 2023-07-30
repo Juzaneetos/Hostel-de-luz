@@ -769,7 +769,7 @@ export default function Modal({ customers, id_ }) {
                                                           fontWeight: "700",
                                                           width: '100px',
                                                           color: 'white',
-                                                          background: "rgb(200, 229, 255)",
+                                                          background: "#d83b3b",
                                                         }}
                                                         onClick={() => alert("Já reservado")}
                                                       >
@@ -832,7 +832,7 @@ export default function Modal({ customers, id_ }) {
                                                         position: "absolute",
                                                         fontWeight: "700",
                                                         width: '100px',
-                                                        background: "rgb(200, 229, 255)",
+                                                        background: "#d83b3b",
                                                         color: 'white'
                                                       }}
                                                       onClick={() => alert("Já reservado")}

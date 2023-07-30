@@ -23,7 +23,8 @@ export default async (req, res) => {
       aceitoregras: req.body.aceitoregras,
       observacoes: req.body.observacoes,
       formulario: req.body.formulario,
-      qualproblema: req.body.qualproblema
+      qualproblema: req.body.qualproblema,
+      datacadastro: req.body.datacadastro
     }).then((data) => {
       console.log(data)
     }).catch((err) => console.log(err));

@@ -581,7 +581,7 @@ export default function Modal({ customers, id_ }) {
                   <div>
                     <div
                       className="btn btn-sm btn-primary qty_close"
-                      style={{ width: '80px', background: 'red' }}
+                      style={{ width: '80px', background: '#D83B3B' }}
                       data-bs-dismiss="modal"
                       aria-label="Close"
                     >
@@ -804,7 +804,7 @@ export default function Modal({ customers, id_ }) {
                             {hoteis?.map((item, index) => {
                               if(hotel === item._id){
                                 return (
-                                  <div key={index} className={`col-md-5 col-12 mb-3`} style={{ position: 'relative', height: '150px', overflow: 'hidden', background: `url(${item.imagem[0].url})` }}>
+                                  <div key={index} className={`col-md-5 col-12 mb-3`} style={{ position: 'relative', height: '240px', overflow: 'hidden', background: `url(${item.imagem[0].url})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}>
                                     <div className={`circulohotel d-flex flex-column ${hotel === item._id ? 'backgroundactive' : ''}`} style={{ position: 'absolute', fontWeight: '700' }} onClick={() => toast.error('não é possivel trocar de Hostel!')}>
                                       {item.titulo}
   
@@ -828,30 +828,36 @@ export default function Modal({ customers, id_ }) {
                                     let counting = 0;
                                     return (
                                       <>
-                                        <div key={index} className="col-md-3 col-12 m-2" style={{ position: 'relative', height: '200px', overflow: 'hidden' }}>
-                                          <div className={`circuloquarto d-flex flex-column ${idquarto === item._id ? 'backgroundactive2' : ''}`} style={{ position: 'absolute', fontWeight: '700', backgroundImage: `url(${item.imagem[0].url})` }} onClick={() => { setQuarto(item.arrCamas), setNomeQuarto(item.titulo), setIdquarto(item._id) }}>
-                                            <div className="text-center" style={{ background: '#000000a1', padding: '12px', borderRadius: '5px' }}>
-                                              {item.titulo}
-                                              <div>{item.genero} </div>
-                                              <div>Total de camas: {item.camas} </div>
-                                              <div>Oculpados: {
-                                                item.arrCamas?.map((item2, index) => {
-                                                  item2?.map((item5, index) => {
-                                                    const dataEntradaNovaReserva = new Date(entrada);
-                                                    const dataSaidaNovaReserva = new Date(saida);
-                                                    const dataEntradaReserva = new Date(item5.entrada);
-                                                    const dataSaidaReserva = new Date(item5.saida);
-                                                    const quartoVago = (dataEntradaNovaReserva < dataSaidaReserva && dataSaidaNovaReserva > dataEntradaReserva);
-                                                    if (quartoVago) {
-                                                      counting++;
-                                                    }
-                                                  })
-                                                })
-                                              } {counting}</div>
+                                        <div key={index} className="col-md-3 col-12 m-2" style={{ position: 'relative', height: '210px', overflow: 'hidden', flexWrap: 'wrap' }}>
+                                              <div className={`circuloquarto d-flex flex-column ${idquarto === item._id ? 'backgroundactive2' : ''}`} style={{ position: 'absolute', fontWeight: '700', backgroundImage: `url(${item.imagem[0].url})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }} onClick={() => { setQuarto(item.arrCamas), setNomeQuarto(item.titulo), setIdquarto(item._id) }}>
+                                                <div className="text-center" style={{ background: '#000000a1', padding: '12px', borderRadius: '5px', width: '200px' }}>
+                                                  <div style={{ fontSize: '18px', fontWeight: '800' }}>{item.titulo}</div>
+                                                  <div style={{ fontSize: '16px', fontWeight: '800', padding: '5px' }} className="d-flex justify-content-between">
+                                                    <div className="col-lg-9" style={{ background: '#41AEC6', borderRadius: '5px', padding: '4px' }} >CAMAS:</div>
+                                                    <div style={{ background: 'white', color: 'black', borderRadius: '5px' }} className="col-lg-2 d-flex align-items-center justify-content-center">{item.camas} </div>
+                                                  </div>
+                                                  <div style={{ fontSize: '16px', fontWeight: '800', padding: '5px' }} className="d-flex justify-content-between"><div style={{ background: '#AF1D23', borderRadius: '5px', padding: '5px' }} className="col-lg-9">OCUPADAS:</div>
+                                                    {
+                                                      item.arrCamas?.map((item2, index) => {
+                                                        item2?.map((item5, index) => {
+                                                          const dataEntradaNovaReserva = new Date(entrada);
+                                                          const dataSaidaNovaReserva = new Date(saida);
+                                                          const dataEntradaReserva = new Date(item5.entrada);
+                                                          const dataSaidaReserva = new Date(item5.saida);
+                                                          const quartoVago = (dataEntradaNovaReserva <= dataSaidaReserva && dataSaidaNovaReserva >= dataEntradaReserva);
+                                                          if (quartoVago) {
+                                                            counting++;
+                                                          }
+                                                        })
+                                                      })
+                                                    } <div style={{ background: 'white', color: 'black', borderRadius: '5px' }} className="col-lg-2 d-flex align-items-center justify-content-center">{counting}</div></div>
+                                                  <div style={{ fontSize: '16px', fontWeight: '800', padding: '5px' }} className="d-flex justify-content-between"><div style={{ background: '#00BF63', borderRadius: '5px', padding: '5px' }} className="col-lg-9">LIVRES:</div>
+                                                    <div className="col-lg-2 d-flex align-items-center justify-content-center" style={{ background: 'white', color: 'black', borderRadius: '5px' }}>{item.camas - counting}</div>
+                                                  </div>
+                                                </div>
+                                              </div>
                                             </div>
 
-                                          </div>
-                                        </div>
 
                                       </>
                                     )
@@ -961,7 +967,7 @@ export default function Modal({ customers, id_ }) {
                                                           fontWeight: "700",
                                                           width: '100px',
                                                           color: 'white',
-                                                          background: "rgb(200, 229, 255)",
+                                                          background: "#d83b3b",
                                                         }}
                                                         onClick={() => toast.error("Já reservado")}
                                                       >
@@ -1024,7 +1030,7 @@ export default function Modal({ customers, id_ }) {
                                                         position: "absolute",
                                                         fontWeight: "700",
                                                         width: '100px',
-                                                        background: "rgb(200, 229, 255)",
+                                                        background: "#d83b3b",
                                                         color: 'white'
                                                       }}
                                                       onClick={() => toast.error("Já reservado")}
@@ -1216,7 +1222,7 @@ export default function Modal({ customers, id_ }) {
                                 <div
                                   onClick={(e) => temcerteza()}
                                   className="btn btn-sm btn-primary qty_close"
-                                  style={{ width: '250px', background: 'red' }}
+                                  style={{ width: '250px', background: '#D83B3B' }}
                                   data-bs-dismiss="modal"
                                   aria-label="Close"
                                 >
@@ -1230,7 +1236,7 @@ export default function Modal({ customers, id_ }) {
                                 <div
                                   onClick={(e) => dispararcheckoutatt()}
                                   className="btn btn-sm btn-primary qty_close"
-                                  style={{ width: '250px', background: 'red' }}
+                                  style={{ width: '250px', background: '#30AF3B' }}
                                   data-bs-dismiss="modal"
                                   aria-label="Close"
                                 >

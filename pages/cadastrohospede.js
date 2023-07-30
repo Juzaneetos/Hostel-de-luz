@@ -66,6 +66,8 @@ export default function Home() {
     setLiberado(true);
   };
 
+
+   console.log(datanascimento)
   useEffect(() => {
     setParametro(router.query.hostel);
   }, [hospedes])
@@ -95,6 +97,8 @@ export default function Home() {
     if (parametro === undefined) { return toast.error('Parece que esse formulário não esta relacionado a nenhum hostel.') }
     let contador = 0;
     let errorOccurred = false;
+
+    console.log(Name, telefone, datanascimento, saude, cidadania, rgFrenteImage, rgVersoImage, aceitotermos, aceitoregras,)
     if (Name === '' || telefone === '' || datanascimento === '' || saude === '' || cidadania === '' || rgFrenteImage === null || rgVersoImage === null || aceitotermos === '' || aceitoregras === '') {
       toast.error('Gentileza preencha todos os campos, coloque pelo menos um documento.')
     } else {
@@ -284,6 +288,7 @@ export default function Home() {
         observacoes: observacoes,
         formulario: parametro,
         qualproblema: qualproblema,
+        datacadastro: new Date()
       });
 
 
@@ -333,7 +338,6 @@ export default function Home() {
                       <h3 className="text-center mb-3">Preencha o formulario abaixo para se cadastrar!</h3>
                       <div>
                         {hostelscadastrados?.map((item, index) => {
-                          console.log(parametro)
                           if (parametro === item.parametro) {
                             return (
                               <>

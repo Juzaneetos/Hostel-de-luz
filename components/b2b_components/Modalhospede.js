@@ -17,6 +17,7 @@ export default function Modal({ customers, id_ }) {
   const [rgverso, setRgverso] = useState("");
   const [assinatura, setAssinatura] = useState("");
 
+  const [datacadastro, setDatacadastro] = useState("");
   const [passaporte, setPassaporte] = useState("vazio");
   const [datanascimento, setDatanascimento] = useState("")
   const [rg, setRg] = useState("")
@@ -52,6 +53,7 @@ export default function Modal({ customers, id_ }) {
         setSaude(item.saude)
         setCidadania(item.cidadania)
         setAceitoTermos(item.aceitotermos)
+        setDatacadastro(item.datacadastro)
         setAceitoRegras(item.aceitoregras)
         setObservações(item.observacoes)
         setTelefone(item.telefone)
@@ -69,6 +71,7 @@ export default function Modal({ customers, id_ }) {
   }, [id_])
 
 
+  
   const dispararbanco = async (imageArr) => {
     router.reload()
     await axios.put(`/api/hospedes/updateHospedes?id=${__id}`, {
@@ -94,6 +97,28 @@ export default function Modal({ customers, id_ }) {
 
     mutate('/api/hospedes/getAllHospedes');
   }
+
+  const formatarData = (data) => {
+    const partes = data.split('-');
+    if (partes.length === 3) {
+      const ano = partes[0];
+      const mes = partes[1].padStart(2, '0'); // Adiciona zero ao mês se tiver apenas um dígito
+      const dia = partes[2].padStart(2, '0'); // Adiciona zero ao dia se tiver apenas um dígito
+      return `${ano}-${mes}-${dia}`;
+    }
+    return data;
+  };
+
+  useEffect(() => {
+    // Suponha que a data do banco de dados seja obtida de alguma forma
+    const dataFormatada = formatarData(datanascimento);
+    setDatanascimento(dataFormatada);
+  }, [datanascimento]);
+  
+  const handleDataChange = (e) => {
+    const dataFormatada = formatarData(e.target.value);
+    setDatanascimento(dataFormatada);
+  };
   return (
     <div className="modal fade" id="edit_modal" tabIndex="-1" role="dialog">
       <div className="modal-dialog" role="document">
@@ -108,7 +133,7 @@ export default function Modal({ customers, id_ }) {
                   <div>
                     <div
                       className="btn btn-sm btn-primary qty_close"
-                      style={{ width: '80px', background: 'red' }}
+                      style={{ width: '80px', background: '#D83B3B' }}
                       data-bs-dismiss="modal"
                       aria-label="Close"
                     >
@@ -306,6 +331,7 @@ export default function Modal({ customers, id_ }) {
                               <input
                                 type="text"
                                 className="form-control"
+                                value={passaporte}
                                 id="phone-1"
                                 onChange={(e) => setPassaporte(e.target.value)}
                               />
@@ -516,7 +542,7 @@ export default function Modal({ customers, id_ }) {
                                 aria-label="Close">
                                 <Link
                                   href={`/b2b/checkInhospede?id=${id_}`}
-                                  style={{ width: '250px', background: 'limegreen' }}
+                                  style={{ width: '250px', background: '#30AF3B' }}
                                   className="btn btn-sm btn-primary"
                                 > Iniciar Check-in</Link>
                               </div>

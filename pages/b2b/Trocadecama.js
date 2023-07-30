@@ -40,7 +40,7 @@ export default function Trocadecama() {
       item.arrCamas?.map((item2, index2) => {
         if (item2.length > 1) {
           item2.map((item3, index3) => {
-            if (item3.base === false) {
+            if (item3.base === false && item.hotel === userhostel) {
               const dataAtual = new Date(); // Obtém a data atual
               const dataLimpeza = new Date(item3.limpeza); // Obtém a data de limpeza de item3
               const diff = Math.floor((dataAtual - dataLimpeza) / (1000 * 60 * 60 * 24)); // Calcula a diferença em dias

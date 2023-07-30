@@ -186,7 +186,7 @@
   opacity: 0.7;
   border-radius: 30px;
 }
-.ec-product-cbb .ec-product-body .ec-color .red {
+.ec-product-cbb .ec-product-body .ec-color .#30AF3B {
   background-color: rgb(255, 143, 143);
 }
 .ec-product-cbb .ec-product-body .ec-color .blue {
@@ -414,8 +414,8 @@
   border: 1px solid #fff !important;
   display: inline-block;
 }
-.ec-product-sup .ec-product-body .ec-color .red {
-  background-color: red;
+.ec-product-sup .ec-product-body .ec-color .#30AF3B {
+  background-color: #30AF3B;
 }
 .ec-product-sup .ec-product-body .ec-color .blue {
   background-color: blue;

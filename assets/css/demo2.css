@@ -17267,7 +17267,7 @@ body.ec-open:before {
   top: 0;
   right: 0;
   padding: 0 9px;
-  color: red;
+  color: #30AF3B;
   font-size: 16px;
 }
 .eccart-pro-items li .ec-pro-content .remove:hover {
@@ -17899,7 +17899,7 @@ body {
   padding: 0 7px 0;
 }
 #ec-fixedbutton .ec-change-rtl .ec-rtl-off {
-  background-color: red;
+  background-color: #30AF3B;
   color: #ffffff;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -17982,7 +17982,7 @@ body {
   padding: 0 7px 0;
 }
 #ec-fixedbutton .ec-change-mode .ec-mode-off {
-  background-color: red;
+  background-color: #30AF3B;
   color: #ffffff;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -18709,7 +18709,7 @@ ul.slick-dots {
   padding: 3px 7px 0;
 }
 .ec-tools-sidebar .ec-change-mode .ec-mode-off {
-  background-color: red;
+  background-color: #30AF3B;
   color: #ffffff;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -18791,7 +18791,7 @@ ul.slick-dots {
   padding: 3px 7px 0;
 }
 .ec-tools-sidebar .ec-change-rtl .ec-rtl-off {
-  background-color: red;
+  background-color: #30AF3B;
   color: #ffffff;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -18876,7 +18876,7 @@ ul.slick-dots {
   padding: 3px 7px 0;
 }
 .ec-tools-sidebar .ec-fullscreen-mode .ec-fullscreen-off {
-  background-color: red;
+  background-color: #30AF3B;
   color: #ffffff;
   display: -webkit-box;
   display: -ms-flexbox;

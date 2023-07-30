@@ -74,14 +74,14 @@ input[type="date"]::-webkit-calendar-picker-icon {
 }
 
 .calendario-dia-periodo {
-  background-color: #D93B3B;
+  background-color: #D83B3B;
   color: white;
   display: flex;
   flex-direction: column;
 }
 
 .fundo-vermelho {
-  background-color: #D93B3B !important;
+  background-color: #D83B3B !important;
 }
 
 

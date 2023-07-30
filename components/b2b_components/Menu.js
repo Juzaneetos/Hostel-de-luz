@@ -14,7 +14,7 @@ import {
   FaRegQuestionCircle,
   FaPowerOff,
   FaUsers,
-  FaHotel
+  FaHotel,
 } from "react-icons/fa";
 import {
   BsFileLock,
@@ -49,12 +49,14 @@ import {
 export default function Menu({ parametro }) {
   const [cookies, setCookie] = useCookies(['user']);
   const [level, setLevel] = useState('10');
+  const [user, setUser] = useState('10');
   const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
     setLevel(cookies.user_level)
+    setUser(cookies.user_login)
   }, [cookies])
 
-
+console.log(cookies)
   function clearCookies() {
     setCookie("access_token", "", { path: '/' });
     setCookie("user_id", ``, { path: '/' });
@@ -70,28 +72,38 @@ export default function Menu({ parametro }) {
 
   return (
     <>
-    <div className="menu-icon estilomenuflutuante" onClick={toggleMenu}>
-        <FiMenu size={25}/>
+      <div className="menu-icon estilomenuflutuante" onClick={toggleMenu}>
+        <FiMenu size={25} />
       </div>
       <div className="d-none d-lg-block" style={{ width: '400px' }}></div>
       <div
         className={`ec-left-sidebar ec-bg-sidebar posicaomenumob ${isOpen && 'posicaomenumobshow'}`}
         style={{ backgroundColor: "#FFF", borderRight: "1px solid #F3F3F3" }}
       >
-        
+
         <div id="sidebar" className="sidebar ec-sidebar-footer p-0">
           <div className="ec-brand">
             <Link href="/b2b/" style={{ margin: '0 auto' }}>
               <Image style={{ maxWidth: '200px', padding: '15px' }} width={500} src={require('../../assets/img/hostellogo.png')} alt="Logo Hotel de Luz" />
             </Link>
-            <div className="menu-icon estilomenuflutuante" onClick={toggleMenu}>
-        <FiMenu size={25}/>
-      </div>
+            <div className="menu-icon estilomenuflutuante d-lg-none d-block" onClick={toggleMenu}>
+              <FiMenu size={25} />
+            </div>
           </div>
           <div className="ec-navigation overflow-auto tramanhodocumento" data-simplebar>
 
             <ul className="nav sidebar-inner" id="sidebar-menu">
               {console.log(level)}
+              <li>
+                    <Link
+                      className="sidenav-item-link2"
+                      href="/b2b/customers"
+                    >
+                      <FaUserAlt size={24} />
+                      <span className="nav-text" >{user}</span>
+                    </Link>
+                  </li>
+                  <hr />
               {level === '20' || level === '50' || level === '40' ?
                 <>
 
@@ -261,6 +273,15 @@ export default function Menu({ parametro }) {
 
               {level === '20' || level === '50' || level === '40' ?
                 <>
+                <li className={parametro === '9' ? `active` : ``}>
+                    <Link
+                      className="sidenav-item-link"
+                      href="/b2b/categoriadespesas"
+                    >
+                      <MdCategory size={24} />
+                      <span className="nav-text">Categoria Despesas</span>
+                    </Link>
+                  </li>
                   <li className={parametro === '8' ? `active` : ``}>
                     <Link
                       className="sidenav-item-link"
@@ -279,15 +300,6 @@ export default function Menu({ parametro }) {
 
               {level === '40' || level === '50' ?
                 <>
-                  <li className={parametro === '9' ? `active` : ``}>
-                    <Link
-                      className="sidenav-item-link"
-                      href="/b2b/categoriadespesas"
-                    >
-                      <MdCategory size={24} />
-                      <span className="nav-text">Categoria Despesas</span>
-                    </Link>
-                  </li>
 
                   <li className={parametro === '10' ? `active` : ``}>
                     <Link

@@ -26,21 +26,21 @@ export default function Hospedeall() {
   useEffect(() => {
     const procurararr = () => {
       let tempArr = [];
-      const pesquisaMinuscula = pesquisa.toLowerCase();
-      hospedesarr.forEach((item, index) => {
-        const nomeMinusculo = item.nome.toLowerCase();
-        const cpfMinusculo = item.cpf.toLowerCase();
-        const rgMinusculo = item.rg.toLowerCase();
-        const passaporteMinusculo = item.passaporte.toLowerCase();
+      const pesquisaMinuscula = pesquisa?.toLowerCase();
+      hospedesarr?.forEach((item, index) => {
+        const nomeMinusculo = item?.nome?.toLowerCase();
+        const cpfMinusculo = item?.cpf?.toLowerCase();
+        const rgMinusculo = item?.rg?.toLowerCase();
+        const passaporteMinusculo = item?.passaporte?.toLowerCase();
         if (
-          nomeMinusculo.includes(pesquisaMinuscula) ||
-          cpfMinusculo.includes(pesquisaMinuscula) ||
-          rgMinusculo.includes(pesquisaMinuscula) ||
-          passaporteMinusculo.includes(pesquisaMinuscula)
+          nomeMinusculo?.includes(pesquisaMinuscula) ||
+          cpfMinusculo?.includes(pesquisaMinuscula) ||
+          rgMinusculo?.includes(pesquisaMinuscula) ||
+          passaporteMinusculo?.includes(pesquisaMinuscula)
         ) {
-          tempArr.push(item);
+          tempArr?.push(item);
         }
-        if (hospedesarr.length === index + 1) {
+        if (hospedesarr?.length === index + 1) {
           setNewarr(tempArr);
         }
       });
@@ -50,6 +50,16 @@ export default function Hospedeall() {
     procurararr();
   }, [pesquisa]);
 
+  function formatarDataParaPtBr(data) {
+    const dataObjeto = new Date(data);
+    const dia = dataObjeto.getDate().toString().padStart(2, '0');
+    const mes = (dataObjeto.getMonth() + 1).toString().padStart(2, '0');
+    const ano = dataObjeto.getFullYear();
+    const horas = dataObjeto.getHours().toString().padStart(2, '0');
+    const minutos = dataObjeto.getMinutes().toString().padStart(2, '0');
+    const segundos = dataObjeto.getSeconds().toString().padStart(2, '0');
+    return `${dia}/${mes}/${ano} ${horas}:${minutos}:${segundos}`;
+  }
 
   return (
     <div style={{ backgroundColor: '#f3f3f3' }}>
@@ -101,22 +111,22 @@ export default function Hospedeall() {
                             <thead>
                               <tr>
                                 <th>Nome</th>
-                                <th>Telefone</th>
+                                <th>Contato</th>
                                 <th>CPF</th>
-                                <th>Gênero</th>
+                                <th>Data</th>
                                 <th></th>
                               </tr>
                             </thead>
 
                             <tbody>
                               {newarr.length > 0 ?
-                                newarr?.map((item, index) => {
+                                newarr?.slice()?.reverse()?.map((item, index) => {
                                   return (
                                     <tr key={item.id} className="align-middle">
                                       <td>{item.nome}</td>
-                                      <td>{item.telefone}</td>
+                                      <td>{item.telefone}</td> 
                                       <td>{item.cpf}</td>
-                                      <td>{item.genero}</td>
+                                      <td>{formatarDataParaPtBr(item.datacadastro)}Hrs</td>
                                       <td className="text-right">
                                         <div className="btn-group">
                                         <a
@@ -148,7 +158,7 @@ export default function Hospedeall() {
                                 :
                                 <>
                                   {pesquisa.length === 0 ?
-                                    hospedesarr?.map((item, index) => {
+                                    hospedesarr?.slice()?.reverse()?.map((item, index) => {
                                       return (
                                         <tr key={item.id} className="align-middle">
                                           <td>{item.nome}</td>

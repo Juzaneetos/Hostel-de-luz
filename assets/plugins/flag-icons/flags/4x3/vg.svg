@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="flag-icon-css-vg" width="640" height="480">
   <defs>
     <linearGradient id="a">
-      <stop offset="0" stop-color="red"/>
+      <stop offset="0" stop-color="#30AF3B"/>
       <stop offset="1" stop-color="#ff0"/>
     </linearGradient>
     <linearGradient id="c" x1="103.1" x2="92.5" y1="111.3" y2="107.8" gradientTransform="matrix(.64274 0 0 1.4534 -94.7 29.2)" gradientUnits="userSpaceOnUse" xlink:href="#a"/>

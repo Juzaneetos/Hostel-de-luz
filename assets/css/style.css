@@ -19325,7 +19325,7 @@ body.ec-open:before {
   top: 0;
   right: 0;
   padding: 0 9px;
-  color: red;
+  color: #30AF3B;
   font-size: 16px;
   background: #ffffff;
 }
@@ -23513,7 +23513,7 @@ h4.ec-faq-title::after, .ec-faq-title.h4::after {
   background: #000000;
 }
 .single-pro-content .ec-single-social ul li.youtube-play a:hover {
-  background: #ff0000;
+  background: #30AF3B;
 }
 .single-pro-content .ec-single-social ul li.list-inline-item:not(:last-child) {
   margin-right: 6px;
@@ -26955,7 +26955,7 @@ i.ecicon.eci-star-o {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  background: red;
+  background: #30AF3B;
   border: none;
   border-radius: 10px;
   -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
@@ -28666,7 +28666,7 @@ i.ecicon.eci-star-o {
   display: inline-block;
   border-radius: 30px;
 }
-.ec-product-swd .ec-product-body .ec-color .red {
+.ec-product-swd .ec-product-body .ec-color .#30AF3B {
   background-color: rgb(245, 100, 100);
 }
 .ec-product-swd .ec-product-body .ec-color .blue {
@@ -28868,7 +28868,7 @@ i.ecicon.eci-star-o {
   opacity: 0.7;
   border-radius: 30px;
 }
-.ec-product-cbb .ec-product-body .ec-color .red {
+.ec-product-cbb .ec-product-body .ec-color .#30AF3B {
   background-color: rgb(255, 143, 143);
 }
 .ec-product-cbb .ec-product-body .ec-color .blue {
@@ -29096,8 +29096,8 @@ i.ecicon.eci-star-o {
   border: 1px solid #fff !important;
   display: inline-block;
 }
-.ec-product-sup .ec-product-body .ec-color .red {
-  background-color: red;
+.ec-product-sup .ec-product-body .ec-color .#30AF3B {
+  background-color: #30AF3B;
 }
 .ec-product-sup .ec-product-body .ec-color .blue {
   background-color: blue;
@@ -29246,8 +29246,8 @@ i.ecicon.eci-star-o {
   border: 1px solid #fff !important;
   display: inline-block;
 }
-.ec-product-sbtn .ec-product-body .ec-color .red {
-  background-color: red;
+.ec-product-sbtn .ec-product-body .ec-color .#30AF3B {
+  background-color: #30AF3B;
 }
 .ec-product-sbtn .ec-product-body .ec-color .blue {
   background-color: blue;
@@ -29554,7 +29554,7 @@ i.ecicon.eci-star-o {
   display: inline-block;
   border-radius: 30px;
 }
-.ec-product-sdwn .ec-product-body .ec-color .red {
+.ec-product-sdwn .ec-product-body .ec-color .#30AF3B {
   background-color: rgb(255, 131, 131);
 }
 .ec-product-sdwn .ec-product-body .ec-color .blue {
@@ -33011,7 +33011,7 @@ input[type=email]:focus::-webkit-input-placeholder {
   background: #e4aeaf;
   border: 1px solid #e4aeaf;
 }
-.ec-offer-counter .red {
+.ec-offer-counter .#30AF3B {
   position: absolute;
   background: #e4aeaf;
   left: 30%;
@@ -33019,10 +33019,10 @@ input[type=email]:focus::-webkit-input-placeholder {
   height: 65px;
   width: 70px;
 }
-.ec-offer-counter .red .triangle {
+.ec-offer-counter .#30AF3B .triangle {
   border-bottom: 14px solid #e4aeaf;
 }
-.ec-offer-counter .red .string {
+.ec-offer-counter .#30AF3B .string {
   background: #e4aeaf;
   border: 1px solid #e4aeaf;
 }
@@ -33105,7 +33105,7 @@ input[type=email]:focus::-webkit-input-placeholder {
   -webkit-clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
   clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
 }
-.ec-offer-counter .star-red {
+.ec-offer-counter .star-#30AF3B {
   width: 15px;
   height: 15px;
   margin-top: 5px;

@@ -10,7 +10,7 @@
     <path fill-rule="evenodd" d="M0 170.5h744v155H0z"/>
     <path fill="#fff" fill-rule="evenodd" d="M0 325.5h744V341H0z"/>
     <path fill="#ffca00" fill-rule="evenodd" d="M0 341h744v155H0z"/>
-    <path fill="red" fill-rule="evenodd" d="M0 0v496l325.6-248L0 0z"/>
+    <path fill="#30AF3B" fill-rule="evenodd" d="M0 0v496l325.6-248L0 0z"/>
     <path fill="#ffca00" fill-rule="evenodd" d="M192.3 322.6l-49.6-36.3-49.5 36.3 19.2-58.4-50-36 61.6.3 18.7-58.5 18.8 58.5 61.5-.3-50 36z"/>
     <path fill="#fff" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.1" d="M99.6 281.9h35.8c2.9 3.2 9.3 4.5 15.4 0 11.2-6.2 32.9 0 32.9 0l4.3-4.6-10.4-34.1-3.8-4s-8-4.8-23.2-3.2c-15.2 1.6-20.5-.6-20.5-.6S116.7 237 113 239l-4.3 4.3-9 38.7z"/>
     <path fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.1" d="M106.8 273s34.2-4.2 44 8.9c-5.5 3.8-10.4 4-15.7.2.9-1.4 12.3-13.3 41.4-9.3"/>

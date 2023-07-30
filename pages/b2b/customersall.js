@@ -90,14 +90,6 @@ export default function Hospede() {
                                       <td><div className={`${item.pagamentoconcluido === '1' ? 'styleativo' : 'styleinativo'}`}>{item.pagamentoconcluido === '1' ? 'Pago' : 'Em Aberto'}</div></td>
                                       <td className="text-right">
                                         <div className="btn-group">
-                                        <a
-                                            target="_blank" rel="noreferrer" href={`https://api.whatsapp.com/send?phone=55${item.telefone}&text=Olá, me chamo...`}
-                                            title="Whatsapp"
-                                            style={{marginRight: '10px', background: '#25D366'}}
-                                            className="btn btn-primary"
-                                          >
-                                            <BsWhatsapp size={20} />
-                                          </a>
                                           <a
                                             href="javasript:void(0)"
                                             data-link-action="editmodal"
@@ -106,9 +98,19 @@ export default function Hospede() {
                                             data-bs-target="#edit_modal"
                                             className="btn btn-primary"
                                             onClick={() => setId(item._id)}
+                                            style={{marginRight: '10px'}}
                                           >
                                             <BsPencilFill />
                                           </a>
+                                        <a
+                                            target="_blank" rel="noreferrer" href={`https://api.whatsapp.com/send?phone=55${item.telefone}&text=Olá, me chamo...`}
+                                            title="Whatsapp"
+                                            style={{background: '#25D366'}}
+                                            className="btn btn-primary"
+                                          >
+                                            <BsWhatsapp size={20} />
+                                          </a>
+                                          
                                         </div>
                                       </td>
                                     </tr>

@@ -407,9 +407,8 @@ export default function NovoPedido({ }) {
                                     <option value="Cartão Crédito">Cartão Crédito</option>
                                     <option value="Cartão Dédito">Cartão Dédito</option>
                                     <option value="Dinheiro">Dinheiro</option>
-                                    <option value="Cheque">Cheque</option>
+                                    <option value="Permuta">Permuta</option>
                                     <option value="Pix">Pix</option>
-                                    <option value="Outro">Outro</option>
                                   </select>
                                 </div>
 

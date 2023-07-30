@@ -40,6 +40,7 @@ export default function NovoPedido({ }) {
     currency: 'BRL',
   });
 
+
   useEffect(() => {
     setDataPedido(dataDia)
     setFilter(produtos)
@@ -135,7 +136,11 @@ export default function NovoPedido({ }) {
     produtosPedido?.map((item, index) => {
 
       if (item._id === id) {
-        item.quantidade = value;
+        if (item.quantidade < 1) {
+          item.quantidade = 1;
+        } else {
+          item.quantidade = value;
+        }
       }
     })
     attValorPedido();
@@ -178,7 +183,7 @@ export default function NovoPedido({ }) {
     setValorTotalPedido(valorFinal)
   }
 
-  const attTroco =   (e, valorPago) => {
+  const attTroco = (e, valorPago) => {
     e.preventDefault();
     let troco = parseFloat(pagamentoPedido) - parseFloat(valorTotalPedido);
     retiraDotComma(troco)
@@ -308,7 +313,7 @@ export default function NovoPedido({ }) {
                                           type="number"
                                           name="campoQtd"
                                           className="campoQtd mx-1"
-                                          defaultValue={parseFloat(item.quantidade)}
+                                          value={parseFloat(item.quantidade)}
                                           onChange={(e) => attPedido(e.target.value, item._id)}
                                         />
                                         <div className="d-flex justify-content-between w-100">
@@ -366,9 +371,8 @@ export default function NovoPedido({ }) {
                                   <option value="Cartão Crédito">Cartão Crédito</option>
                                   <option value="Cartão Dédito">Cartão Dédito</option>
                                   <option value="Dinheiro">Dinheiro</option>
-                                  <option value="Cheque">Cheque</option>
+                                  <option value="Permuta">Permuta</option>
                                   <option value="Pix">Pix</option>
-                                  <option value="Outro">Outro</option>
                                 </select>
                               </div>
                               {(metodoPedido === "Dinheiro") ?

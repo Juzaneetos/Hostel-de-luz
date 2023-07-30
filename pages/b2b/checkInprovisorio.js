@@ -404,7 +404,7 @@ export default function Checkin() {
                                                             fontWeight: "700",
                                                             width: '100px',
                                                             color: 'white',
-                                                            background: "rgb(200, 229, 255)",
+                                                            background: "#d83b3b",
                                                           }}
                                                           onClick={() => alert("Já reservado")}
                                                         >
@@ -464,7 +464,7 @@ export default function Checkin() {
                                                           position: "absolute",
                                                           fontWeight: "700",
                                                           width: '100px',
-                                                          background: "rgb(200, 229, 255)",
+                                                          background: "#d83b3b",
                                                           color: 'white'
                                                         }}
                                                         onClick={() => alert("Já reservado")}

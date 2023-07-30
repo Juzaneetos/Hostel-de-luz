@@ -261,8 +261,8 @@ export default function Financeiro() {
                                 <h1>Financeiro Hóspede</h1>
                                 <ReactToPrint
                                     trigger={() => <div className="pr-1">
-                                    <button className="btn btn-primary text-white">Download</button>
-                                </div>}
+                                        <button className="btn btn-primary text-white">Download</button>
+                                    </div>}
                                     content={() => innerPageRef.current}
                                     pageStyle={`@page { padding: 20px; }`}
                                 />
@@ -286,11 +286,11 @@ export default function Financeiro() {
                                     <h5 className="text-white">Renda Estimada</h5>
                                     <div className="text-white">{formatter.format(pagototal)}</div>
                                 </div>
-                                <div className="col-lg-3 col-12 modalprice" style={{background: '#89e500'}}>
+                                <div className="col-lg-3 col-12 modalprice" style={{ background: '#30AF3B' }}>
                                     <h5 className="text-white">Renda Atual</h5>
                                     <div className="text-white">{formatter.format(rendatotal)}</div>
                                 </div>
-                                <div className="col-lg-3 col-12 modalprice" style={{background: '#D93B3B'}}>
+                                <div className="col-lg-3 col-12 modalprice" style={{ background: '#D83B3B' }}>
                                     <h5 className="text-white">Débitos a Cobrar</h5>
                                     <div className="text-white">{formatter.format(rendatotal - pagototal)}</div>
                                 </div>
@@ -350,11 +350,11 @@ export default function Financeiro() {
                                     <h5 className="text-white">Hospedagens</h5>
                                     <div className="text-white">{hospedes2}</div>
                                 </div>
-                                <div className="col-lg-3 col-12 modalprice" style={{background: '#89e500'}}>
+                                <div className="col-lg-3 col-12 modalprice" style={{ background: '#30AF3B' }}>
                                     <h5 className="text-white">Renda Atual</h5>
                                     <div className="text-white">{formatter.format(rendatotal2)}</div>
                                 </div>
-                                <div className="col-lg-3 col-12 modalprice" style={{background: '#D93B3B'}}>
+                                <div className="col-lg-3 col-12 modalprice" style={{ background: '#D83B3B' }}>
                                     <h5 className="text-white">À Receber</h5>
                                     <div className="text-white">{formatter.format(pagototal2)}</div>
                                 </div>
@@ -411,8 +411,8 @@ export default function Financeiro() {
                                                                             <td>{item.nome}</td>
                                                                             <td>{item.telefone}</td>
                                                                             <td>{formattedDate}<br />{formattedDate2}</td>
-                                                                            <td>{diffInDays} x {item.valordiaria} = {diffInDays * item.valordiaria}</td>
-                                                                            <td>{item.valorpago}</td>
+                                                                            <td>{diffInDays} x {item.valordiaria} = {formatter.format(diffInDays * item.valordiaria)}</td>
+                                                                            <td>{formatter.format(item.valorpago)}</td>
                                                                             <td><div className={`${item.ativado === '1' ? 'styleativo' : 'styleinativo'}`}>{item.ativado === '1' ? 'Ativo' : 'Inativo'}</div></td>
                                                                             <td><div className={`${item.pagamentoconcluido === '1' ? 'styleativo' : 'styleinativo'}`}>{item.pagamentoconcluido === '1' ? 'Pago' : 'Em Aberto'}</div></td>
                                                                             <td className="text-right">
@@ -423,7 +423,7 @@ export default function Financeiro() {
                                                                                         style={{ marginRight: '10px', background: '#25D366' }}
                                                                                         className="btn btn-primary"
                                                                                     >
-                                                                                        <BsWhatsapp size={20}/>
+                                                                                        <BsWhatsapp size={20} />
                                                                                     </a>
                                                                                     <a
                                                                                         href="javasript:void(0)"

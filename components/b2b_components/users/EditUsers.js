@@ -27,7 +27,6 @@ export default function EditUsers({ usersEditId, users }) {
         setId_(item._id);
         if(item.level === 10) {setUsersLevel('funcionarioSite')}
         if(item.level === 20) {setUsersLevel('funcionarioHostel')}
-        if(item.level === 30) {setUsersLevel('funcionarioLoja')}
         if(item.level === 40) {setUsersLevel('gerente')}
         if(item.level === 50) {setUsersLevel('webmaster')}
       }
@@ -37,7 +36,8 @@ export default function EditUsers({ usersEditId, users }) {
   const onSubmit = async (e) => {
     e.preventDefault();
     var lvlAccess = 0;
-    if (usersLevel === 'funcionario') { lvlAccess = 10 }
+    if (usersLevel === 'funcionarioSite') { lvlAccess = 10 }
+    if (usersLevel === 'funcionarioHostel') { lvlAccess = 20 }
     if (usersLevel === 'gerente') { lvlAccess = 30 }
     router.reload();
    await axios.put(`/api/users/updateUsers?id=${id_}`, {
