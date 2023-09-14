@@ -23,19 +23,29 @@ console.log(hospedes)
     setHospedesarr(hospedes);
   }, [hospedes])
 
+  function removerAcentos(str) {
+    return str
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
+  }
+  
+
   useEffect(() => {
     const procurararr = () => {
       let tempArr = [];
-      const pesquisaMinuscula = pesquisa?.toLowerCase();
+      const pesquisaMinuscula = removerAcentos(pesquisa?.toLowerCase() ?? "");
       hospedesarr?.forEach((item, index) => {
-        const nomeMinusculo = item?.nome?.toLowerCase();
-        const cpfMinusculo = item?.cpf?.toLowerCase();
-        const rgMinusculo = item?.rg?.toLowerCase();
-        const passaporteMinusculo = item?.passaporte?.toLowerCase();
+        const nomeMinusculo = removerAcentos(item?.nome?.toLowerCase() ?? "");
+        const cpfMinusculo = removerAcentos(item?.cpf?.toLowerCase() ?? "");
+        const rgMinusculo = removerAcentos(item?.rg?.toLowerCase() ?? "");
+        const dataCadastro = removerAcentos(item?.datacadastro?.toLowerCase() ?? "");
+        const passaporteMinusculo = formatarDataParaPtBr(item.datacadastro) ?? "";
         if (
           nomeMinusculo?.includes(pesquisaMinuscula) ||
           cpfMinusculo?.includes(pesquisaMinuscula) ||
           rgMinusculo?.includes(pesquisaMinuscula) ||
+          dataCadastro?.includes(pesquisaMinuscula) ||
           passaporteMinusculo?.includes(pesquisaMinuscula)
         ) {
           tempArr?.push(item);
@@ -44,11 +54,11 @@ console.log(hospedes)
           setNewarr(tempArr);
         }
       });
-
-
     };
     procurararr();
   }, [pesquisa]);
+  
+  
 
   function formatarDataParaPtBr(data) {
     const dataObjeto = new Date(data);

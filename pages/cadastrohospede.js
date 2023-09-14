@@ -452,6 +452,7 @@ export default function Home() {
                                 className="form-control" id="email" />
                             </div>
                           </div>
+                          <b className="text-start mt-3">As imagens do documento deve ser enviada apenas em formato de imagem (jpg, jpeg, png)*</b>
                           <div className="col-md-6 mt-3">
                             <label htmlFor="phone-1" className="form-label">
                               Foto Frente
@@ -507,9 +508,6 @@ export default function Home() {
                           </div>
 
 
-
-                          {cidadania === 'Brasileira' &&
-                            <>
                               <div className="col-md-12 mt-3">
                                 <label htmlFor="phone-1" className="form-label">
                                   RG
@@ -534,10 +532,7 @@ export default function Home() {
                                   onChange={(e) => setCpf(e.target.value)}
                                 />
                               </div>
-                            </>
-                          }
 
-                          {cidadania === 'Estrangeira' &&
                             <div className="col-md-12 mt-3">
                               <label htmlFor="phone-1" className="form-label">
                                 Passaporte
@@ -549,14 +544,6 @@ export default function Home() {
                                 onChange={(e) => setPassaporte(e.target.value)}
                               />
                             </div>
-                          }
-
-
-
-
-
-
-
 
                           <div className="col-md-12 mt-3">
                             <label className="form-label">Observações</label>

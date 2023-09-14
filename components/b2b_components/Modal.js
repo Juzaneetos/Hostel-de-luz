@@ -278,9 +278,6 @@ export default function Modal({ customers, id_ }) {
     let block = 0;
     const dataEntradaNovaReserva = new Date(entrada);
     const dataSaidaNovaReserva = new Date(saida);
-    const quartoSaida = (JSON.stringify(dataEntradaNovaReserva) === JSON.stringify(dataSaidaNovaReserva));
-
-    if (quartoSaida) return toast.error('datas não podem ser iguais');
 
     quartos?.map((item, index) => {
       contador++
