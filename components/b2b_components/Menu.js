@@ -56,7 +56,6 @@ export default function Menu({ parametro }) {
     setUser(cookies.user_login)
   }, [cookies])
 
-console.log(cookies)
   function clearCookies() {
     setCookie("access_token", "", { path: '/' });
     setCookie("user_id", ``, { path: '/' });
@@ -93,7 +92,6 @@ console.log(cookies)
           <div className="ec-navigation overflow-auto tramanhodocumento" data-simplebar>
 
             <ul className="nav sidebar-inner" id="sidebar-menu">
-              {console.log(level)}
               <li>
                     <Link
                       className="sidenav-item-link2"

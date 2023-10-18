@@ -26,7 +26,15 @@ export default async (req, res) => {
         aceitoregras: req.body.aceitoregras,
         observacoes: req.body.observacoes,
         formulario: req.body.formulario,
-        qualproblema: req.body.qualproblema
+        qualproblema: req.body.qualproblema,
+        cep: req.body.cep,
+        uf: req.body.uf,
+        cidade: req.body.cidade,
+        logradouro: req.body.logradouro,
+        numerocasa: req.body.numerocasa,
+        complemento: req.body.complemento,
+        endereco: req.body.endereco,
+        bairro: req.body.bairro,
       }
     });
 

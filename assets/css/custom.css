@@ -162,6 +162,34 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
+.financeiroprint{
+  display: none;
+}
+
+@media print {
+  .financeiroprint {
+      display: table-cell; /* Garante que as células sejam exibidas ao imprimir */
+      page-break-inside: auto;
+  }
+  body {
+    width: 100vw; /* Ajusta a largura da página para a altura da visualização */
+    height: 100vh;
+  }
+  table {
+    width: 100%; /* Garante que a tabela ocupe 100% da largura da página */
+    overflow-x: auto; /* Adiciona rolagem horizontal se necessário */
+    
+}
+
+th, td {
+    display: table-cell; /* Garante que as células sejam exibidas ao imprimir */
+    page-break-inside: auto; /* Permite que a célula quebre entre as páginas */
+    max-width: 85px; /* Defina um limite máximo para a largura da célula se necessário */
+    white-space: pre-wrap; /* Impede que o conteúdo seja quebrado automaticamente */
+}
+
+}
+
 .circuloquarto {
   position: absolute;
   top: 0;

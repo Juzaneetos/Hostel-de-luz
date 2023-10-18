@@ -45,6 +45,14 @@ export default function Home() {
   const [parametro, setParametro] = useState('');
   const [assinatura, setAssinatura] = useState('');
   const [liberado, setLiberado] = useState(false);
+  const [endereco, setEndereco] = useState("");
+  const [numerocasa, setNumerocasa] = useState("");
+  const [complemento, setComplemento] = useState("");
+  const [uf, setUF] = useState("");
+  const [cidade, setCidade] = useState("");
+  const [bairro, setBairro] = useState("");
+  const [cep, setCep] = useState("");
+  const [logradouro, setLogradouro] = useState("");
 
   // http://localhost:3000/cadastrohospede?hostel=jardimtrevo
   // http://localhost:3000/cadastrohospede?hostel=joaojorge
@@ -67,7 +75,7 @@ export default function Home() {
   };
 
 
-   console.log(datanascimento)
+  console.log(datanascimento)
   useEffect(() => {
     setParametro(router.query.hostel);
   }, [hospedes])
@@ -119,7 +127,7 @@ export default function Home() {
               errorOccurred = true;
               toast.error('gentileza preencha os campos!')
             }
-          } else if(verdadeiro === true){
+          } else if (verdadeiro === true) {
             if (item.rg === rg || item.cpf === cpf) {
               contador = contador + 1
               if (!errorOccurred) {
@@ -133,7 +141,7 @@ export default function Home() {
                 onSubmit()
               }
             }
-          }else{
+          } else {
             if (item.passaporte === passaporte) {
               contador = contador + 1
               if (!errorOccurred) {
@@ -148,7 +156,7 @@ export default function Home() {
               }
             }
           }
-          
+
         })
       }
     }
@@ -288,7 +296,15 @@ export default function Home() {
         observacoes: observacoes,
         formulario: parametro,
         qualproblema: qualproblema,
-        datacadastro: new Date()
+        datacadastro: new Date(),
+        cep: cep,
+        uf: uf,
+        cidade: cidade,
+        logradouro: logradouro,
+        numerocasa: numerocasa,
+        complemento: complemento,
+        endereco: endereco,
+        bairro: bairro,
       });
 
 
@@ -452,6 +468,89 @@ export default function Home() {
                                 className="form-control" id="email" />
                             </div>
                           </div>
+
+                          <div className="col-md-12 mt-3">
+                            <div className="col-md-12">
+                              <label htmlFor="endereco" className="form-label">
+                                Endereço
+                              </label>
+                              <input type="text"
+                                onChange={(e) => setEndereco(e.target.value)}
+                                className="form-control" id="endereco" />
+                            </div>
+                          </div>
+                          <div className="col-md-6 mt-3">
+                            <div className="col-md-12">
+                              <label htmlFor="numerocasa" className="form-label">
+                                Nº
+                              </label>
+                              <input type="text"
+                                onChange={(e) => setNumerocasa(e.target.value)}
+                                className="form-control" id="numerocasa" />
+                            </div>
+                          </div>
+                          <div className="col-md-6 mt-3">
+                            <div className="col-md-12">
+                              <label htmlFor="complemento" className="form-label">
+                                Complemento
+                              </label>
+                              <input type="text"
+                                onChange={(e) => setComplemento(e.target.value)}
+                                className="form-control" id="complemento" />
+                            </div>
+                          </div>
+                          <div className="col-md-6 mt-3">
+                            <div className="col-md-12">
+                              <label htmlFor="ef" className="form-label">
+                                UF
+                              </label>
+                              <input type="text"
+                                onChange={(e) => setUF(e.target.value)}
+                                className="form-control" id="ef" />
+                            </div>
+                          </div>
+                          <div className="col-md-6 mt-3">
+                            <div className="col-md-12">
+                              <label htmlFor="cidade" className="form-label">
+                                Cidade
+                              </label>
+                              <input type="text"
+                                onChange={(e) => setCidade(e.target.value)}
+                                className="form-control" id="cidade" />
+                            </div>
+                          </div>
+                          <div className="col-md-6 mt-3">
+                            <div className="col-md-12">
+                              <label htmlFor="bairro" className="form-label">
+                                Bairro
+                              </label>
+                              <input type="text"
+                                onChange={(e) => setBairro(e.target.value)}
+                                className="form-control" id="bairro" />
+                            </div>
+                          </div>
+                          <div className="col-md-6 mt-3">
+                            <div className="col-md-12">
+                              <label htmlFor="cep" className="form-label">
+                                CEP
+                              </label>
+                              <input type="text"
+                                onChange={(e) => setCep(e.target.value)}
+                                className="form-control" id="cep" />
+                            </div>
+                          </div>
+                          <div className="col-md-12 mt-3">
+                            <div className="col-md-12">
+                              <label htmlFor="logradouro" className="form-label">
+                                Logradouro
+                              </label>
+                              <input type="text"
+                                onChange={(e) => setLogradouro(e.target.value)}
+                                className="form-control" id="logradouro" />
+                            </div>
+                          </div>
+
+
                           <b className="text-start mt-3">As imagens do documento deve ser enviada apenas em formato de imagem (jpg, jpeg, png)*</b>
                           <div className="col-md-6 mt-3">
                             <label htmlFor="phone-1" className="form-label">
@@ -508,42 +607,42 @@ export default function Home() {
                           </div>
 
 
-                              <div className="col-md-12 mt-3">
-                                <label htmlFor="phone-1" className="form-label">
-                                  RG
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  onChange={(e) => setRg(e.target.value)}
-                                  id="phone-1"
-                                />
-                              </div>
+                          <div className="col-md-12 mt-3">
+                            <label htmlFor="phone-1" className="form-label">
+                              RG
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              onChange={(e) => setRg(e.target.value)}
+                              id="phone-1"
+                            />
+                          </div>
 
-                              <div className="col-md-12 mt-3">
-                                <label htmlFor="phone-1" className="form-label">
-                                  CPF
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  id="phone-1"
-                                  value={formatCpf(cpf)}
-                                  onChange={(e) => setCpf(e.target.value)}
-                                />
-                              </div>
+                          <div className="col-md-12 mt-3">
+                            <label htmlFor="phone-1" className="form-label">
+                              CPF
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              id="phone-1"
+                              value={formatCpf(cpf)}
+                              onChange={(e) => setCpf(e.target.value)}
+                            />
+                          </div>
 
-                            <div className="col-md-12 mt-3">
-                              <label htmlFor="phone-1" className="form-label">
-                                Passaporte
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control"
-                                id="phone-1"
-                                onChange={(e) => setPassaporte(e.target.value)}
-                              />
-                            </div>
+                          <div className="col-md-12 mt-3">
+                            <label htmlFor="phone-1" className="form-label">
+                              Passaporte
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              id="phone-1"
+                              onChange={(e) => setPassaporte(e.target.value)}
+                            />
+                          </div>
 
                           <div className="col-md-12 mt-3">
                             <label className="form-label">Observações</label>
@@ -650,8 +749,8 @@ export default function Home() {
                             <label className="form-label">Escreva sua assinatura aqui</label>
                             <div style={{ boxShadow: '0 0 10px' }} className="tamanhoassinaturadektop">
                               <canvas ref={canvasRef} height="200"></canvas>
-                              <div className="btn btn-sm btn-primary qty_close" style={{height: '30px'}} onClick={handleClear}>
-                                <BsEraser size={20} style={{marginRight: '10px'}}/> Limpar assinatura
+                              <div className="btn btn-sm btn-primary qty_close" style={{ height: '30px' }} onClick={handleClear}>
+                                <BsEraser size={20} style={{ marginRight: '10px' }} /> Limpar assinatura
                               </div>
                             </div>
                             <div className="col-md-12 mt-4 d-flex justify-content-center text-center">

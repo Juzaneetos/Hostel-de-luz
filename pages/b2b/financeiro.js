@@ -30,8 +30,7 @@ export default function Financeiro() {
     const [checkinArr, setCheckinArr] = useState([]);
     const innerPageRef = useRef();
     const { data: checkin } = useSwr(`/api/checkin/getAllCheckin`, fetcher);
-    const { data: quartos } = useSwr(`/api/quartos/getAllQuarto`, fetcher);
-
+    const { data: hospedesall } = useSwr(`/api/hospedes/getAllHospedes`, fetcher);
     var tamanho = [];
 
     useEffect(() => {
@@ -41,12 +40,12 @@ export default function Financeiro() {
         checkin?.reverse()?.map((item, index) => {
             if (item.ativado === '0') {
                 hospedesinativos = hospedesinativos + 1;
-                valortotal = valortotal + parseInt(item.valorpago)
+                valortotal = valortotal + parseFloat(item.valorpago)
                 const entrada = new Date(item.entrada);
                 const saida = new Date(item.saida);
                 const timeDifference = saida.getTime() - entrada.getTime();
                 const diasDiferenca = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-                pagototal = pagototal + (diasDiferenca + 1) * parseInt(item.valordiaria)
+                pagototal = pagototal + (diasDiferenca + 1) * parseFloat(item.valordiaria)
             }
             if (checkin.length === index + 1) {
                 setRendatotal(valortotal)
@@ -78,11 +77,11 @@ export default function Financeiro() {
                         const diasDiferenca = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
                         newarr.push(item)
                         hospedesinativos = hospedesinativos + 1;
-                        valortotal = valortotal + parseInt(item.valorpago)
+                        valortotal = valortotal + parseFloat(item.valorpago)
                         if (checkin.length === index + 1 && newarr.length === 1) {
-                            pagototal = pagototal + (diasDiferenca) * parseInt(item.valordiaria)
+                            pagototal = pagototal + (diasDiferenca) * parseFloat(item.valordiaria)
                         } else {
-                            pagototal = pagototal + (diasDiferenca + 1) * parseInt(item.valordiaria)
+                            pagototal = pagototal + (diasDiferenca + 1) * parseFloat(item.valordiaria)
                         }
                     }
                 }
@@ -109,11 +108,11 @@ export default function Financeiro() {
                             const diasDiferenca = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
                             newarr.push(item)
                             hospedesinativos = hospedesinativos + 1;
-                            valortotal = valortotal + parseInt(item.valorpago)
+                            valortotal = valortotal + parseFloat(item.valorpago)
                             if (checkin.length === index + 1 && newarr.length === 1) {
-                                pagototal = pagototal + (diasDiferenca) * parseInt(item.valordiaria)
+                                pagototal = pagototal + (diasDiferenca) * parseFloat(item.valordiaria)
                             } else {
-                                pagototal = pagototal + (diasDiferenca + 1) * parseInt(item.valordiaria)
+                                pagototal = pagototal + (diasDiferenca + 1) * parseFloat(item.valordiaria)
                             }
                         }
                     }
@@ -144,11 +143,11 @@ export default function Financeiro() {
                     const timeDifference = saida.getTime() - entrada.getTime();
                     const diasDiferenca = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
                     hospedesinativos = hospedesinativos + 1;
-                    valortotal = valortotal + parseInt(item.valorpago)
+                    valortotal = valortotal + parseFloat(item.valorpago)
                     if (checkin.length === index + 1 && newarr.length === 1) {
-                        pagototal = pagototal + (diasDiferenca) * parseInt(item.valordiaria)
+                        pagototal = pagototal + (diasDiferenca) * parseFloat(item.valordiaria)
                     } else {
-                        pagototal = pagototal + (diasDiferenca + 1) * parseInt(item.valordiaria)
+                        pagototal = pagototal + (diasDiferenca + 1) * parseFloat(item.valordiaria)
                     }
                 }
                 if (checkin.length === index + 1) {
@@ -168,11 +167,11 @@ export default function Financeiro() {
                         const timeDifference = saida.getTime() - entrada.getTime();
                         const diasDiferenca = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
                         hospedesinativos = hospedesinativos + 1;
-                        valortotal = valortotal + parseInt(item.valorpago)
+                        valortotal = valortotal + parseFloat(item.valorpago)
                         if (checkin.length === index + 1 && newarr.length === 1) {
-                            pagototal = pagototal + (diasDiferenca) * parseInt(item.valordiaria)
+                            pagototal = pagototal + (diasDiferenca) * parseFloat(item.valordiaria)
                         } else {
-                            pagototal = pagototal + (diasDiferenca + 1) * parseInt(item.valordiaria)
+                            pagototal = pagototal + (diasDiferenca + 1) * parseFloat(item.valordiaria)
                         }
                     }
                 }
@@ -201,11 +200,11 @@ export default function Financeiro() {
                     const timeDifference = saida.getTime() - entrada.getTime();
                     const diasDiferenca = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
                     hospedesinativos = hospedesinativos + 1;
-                    valortotal = valortotal + parseInt(item.valorpago)
+                    valortotal = valortotal + parseFloat(item.valorpago)
                     if (checkin.length === index + 1 && newarr.length === 1) {
-                        pagototal = pagototal + (diasDiferenca) * parseInt(item.valordiaria)
+                        pagototal = pagototal + (diasDiferenca) * parseFloat(item.valordiaria)
                     } else {
-                        pagototal = pagototal + (diasDiferenca + 1) * parseInt(item.valordiaria)
+                        pagototal = pagototal + (diasDiferenca + 1) * parseFloat(item.valordiaria)
                     }
                 }
                 if (checkin.length === index + 1) {
@@ -225,11 +224,11 @@ export default function Financeiro() {
                         const timeDifference = saida.getTime() - entrada.getTime();
                         const diasDiferenca = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
                         hospedesinativos = hospedesinativos + 1;
-                        valortotal = valortotal + parseInt(item.valorpago)
+                        valortotal = valortotal + parseFloat(item.valorpago)
                         if (checkin.length === index + 1 && newarr.length === 1) {
-                            pagototal = pagototal + (diasDiferenca) * parseInt(item.valordiaria)
+                            pagototal = pagototal + (diasDiferenca) * parseFloat(item.valordiaria)
                         } else {
-                            pagototal = pagototal + (diasDiferenca + 1) * parseInt(item.valordiaria)
+                            pagototal = pagototal + (diasDiferenca + 1) * parseFloat(item.valordiaria)
                         }
                     }
                 }
@@ -356,11 +355,11 @@ export default function Financeiro() {
                                 </div>
                                 <div className="col-lg-3 col-12 modalprice" style={{ background: '#D83B3B' }}>
                                     <h5 className="text-white">À Receber</h5>
-                                    <div className="text-white">{formatter.format(pagototal2)}</div>
+                                    <div className="text-white">{formatter.format(rendatotal2 - pagototal2)}</div>
                                 </div>
                                 <div className="col-lg-3 col-12 modalprice">
                                     <h5 className="text-white">Total</h5>
-                                    <div className="text-white">{formatter.format(rendatotal2 - pagototal2)}</div>
+                                    <div className="text-white">{formatter.format(pagototal2)}</div>
                                 </div>
 
                             </div>
@@ -386,6 +385,21 @@ export default function Financeiro() {
                                                             <tr>
                                                                 <th>Nome</th>
                                                                 <th>Telefone</th>
+
+                                                                {/* Contador */}
+                                                                <th>E-mail</th>
+                                                                <th class='financeiroprint'>Endereço</th>
+                                                                <th class='financeiroprint'>rg</th>
+                                                                <th class='financeiroprint'>cpf</th>
+                                                                <th class='financeiroprint'>passaporte</th>
+                                                                <th class='financeiroprint'>CEP</th>
+                                                                <th class='financeiroprint'>UF</th>
+                                                                <th class='financeiroprint'>Cidade</th>
+                                                                <th class='financeiroprint'>Logradouro</th>
+                                                                <th class='financeiroprint'>nº casa</th>
+                                                                <th class='financeiroprint'>Complemento</th>
+                                                                <th class='financeiroprint'>Bairro</th>
+
                                                                 <th>Estadia</th>
                                                                 <th>Total Hospedagem</th>
                                                                 <th>Pago</th>
@@ -397,12 +411,11 @@ export default function Financeiro() {
 
                                                         <tbody>
                                                             {checkinArr?.reverse()?.map((item, index) => {
-                                                                console.log(item)
+
                                                                 const d1 = item?.entrada;
                                                                 const d2 = item?.saidamanha;
                                                                 const diffInMs = new Date(d2) - new Date(d1)
                                                                 const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
-                                                                console.log(diffInDays)
                                                                 const formattedDate = format(new Date(item.entrada), 'dd/MM/yyyy', { locale: ptBR });
                                                                 const formattedDate2 = format(new Date(item.saida), 'dd/MM/yyyy', { locale: ptBR });
                                                                 if (item.ativado === '0') {
@@ -410,6 +423,28 @@ export default function Financeiro() {
                                                                         <tr key={item.id} className="align-middle">
                                                                             <td>{item.nome}</td>
                                                                             <td>{item.telefone}</td>
+                                                                            {hospedesall?.map((item2, index2) => {
+                                                                                if (item.nome === item2.nome) {
+                                                                                    return(
+                                                                                        <>
+                                                                                        <td class='financeiroprint'>{item2.email}</td>
+                                                                                        <td class='financeiroprint'>{item2.endereco}</td>
+                                                                                        <td class='financeiroprint'>{item2.rg}</td>
+                                                                                        <td class='financeiroprint'>{item2.cpf}</td>
+                                                                                        <td class='financeiroprint'>{item2.passaporte}</td>
+                                                                                        <td class='financeiroprint'>{item2.cep}</td>
+                                                                                        <td class='financeiroprint'>{item2.uf}</td>
+                                                                                        <td class='financeiroprint'>{item2.cidade}</td>
+                                                                                        <td class='financeiroprint'>{item2.logradouro}</td>
+                                                                                        <td class='financeiroprint'>{item2.numerocasa}</td>
+                                                                                        <td class='financeiroprint'>{item2.complemento}</td>
+                                                                                        <td class='financeiroprint'>{item2.bairro}</td>
+                                                                                        </>
+                                                                                    )
+                                                                                }
+                                                                            })}
+
+
                                                                             <td>{formattedDate}<br />{formattedDate2}</td>
                                                                             <td>{diffInDays} x {item.valordiaria} = {formatter.format(diffInDays * item.valordiaria)}</td>
                                                                             <td>{formatter.format(item.valorpago)}</td>
@@ -417,7 +452,7 @@ export default function Financeiro() {
                                                                             <td><div className={`${item.pagamentoconcluido === '1' ? 'styleativo' : 'styleinativo'}`}>{item.pagamentoconcluido === '1' ? 'Pago' : 'Em Aberto'}</div></td>
                                                                             <td className="text-right">
                                                                                 <div className="btn-group">
-                                                                                <a
+                                                                                    <a
                                                                                         href="javasript:void(0)"
                                                                                         data-link-action="editmodal"
                                                                                         title="Edit Detail"
@@ -437,7 +472,7 @@ export default function Financeiro() {
                                                                                     >
                                                                                         <BsWhatsapp size={20} />
                                                                                     </a>
-                                                                                    
+
                                                                                 </div>
                                                                             </td>
                                                                         </tr>

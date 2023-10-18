@@ -35,6 +35,14 @@ export default function Modal({ customers, id_ }) {
   const [__id, setId] = useState("");
   const [formulario, setFormulario] = useState("");
   const [qualproblema, setQualproblema] = useState("");
+  const [endereco, setEndereco] = useState("");
+  const [numerocasa, setNumerocasa] = useState("");
+  const [complemento, setComplemento] = useState("");
+  const [uf, setUF] = useState("");
+  const [cidade, setCidade] = useState("");
+  const [bairro, setBairro] = useState("");
+  const [cep, setCep] = useState("");
+  const [logradouro, setLogradouro] = useState("");
 
   const [mostrarTextoCompleto, setMostrarTextoCompleto] = useState(false);
 
@@ -45,7 +53,6 @@ export default function Modal({ customers, id_ }) {
   useEffect(() => {
     customers?.map((item, index) => {
       if (item._id === id_) {
-        console.log(item)
         setRgfrente(item.rgfrente)
         setRgverso(item.rgverso)
         setAssinatura(item.assinatura)
@@ -65,7 +72,16 @@ export default function Modal({ customers, id_ }) {
         setGenero(item.genero)
         setId(item._id)
         setFormulario(item.formulario)
+        setEndereco(item.endereco)
+        setNumerocasa(item.numerocasa)
+        setComplemento(item.complemento)
+        setUF(item.uf)
+        setCidade(item.cidade)
+        setBairro(item.bairro)
+        setCep(item.cep)
+        setLogradouro(item.logradouro)
         setQualproblema(item.qualproblema)
+        
       }
     })
   }, [id_])
@@ -93,6 +109,14 @@ export default function Modal({ customers, id_ }) {
       observacoes: observacoes,
       formulario: formulario,
       qualproblema: qualproblema,
+      cep: cep,
+      uf: uf,
+      cidade: cidade,
+      logradouro: logradouro,
+      numerocasa: numerocasa,
+      complemento: complemento,
+      endereco: endereco,
+      bairro: bairro
     });
 
     mutate('/api/hospedes/getAllHospedes');
@@ -289,6 +313,87 @@ export default function Modal({ customers, id_ }) {
                               <input type="text" value={qualproblema}
                                 onChange={(e) => setQualproblema(e.target.value)}
                                 className="form-control" id="email" />
+                            </div>
+                          </div>
+
+                          <div className="col-md-12 mt-3">
+                            <div className="col-md-12">
+                              <label htmlFor="endereco" className="form-label">
+                                Endereço
+                              </label>
+                              <input type="text" value={endereco}
+                                onChange={(e) => setEndereco(e.target.value)}
+                                className="form-control" id="endereco" />
+                            </div>
+                          </div>
+                          <div className="col-md-6 mt-3">
+                            <div className="col-md-12">
+                              <label htmlFor="numerocasa" className="form-label">
+                                Nº
+                              </label>
+                              <input type="text" value={numerocasa}
+                                onChange={(e) => setNumerocasa(e.target.value)}
+                                className="form-control" id="numerocasa" />
+                            </div>
+                          </div>
+                          <div className="col-md-6 mt-3">
+                            <div className="col-md-12">
+                              <label htmlFor="complemento" className="form-label">
+                                Complemento
+                              </label>
+                              <input type="text" value={complemento}
+                                onChange={(e) => setComplemento(e.target.value)}
+                                className="form-control" id="complemento" />
+                            </div>
+                          </div>
+                          <div className="col-md-6 mt-3">
+                            <div className="col-md-12">
+                              <label htmlFor="ef" className="form-label">
+                                UF
+                              </label>
+                              <input type="text" value={uf}
+                                onChange={(e) => setUF(e.target.value)}
+                                className="form-control" id="ef" />
+                            </div>
+                          </div>
+                          <div className="col-md-6 mt-3">
+                            <div className="col-md-12">
+                              <label htmlFor="cidade" className="form-label">
+                                Cidade
+                              </label>
+                              <input type="text" value={cidade}
+                                onChange={(e) => setCidade(e.target.value)}
+                                className="form-control" id="cidade" />
+                            </div>
+                          </div>
+                          <div className="col-md-6 mt-3">
+                            <div className="col-md-12">
+                              <label htmlFor="bairro" className="form-label">
+                                Bairro
+                              </label>
+                              <input type="text" value={bairro}
+                                onChange={(e) => setBairro(e.target.value)}
+                                className="form-control" id="bairro" />
+                            </div>
+                          </div>
+                          <div className="col-md-6 mt-3">
+                            <div className="col-md-12">
+                              <label htmlFor="cep" className="form-label">
+                                CEP
+                              </label>
+                              <input type="text" value={cep}
+                                onChange={(e) => setCep(e.target.value)}
+                                className="form-control" id="cep" />
+                            </div>
+                          </div>
+                          <div className="col-md-12 mt-3">
+                            <div className="col-md-12">
+                              <label htmlFor="logradouro" className="form-label">
+                                Logradouro
+                              </label>
+                              <input type="text" value={logradouro}
+                                onChange={(e) => setLogradouro(e.target.value)}
+                                className="form-control" id="logradouro" />
                             </div>
                           </div>
 

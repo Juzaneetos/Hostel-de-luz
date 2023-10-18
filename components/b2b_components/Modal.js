@@ -56,7 +56,6 @@ export default function Modal({ customers, id_ }) {
     customers?.map((item, index) => {
       hospedes?.map((item5, index) => {
         if (item._id === id_) {
-          console.log(item5.cpf === item.cpf)
             if(item5.cpf === item.cpf){
             setRgfrente(item5.rgfrente)
             setRgverso(item5.rgverso)
@@ -292,7 +291,6 @@ export default function Modal({ customers, id_ }) {
             if (item3.numeroCama === numerocama && contadorcamas === 0) {
               if (block === 0) {
                 if (item3.checkinID === checkinID) {
-                  console.log('pass')
                 } else {
                   const dataEntradaNovaReserva = new Date(entrada);
                   const dataSaidaNovaReserva = new Date(saida);
@@ -307,13 +305,11 @@ export default function Modal({ customers, id_ }) {
 
               }
               if (item2.length === index2 + 1 && block === 0) {
-                console.log('toaqui')
                 if (spliceonce === 0) {
                   hoteis?.map((item, index) => {
                     quartos?.map((item7, index) => {
                       item7.arrCamas?.map((item8, index) => {
                         item8?.map((item9, index2) => {
-                          console.log(item9.checkinID === camacheckinID)
                           if (item9.checkinID === camacheckinID) {
                             const indexsplice = item8.findIndex(item5 => item5.checkinID === checkinID);
                             if (indexsplice !== -1) {
@@ -419,13 +415,11 @@ export default function Modal({ customers, id_ }) {
 
               }
               if (item2.length === index2 + 1 && block === 0) {
-                console.log('toaqui')
                 if (spliceonce === 0) {
                   hoteis?.map((item, index) => {
                     quartos?.map((item7, index) => {
                       item7.arrCamas?.map((item8, index) => {
                         item8?.map((item9, index2) => {
-                          console.log(item9.checkinID === camacheckinID)
                           if (item9.checkinID === camacheckinID) {
                             const indexsplice = item8.findIndex(item5 => item5.checkinID === checkinID);
                             if (indexsplice !== -1) {
@@ -495,8 +489,6 @@ export default function Modal({ customers, id_ }) {
   }
 
   const datamudou = (valor, parametro) => {
-    if (parametro === 'entrada') { console.log(valor, saida, parametro) }
-    if (parametro === 'saida') { console.log(valor, entrada, parametro) }
     if (entrada === '' && parametro === 'entrada') {
       setEntrada(valor)
       return
@@ -912,7 +904,6 @@ export default function Modal({ customers, id_ }) {
                                               const dataEntradaReservanew = new Date(item5.entrada);
                                               const dataSaidaReservannew = new Date(item5.saida);
                                               const quartoVagonew = (dataEntradaNovaReserva <= dataSaidaReservannew && dataSaidaNovaReserva >= dataEntradaReservanew);
-                                              console.log(dataSaidaNovaReserva, dataEntradaReservanew)
 
                                               if (quartoVagonew) {
                                                 verdadeiro = true;

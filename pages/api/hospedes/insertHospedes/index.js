@@ -24,7 +24,15 @@ export default async (req, res) => {
       observacoes: req.body.observacoes,
       formulario: req.body.formulario,
       qualproblema: req.body.qualproblema,
-      datacadastro: req.body.datacadastro
+      datacadastro: req.body.datacadastro,
+      cep: req.body.cep,
+      uf: req.body.uf,
+      cidade: req.body.cidade,
+      logradouro: req.body.logradouro,
+      numerocasa: req.body.numerocasa,
+      complemento: req.body.complemento,
+      endereco: req.body.endereco,
+      bairro: req.body.bairro,
     }).then((data) => {
       console.log(data)
     }).catch((err) => console.log(err));
