@@ -5,6 +5,7 @@ import { useEffect, useState, useRef } from "react";
 import { BsEraser } from 'react-icons/bs';
 import Link from "next/link";
 import useSwr, { mutate } from "swr";
+import InputMask from 'react-input-mask';
 import router from 'next/router'
 import { toast } from "react-toastify";
 const fetcher = (url) => fetch(url).then((res) => res.json());
@@ -62,6 +63,11 @@ export default function Home() {
   }
   const canvasRef = useRef(null);
   let signaturePad = useRef(null);
+
+  const ufOptions = [
+    'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG',
+    'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO'
+  ];
 
   useEffect(() => {
     signaturePad.current = new SignaturePad(canvasRef.current);
@@ -501,12 +507,23 @@ export default function Home() {
                           </div>
                           <div className="col-md-6 mt-3">
                             <div className="col-md-12">
-                              <label htmlFor="ef" className="form-label">
+                              <label htmlFor="uf" className="form-label">
                                 UF
                               </label>
-                              <input type="text"
+                              <select
+                                className="form-control"
+                                id="uf"
+                                value={uf}
                                 onChange={(e) => setUF(e.target.value)}
-                                className="form-control" id="ef" />
+                              >
+                                <option value="" disabled>Select UF</option>
+                                {ufOptions.map((ufOption) => (
+                                  <option key={ufOption} value={ufOption}>
+                                    {ufOption}
+                                  </option>
+                                ))}
+                              </select>
+                              <span style={{ position: 'relative', bottom: '32px', left: '95%', pointerEvents: "none" }}>▼</span>
                             </div>
                           </div>
                           <div className="col-md-6 mt-3">
@@ -534,9 +551,14 @@ export default function Home() {
                               <label htmlFor="cep" className="form-label">
                                 CEP
                               </label>
-                              <input type="text"
+                              <InputMask
+                                mask="99999-999"
+                                maskChar={null}
+                                value={cep}
                                 onChange={(e) => setCep(e.target.value)}
-                                className="form-control" id="cep" />
+                                className="form-control"
+                                id="cep"
+                              />
                             </div>
                           </div>
                           <div className="col-md-12 mt-3">
