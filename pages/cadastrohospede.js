@@ -516,7 +516,7 @@ export default function Home() {
                                 value={uf}
                                 onChange={(e) => setUF(e.target.value)}
                               >
-                                <option value="" disabled>Select UF</option>
+                                <option value="" disabled>Selecione seu UF</option>
                                 {ufOptions.map((ufOption) => (
                                   <option key={ufOption} value={ufOption}>
                                     {ufOption}
